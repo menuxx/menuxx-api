@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry location="${mysqlClassPath}" />
+
+    <context id="MysqlDB" targetRuntime="MyBatis3">
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://xzwsq.com:3306/dongzone_dev?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="dongzone_dev"
+                        password="dongzone123456">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="true" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.mall.model" targetProject="${projectPath}/src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper"  targetProject="${projectPath}src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- ANNOTATEDMAPPER, XMLMAPPER -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.mall.mapper" targetProject="${projectPath}src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--<table schema="dongzone_dev" tableName="t_banner_item" domainObjectName="TBannerItem" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <!--<table schema="dongzone_dev" tableName="t_column" domainObjectName="TColumn" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <!--<table schema="dongzone_dev" tableName="t_banner" domainObjectName="TBanner" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <table schema="dongzone_dev" tableName="t_category" domainObjectName="TCategory" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+    </context>
+
+</generatorConfiguration>
