@@ -33,22 +33,25 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <!--<table schema="dongzone_dev" tableName="t_banner_item" domainObjectName="TBannerItem" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <!--<table schema="dongzone_dev" tableName="t_column" domainObjectName="TColumn" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <!--<table schema="dongzone_dev" tableName="t_banner" domainObjectName="TBanner" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <table schema="dongzone_dev" tableName="t_category" domainObjectName="TCategory" >
+        <table schema="dongzone_dev" tableName="t_unit_field" domainObjectName="TUnitField" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
 
+        <table schema="dongzone_dev" tableName="t_unit" domainObjectName="TUnit" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table schema="dongzone_dev" tableName="t_item" domainObjectName="TItem" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table schema="dongzone_dev" tableName="t_item_unit" domainObjectName="TItemUnit" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table schema="dongzone_dev" tableName="t_item_unit_detail" domainObjectName="TItemUnitDetail" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
     </context>
 
 </generatorConfiguration>

@@ -13,4 +13,6 @@ public interface ItemService {
     List<TItem> selectItems(List<Integer> itemIdList);
 
     PageInfo<TItem> selectItemsByCategory(int categoryId);
+
+    TItem selectItem(int itemId);
 }

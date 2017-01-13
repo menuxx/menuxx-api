@@ -42,4 +42,9 @@ public class ItemServiceImpl implements ItemService {
 
         return pageInfo;
     }
+
+    @Override
+    public TItem selectItem(int itemId) {
+        return itemMapper.selectByPrimaryKey(itemId);
+    }
 }
