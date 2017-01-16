@@ -1,10 +1,12 @@
 package com.mall.wrapper.impl;
 
+import com.mall.model.Item;
 import com.mall.model.TBannerItem;
 import com.mall.model.TItem;
 import com.mall.service.ItemService;
 import com.mall.service.BannerItemService;
 import com.mall.wrapper.BannerItemWrapper;
+import com.mall.wrapper.ItemWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,11 @@ public class BannerItemWrapperImpl implements BannerItemWrapper {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    ItemWrapper itemWrapper;
+
     @Override
-    public List<TItem> selectItemsByBanner(int bannerId) {
+    public List<Item> selectItemsByBanner(int bannerId) {
         List<TBannerItem> tBannerItemList = bannerItemService.selectBannerItems(bannerId);
 
         if (tBannerItemList.size() > 0) {
@@ -34,7 +39,7 @@ public class BannerItemWrapperImpl implements BannerItemWrapper {
                 itemIdList.add(bannerItem.getItemId());
             }
 
-            return itemService.selectItems(itemIdList);
+            return itemWrapper.selectItems(itemIdList);
         }
 
         return null;

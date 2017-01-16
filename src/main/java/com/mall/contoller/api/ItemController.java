@@ -20,6 +20,12 @@ public class ItemController extends BaseAPIController {
     @Autowired
     ItemWrapper itemWrapper;
 
+    /**
+     * 1003 商品详情
+     * @param corpId
+     * @param itemId
+     * @return
+     */
     @RequestMapping(value = "items/{itemId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getItemDetail(@PathVariable int corpId, @PathVariable int itemId) {

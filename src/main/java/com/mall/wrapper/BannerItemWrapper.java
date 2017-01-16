@@ -1,5 +1,6 @@
 package com.mall.wrapper;
 
+import com.mall.model.Item;
 import com.mall.model.TItem;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface BannerItemWrapper {
 
-    List<TItem> selectItemsByBanner(int bannerId);
+    List<Item> selectItemsByBanner(int bannerId);
 }

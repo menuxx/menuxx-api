@@ -1,5 +1,6 @@
 package com.mall.wrapper.impl;
 
+import com.github.pagehelper.PageInfo;
 import com.mall.model.*;
 import com.mall.service.ItemService;
 import com.mall.service.ItemUnitService;
@@ -7,6 +8,7 @@ import com.mall.service.UnitFieldService;
 import com.mall.service.UnitService;
 import com.mall.wrapper.ItemUnitDetailWrapper;
 import com.mall.wrapper.ItemWrapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,5 +121,47 @@ public class ItemWrapperImpl implements ItemWrapper {
         }
 
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<Item> selectItems(List<Integer> itemIdList) {
+        List<TItem> tempList = itemService.selectItems(itemIdList);
+
+        if (tempList.size() > 0) {
+            List<Item> itemList = new ArrayList<>();
+
+            for (TItem temp : tempList) {
+                Item item = new Item(temp);
+                itemList.add(item);
+            }
+
+            return itemList;
+        }
+
+        return null;
+    }
+
+    @Override
+    public PageInfo<Item> selectItemsByCategory(int categoryId) {
+        PageInfo<TItem> tempPageInfo = itemService.selectItemsByCategory(categoryId);
+
+        PageInfo<Item> pageInfo = new PageInfo<>();
+
+        BeanUtils.copyProperties(tempPageInfo, pageInfo);
+
+        List<TItem> tempItemList = tempPageInfo.getList();
+
+        if (tempItemList.size() > 0) {
+            List<Item> itemList = new ArrayList<>();
+
+            for (TItem tempItem : tempItemList) {
+                Item item = new Item(tempItem);
+                itemList.add(item);
+            }
+
+            pageInfo.setList(itemList);
+        }
+
+        return pageInfo;
     }
 }

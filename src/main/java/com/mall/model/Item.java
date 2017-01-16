@@ -1,5 +1,7 @@
 package com.mall.model;
 
+import com.mall.utils.Constants;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -13,6 +15,8 @@ public class Item extends TItem {
      * 总库存：根据各规格库存求和
      */
     private int stock;
+
+    private String[] thumbList;
 
     private List<Unit> unitList;
 
@@ -53,5 +57,16 @@ public class Item extends TItem {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public String[] getThumbList() {
+        if (StringUtils.isNotBlank(getThumbnails())) {
+            thumbList = getThumbnails().split(Constants.SEPARATOR);
+        }
+        return thumbList;
+    }
+
+    public void setThumbList(String[] thumbList) {
+        this.thumbList = thumbList;
     }
 }

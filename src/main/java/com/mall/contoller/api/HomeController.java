@@ -1,6 +1,7 @@
 package com.mall.contoller.api;
 
 import com.mall.model.Column;
+import com.mall.model.Item;
 import com.mall.model.TBanner;
 import com.mall.model.TItem;
 import com.mall.service.BannerService;
@@ -65,7 +66,7 @@ public class HomeController extends BaseAPIController {
     @RequestMapping(value = "banners/{bannerId}/items", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getBannerItem(@PathVariable int bannerId) {
-        List<TItem> itemList = bannerItemWrapper.selectItemsByBanner(bannerId);
+        List<Item> itemList = bannerItemWrapper.selectItemsByBanner(bannerId);
         return new ResponseEntity<>(itemList, HttpStatus.OK);
     }
 
