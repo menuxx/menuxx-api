@@ -3,6 +3,7 @@ package com.mall.model;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 13/01/2017.

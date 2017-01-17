@@ -142,6 +142,20 @@ public class ItemWrapperImpl implements ItemWrapper {
     }
 
     @Override
+    public Map<Integer, Item> selectItemsForMap(List<Integer> itemIdList) {
+        Map<Integer, Item> map = new HashMap<>();
+
+        List<Item> list = selectItems(itemIdList);
+        if (list.size() > 0) {
+            for (Item item : list) {
+                map.put(item.getId(), item);
+            }
+        }
+
+        return map;
+    }
+
+    @Override
     public PageInfo<Item> selectItemsByCategory(int categoryId) {
         PageInfo<TItem> tempPageInfo = itemService.selectItemsByCategory(categoryId);
 

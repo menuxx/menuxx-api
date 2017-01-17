@@ -33,23 +33,23 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="dongzone_dev" tableName="t_unit_field" domainObjectName="TUnitField" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="dongzone_dev" tableName="t_unit_field" domainObjectName="TUnitField" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <table schema="dongzone_dev" tableName="t_unit" domainObjectName="TUnit" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="dongzone_dev" tableName="t_unit" domainObjectName="TUnit" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <table schema="dongzone_dev" tableName="t_item" domainObjectName="TItem" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="dongzone_dev" tableName="t_item" domainObjectName="TItem" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <table schema="dongzone_dev" tableName="t_item_unit" domainObjectName="TItemUnit" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="dongzone_dev" tableName="t_item_unit" domainObjectName="TItemUnit" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <table schema="dongzone_dev" tableName="t_item_unit_detail" domainObjectName="TItemUnitDetail" >
+        <table schema="dongzone_dev" tableName="t_shopping_cart" domainObjectName="TShoppingCart" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
     </context>

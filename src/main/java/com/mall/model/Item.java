@@ -4,7 +4,9 @@ import com.mall.utils.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 13/01/2017.
@@ -15,6 +17,8 @@ public class Item extends TItem {
      * 总库存：根据各规格库存求和
      */
     private int stock;
+
+    private Map<String, ItemUnitDetail> detailMap;
 
     private String[] thumbList;
 
@@ -68,5 +72,21 @@ public class Item extends TItem {
 
     public void setThumbList(String[] thumbList) {
         this.thumbList = thumbList;
+    }
+
+    public void setDetailMap(Map<String, ItemUnitDetail> detailMap) {
+        this.detailMap = detailMap;
+    }
+
+    public Map<String, ItemUnitDetail> getDetailMap() {
+        if (getDetailList() != null && getDetailList().size() > 0) {
+            detailMap = new HashMap<>();
+
+            for (ItemUnitDetail itemUnitDetail : getDetailList()) {
+                detailMap.put(itemUnitDetail.getUnitProduct(), itemUnitDetail);
+            }
+        }
+
+        return detailMap;
     }
 }

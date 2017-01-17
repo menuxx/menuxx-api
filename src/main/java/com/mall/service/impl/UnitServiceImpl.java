@@ -44,4 +44,30 @@ public class UnitServiceImpl implements UnitService {
 
         return map;
     }
+
+
+    @Override
+    public List<TUnit> selectUnitsByIds(List<Integer> unitIdList) {
+        TUnitExample example = new TUnitExample();
+        TUnitExample.Criteria criteria = example.createCriteria();
+
+        criteria.andIdIn(unitIdList);
+
+        return unitMapper.selectByExample(example);
+    }
+
+    @Override
+    public Map<Integer, TUnit> selectUnitsByIdsForMap(List<Integer> unitIdList) {
+        List<TUnit> list = selectUnitsByIds(unitIdList);
+
+        Map<Integer, TUnit> map = new HashMap<>();
+
+        if (list.size() > 0) {
+            for (TUnit unit : list) {
+                map.put(unit.getId(), unit);
+            }
+        }
+
+        return map;
+    }
 }

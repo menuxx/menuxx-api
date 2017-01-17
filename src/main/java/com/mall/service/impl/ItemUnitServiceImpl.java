@@ -28,4 +28,14 @@ public class ItemUnitServiceImpl implements ItemUnitService {
 
         return itemUnitMapper.selectByExample(example);
     }
+
+    @Override
+    public List<TItemUnit> selectItemUnitsByItemIds(List<Integer> itemIdList) {
+        TItemUnitExample example = new TItemUnitExample();
+        TItemUnitExample.Criteria criteria = example.createCriteria();
+
+        criteria.andItemIdIn(itemIdList);
+
+        return itemUnitMapper.selectByExample(example);
+    }
 }

@@ -10,4 +10,7 @@ import java.util.List;
 public interface ItemUnitService {
 
     List<TItemUnit> selectItemUnits(int itemId);
+
+    List<TItemUnit> selectItemUnitsByItemIds(List<Integer> itemIdList);
+
 }

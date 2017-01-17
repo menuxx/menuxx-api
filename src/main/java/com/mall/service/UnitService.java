@@ -14,4 +14,8 @@ public interface UnitService {
 
     Map<Integer, TUnit> selectUnitsForMapByCorp(int corpId);
 
+    List<TUnit> selectUnitsByIds(List<Integer> unitIdList);
+
+    Map<Integer, TUnit> selectUnitsByIdsForMap(List<Integer> unitIdList);
+
 }
