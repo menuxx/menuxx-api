@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Supeng on 16/01/2017.
  */
 @Controller
-public class ShoppingCartController extends BaseAPIController {
+public class ShoppingCartController extends BaseCorpContoller {
 
     @Autowired
     ShoppingCartService shoppingCartService;

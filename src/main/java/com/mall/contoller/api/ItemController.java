@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by Supeng on 13/01/2017.
  */
 @Controller
-public class ItemController extends BaseAPIController {
+public class ItemController extends BaseCorpContoller {
 
     @Autowired
     ItemWrapper itemWrapper;

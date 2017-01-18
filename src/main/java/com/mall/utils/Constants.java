@@ -7,6 +7,8 @@ public class Constants {
 
     public static final Integer ZERO = 0;
 
+    public static final Integer ONE = 1;
+
     // 默认第一页
     public static final String DEFAULT_PAGENUM = "1";
 

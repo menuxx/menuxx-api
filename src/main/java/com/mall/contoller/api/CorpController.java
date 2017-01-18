@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by Supeng on 11/01/2017.
  */
 @Controller
-public class CorpController extends BaseAPIController {
+public class CorpController extends BaseCorpContoller {
 
     @Autowired
     CorpService corpService;

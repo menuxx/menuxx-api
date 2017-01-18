@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Supeng on 12/01/2017.
  */
 @Controller
-public class CategoryController extends BaseAPIController {
+public class CategoryController extends BaseCorpContoller {
 
     @Autowired
     CategoryWrapper categoryWrapper;

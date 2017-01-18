@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by Supeng on 12/01/2017.
  */
 @Controller
-public class HomeController extends BaseAPIController {
+public class HomeController extends BaseCorpContoller {
 
     @Autowired
     BannerService bannerService;
