@@ -60,7 +60,7 @@ public class OrderController extends BaseCorpContoller {
             }
         }
 
-        orderWrapper.createOrder(order);
+        orderWrapper.createOrderByItem(order);
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }

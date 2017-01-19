@@ -7,8 +7,9 @@ import com.mall.model.Order;
  */
 public interface OrderWrapper {
 
-    void createOrder(Order order);
+    void createOrderByItem(Order order);
 
     Order selectOrder(int orderId);
 
+    void createOrderByShoppingCart(Order order);
 }

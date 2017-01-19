@@ -49,6 +49,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void removeShoppingCart(int shoppingCartId) {
+
         shoppingCartMapper.deleteByPrimaryKey(shoppingCartId);
     }
 
@@ -70,5 +71,25 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCart.setQuantity(quantity);
 
         shoppingCartMapper.updateByPrimaryKeySelective(shoppingCart);
+    }
+
+    @Override
+    public List<TShoppingCart> selectShoppingCarts(List<Integer> shoppingCartIdList) {
+        TShoppingCartExample example = new TShoppingCartExample();
+        TShoppingCartExample.Criteria criteria = example.createCriteria();
+
+        criteria.andIdIn(shoppingCartIdList);
+
+        return shoppingCartMapper.selectByExample(example);
+    }
+
+    @Override
+    public void removeShoppingCarts(List<Integer> shoppingCartIdList) {
+        TShoppingCartExample example = new TShoppingCartExample();
+        TShoppingCartExample.Criteria criteria = example.createCriteria();
+
+        criteria.andIdIn(shoppingCartIdList);
+
+        shoppingCartMapper.deleteByExample(example);
     }
 }

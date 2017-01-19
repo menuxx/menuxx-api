@@ -27,7 +27,7 @@ public class Order extends TOrder {
 
     // 订单删除
     public static final int STATUS_DELETED = 4;
-    public static final String STATUS_DELETED_TEXT = "已删除";
+    public static final String STATUS_DELETED_TEXT = "交易关闭";
 
     // 交易成功
     public static final int STATUS_SUCCEED = 5;
@@ -35,6 +35,8 @@ public class Order extends TOrder {
 
 
     private List<OrderItem> orderItemList;
+
+    private List<ShoppingCart> shoppingCartList;
 
     private TAddress address;
 
@@ -92,5 +94,13 @@ public class Order extends TOrder {
         }
 
         return statusText;
+    }
+
+    public List<ShoppingCart> getShoppingCartList() {
+        return shoppingCartList;
+    }
+
+    public void setShoppingCartList(List<ShoppingCart> shoppingCartList) {
+        this.shoppingCartList = shoppingCartList;
     }
 }

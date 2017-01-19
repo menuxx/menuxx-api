@@ -12,4 +12,5 @@ public interface ShoppingCartWrapper {
     ShoppingCart createShoppingCart(ShoppingCart shoppingCart);
 
     List<ShoppingCart> getShoppingCart(int corpId, int userId);
+
 }

@@ -1,7 +1,9 @@
 package com.mall.contoller.api;
 
+import com.mall.model.Order;
 import com.mall.model.ShoppingCart;
 import com.mall.service.ShoppingCartService;
+import com.mall.wrapper.OrderWrapper;
 import com.mall.wrapper.ShoppingCartWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class ShoppingCartController extends BaseCorpContoller {
 
     @Autowired
     ShoppingCartWrapper shoppingCartWrapper;
+
+    @Autowired
+    OrderWrapper orderWrapper;
 
     /**
      * 3001 添加购物车
@@ -100,5 +105,37 @@ public class ShoppingCartController extends BaseCorpContoller {
 
         List<ShoppingCart> shoppingCartList = shoppingCartWrapper.getShoppingCart(corpId, userId);
         return new ResponseEntity<>(shoppingCartList, HttpStatus.OK);
+    }
+
+    /**
+     * 3005 购物车直接下单
+     * @param corpId
+     * @param order
+     * @return
+     */
+    @RequestMapping(value = "shoppingcart", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> createOrderByShoppingCart(@PathVariable int corpId, @RequestBody Order order) {
+        //TODO 获取用户ID
+        int userId = 1;
+        order.setUserId(userId);
+
+        //订单状态设置为待付款
+        order.setStatus(Order.STATUS_CREATED);
+
+        order.setCorpId(corpId);
+
+        //必须包含 address_id
+        if (order.getAddressId() == null || order.getAddressId() == 0) {
+            return new ResponseEntity<Object>("请输入收货地址", HttpStatus.BAD_REQUEST);
+        }
+
+        List<ShoppingCart> shoppingCartList = order.getShoppingCartList();
+        if (shoppingCartList == null ||  shoppingCartList.size() == 0) {
+            return new ResponseEntity<Object>("请选择购物车的商品", HttpStatus.BAD_REQUEST);
+        }
+
+        orderWrapper.createOrderByShoppingCart(order);
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 }

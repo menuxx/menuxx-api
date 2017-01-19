@@ -42,9 +42,12 @@ public class OrderWrapperImpl implements OrderWrapper{
     @Autowired
     ItemUnitDetailService itemUnitDetailService;
 
+    @Autowired
+    ShoppingCartService shoppingCartService;
+
     @Override
     @Transactional
-    public void createOrder(Order order) {
+    public void createOrderByItem(Order order) {
         // 先创建订单
         orderService.createOrder(order);
 
@@ -92,7 +95,72 @@ public class OrderWrapperImpl implements OrderWrapper{
         order.setTotalAmount(totalAmount);
 
         orderService.updateOrder(order);
+    }
 
+    @Override
+    @Transactional
+    public void createOrderByShoppingCart(Order order) {
+        // 先创建订单
+        orderService.createOrder(order);
+
+        List<ShoppingCart> tempShoppingCartList = order.getShoppingCartList();
+
+        List<Integer> shoppingCartIdList = new ArrayList<>();
+
+        for (ShoppingCart shoppingCart : tempShoppingCartList) {
+            shoppingCartIdList.add(shoppingCart.getId());
+        }
+
+        List<TShoppingCart> shoppingCartList = shoppingCartService.selectShoppingCarts(shoppingCartIdList);
+
+        List<Integer> itemIdList = new ArrayList<>();
+
+        List<TOrderItem> orderItemList = new ArrayList<>();
+
+        for (TShoppingCart shoppingCart : shoppingCartList) {
+            itemIdList.add(shoppingCart.getItemId());
+
+            TOrderItem orderItem = new TOrderItem();
+            orderItem.setOrderId(order.getId());
+            orderItem.setItemId(shoppingCart.getItemId());
+            orderItem.setDetailId(shoppingCart.getDetailId());
+            orderItem.setQuantity(shoppingCart.getQuantity());
+            orderItem.setStatus(OrderItem.STATUS_SECCEED);
+
+            orderItemList.add(orderItem);
+        }
+
+        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
+
+        BigDecimal payAmount = new BigDecimal(0);
+        BigDecimal totalAmount = new BigDecimal(0);
+
+        for (TOrderItem orderItem : orderItemList) {
+            TItem item = itemMap.get(orderItem.getItemId());
+
+            BigDecimal itemPayAmount = item.getDiscountPrice().multiply(new BigDecimal(orderItem.getQuantity()));
+            BigDecimal itemTotalAmount = item.getProductPrice().multiply(new BigDecimal(orderItem.getQuantity()));
+
+            orderItem.setPayAmount(itemPayAmount);
+            orderItem.setTotalAmount(itemTotalAmount);
+
+            payAmount = payAmount.add(itemPayAmount);
+            totalAmount = totalAmount.add(itemTotalAmount);
+
+            orderItemService.createOrderItem(orderItem);
+        }
+
+        // 设置订单编码: 日期 + 编号  2017011900000001
+        order.setOrderCode(MallUtil.getYearMonthDay() + (10000000 + order.getId()));
+
+        // 更新订单编码、支付金额、订单金额
+        order.setPayAmount(payAmount);
+        order.setTotalAmount(totalAmount);
+
+        orderService.updateOrder(order);
+
+        // 删除购物车信息
+        shoppingCartService.removeShoppingCarts(shoppingCartIdList);
     }
 
     @Override

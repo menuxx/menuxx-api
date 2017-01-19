@@ -21,4 +21,7 @@ public interface ShoppingCartService {
 
     void updateShoppingCartQuantily(int shoppingCartId, int quantity);
 
+    List<TShoppingCart> selectShoppingCarts(List<Integer> shoppingCartIdList);
+
+    void removeShoppingCarts(List<Integer> shoppingCartIdList);
 }
