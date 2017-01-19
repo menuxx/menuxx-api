@@ -16,4 +16,6 @@ public interface AddressService {
     void updateAddress(TAddress address);
 
     List<TAddress> selectActiveAddress(int userId);
+
+    TAddress selectAddress(int addressId);
 }

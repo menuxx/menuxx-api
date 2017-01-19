@@ -2,14 +2,13 @@ package com.mall.wrapper.impl;
 
 import com.mall.model.*;
 import com.mall.service.*;
+import com.mall.wrapper.ItemUnitWrapper;
 import com.mall.wrapper.ItemWrapper;
 import com.mall.wrapper.ShoppingCartWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +35,9 @@ public class ShoppingCartWrapperImpl implements ShoppingCartWrapper {
 
     @Autowired
     ItemUnitDetailService itemUnitDetailService;
+
+    @Autowired
+    ItemUnitWrapper itemUnitWrapper;
 
     @Override
     public ShoppingCart createShoppingCart(ShoppingCart shoppingCart) {
@@ -65,116 +67,56 @@ public class ShoppingCartWrapperImpl implements ShoppingCartWrapper {
 
         List<Integer> itemIdList = new ArrayList<>();
 
-        List<Integer> unitIdList = new ArrayList<>();
-
-        List<Integer> fieldIdList = new ArrayList<>();
-
         if (tempList.size() > 0) {
             for (TShoppingCart shoppingCart : tempList) {
                 itemIdList.add(shoppingCart.getItemId());
             }
         }
 
+        // 缓存 商品
+        Map<Integer, Item> itemMap = itemWrapper.selectItemsForMap(itemIdList);
 
-        if (itemIdList.size() > 0) {
-            // 缓存 商品
-            Map<Integer, Item> itemMap = itemWrapper.selectItemsForMap(itemIdList);
+        // 获取商品相关规格 Map<fieldId, ItemUnit>
+        Map<Integer, ItemUnit> itemUnitMap = itemUnitWrapper.getItemUnitForMap(itemIdList);
 
-            List<TItemUnit> itemUnitList = itemUnitService.selectItemUnitsByItemIds(itemIdList);
+        Map<Integer, TItemUnitDetail> detailMap = itemUnitDetailService.selectUnitDetailByItemIdsForMap(itemIdList);
 
-            // 把规格按商品分组: Map<ItemId, Map<fieldId, ItemUnit>>
-            Map<Integer, Map<Integer, TItemUnit>> itemUnitGroupMap = new HashMap<>();
+        List<ShoppingCart> shoppingCartList = new ArrayList<>();
 
-            for (TItemUnit itemUnit : itemUnitList) {
-                unitIdList.add(itemUnit.getUnitId());
-                fieldIdList.add(itemUnit.getUnitFieldId());
+        for (TShoppingCart tempCart : tempList) {
+            ShoppingCart shoppingCart = new ShoppingCart(tempCart);
 
-                if (itemUnitGroupMap.containsKey(itemUnit.getItemId())) {
-                    Map<Integer, TItemUnit> itemUnitMap = itemUnitGroupMap.get(itemUnit.getItemId());
+            //构造Item
+            Item item = itemMap.get(tempCart.getItemId());
+            shoppingCart.setItem(item);
 
-                    if (!itemUnitMap.containsKey(itemUnit.getUnitFieldId())) {
-                        itemUnitMap.put(itemUnit.getUnitFieldId(), itemUnit);
-                    }
+            //构造SelectUnit
+            if (tempCart.getDetailId() != null) {
+                TItemUnitDetail itemUnitDetail = detailMap.get(tempCart.getDetailId());
 
-                } else {
-                    Map<Integer, TItemUnit> itemUnitMap = new HashMap<>();
-                    itemUnitMap.put(itemUnit.getUnitFieldId(), itemUnit);
+                //缓存SelectUnit
+                List<ItemUnit> selectUnitList = new ArrayList<>();
 
-                    itemUnitGroupMap.put(itemUnit.getItemId(), itemUnitMap);
+                if (itemUnitDetail.getUnit1() != null) {
+                    ItemUnit itemUnit = itemUnitMap.get(itemUnitDetail.getUnit1());
+                    selectUnitList.add(itemUnit);
                 }
-            }
 
-            Map<Integer, TUnit> unitMap = unitService.selectUnitsByIdsForMap(unitIdList);
-            Map<Integer, TUnitField> fieldMap = unitFieldService.selectUnitFiledsByIdsForMap(fieldIdList);
-            Map<Integer, TItemUnitDetail> detailMap = itemUnitDetailService.selectUnitDetailByItemIdsForMap(itemIdList);
-
-            List<ShoppingCart> shoppingCartList = new ArrayList<>();
-
-            for (TShoppingCart tempCart : tempList) {
-                ShoppingCart shoppingCart = new ShoppingCart(tempCart);
-
-                //构造Item
-                Item item = itemMap.get(tempCart.getItemId());
-                shoppingCart.setItem(item);
-
-                //构造SelectUnit
-                if (tempCart.getDetailId() != null) {
-                    TItemUnitDetail itemUnitDetail = detailMap.get(tempCart.getDetailId());
-
-                    Map<Integer, TItemUnit> itemUnitMap = itemUnitGroupMap.get(tempCart.getItemId());
-
-                    //缓存SelectUnit
-                    List<SelectUnit> selectUnitList = new ArrayList<>();
-
-                    if (itemUnitDetail.getUnit1() != null) {
-                        int fieldId = itemUnitDetail.getUnit1();
-
-                        TItemUnit itemUnit = itemUnitMap.get(fieldId);
-
-                        SelectUnit selectUnit = new SelectUnit();
-                        selectUnit.setUnitId(itemUnit.getUnitId());
-                        selectUnit.setFieldId(itemUnit.getUnitFieldId());
-                        selectUnit.setUnitName(unitMap.get(itemUnit.getUnitId()).getUnitName());
-                        selectUnit.setFieldName(fieldMap.get(itemUnit.getUnitFieldId()).getFieldName());
-                        selectUnitList.add(selectUnit);
-                    }
-
-                    if (itemUnitDetail.getUnit2() != null) {
-                        int fieldId = itemUnitDetail.getUnit2();
-
-                        TItemUnit itemUnit = itemUnitMap.get(fieldId);
-
-                        SelectUnit selectUnit = new SelectUnit();
-                        selectUnit.setUnitId(itemUnit.getUnitId());
-                        selectUnit.setFieldId(itemUnit.getUnitFieldId());
-                        selectUnit.setUnitName(unitMap.get(itemUnit.getUnitId()).getUnitName());
-                        selectUnit.setFieldName(fieldMap.get(itemUnit.getUnitFieldId()).getFieldName());
-                        selectUnitList.add(selectUnit);
-                    }
-
-                    if (itemUnitDetail.getUnit3() != null) {
-                        int fieldId = itemUnitDetail.getUnit3();
-
-                        TItemUnit itemUnit = itemUnitMap.get(fieldId);
-
-                        SelectUnit selectUnit = new SelectUnit();
-                        selectUnit.setUnitId(itemUnit.getUnitId());
-                        selectUnit.setFieldId(itemUnit.getUnitFieldId());
-                        selectUnit.setUnitName(unitMap.get(itemUnit.getUnitId()).getUnitName());
-                        selectUnit.setFieldName(fieldMap.get(itemUnit.getUnitFieldId()).getFieldName());
-                        selectUnitList.add(selectUnit);
-                    }
-
-                    shoppingCart.setUnitList(selectUnitList);
+                if (itemUnitDetail.getUnit2() != null) {
+                    ItemUnit itemUnit = itemUnitMap.get(itemUnitDetail.getUnit2());
+                    selectUnitList.add(itemUnit);
                 }
-                shoppingCartList.add(shoppingCart);
 
+                if (itemUnitDetail.getUnit3() != null) {
+                    ItemUnit itemUnit = itemUnitMap.get(itemUnitDetail.getUnit3());
+                    selectUnitList.add(itemUnit);
+                }
+
+                shoppingCart.setUnitList(selectUnitList);
             }
-            return shoppingCartList;
+            shoppingCartList.add(shoppingCart);
 
         }
-
-
-        return null;
+        return shoppingCartList;
     }
 }

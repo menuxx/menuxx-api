@@ -11,7 +11,7 @@ public class ShoppingCart extends TShoppingCart {
 
     private Item item;
 
-    private List<SelectUnit> unitList;
+    private List<ItemUnit> unitList;
 
     public ShoppingCart() {
     }
@@ -28,11 +28,11 @@ public class ShoppingCart extends TShoppingCart {
         return item;
     }
 
-    public List<SelectUnit> getUnitList() {
+    public List<ItemUnit> getUnitList() {
         return unitList;
     }
 
-    public void setUnitList(List<SelectUnit> unitList) {
+    public void setUnitList(List<ItemUnit> unitList) {
         this.unitList = unitList;
     }
 }

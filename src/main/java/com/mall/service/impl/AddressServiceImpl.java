@@ -64,4 +64,9 @@ public class AddressServiceImpl implements AddressService {
 
         addressMapper.updateByPrimaryKey(address);
     }
+
+    @Override
+    public TAddress selectAddress(int addressId) {
+        return addressMapper.selectByPrimaryKey(addressId);
+    }
 }

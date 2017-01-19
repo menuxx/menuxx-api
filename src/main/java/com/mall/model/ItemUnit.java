@@ -1,24 +1,21 @@
 package com.mall.model;
 
-/**
- * Created by Supeng on 16/01/2017.
- */
-public class SelectUnit {
+import org.springframework.beans.BeanUtils;
 
-    private Integer unitId;
+/**
+ * Created by Supeng on 19/01/2017.
+ */
+public class ItemUnit extends TItemUnit {
 
     private String unitName;
 
-    private Integer fieldId;
-
     private String fieldName;
 
-    public Integer getUnitId() {
-        return unitId;
+    public ItemUnit() {
     }
 
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
+    public ItemUnit(TItemUnit itemUnit) {
+        BeanUtils.copyProperties(itemUnit, this);
     }
 
     public String getUnitName() {
@@ -27,14 +24,6 @@ public class SelectUnit {
 
     public void setUnitName(String unitName) {
         this.unitName = unitName;
-    }
-
-    public Integer getFieldId() {
-        return fieldId;
-    }
-
-    public void setFieldId(Integer fieldId) {
-        this.fieldId = fieldId;
     }
 
     public String getFieldName() {

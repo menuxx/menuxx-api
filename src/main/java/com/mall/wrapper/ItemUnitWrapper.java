@@ -1,5 +1,7 @@
 package com.mall.wrapper;
 
+import com.mall.model.ItemUnit;
+import com.mall.model.TItemUnit;
 import com.mall.model.Unit;
 
 import java.util.List;
@@ -10,5 +12,6 @@ import java.util.Map;
  */
 public interface ItemUnitWrapper {
 
+    Map<Integer, ItemUnit> getItemUnitForMap(List<Integer> itemIdList);
 
 }

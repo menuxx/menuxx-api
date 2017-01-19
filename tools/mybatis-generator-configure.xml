@@ -45,11 +45,11 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="dongzone_dev" tableName="t_region" domainObjectName="TRegion" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="dongzone_dev" tableName="t_order_item" domainObjectName="TOrderItem" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
-        <table schema="dongzone_dev" tableName="t_address" domainObjectName="TAddress" >
+        <table schema="dongzone_dev" tableName="t_order" domainObjectName="TOrder" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
     </context>
