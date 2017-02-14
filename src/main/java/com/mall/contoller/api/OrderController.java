@@ -3,6 +3,7 @@ package com.mall.contoller.api;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
 import com.mall.model.TOrderItem;
+import com.mall.service.OrderService;
 import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,10 @@ public class OrderController extends BaseCorpContoller {
 
     @Autowired
     OrderWrapper orderWrapper;
+
+    @Autowired
+    OrderService orderService;
+
 
     /**
      * 3006 直接下单
@@ -76,5 +81,30 @@ public class OrderController extends BaseCorpContoller {
         Order order = orderWrapper.selectOrder(orderId);
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
+
+    /**
+     * 3009 确认收货
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "orders/{orderId}", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> setOrerSuccess(@PathVariable int orderId) {
+        orderService.updateOrderStatus(orderId, Order.STATUS_SUCCEED);
+        return new ResponseEntity<Object>(HttpStatus.OK);
+    }
+
+    /**
+     * 3010 删除订单
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "orders/{orderId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<?> deleteOrder(@PathVariable int orderId) {
+        orderService.updateOrderStatus(orderId, Order.STATUS_DELETED);
+        return new ResponseEntity<Object>(HttpStatus.OK);
+    }
+
 
 }

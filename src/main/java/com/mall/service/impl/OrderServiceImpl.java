@@ -2,6 +2,7 @@ package com.mall.service.impl;
 
 import com.mall.mapper.TOrderMapper;
 import com.mall.model.TOrder;
+import com.mall.model.TOrderExample;
 import com.mall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public TOrder selectOrder(int orderId) {
         return orderMapper.selectByPrimaryKey(orderId);
+    }
+
+    @Override
+    public void updateOrderStatus(int orderId, int status) {
+        TOrder order = new TOrder();
+        order.setStatus(status);
+
+        TOrderExample example = new TOrderExample();
+        TOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(orderId);
+
+        orderMapper.updateByExampleSelective(order, example);
     }
 }

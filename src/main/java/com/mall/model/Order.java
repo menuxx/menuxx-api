@@ -23,11 +23,11 @@ public class Order extends TOrder {
 
     // 订单取消
     public static final int STATUS_CANCEL = 3;
-    public static final String STATUS_CANCEL_TEXT = "已取消";
+    public static final String STATUS_CANCEL_TEXT = "交易关闭";
 
     // 订单删除
     public static final int STATUS_DELETED = 4;
-    public static final String STATUS_DELETED_TEXT = "交易关闭";
+    public static final String STATUS_DELETED_TEXT = "交易删除";
 
     // 交易成功
     public static final int STATUS_SUCCEED = 5;

@@ -13,4 +13,8 @@ public interface OrderService {
 
     TOrder selectOrder(int orderId);
 
+    void updateOrderStatus(int orderId, int status);
+
+    
+
 }
