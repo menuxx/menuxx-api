@@ -2,19 +2,19 @@ package com.mall.wrapper.impl;
 
 import com.mall.model.Category;
 import com.mall.model.TCategory;
+import com.mall.model.TItem;
 import com.mall.service.CategoryService;
-import com.mall.utils.Constants;
 import com.mall.wrapper.CategoryWrapper;
+import com.mall.wrapper.ItemWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Supeng on 12/01/2017.
+ * Created by Supeng on 14/02/2017.
  */
 @Service
 public class CategoryWrapperImpl implements CategoryWrapper {
@@ -22,56 +22,30 @@ public class CategoryWrapperImpl implements CategoryWrapper {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    ItemWrapper itemWrapper;
+
     @Override
-    public Category buildCategory(int corpId) {
-        Category root = new Category();
-        root.setId(Constants.ZERO);
-        root.setCategoryName("根分类");
+    public List<Category> selectCategoriesByCorp(int corpId) {
+        List<TCategory> categoryList = categoryService.selectCategoriesByCorp(corpId);
 
-        Map<Integer, List<Category>> categoryMap = getCategoryMap(corpId);
+        if (categoryList.size() > 0) {
+            List<Category> returnList = new ArrayList<>();
 
-        bulidChildren(root, categoryMap);
+            Map<Integer, List<TItem>> itemMap = itemWrapper.selectItemsByCorp(corpId);
 
-        return root;
-    }
+            for (TCategory tcategory : categoryList) {
+                Category category = new Category(tcategory);
 
-    private Map<Integer, List<Category>> getCategoryMap(int corpId) {
-        List<TCategory> categoryList = categoryService.selectCategoriesByCorpId(corpId);
+                List<TItem> itemList = itemMap.get(category.getId());
+                category.setItemList(itemList);
 
-        Map<Integer, List<Category>> categoryMap = new HashMap<Integer, List<Category>>();
-
-        for (TCategory tCategory : categoryList) {
-            Category category = new Category(tCategory);
-
-            int parentId = tCategory.getParentId();
-            if (categoryMap.containsKey(parentId)) {
-                categoryMap.get(parentId).add(category);
-            } else {
-                List<Category> list = new ArrayList<Category>();
-                list.add(category);
-
-                categoryMap.put(parentId, list);
+                returnList.add(category);
             }
+
+            return returnList;
         }
 
-        return categoryMap;
-    }
-
-    private void bulidChildren(Category category, Map<Integer, List<Category>> categoryMap) {
-        int categoryId = category.getId();
-
-        if (categoryMap.containsKey(categoryId)) {
-            List<Category> children = categoryMap.get(categoryId);
-            category.setChildren(children);
-
-            categoryMap.remove(categoryId);
-        }
-
-        List<Category> children = category.getChildren();
-        if (null != children && children.size() > 0) {
-            for (Category child : children) {
-                bulidChildren(child, categoryMap);
-            }
-        }
+        return null;
     }
 }

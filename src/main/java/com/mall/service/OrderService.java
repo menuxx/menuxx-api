@@ -1,20 +1,14 @@
 package com.mall.service;
 
-import com.mall.model.TOrder;
+import com.mall.model.Order;
 
 /**
- * Created by Supeng on 18/01/2017.
+ * Created by Supeng on 14/02/2017.
  */
 public interface OrderService {
 
-    void createOrder(TOrder order);
+    void createOrder(Order order);
 
-    void updateOrder(TOrder order);
-
-    TOrder selectOrder(int orderId);
-
-    void updateOrderStatus(int orderId, int status);
-
-    
+    void updateOrder(Order order);
 
 }

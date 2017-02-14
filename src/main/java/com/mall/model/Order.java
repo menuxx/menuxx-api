@@ -1,106 +1,60 @@
 package com.mall.model;
 
+
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
 /**
- * Created by Supeng on 18/01/2017.
+ * Created by Supeng on 14/02/2017.
  */
 public class Order extends TOrder {
 
     // 待付款
     public static final int STATUS_CREATED = 0;
     public static final String STATUS_CREATED_TEXT = "待付款";
-
     // 待发货
     public static final int STATUS_PAID = 1;
     public static final String STATUS_PAID_TEXT = "已付款";
 
-    // 待收货
-    public static final int STATUS_DELEVERED = 2;
-    public static final String STATUS_DELEVERED_TEXT = "已发货";
+    // 堂食
+    public static final int ORDER_TYPE_EAT_IN = 0;
+    public static final String ORDER_TYPE_EAT_IN_TEXT = "堂食";
 
-    // 订单取消
-    public static final int STATUS_CANCEL = 3;
-    public static final String STATUS_CANCEL_TEXT = "交易关闭";
+    // 打包
+    public static final int ORDER_TYPE_CARRY_OUT = 1;
+    public static final String ORDER_TYPE_CARRY_OUT_TEXT = "打包";
 
-    // 订单删除
-    public static final int STATUS_DELETED = 4;
-    public static final String STATUS_DELETED_TEXT = "交易删除";
+    private String orderTypeText;
 
-    // 交易成功
-    public static final int STATUS_SUCCEED = 5;
-    public static final String STATUS_SUCCEED_TEXT = "交易成功";
-
-
-    private List<OrderItem> orderItemList;
-
-    private List<ShoppingCart> shoppingCartList;
-
-    private TAddress address;
-
-    private String statusText;
+    private List<TOrderItem> itemList;
 
     public Order() {
     }
-
 
     public Order(TOrder order) {
         BeanUtils.copyProperties(order, this);
     }
 
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
+    public List<TOrderItem> getItemList() {
+        return itemList;
     }
 
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
+    public void setItemList(List<TOrderItem> itemList) {
+        this.itemList = itemList;
     }
 
-    public void setAddress(TAddress address) {
-        this.address = address;
-    }
-
-    public TAddress getAddress() {
-        return address;
-    }
-
-    public void setStatusText(String statusText) {
-        this.statusText = statusText;
-    }
-
-    public String getStatusText() {
-        switch (getStatus()) {
-            case STATUS_PAID:
-                statusText = STATUS_PAID_TEXT;
-                break;
-            case STATUS_DELEVERED:
-                statusText = STATUS_DELEVERED_TEXT;
-                break;
-            case STATUS_CANCEL:
-                statusText = STATUS_CANCEL_TEXT;
-                break;
-            case STATUS_DELETED:
-                statusText = STATUS_DELETED_TEXT;
-                break;
-            case STATUS_SUCCEED:
-                statusText = STATUS_SUCCEED_TEXT;
-                break;
-
-            default:
-                statusText = STATUS_CREATED_TEXT;
-                break;
+    public String getOrderTypeText() {
+        if (getOrderType() == ORDER_TYPE_EAT_IN) {
+            orderTypeText = ORDER_TYPE_EAT_IN_TEXT;
+        } else if (getOrderType() == ORDER_TYPE_CARRY_OUT) {
+            orderTypeText = ORDER_TYPE_CARRY_OUT_TEXT;
         }
 
-        return statusText;
+        return orderTypeText;
     }
 
-    public List<ShoppingCart> getShoppingCartList() {
-        return shoppingCartList;
-    }
-
-    public void setShoppingCartList(List<ShoppingCart> shoppingCartList) {
-        this.shoppingCartList = shoppingCartList;
+    public void setOrderTypeText(String orderTypeText) {
+        this.orderTypeText = orderTypeText;
     }
 }

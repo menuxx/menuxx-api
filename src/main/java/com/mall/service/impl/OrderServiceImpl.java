@@ -1,14 +1,13 @@
 package com.mall.service.impl;
 
 import com.mall.mapper.TOrderMapper;
-import com.mall.model.TOrder;
-import com.mall.model.TOrderExample;
+import com.mall.model.Order;
 import com.mall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Supeng on 18/01/2017.
+ * Created by Supeng on 14/02/2017.
  */
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -17,29 +16,12 @@ public class OrderServiceImpl implements OrderService {
     TOrderMapper orderMapper;
 
     @Override
-    public void createOrder(TOrder order) {
+    public void createOrder(Order order) {
         orderMapper.insert(order);
     }
 
     @Override
-    public void updateOrder(TOrder order) {
+    public void updateOrder(Order order) {
         orderMapper.updateByPrimaryKey(order);
-    }
-
-    @Override
-    public TOrder selectOrder(int orderId) {
-        return orderMapper.selectByPrimaryKey(orderId);
-    }
-
-    @Override
-    public void updateOrderStatus(int orderId, int status) {
-        TOrder order = new TOrder();
-        order.setStatus(status);
-
-        TOrderExample example = new TOrderExample();
-        TOrderExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(orderId);
-
-        orderMapper.updateByExampleSelective(order, example);
     }
 }

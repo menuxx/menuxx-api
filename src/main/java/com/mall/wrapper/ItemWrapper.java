@@ -1,7 +1,6 @@
 package com.mall.wrapper;
 
-import com.github.pagehelper.PageInfo;
-import com.mall.model.Item;
+import com.mall.model.TItem;
 
 import java.util.List;
 import java.util.Map;
@@ -11,11 +10,6 @@ import java.util.Map;
  */
 public interface ItemWrapper {
 
-    Item getItemDetail(int corpId, int itemId);
+    Map<Integer, List<TItem>> selectItemsByCorp(int corpId);
 
-    List<Item> selectItems(List<Integer> itemIdList);
-
-    Map<Integer, Item> selectItemsForMap(List<Integer> itemIdList);
-
-    PageInfo<Item> selectItemsByCategory(int categoryId);
 }

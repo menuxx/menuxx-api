@@ -11,11 +11,6 @@ import java.util.Map;
  */
 public interface ItemService {
 
-    List<TItem> selectItems(List<Integer> itemIdList);
+    List<TItem> selectItemsByCorp(int corpId);
 
-    Map<Integer, TItem> selectItemsForMap(List<Integer> itemIdList);
-
-    PageInfo<TItem> selectItemsByCategory(int categoryId);
-
-    TItem selectItem(int itemId);
 }

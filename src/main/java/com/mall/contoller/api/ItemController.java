@@ -1,7 +1,10 @@
 package com.mall.contoller.api;
 
-import com.mall.model.Item;
-import com.mall.wrapper.ItemWrapper;
+import com.mall.model.Category;
+import com.mall.model.TTable;
+import com.mall.service.TableService;
+import com.mall.wrapper.CategoryWrapper;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Supeng on 13/01/2017.
  */
@@ -18,19 +24,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ItemController extends BaseCorpContoller {
 
     @Autowired
-    ItemWrapper itemWrapper;
+    CategoryWrapper categoryWrapper;
 
+    @Autowired
+    TableService tableService;
     /**
-     * 1003 商品详情
+     * 1001 商品详情
      * @param corpId
-     * @param itemId
      * @return
      */
-    @RequestMapping(value = "items/{itemId}", method = RequestMethod.GET)
+    @RequestMapping(value = "home", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getItemDetail(@PathVariable int corpId, @PathVariable int itemId) {
-        Item item = itemWrapper.getItemDetail(corpId, itemId);
-        return new ResponseEntity<>(item, HttpStatus.OK);
+    public ResponseEntity<?> getHomeItems(@PathVariable int corpId) {
+        Map<String, Object> homeMap = new HashedMap();
+
+        List<Category> categoryList = categoryWrapper.selectCategoriesByCorp(corpId);
+        homeMap.put("categoryList", categoryList);
+
+        List<TTable> tableList = tableService.selectTablesByCorp(corpId);
+        homeMap.put("tableList", tableList);
+
+        return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
     }
 
 }

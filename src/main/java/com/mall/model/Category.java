@@ -5,11 +5,11 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 
 /**
- * Created by Supeng on 12/01/2017.
+ * Created by Supeng on 14/02/2017.
  */
 public class Category extends TCategory {
 
-    private List<Category> children;
+    private List<TItem> itemList;
 
     public Category() {
 
@@ -19,11 +19,11 @@ public class Category extends TCategory {
         BeanUtils.copyProperties(category, this);
     }
 
-    public void setChildren(List<Category> children) {
-        this.children = children;
+    public List<TItem> getItemList() {
+        return itemList;
     }
 
-    public List<Category> getChildren() {
-        return children;
+    public void setItemList(List<TItem> itemList) {
+        this.itemList = itemList;
     }
 }

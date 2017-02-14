@@ -10,7 +10,7 @@
     <context id="MysqlDB" targetRuntime="MyBatis3">
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://xzwsq.com:3306/dongzone_dev?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"
+                        connectionURL="jdbc:mysql://xzwsq.com:3306/jiujin?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"
                         userId="dongzone_dev"
                         password="dongzone123456">
         </jdbcConnection>
@@ -33,25 +33,34 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <!--<table schema="dongzone_dev" tableName="t_unit_field" domainObjectName="TUnitField" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <!--<table schema="dongzone_dev" tableName="t_unit" domainObjectName="TUnit" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <!--<table schema="dongzone_dev" tableName="t_item" domainObjectName="TItem" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <table schema="dongzone_dev" tableName="t_order_item" domainObjectName="TOrderItem" >
+        <table schema="jiujin" tableName="t_table" domainObjectName="TTable" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
 
-        <table schema="dongzone_dev" tableName="t_order" domainObjectName="TOrder" >
+        <table schema="jiujin" tableName="t_order" domainObjectName="TOrder" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
+
+        <table schema="jiujin" tableName="t_order_item" domainObjectName="TOrderItem" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table schema="jiujin" tableName="t_item" domainObjectName="TItem" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table schema="jiujin" tableName="t_category" domainObjectName="TCategory" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table schema="jiujin" tableName="t_user" domainObjectName="TUser" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
     </context>
 
 </generatorConfiguration>

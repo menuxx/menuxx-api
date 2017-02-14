@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by Supeng on 12/01/2017.
+ * Created by Supeng on 14/02/2017.
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     TCategoryMapper categoryMapper;
 
     @Override
-    public List<TCategory> selectCategoriesByCorpId(int corpId) {
+    public List<TCategory> selectCategoriesByCorp(int corpId) {
         TCategoryExample example = new TCategoryExample();
         TCategoryExample.Criteria criteria = example.createCriteria();
 
