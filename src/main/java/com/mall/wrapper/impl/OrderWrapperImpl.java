@@ -5,6 +5,7 @@ import com.mall.model.TOrderItem;
 import com.mall.service.OrderItemService;
 import com.mall.service.OrderService;
 import com.mall.utils.MallUtil;
+import com.mall.utils.QueueUtil;
 import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,8 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 创建订单号
         order.setOrderCode(MallUtil.getYearMonthDay() + (10000000 + order.getId()));
 
-        //TODO 创建排序号
-        order.setQueueId(order.getId());
+        // 创建排序号
+        order.setQueueId(QueueUtil.getQueueNum(order.getCorpId()));
 
         // 更新订单号、排序号
         orderService.updateOrder(order);
