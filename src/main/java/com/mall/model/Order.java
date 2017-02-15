@@ -27,21 +27,15 @@ public class Order extends TOrder {
 
     private String orderTypeText;
 
-    private List<TOrderItem> itemList;
+    private TTable table;
+
+    private List<OrderItem> itemList;
 
     public Order() {
     }
 
     public Order(TOrder order) {
         BeanUtils.copyProperties(order, this);
-    }
-
-    public List<TOrderItem> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(List<TOrderItem> itemList) {
-        this.itemList = itemList;
     }
 
     public String getOrderTypeText() {
@@ -56,5 +50,21 @@ public class Order extends TOrder {
 
     public void setOrderTypeText(String orderTypeText) {
         this.orderTypeText = orderTypeText;
+    }
+
+    public List<OrderItem> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<OrderItem> itemList) {
+        this.itemList = itemList;
+    }
+
+    public TTable getTable() {
+        return table;
+    }
+
+    public void setTable(TTable table) {
+        this.table = table;
     }
 }

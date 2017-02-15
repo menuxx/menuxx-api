@@ -1,5 +1,6 @@
 package com.mall.wrapper;
 
+import com.github.pagehelper.PageInfo;
 import com.mall.model.Order;
 
 /**
@@ -8,4 +9,6 @@ import com.mall.model.Order;
 public interface OrderWrapper {
 
     void createOrder(Order order);
+
+    PageInfo<Order> selectPaidOrders(int userId, int corpId);
 }

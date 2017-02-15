@@ -1,12 +1,18 @@
 package com.mall.contoller.api;
 
+import com.github.pagehelper.PageInfo;
+import com.mall.configure.page.Page;
 import com.mall.model.Order;
+import com.mall.model.OrderItem;
+import com.mall.utils.Constants;
 import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -18,11 +24,17 @@ public class OrderController extends BaseCorpContoller {
     @Autowired
     OrderWrapper orderWrapper;
 
+    /**
+     * 1002 创建订单
+     * @param corpId
+     * @param order
+     * @return
+     */
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> createOrder(@PathVariable int corpId, @RequestBody Order order) {
         // TODO 获取用户ID
-        int userId = 0;
+        int userId = 1;
         order.setUserId(userId);
 
         // 订单状态默认为未付款
@@ -43,4 +55,17 @@ public class OrderController extends BaseCorpContoller {
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
+
+    @RequestMapping(value = "orders", method = RequestMethod.GET)
+    @ResponseBody
+    @Page
+    public ResponseEntity<?> getPaidOrders(@PathVariable int corpId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+                                           @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
+        // TODO 获取用户ID
+        int userId = 1;
+
+        PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(userId, corpId);
+
+        return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
+    }
 }

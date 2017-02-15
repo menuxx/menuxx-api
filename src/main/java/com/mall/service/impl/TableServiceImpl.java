@@ -7,7 +7,9 @@ import com.mall.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -26,5 +28,18 @@ public class TableServiceImpl implements TableService {
         criteria.andCorpIdEqualTo(corpId);
 
         return tableMapper.selectByExample(example);
+    }
+
+    @Override
+    public Map<Integer, TTable> selectTablesByCorpForMap(int corpId) {
+        List<TTable> list = selectTablesByCorp(corpId);
+
+        Map<Integer, TTable> map = new HashMap<>();
+
+        for (TTable table : list) {
+            map.put(table.getId(), table);
+        }
+
+        return map;
     }
 }
