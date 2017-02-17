@@ -34,4 +34,13 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemMapper.selectByExample(example);
     }
 
+    @Override
+    public List<TOrderItem> selectOrderItemByOrderId(int orderId) {
+        TOrderItemExample example = new TOrderItemExample();
+        TOrderItemExample.Criteria criteria = example.createCriteria();
+
+        criteria.andOrderIdEqualTo(orderId);
+
+        return orderItemMapper.selectByExample(example);
+    }
 }

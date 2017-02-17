@@ -9,6 +9,8 @@ import com.mall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Supeng on 14/02/2017.
  */
@@ -42,5 +44,20 @@ public class OrderServiceImpl implements OrderService {
         PageInfo<TOrder> pageInfo = new PageInfo<>(orderMapper.selectByExample(example));
 
         return pageInfo;
+    }
+
+    @Override
+    public TOrder selectOrder(int orderId) {
+        TOrderExample example = new TOrderExample();
+        TOrderExample.Criteria criteria = example.createCriteria();
+
+        criteria.andIdEqualTo(orderId);
+
+        List<TOrder> list = orderMapper.selectByExample(example);
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+
+        return null;
     }
 }

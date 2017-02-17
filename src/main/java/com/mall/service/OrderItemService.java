@@ -14,4 +14,6 @@ public interface OrderItemService {
 
     List<TOrderItem> selectOrderItemByOrders(List<Integer> orderIdList);
 
+    List<TOrderItem> selectOrderItemByOrderId(int orderId);
+
 }

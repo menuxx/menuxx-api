@@ -16,4 +16,6 @@ public interface OrderService {
     void updateOrder(Order order);
 
     PageInfo<TOrder> selectPaidOrders(int userId, int corpId);
+
+    TOrder selectOrder(int orderId);
 }

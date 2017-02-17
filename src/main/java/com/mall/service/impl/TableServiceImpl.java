@@ -42,4 +42,9 @@ public class TableServiceImpl implements TableService {
 
         return map;
     }
+
+    @Override
+    public TTable selectTable(int tableId) {
+        return tableMapper.selectByPrimaryKey(tableId);
+    }
 }

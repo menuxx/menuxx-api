@@ -98,4 +98,19 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         return orderPageInfo;
     }
+
+    @Override
+    public Order selectOrder(int orderId) {
+        TOrder torder = orderService.selectOrder(orderId);
+
+        Order order = new Order(torder);
+
+        List<OrderItem> orderItemList = orderItemWrapper.selectOrderItemByOrderId(orderId);
+        order.setItemList(orderItemList);
+
+        TTable table = tableService.selectTable(order.getTableId());
+        order.setTable(table);
+
+        return order;
+    }
 }

@@ -14,4 +14,6 @@ public interface TableService {
 
     Map<Integer, TTable> selectTablesByCorpForMap(int corpId);
 
+    TTable selectTable(int tableId);
+
 }

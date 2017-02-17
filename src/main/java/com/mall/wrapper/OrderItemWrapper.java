@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public interface OrderItemWrapper {
 
+    List<OrderItem> selectOrderItemByOrderId(int orderId);
+
     List<OrderItem> selectOrderItemByOrders(List<Integer> orderIdList);
 
     Map<Integer, List<OrderItem>> groupOrderItemsByOrder(List<Integer> orderIdList);

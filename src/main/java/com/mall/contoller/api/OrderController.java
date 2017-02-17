@@ -1,10 +1,13 @@
 package com.mall.contoller.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
 import com.mall.utils.Constants;
+import com.mall.utils.JPushUtil;
 import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,5 +70,21 @@ public class OrderController extends BaseCorpContoller {
         PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(userId, corpId);
 
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> pushOrder(@PathVariable int corpId, @PathVariable int orderId) {
+        Order order = orderWrapper.selectOrder(orderId);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String content = mapper.writeValueAsString(order);
+            JPushUtil.sendPushOrder(content, "1");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 }

@@ -30,6 +30,12 @@ public class OrderItemWrapperImpl implements OrderItemWrapper {
     public List<OrderItem> selectOrderItemByOrders(List<Integer> orderIdList) {
         List<TOrderItem> tOrderItemList = orderItemService.selectOrderItemByOrders(orderIdList);
 
+        List<OrderItem> orderItemList = buildOrderItems(tOrderItemList);
+
+        return orderItemList;
+    }
+
+    private List<OrderItem> buildOrderItems(List<TOrderItem> tOrderItemList) {
         List<OrderItem> orderItemList = new ArrayList<>();
 
         List<Integer> itemIdList = new ArrayList<>();
@@ -51,6 +57,14 @@ public class OrderItemWrapperImpl implements OrderItemWrapper {
             }
 
         }
+        return orderItemList;
+    }
+
+    @Override
+    public List<OrderItem> selectOrderItemByOrderId(int orderId) {
+        List<TOrderItem> torderItemList = orderItemService.selectOrderItemByOrderId(orderId);
+
+        List<OrderItem> orderItemList = buildOrderItems(torderItemList);
 
         return orderItemList;
     }
