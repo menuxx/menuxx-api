@@ -47,4 +47,13 @@ public class ItemController extends BaseCorpContoller {
         return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "home1", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> getHomeItems1(@PathVariable int corpId) {
+
+
+        return new ResponseEntity<Object>("hello", HttpStatus.OK);
+    }
+
+
 }
