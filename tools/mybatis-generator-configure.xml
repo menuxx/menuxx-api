@@ -53,13 +53,13 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
-
-        <!--<table schema="jiujin" tableName="t_user" domainObjectName="TUser" >-->
+        <!--<table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
+
+        <table schema="jiujin" tableName="t_user" domainObjectName="TUser" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
     </context>
 
