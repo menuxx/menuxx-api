@@ -1,6 +1,7 @@
 package com.mall.service.impl;
 
 import com.mall.mapper.TItemMapper;
+import com.mall.model.Item;
 import com.mall.model.TItem;
 import com.mall.model.TItemExample;
 import com.mall.service.ItemService;
@@ -53,5 +54,29 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return map;
+    }
+
+    @Override
+    public void updateItem(Item item) {
+        itemMapper.updateByPrimaryKey(item);
+    }
+
+    @Override
+    public void updateItemSoldout(int itemId, int soldout) {
+        Item item = new Item();
+        item.setId(itemId);
+        item.setSoldout(soldout);
+
+        itemMapper.updateByPrimaryKeySelective(item);
+    }
+
+    @Override
+    public TItem selectItem(int itemId) {
+        return itemMapper.selectByPrimaryKey(itemId);
+    }
+
+    @Override
+    public void createItem(Item item) {
+        itemMapper.insert(item);
     }
 }

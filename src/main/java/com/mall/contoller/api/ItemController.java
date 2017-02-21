@@ -1,18 +1,20 @@
 package com.mall.contoller.api;
 
 import com.mall.model.Category;
+import com.mall.model.Item;
 import com.mall.model.TTable;
+import com.mall.service.ItemService;
 import com.mall.service.TableService;
+import com.mall.utils.Constants;
 import com.mall.wrapper.CategoryWrapper;
+import com.mall.wrapper.ItemWrapper;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -28,8 +30,15 @@ public class ItemController extends BaseCorpContoller {
 
     @Autowired
     TableService tableService;
+
+    @Autowired
+    ItemWrapper itemWrapper;
+
+    @Autowired
+    ItemService itemService;
+
     /**
-     * 1001 商品详情
+     * 1001 加载首页
      * @param corpId
      * @return
      */
@@ -47,12 +56,93 @@ public class ItemController extends BaseCorpContoller {
         return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "home1", method = RequestMethod.GET)
+    /**
+     * 2002 加载菜单
+     * @param corpId
+     * @return
+     */
+    @RequestMapping(value = "items", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getHomeItems1(@PathVariable int corpId) {
+    public ResponseEntity<?> getItems(@PathVariable int corpId) {
+        List<Item> itemList = itemWrapper.selectItems(corpId);
+        return new ResponseEntity<Object>(itemList, HttpStatus.OK);
+    }
+
+    /**
+     * 2003 修改菜单
+     * @param itemId
+     * @param item
+     * @return
+     */
+    @RequestMapping(value = "items/{itemId}", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> updateItem(@PathVariable int itemId, @RequestBody Item item) {
+        itemService.updateItem(item);
+        return new ResponseEntity<Object>(item, HttpStatus.OK);
+    }
+
+    /**
+     * 2007 单品下架
+     * @param itemId
+     * @return
+     */
+    @RequestMapping(value = "items/{itemId}/soldout", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> setSoldout(@PathVariable int itemId) {
+        itemWrapper.setSoldout(itemId);
+
+        Item item = itemWrapper.selectItem(itemId);
+
+        return new ResponseEntity<Object>(item, HttpStatus.OK);
+    }
+
+    /**
+     * 2008 单品上架
+     * @param itemId
+     * @return
+     */
+    @RequestMapping(value = "items/{itemId}/soldout", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<?> cancelSoldout(@PathVariable int itemId) {
+        itemWrapper.cancelSoldout(itemId);
+
+        Item item = itemWrapper.selectItem(itemId);
+
+        return new ResponseEntity<Object>(item, HttpStatus.OK);
+    }
+
+    /**
+     * 2009 创建单品
+     * @param item
+     * @return
+     */
+    @RequestMapping(value = "items", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> createItem(@PathVariable int corpId, @RequestBody Item item) {
+        item.setCorpId(corpId);
+
+        if (StringUtils.isBlank(item.getItemName())) {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (item.getProductPrice() == null || item.getProductPrice().doubleValue() == 0.0) {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (item.getCategory() == null) {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (item.getSoldout() == null) {
+            item.setSoldout(Constants.ZERO);
+        }
 
 
-        return new ResponseEntity<Object>("hello", HttpStatus.OK);
+        itemService.createItem(item);
+
+        item = itemWrapper.selectItem(item.getId());
+
+        return new ResponseEntity<Object>(item, HttpStatus.OK);
     }
 
 

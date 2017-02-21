@@ -59,6 +59,13 @@ public class OrderController extends BaseCorpContoller {
     }
 
 
+    /**
+     * 1004 加载订单
+     * @param corpId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @RequestMapping(value = "orders", method = RequestMethod.GET)
     @ResponseBody
     @Page
@@ -68,7 +75,6 @@ public class OrderController extends BaseCorpContoller {
         int userId = 1;
 
         PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(userId, corpId);
-
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 
@@ -86,5 +92,21 @@ public class OrderController extends BaseCorpContoller {
         }
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
+    }
+
+    /**
+     * 2001 加载商户订单
+     * @param corpId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "orders/all", method = RequestMethod.GET)
+    @ResponseBody
+    @Page
+    public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int corpId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+                                                 @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
+        PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(corpId);
+        return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 }
