@@ -45,9 +45,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_item" domainObjectName="TItem" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_item" domainObjectName="TItem" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
         <!--<table schema="jiujin" tableName="t_category" domainObjectName="TCategory" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -57,7 +57,7 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_user" domainObjectName="TUser" >
+        <table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
 
