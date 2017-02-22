@@ -1,5 +1,6 @@
 package com.mall.model;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class TUser {
@@ -19,6 +20,7 @@ public class TUser {
      *
      * @mbggenerated Fri Feb 17 17:29:54 CST 2017
      */
+    @NotNull
     private String openid;
 
     /**
@@ -28,6 +30,7 @@ public class TUser {
      *
      * @mbggenerated Fri Feb 17 17:29:54 CST 2017
      */
+    @NotNull
     private Integer corpId;
 
     /**

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import java.util.Map;
  * Created by Supeng on 13/01/2017.
  */
 @Controller
-public class ItemController extends BaseCorpContoller {
+public class ItemController extends BaseCorpController {
 
     @Autowired
     CategoryWrapper categoryWrapper;
@@ -36,7 +37,7 @@ public class ItemController extends BaseCorpContoller {
     @RequestMapping(value = "home", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getHomeItems(@PathVariable int corpId) {
-        Map<String, Object> homeMap = new HashedMap();
+        Map<String, Object> homeMap = new HashMap<>();
 
         List<Category> categoryList = categoryWrapper.selectCategoriesByCorp(corpId);
         homeMap.put("categoryList", categoryList);

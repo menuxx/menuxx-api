@@ -1,6 +1,6 @@
 package com.mall.configure;
 
-import com.mall.properties.HikariCPConfigureProperties;
+import com.mall.configure.properties.HikariCPConfigureProperties;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;

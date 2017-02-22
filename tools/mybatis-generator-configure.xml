@@ -9,6 +9,11 @@
 
     <context id="MysqlDB" targetRuntime="MyBatis3">
 
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://xzwsq.com:3306/jiujin?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"
                         userId="dongzone_dev"
@@ -53,13 +58,13 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <table schema="jiujin" tableName="t_user" domainObjectName="TUser" >
+        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
+
+        <!--<table schema="jiujin" tableName="t_user" domainObjectName="TUser" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
     </context>
 
