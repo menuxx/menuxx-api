@@ -40,18 +40,18 @@ public class ItemController extends BaseCorpController {
 
     /**
      * 1001 加载首页
-     * @param corpId
+     * @param dinerId
      * @return
      */
     @RequestMapping(value = "home", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getHomeItems(@PathVariable int corpId) {
+    public ResponseEntity<?> getHomeItems(@PathVariable("dinerId") int dinerId) {
         Map<String, Object> homeMap = new HashMap<>();
 
-        List<Category> categoryList = categoryWrapper.selectCategoriesByCorp(corpId);
+        List<Category> categoryList = categoryWrapper.selectCategoriesByCorp(dinerId);
         homeMap.put("categoryList", categoryList);
 
-        List<TTable> tableList = tableService.selectTablesByCorp(corpId);
+        List<TTable> tableList = tableService.selectTablesByCorp(dinerId);
         homeMap.put("tableList", tableList);
 
         return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
