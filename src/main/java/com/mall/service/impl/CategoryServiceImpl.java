@@ -7,7 +7,9 @@ import com.mall.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -26,5 +28,23 @@ public class CategoryServiceImpl implements CategoryService {
         criteria.andCorpIdEqualTo(corpId);
 
         return categoryMapper.selectByExample(example);
+    }
+
+    @Override
+    public Map<Integer, TCategory> selectCategoriesByCorpForMap(int corpId) {
+        Map<Integer, TCategory> map = new HashMap<>();
+
+        List<TCategory> list = selectCategoriesByCorp(corpId);
+
+        for (TCategory category : list) {
+            map.put(category.getId(), category);
+        }
+
+        return map;
+    }
+
+    @Override
+    public TCategory selectCategory(int categoryId) {
+        return categoryMapper.selectByPrimaryKey(categoryId);
     }
 }

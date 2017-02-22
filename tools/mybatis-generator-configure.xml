@@ -29,7 +29,7 @@
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mapper"  targetProject="${projectPath}src/main/resources">
+        <sqlMapGenerator targetPackage="mapper"  targetProject="${projmvectPath}src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
@@ -50,15 +50,23 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_item" domainObjectName="TItem" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_item" domainObjectName="TItem" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
         <!--<table schema="jiujin" tableName="t_category" domainObjectName="TCategory" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+<<<<<<< HEAD
         <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
+=======
+        <!--<table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >
+>>>>>>> 638751263ff62ad30797f7edfc70253f05436897
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
 

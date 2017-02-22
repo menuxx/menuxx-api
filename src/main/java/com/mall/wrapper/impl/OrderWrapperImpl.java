@@ -63,7 +63,16 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Override
     public PageInfo<Order> selectPaidOrders(int userId, int corpId) {
         PageInfo<TOrder> tOrderPageInfo = orderService.selectPaidOrders(userId, corpId);
+        return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
 
+    @Override
+    public PageInfo<Order> selectPaidOrders(int corpId) {
+        PageInfo<TOrder> tOrderPageInfo = orderService.selectPaidOrders(corpId);
+        return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
+
+    private PageInfo<Order> getOrderPageInfo(int corpId, PageInfo<TOrder> tOrderPageInfo) {
         PageInfo<Order> orderPageInfo = new PageInfo<>();
         BeanUtils.copyProperties(tOrderPageInfo, orderPageInfo);
 
