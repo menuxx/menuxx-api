@@ -19,5 +19,7 @@ public interface OrderService {
 
     PageInfo<TOrder> selectPaidOrders(int corpId);
 
+    PageInfo<TOrder> selectAllOrders(int corpId);
+
     TOrder selectOrder(int orderId);
 }

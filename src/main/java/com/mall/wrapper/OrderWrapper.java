@@ -14,5 +14,7 @@ public interface OrderWrapper {
 
     PageInfo<Order> selectPaidOrders(int corpId);
 
+    PageInfo<Order> selectAllOrders(int corpId);
+
     Order selectOrder(int orderId);
 }
