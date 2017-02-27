@@ -93,7 +93,7 @@ public class OrderController extends BaseCorpController {
 
     /**
      * 2001 加载商户订单
-     * @param corpId
+     * @param dinerId
      * @param pageNum
      * @param pageSize
      * @return
@@ -101,9 +101,9 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders/all", method = RequestMethod.GET)
     @ResponseBody
     @Page
-    public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int corpId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+    public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                                  @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
-        PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(corpId);
+        PageInfo<Order> pageInfo = orderWrapper.selectAllOrders(dinerId);
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 }
