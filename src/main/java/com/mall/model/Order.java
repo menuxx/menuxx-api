@@ -25,7 +25,10 @@ public class Order extends TOrder {
     public static final int ORDER_TYPE_CARRY_OUT = 1;
     public static final String ORDER_TYPE_CARRY_OUT_TEXT = "打包";
 
+
     private String orderTypeText;
+
+    private String statusText;
 
     private TTable table;
 
@@ -66,5 +69,19 @@ public class Order extends TOrder {
 
     public void setTable(TTable table) {
         this.table = table;
+    }
+
+    public String getStatusText() {
+        statusText = STATUS_CREATED_TEXT;
+
+        if (getStatus() == STATUS_PAID) {
+            statusText = STATUS_PAID_TEXT;
+        }
+
+        return statusText;
+    }
+
+    public void setStatusText(String statusText) {
+        this.statusText = statusText;
     }
 }

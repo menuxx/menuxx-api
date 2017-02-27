@@ -122,4 +122,10 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         return order;
     }
+
+    @Override
+    public PageInfo<Order> selectAllOrders(int corpId) {
+        PageInfo<TOrder> tOrderPageInfo = orderService.selectAllOrders(corpId);
+        return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
 }
