@@ -74,7 +74,6 @@ public class WXUserController extends BaseCorpController {
 					String sessionToken = AESCoder.encrypt(session.getOpenid() + ":" + session.getSessionKey());
 					data.put("sessionToken", sessionToken);
 					data.put("openid", session.getOpenid());
-					data.put("corpId", corp.getId());
 					deferred.setResult(data);
 				} else {
 					deferred.setErrorResult(session);
@@ -98,12 +97,12 @@ public class WXUserController extends BaseCorpController {
 	 */
 	@PutMapping("wx/liteSigin")
 	public Map<String, Object> liteSigin(@Valid @RequestBody TUser user, @CurrentDiner TCorp corp, @SessionKey WXSessionData sessionData) {
-		System.out.println(sessionData);
+		user.setCorpId(corp.getId());
 		userService.saveUser(user, corp);
 		Map<String, Object> data = new HashMap<>();
 		data.put("userId", user.getId());
 		data.put("openId", user.getOpenid());
-		data.put("corpsId", corp.getId());
+		data.put("corpId", corp.getId());
 		return data;
 	}
 

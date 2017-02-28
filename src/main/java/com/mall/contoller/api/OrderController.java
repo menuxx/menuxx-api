@@ -32,7 +32,7 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> createOrder(@PathVariable int corpId, @RequestBody Order order) {
+    public ResponseEntity<?> createOrder(@PathVariable("dinerId") int corpId, @RequestBody Order order) {
         // TODO 获取用户ID
         int userId = 1;
         order.setUserId(userId);
@@ -55,7 +55,6 @@ public class OrderController extends BaseCorpController {
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
-
     /**
      * 1004 加载订单
      * @param corpId
@@ -66,7 +65,7 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders", method = RequestMethod.GET)
     @ResponseBody
     @Page
-    public ResponseEntity<?> getPaidOrders(@PathVariable int corpId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+    public ResponseEntity<?> getPaidOrders(@PathVariable("dinerId") int corpId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
         // TODO 获取用户ID
         int userId = 1;
@@ -77,7 +76,7 @@ public class OrderController extends BaseCorpController {
 
     @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> pushOrder(@PathVariable int corpId, @PathVariable int orderId) {
+    public ResponseEntity<?> pushOrder(@PathVariable("dinerId") int corpId, @PathVariable int orderId) {
         Order order = orderWrapper.selectOrder(orderId);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -101,7 +100,7 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders/all", method = RequestMethod.GET)
     @ResponseBody
     @Page
-    public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+    public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable("dinerId") int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                                  @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
         PageInfo<Order> pageInfo = orderWrapper.selectAllOrders(dinerId);
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
