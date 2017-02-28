@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
+import com.mall.model.OrderItem;
 import com.mall.utils.Constants;
 import com.mall.utils.JPushUtil;
 import com.mall.wrapper.OrderWrapper;
@@ -13,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -50,7 +54,17 @@ public class OrderController extends BaseCorpController {
             order.setTableId(null);
         }
 
-        orderWrapper.createOrder(order);
+        List<Integer> itemIdList = new ArrayList<>();
+
+        if (order.getItemList() != null && order.getItemList().size() > 0) {
+            for (OrderItem orderItem : order.getItemList()) {
+                itemIdList.add(orderItem.getItemId());
+            }
+        }
+
+        orderWrapper.createOrder(order, itemIdList);
+
+        order = orderWrapper.selectOrder(order.getId());
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }

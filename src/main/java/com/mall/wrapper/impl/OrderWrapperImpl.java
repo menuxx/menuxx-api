@@ -2,6 +2,7 @@ package com.mall.wrapper.impl;
 
 import com.github.pagehelper.PageInfo;
 import com.mall.model.*;
+import com.mall.service.ItemService;
 import com.mall.service.OrderItemService;
 import com.mall.service.OrderService;
 import com.mall.service.TableService;
@@ -37,17 +38,34 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Autowired
     TableService tableService;
 
+    @Autowired
+    ItemService itemService;
+
     @Override
     @Transactional
-    public void createOrder(Order order) {
+    public void createOrder(Order order, List<Integer> itemIdList) {
+        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
+
         // 先创建订单
         orderService.createOrder(order);
+
+        // 总金额
+        int totalAcount = 0;
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
         for (OrderItem orderItem : orderItemList) {
+            TItem item = itemMap.get(orderItem.getItemId());
+
+            int payAmount = item.getProductPrice() * orderItem.getQuantity();
+
             orderItem.setOrderId(order.getId());
+
+            orderItem.setPayAmount(payAmount);
+
             orderItemService.createOrderItem(orderItem);
+
+            totalAcount = totalAcount + payAmount;
         }
 
         // 创建订单号
