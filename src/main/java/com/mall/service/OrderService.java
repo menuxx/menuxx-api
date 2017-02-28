@@ -1,6 +1,7 @@
 package com.mall.service;
 
 import com.github.pagehelper.PageInfo;
+import com.mall.model.Item;
 import com.mall.model.Order;
 import com.mall.model.TOrder;
 
@@ -22,4 +23,7 @@ public interface OrderService {
     PageInfo<TOrder> selectAllOrders(int corpId);
 
     TOrder selectOrder(int orderId);
+
+    void updateOrderPaid(int orderId);
+
 }

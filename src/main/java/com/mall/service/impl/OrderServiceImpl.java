@@ -89,4 +89,13 @@ public class OrderServiceImpl implements OrderService {
 
         return null;
     }
+
+    @Override
+    public void updateOrderPaid(int orderId) {
+        TOrder order = new TOrder();
+        order.setId(orderId);
+        order.setStatus(Order.STATUS_PAID);
+
+        orderMapper.updateByPrimaryKeySelective(order);
+    }
 }
