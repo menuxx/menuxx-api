@@ -13,7 +13,7 @@ public class Constants {
     public static final String DEFAULT_PAGENUM = "1";
 
     // 默认每页10条
-    public static final String DEFAULT_PAGESIZE = "20";
+    public static final String DEFAULT_PAGESIZE = "10";
 
     // 多字段 分割符
     public static final String SEPARATOR = ":";
