@@ -23,6 +23,9 @@ public class SessionKeyMethodArgumentResolver implements HandlerMethodArgumentRe
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer container, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		String sessionToken = webRequest.getHeader("X-Session-Token");
+
+		System.out.println("sessionToken:" + sessionToken);
+
 		if ( sessionToken == null ) {
 			sessionToken = webRequest.getParameter("sessionToken");
 		}

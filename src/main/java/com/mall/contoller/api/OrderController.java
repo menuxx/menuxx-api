@@ -128,7 +128,18 @@ public class OrderController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> updateOrderPaid(@PathVariable int orderId) {
         orderService.updateOrderPaid(orderId);
-        return new ResponseEntity<Object>(HttpStatus.OK);
+
+        Order order = orderWrapper.selectOrder(orderId);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String content = mapper.writeValueAsString(order);
+            JPushUtil.sendPushOrder(content, "1");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
 }
