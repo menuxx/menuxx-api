@@ -85,6 +85,8 @@ public class WXUserController extends BaseCorpController {
 
 					// 根据openid和corp 创建或修改用户
 					TUser user = loginCode.getUser();
+					user.setOpenid(openid);
+
 					userService.saveUser(user, corp);
 
 					// 生成 token: 生成规则 aes(appid:session_key:userId)
