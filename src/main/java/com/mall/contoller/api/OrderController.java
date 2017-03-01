@@ -3,6 +3,8 @@ package com.mall.contoller.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.mall.annotation.SessionKey;
+import com.mall.annotation.SessionData;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
@@ -39,9 +41,8 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order) {
-        // TODO 获取用户ID
-        int userId = 1;
+    public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {
+        int userId = sessionData.getUserId();
         order.setUserId(userId);
 
         // 订单状态默认为未付款
@@ -82,29 +83,12 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders", method = RequestMethod.GET)
     @ResponseBody
     @Page
-    public ResponseEntity<?> getPaidOrders(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+    public ResponseEntity<?> getPaidOrders(@SessionKey SessionData sessionData, @PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
-        // TODO 获取用户ID
-        int userId = 1;
+        int userId = sessionData.getUserId();
 
         PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(userId, dinerId);
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> pushOrder(@PathVariable int dinerId, @PathVariable int orderId) {
-        Order order = orderWrapper.selectOrder(orderId);
-
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String content = mapper.writeValueAsString(order);
-            JPushUtil.sendPushOrder(content, "1");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
     /**
@@ -124,13 +108,27 @@ public class OrderController extends BaseCorpController {
     }
 
 
+    @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> pushOrder(@PathVariable int dinerId, @PathVariable int orderId) {
+        Order order = orderWrapper.selectOrder(orderId);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String content = mapper.writeValueAsString(order);
+            JPushUtil.sendPushOrder(content, "1");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> updateOrderPaid(@PathVariable int orderId) {
         orderService.updateOrderPaid(orderId);
         return new ResponseEntity<Object>(HttpStatus.OK);
     }
-
-
 
 }

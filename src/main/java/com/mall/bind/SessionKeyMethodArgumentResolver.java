@@ -1,7 +1,7 @@
 package com.mall.bind;
 
 import com.mall.annotation.SessionKey;
-import com.mall.annotation.WXSessionData;
+import com.mall.annotation.SessionData;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -35,7 +35,7 @@ public class SessionKeyMethodArgumentResolver implements HandlerMethodArgumentRe
 		if ( sessionToken == null ) {
 			return null;
 		} else {
-			return WXSessionData.create(sessionToken);
+			return SessionData.create(sessionToken);
 		}
 	}
 

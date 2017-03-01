@@ -2,7 +2,7 @@ package com.mall.contoller.api;
 
 import com.mall.annotation.CurrentDiner;
 import com.mall.annotation.SessionKey;
-import com.mall.annotation.WXSessionData;
+import com.mall.annotation.SessionData;
 import com.mall.model.TCorp;
 import com.mall.model.TUser;
 import com.mall.service.UserService;
@@ -45,12 +45,23 @@ public class WXUserController extends BaseCorpController {
 		@NotNull
 		private String code;
 
+		@NotNull
+		private TUser user;
+
 		public String getCode() {
 			return code;
 		}
 
 		public void setCode(String code) {
 			this.code = code;
+		}
+
+		public TUser getUser() {
+			return user;
+		}
+
+		public void setUser(TUser user) {
+			this.user = user;
 		}
 	}
 
@@ -63,17 +74,26 @@ public class WXUserController extends BaseCorpController {
 	@PutMapping("wx/liteLogin")
 	public DeferredResult<Map<String, Object>> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
 		final DeferredResult<Map<String, Object>> deferred = new DeferredResult<>();
+
 		wxMiniService.jscodeToSession(corp.getAppId(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXMiniService.CodeSession>() {
 			@Override
 			public void onResponse(Call<WXMiniService.CodeSession> call, Response<WXMiniService.CodeSession> response) {
 				WXMiniService.CodeSession session = response.body();
 				Map<String, Object> data = new HashMap<>();
 				if ( session.getErrcode() == null ) {
-					// 产生 token
-					// token 生成规则 aes(appid:session_key)
-					String sessionToken = AESCoder.encrypt(session.getOpenid() + ":" + session.getSessionKey());
+					String openid = session.getOpenid();
+
+					// 根据openid和corp 创建或修改用户
+					TUser user = loginCode.getUser();
+					userService.saveUser(user, corp);
+
+					// 生成 token: 生成规则 aes(appid:session_key:userId)
+					String sessionToken = AESCoder.encrypt(session.getOpenid() + ":" + session.getSessionKey() + ":" + user.getId());
 					data.put("sessionToken", sessionToken);
 					data.put("openid", session.getOpenid());
+					data.put("userId", user.getId());
+					data.put("corpId", corp.getId());
+
 					deferred.setResult(data);
 				} else {
 					deferred.setErrorResult(session);
@@ -96,7 +116,7 @@ public class WXUserController extends BaseCorpController {
 	 * @return
 	 */
 	@PutMapping("wx/liteSigin")
-	public Map<String, Object> liteSigin(@Valid @RequestBody TUser user, @CurrentDiner TCorp corp, @SessionKey WXSessionData sessionData) {
+	public Map<String, Object> liteSigin(@Valid @RequestBody TUser user, @CurrentDiner TCorp corp, @SessionKey SessionData sessionData) {
 		user.setCorpId(corp.getId());
 		userService.saveUser(user, corp);
 		Map<String, Object> data = new HashMap<>();

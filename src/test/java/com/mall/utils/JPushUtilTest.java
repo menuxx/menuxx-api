@@ -50,8 +50,9 @@ public class JPushUtilTest {
     public static final String REGISTRATION_ID = "0900e8d85ef";
     public static final String TAG = "tag_api";
 
-    public static void main(String[] args) {
-//        testSendPushWithCustomConfig();
+
+    public void testPushOrder() {
+        //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
 //        testSendPush();
 //        testSendPush_fromJSON();
@@ -65,6 +66,7 @@ public class JPushUtilTest {
 //        String alias = "13575762817";
 //
 //        JPushUtil.sendPushOrder(content, alias);
+
         Map<String, String> map = new HashMap<>();
         map.put("1","1");
         map.put("2","2");
@@ -76,12 +78,8 @@ public class JPushUtilTest {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
     }
 
-    public static void sendPushOrder() {
-
-    }
 
     // 使用 NettyHttpClient 异步接口发送请求
     public static void testSendPushWithCallback() {
