@@ -7,7 +7,6 @@ import com.mall.utils.MallUtil;
 import com.mall.utils.QueueUtil;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
-import com.tencent.protocol.pay_protocol.ScanPayReqData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +44,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Override
     @Transactional
-    public ScanPayReqData createOrder(String appid, String mchid, Order order, List<Integer> itemIdList) {
+    public void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList) {
         Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
 
         // 先创建订单
@@ -84,11 +83,11 @@ public class OrderWrapperImpl implements OrderWrapper {
         String timeExpire = MallUtil.dateFormatAddMinites(4);
 
         // 创建一个微信支付订单
-        ScanPayReqData scanPayReqData = new ScanPayReqData(appid, mchid, body, order.getOrderCode(), order.getTotalAmount(), timeStart, timeExpire);
+//        ScanPayReqData scanPayReqData = new ScanPayReqData(appid, mchid, body, order.getOrderCode(), order.getTotalAmount(), timeStart, timeExpire);
 
-        chargeApplyService.createChargeApply(order, scanPayReqData);
+//        chargeApplyService.createChargeApply(order, scanPayReqData);
 
-        return scanPayReqData;
+//        return scanPayReqData;
     }
 
     @Override

@@ -77,7 +77,8 @@ public class PayController {
 	}
 
 	public ResponseEntity<?> onNotify(@RequestBody WXNotifyEvent event) {
-		event
+
+		return null;
 	}
 
 }
