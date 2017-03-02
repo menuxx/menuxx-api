@@ -3,11 +3,17 @@ package com.mall.configure;
 import com.mall.bind.CurrentDinerMethodArgumentResolver;
 import com.mall.bind.SessionKeyMethodArgumentResolver;
 import com.mall.interceptor.CorpsInterceptor;
+import com.mall.weixin.CDATADomDriver;
+import com.thoughtworks.xstream.XStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
+import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -33,6 +39,9 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements AsyncCo
     @Autowired
     CorpsInterceptor corpsInterceptor;
 
+    @Autowired
+    XStreamMarshaller marshaller;
+
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -42,6 +51,19 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements AsyncCo
         // Initialize the executor
         executor.initialize();
         return executor;
+    }
+
+    private HttpMessageConverter<Object> createXmlHttpMessageConverter() {
+        MarshallingHttpMessageConverter xmlConverter =
+            new MarshallingHttpMessageConverter();
+        xmlConverter.setMarshaller(marshaller);
+        xmlConverter.setUnmarshaller(marshaller);
+        return xmlConverter;
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(createXmlHttpMessageConverter());
     }
 
     @Override

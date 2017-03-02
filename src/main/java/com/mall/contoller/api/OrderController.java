@@ -12,7 +12,6 @@ import com.mall.service.OrderService;
 import com.mall.utils.Constants;
 import com.mall.utils.JPushUtil;
 import com.mall.wrapper.OrderWrapper;
-import com.tencent.protocol.pay_protocol.ScanPayReqData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,10 +66,10 @@ public class OrderController extends BaseCorpController {
             }
         }
 
-        ScanPayReqData scanPayReqData = orderWrapper.createOrder(sessionData.getAppId(), sessionData.getMchid(), order, itemIdList);
+        // ScanPayReqData scanPayReqData = orderWrapper.createOrder(sessionData.getAppId(), sessionData.getMchid(), order, itemIdList);
 
         order = orderWrapper.selectOrder(order.getId());
-        order.setScanPayReqData(scanPayReqData);
+        // order.setScanPayReqData(scanPayReqData);
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
