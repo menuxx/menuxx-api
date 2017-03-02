@@ -1,6 +1,7 @@
 package com.mall.model;
 
 
+import com.tencent.protocol.pay_protocol.ScanPayReqData;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class Order extends TOrder {
     public static final int ORDER_TYPE_CARRY_OUT = 1;
     public static final String ORDER_TYPE_CARRY_OUT_TEXT = "打包";
 
+    // 支付请求
+    private ScanPayReqData scanPayReqData;
 
     private String orderTypeText;
 
@@ -83,5 +86,13 @@ public class Order extends TOrder {
 
     public void setStatusText(String statusText) {
         this.statusText = statusText;
+    }
+
+    public void setScanPayReqData(ScanPayReqData scanPayReqData) {
+        this.scanPayReqData = scanPayReqData;
+    }
+
+    public ScanPayReqData getScanPayReqData() {
+        return scanPayReqData;
     }
 }

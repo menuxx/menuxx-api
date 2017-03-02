@@ -42,9 +42,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_order" domainObjectName="TOrder" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_order" domainObjectName="TOrder" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_order_item" domainObjectName="TOrderItem" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -62,9 +62,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
         <!--<table schema="jiujin" tableName="t_user" domainObjectName="TUser" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->

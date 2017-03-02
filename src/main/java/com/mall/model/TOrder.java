@@ -21,6 +21,8 @@ public class TOrder {
 
     private Integer totalAmount;
 
+    private Integer payAmount;
+
     private Date createTime;
 
     public Integer getId() {
@@ -93,6 +95,14 @@ public class TOrder {
 
     public void setTotalAmount(Integer totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public Integer getPayAmount() {
+        return payAmount;
+    }
+
+    public void setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
     }
 
     public Date getCreateTime() {
