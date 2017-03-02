@@ -78,16 +78,6 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 更新订单号、排序号
         orderService.updateOrder(order);
 
-        String body = "已成功支付¥" + order.getTotalAmount()/100;
-        String timeStart = MallUtil.dateFormatNow();
-        String timeExpire = MallUtil.dateFormatAddMinites(4);
-
-        // 创建一个微信支付订单
-//        ScanPayReqData scanPayReqData = new ScanPayReqData(appid, mchid, body, order.getOrderCode(), order.getTotalAmount(), timeStart, timeExpire);
-
-//        chargeApplyService.createChargeApply(order, scanPayReqData);
-
-//        return scanPayReqData;
     }
 
     @Override
@@ -157,5 +147,16 @@ public class OrderWrapperImpl implements OrderWrapper {
     public PageInfo<Order> selectAllOrders(int corpId) {
         PageInfo<TOrder> tOrderPageInfo = orderService.selectAllOrders(corpId);
         return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
+
+    @Override
+    @Transactional
+    public void setStatusToPaid(TChargeApply chargeApply) {
+        chargeApplyService.createChargeApply(chargeApply);
+
+        String orderCode = chargeApply.getOutTradeNo();
+        TOrder order = orderService.selectOrderByCode(orderCode);
+
+        orderService.updateOrderPaid(order.getId());
     }
 }

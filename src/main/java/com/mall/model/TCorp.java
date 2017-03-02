@@ -29,9 +29,13 @@ public class TCorp {
 
     private String appSecret;
 
+    private String paySecret;
+
     private String mchId;
 
     private Date createTime;
+
+    private String key;
 
     public Integer getId() {
         return id;
@@ -137,6 +141,14 @@ public class TCorp {
         this.appSecret = appSecret == null ? null : appSecret.trim();
     }
 
+    public String getPaySecret() {
+        return paySecret;
+    }
+
+    public void setPaySecret(String paySecret) {
+        this.paySecret = paySecret == null ? null : paySecret.trim();
+    }
+
     public String getMchId() {
         return mchId;
     }
@@ -151,5 +163,13 @@ public class TCorp {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key == null ? null : key.trim();
     }
 }

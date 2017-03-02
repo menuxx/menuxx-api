@@ -2,6 +2,7 @@ package com.mall.wrapper;
 
 import com.github.pagehelper.PageInfo;
 import com.mall.model.Order;
+import com.mall.model.TChargeApply;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface OrderWrapper {
     PageInfo<Order> selectAllOrders(int corpId);
 
     Order selectOrder(int orderId);
+
+    void setStatusToPaid(TChargeApply chargeApply);
 }

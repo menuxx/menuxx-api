@@ -8,18 +8,28 @@ import com.mall.annotation.SessionData;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
+import com.mall.model.TCorp;
+import com.mall.service.CorpsService;
 import com.mall.service.OrderService;
 import com.mall.utils.Constants;
 import com.mall.utils.JPushUtil;
+import com.mall.utils.Util;
+import com.mall.weixin.*;
+import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -27,11 +37,22 @@ import java.util.List;
 @Controller
 public class OrderController extends BaseCorpController {
 
+    /**
+     * 支付回调地址
+     */
+    private static final String NOTIFY_URL = "https://dev.api.menuxx.com/weixin/pay_notify";
+
     @Autowired
     OrderWrapper orderWrapper;
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    CorpsService corpsService;
+
+    @Autowired
+    WXPayService wxPayService;
 
     /**
      * 1002 创建订单
@@ -66,12 +87,50 @@ public class OrderController extends BaseCorpController {
             }
         }
 
-        // ScanPayReqData scanPayReqData = orderWrapper.createOrder(sessionData.getAppId(), sessionData.getMchid(), order, itemIdList);
+        orderWrapper.createOrder(sessionData.getAppId(), sessionData.getMchid(), order, itemIdList);
 
-        order = orderWrapper.selectOrder(order.getId());
-        // order.setScanPayReqData(scanPayReqData);
+        // Body
+        String body = "已成功支付¥" + order.getTotalAmount()/100;
 
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
+        TCorp corp = corpsService.findByAppId(sessionData.getAppId());
+
+        // 创建微信支付订单，向微信发起请求
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
+
+        WXPayOrder payOrder = new WXPayOrder();
+        payOrder.setAppid(corp.getAppId());
+        payOrder.setMchId(corp.getMchId());
+        payOrder.setNonceStr(Util.genNonce());
+        payOrder.setNotifyUrl(NOTIFY_URL);
+        payOrder.setOpenid(sessionData.getOpenid());
+        payOrder.setOutTradeNo(order.getOrderCode());
+        payOrder.setBody(body);
+        payOrder.setTotalFee(order.getPayAmount());
+
+        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
+        orderDigest.digest(SignEncryptorImpl.MD5());
+
+        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+
+        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
+            @Override
+            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
+                if (response.isSuccessful()) {
+                    WXPayResult payResult = response.body();
+                    String prePayId = payResult.getPrepayId();
+
+                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
+                    deferredResult.setResult(paySign);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
+                deferredResult.setErrorResult(throwable);
+            }
+        });
+
+        return new ResponseEntity<Object>(deferredResult, HttpStatus.OK);
     }
 
     /**
