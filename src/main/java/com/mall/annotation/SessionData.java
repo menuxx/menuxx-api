@@ -15,13 +15,19 @@ public class SessionData {
 
 	private int userId;
 
+	private String mchid;
+
+	private String openid;
+
 	public SessionData() {
 	}
 
-	public SessionData(String appId, String sessionKey, int userId) {
+	public SessionData(String appId, String sessionKey, int userId, String mchid, String openid) {
 		this.appId = appId;
 		this.sessionKey = sessionKey;
 		this.userId = userId;
+		this.mchid = mchid;
+		this.openid = openid;
 	}
 
 	public static SessionData create(String sessionToken) {
@@ -32,7 +38,7 @@ public class SessionData {
 		}
 
 		String[] strs = sessionToken.split(":");
-		return new SessionData(strs[0], strs[1], Integer.valueOf(strs[2]));
+		return new SessionData(strs[0], strs[1], Integer.valueOf(strs[2]), strs[3], strs[4]);
 	}
 
 	public String getAppId() {
@@ -57,5 +63,21 @@ public class SessionData {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public void setMchid(String mchid) {
+		this.mchid = mchid;
+	}
+
+	public String getMchid() {
+		return mchid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
+	public String getOpenid() {
+		return openid;
 	}
 }

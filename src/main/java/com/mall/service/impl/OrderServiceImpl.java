@@ -6,6 +6,7 @@ import com.mall.model.Order;
 import com.mall.model.TOrder;
 import com.mall.model.TOrderExample;
 import com.mall.service.OrderService;
+import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,5 +98,17 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(Order.STATUS_PAID);
 
         orderMapper.updateByPrimaryKeySelective(order);
+    }
+
+    @Override
+    public TOrder selectOrderByCode(String orderCode) {
+        TOrderExample example = new TOrderExample();
+        TOrderExample.Criteria criteria = example.createCriteria();
+
+        criteria.andOrderCodeEqualTo(orderCode);
+
+        TOrder order = Util.onlyOne(orderMapper.selectByExample(example));
+
+        return order;
     }
 }

@@ -655,6 +655,66 @@ public class TOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayAmountIsNull() {
+            addCriterion("pay_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountIsNotNull() {
+            addCriterion("pay_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountEqualTo(Integer value) {
+            addCriterion("pay_amount =", value, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountNotEqualTo(Integer value) {
+            addCriterion("pay_amount <>", value, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountGreaterThan(Integer value) {
+            addCriterion("pay_amount >", value, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_amount >=", value, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountLessThan(Integer value) {
+            addCriterion("pay_amount <", value, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_amount <=", value, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountIn(List<Integer> values) {
+            addCriterion("pay_amount in", values, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountNotIn(List<Integer> values) {
+            addCriterion("pay_amount not in", values, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountBetween(Integer value1, Integer value2) {
+            addCriterion("pay_amount between", value1, value2, "payAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("pay_amount not between", value1, value2, "payAmount");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

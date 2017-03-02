@@ -26,4 +26,6 @@ public interface OrderService {
 
     void updateOrderPaid(int orderId);
 
+    TOrder selectOrderByCode(String orderCode);
+
 }

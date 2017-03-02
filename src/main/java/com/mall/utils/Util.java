@@ -1,6 +1,7 @@
 package com.mall.utils;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * 作者: yinchangsheng@gmail.com
@@ -17,6 +18,19 @@ public class Util {
 			return null;
 		}
 		return objs.get(0);
+	}
+
+	public static String genNonce() {
+		return genNonce(32);
+	}
+
+	public static String genNonce(int length) {
+		char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
+		Random rnd = new Random();
+		StringBuilder sb = new StringBuilder(100000 + rnd.nextInt(900000));
+		for (int i = 0; i < 20; i++)
+			sb.append(chars[rnd.nextInt(chars.length)]);
+		return sb.toString();
 	}
 
 }
