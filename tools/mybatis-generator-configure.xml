@@ -42,9 +42,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_order" domainObjectName="TOrder" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_order" domainObjectName="TOrder" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_order_item" domainObjectName="TOrderItem" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
