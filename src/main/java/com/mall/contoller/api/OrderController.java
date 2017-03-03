@@ -130,7 +130,7 @@ public class OrderController extends BaseCorpController {
             }
         });
 
-        return new ResponseEntity<Object>(deferredResult, HttpStatus.OK);
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
     /**
