@@ -76,6 +76,8 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setQueueId(QueueUtil.getQueueNum(order.getCorpId()));
 
         // 更新订单号、排序号
+        order.setPayAmount(totalAcount);
+        order.setTotalAmount(totalAcount);
         orderService.updateOrder(order);
 
     }
