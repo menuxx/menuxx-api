@@ -1,13 +1,16 @@
 package com.mall.contoller.api;
 
+import com.mall.model.Order;
 import com.mall.model.TChargeApply;
 import com.mall.service.ChargeApplyService;
 import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +29,8 @@ import java.util.Map;
  */
 @RestController
 public class PayNotifyController {
+
+	private static final Logger logger = Logger.getLogger(PayNotifyController.class);
 
 	@Autowired
 	WXPayService wxPayService;
@@ -86,15 +91,16 @@ public class PayNotifyController {
 //
 //	}
 
-	@PostMapping("weixin/pay_notify")
+	@PostMapping(path = "weixin/pay_notify", consumes = {MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<?> onNotify(@RequestBody WXNotifyEvent event) {
-
+		logger.info("***************************[tenpay] notify start***************************");
+		logger.info(event);
 
 		if ("SUCCESS".equals(event.getResultCode())) {
 			TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
 
 			if (null != chargeApply) {
-				return new ResponseEntity<Object>(HttpStatus.OK);
+				return new ResponseEntity<>(HttpStatus.OK);
 			}
 
 			chargeApply = new TChargeApply();
@@ -121,6 +127,7 @@ public class PayNotifyController {
 		}
 
 		return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+
 	}
 
 }

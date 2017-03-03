@@ -1,11 +1,14 @@
 package com.mall.weixin;
 
+import com.mall.configure.WebConfiguration;
 import com.mall.service.WXMiniService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -20,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * 微信: yin80871901
  */
 @Configuration
+@AutoConfigureAfter(WebConfiguration.class)
 public class WeixinClientConfiguration {
 
 	public static final String WX_OK_HTTP = "WX_OK_HTTP";
@@ -27,7 +31,6 @@ public class WeixinClientConfiguration {
 
 	static final Logger logger = LoggerFactory.getLogger(HttpLoggingInterceptor.class);
 
-	@Bean(name = WX_OK_HTTP, autowire = Autowire.BY_NAME)
 	public OkHttpClient wxOkHttpClient() {
 		return new OkHttpClient.Builder()
 				.addInterceptor(loggingInterceptor())
@@ -51,15 +54,17 @@ public class WeixinClientConfiguration {
 	public Retrofit wxApiRetrofit() {
 		return new Retrofit
 				.Builder()
+				.client(wxOkHttpClient())
 				.addConverterFactory(JacksonConverterFactory.create())
 				.baseUrl("https://api.weixin.qq.com/sns/")
 				.build();
 	}
 
 	@DependsOn({WX_RETROFIT})
-	@Bean(name = "wxMiniServiceImpl", autowire = Autowire.BY_NAME)
-	public WXMiniService wxMiniServiceImpl(Retrofit wxApiRetrofit) {
-		return wxApiRetrofit.create(WXMiniService.class);
+	@Qualifier
+	@Bean
+	public WXMiniService wxMiniServiceImpl() {
+		return wxApiRetrofit().create(WXMiniService.class);
 	}
 
 }
