@@ -7,6 +7,7 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +29,8 @@ import java.util.Map;
  */
 @RestController
 public class PayNotifyController {
+
+	private static final Logger logger = Logger.getLogger(PayNotifyController.class);
 
 	@Autowired
 	WXPayService wxPayService;
@@ -90,43 +93,41 @@ public class PayNotifyController {
 
 	@PostMapping(path = "weixin/pay_notify", consumes = {MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<?> onNotify(@RequestBody WXNotifyEvent event) {
+		logger.info("***************************[tenpay] notify start***************************");
+		logger.info(event);
 
+		if ("SUCCESS".equals(event.getResultCode())) {
+			TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
 
-//		if ("SUCCESS".equals(event.getResultCode())) {
-//			TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
-//
-//			if (null != chargeApply) {
-//				return new ResponseEntity<>(HttpStatus.OK);
-//			}
-//
-//			chargeApply = new TChargeApply();
-//			chargeApply.setAttach(event.getAttach());
-//			chargeApply.setBankType(event.getBankType());
-//			chargeApply.setCashFee(event.getCashFee());
-//			chargeApply.setFeeType(event.getFeeType());
-//			chargeApply.setIsSubscribe(event.getIsSubscribe());
-//			chargeApply.setMchId(event.getMchid());
-//			chargeApply.setNonceStr(event.getNonceStr());
-//			chargeApply.setOpenid(event.getOpenid());
-//			chargeApply.setOutTradeNo(event.getOutTradeNo());
-//			chargeApply.setResultCode(event.getResultCode());
-//			chargeApply.setReturnCode(event.getReturnCode());
-//			chargeApply.setSign(event.getSign());
-//			chargeApply.setTimeEnd(event.getTimeEnd());
-//			chargeApply.setTotalFee(event.getTotalFee());
-//			chargeApply.setTradeType(event.getTradeType());
-//			chargeApply.setTransactionId(event.getTransactionId());
-//
-//			orderWrapper.setStatusToPaid(chargeApply);
-//			return new ResponseEntity<Object>(HttpStatus.OK);
-//
-//		}
+			if (null != chargeApply) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 
-//		return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+			chargeApply = new TChargeApply();
+			chargeApply.setAttach(event.getAttach());
+			chargeApply.setBankType(event.getBankType());
+			chargeApply.setCashFee(event.getCashFee());
+			chargeApply.setFeeType(event.getFeeType());
+			chargeApply.setIsSubscribe(event.getIsSubscribe());
+			chargeApply.setMchId(event.getMchid());
+			chargeApply.setNonceStr(event.getNonceStr());
+			chargeApply.setOpenid(event.getOpenid());
+			chargeApply.setOutTradeNo(event.getOutTradeNo());
+			chargeApply.setResultCode(event.getResultCode());
+			chargeApply.setReturnCode(event.getReturnCode());
+			chargeApply.setSign(event.getSign());
+			chargeApply.setTimeEnd(event.getTimeEnd());
+			chargeApply.setTotalFee(event.getTotalFee());
+			chargeApply.setTradeType(event.getTradeType());
+			chargeApply.setTransactionId(event.getTransactionId());
 
-		Order order = orderWrapper.selectOrder(40);
+			orderWrapper.setStatusToPaid(chargeApply);
+			return new ResponseEntity<Object>(HttpStatus.OK);
 
-		return new ResponseEntity<Object>(order, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+
 	}
 
 }

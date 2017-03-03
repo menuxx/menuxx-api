@@ -152,10 +152,14 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Override
     @Transactional
     public void setStatusToPaid(TChargeApply chargeApply) {
-        chargeApplyService.createChargeApply(chargeApply);
-
         String orderCode = chargeApply.getOutTradeNo();
         TOrder order = orderService.selectOrderByCode(orderCode);
+
+        chargeApply.setUserId(order.getUserId());
+        chargeApply.setOrderId(order.getId());
+        chargeApplyService.createChargeApply(chargeApply);
+
+
 
         orderService.updateOrderPaid(order.getId());
     }
