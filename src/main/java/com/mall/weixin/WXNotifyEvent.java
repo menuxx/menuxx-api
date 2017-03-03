@@ -16,23 +16,23 @@ public class WXNotifyEvent {
 	// 财付通支付通知（后台通知）示例，商户按照此文档进行开发即可
 	// ---------------------------------------------------------
 
-	// <xml><appid><![CDATA[wx506ab893668b8798]]></appid>
-	// <attach><![CDATA[5265_704_13738142344]]></attach>
-	// <bank_type><![CDATA[CFT]]></bank_type>
-	// <cash_fee><![CDATA[1]]></cash_fee>
-	// <fee_type><![CDATA[CNY]]></fee_type>
-	// <is_subscribe><![CDATA[N]]></is_subscribe>
-	// <mch_id><![CDATA[1236288401]]></mch_id>
-	// <nonce_str><![CDATA[8e036cc193d0af59aa9b22821248292b]]></nonce_str>
-	// <openid><![CDATA[oDsmJt_4m6Fbn_-Y3Vgf1x-qdtUU]]></openid>
-	// <out_trade_no><![CDATA[151de84cca69258b17375e2f44239191]]></out_trade_no>
-	// <result_code><![CDATA[SUCCESS]]></result_code>
-	// <return_code><![CDATA[SUCCESS]]></return_code>
-	// <sign><![CDATA[43A3262DA67FAA7EEE85BF9F3478D9A7]]></sign>
-	// <time_end><![CDATA[20150417163916]]></time_end>
-	// <total_fee>1</total_fee>
-	// <trade_type><![CDATA[APP]]></trade_type>
-	// <transaction_id><![CDATA[1003240555201504170069012054]]></transaction_id></xml>
+	//	 <xml><appid><![CDATA[wx506ab893668b8798]]></appid>
+	//	 <attach><![CDATA[5265_704_13738142344]]></attach>
+	//	 <bank_type><![CDATA[CFT]]></bank_type>
+	//	 <cash_fee><![CDATA[1]]></cash_fee>
+	//	 <fee_type><![CDATA[CNY]]></fee_type>
+	//	 <is_subscribe><![CDATA[N]]></is_subscribe>
+	//	 <mch_id><![CDATA[1236288401]]></mch_id>
+	//	 <nonce_str><![CDATA[8e036cc193d0af59aa9b22821248292b]]></nonce_str>
+	//	 <openid><![CDATA[oDsmJt_4m6Fbn_-Y3Vgf1x-qdtUU]]></openid>
+	//	 <out_trade_no><![CDATA[151de84cca69258b17375e2f44239191]]></out_trade_no>
+	//	 <result_code><![CDATA[SUCCESS]]></result_code>
+	//	 <return_code><![CDATA[SUCCESS]]></return_code>
+	//	 <sign><![CDATA[43A3262DA67FAA7EEE85BF9F3478D9A7]]></sign>
+	//	 <time_end><![CDATA[20150417163916]]></time_end>
+	//	 <total_fee>1</total_fee>
+	//	 <trade_type><![CDATA[APP]]></trade_type>
+	//	 <transaction_id><![CDATA[1003240555201504170069012054]]></transaction_id></xml>
 
 	@XStreamAlias("appid")
 	private String appId;
