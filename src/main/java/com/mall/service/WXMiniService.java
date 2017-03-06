@@ -29,6 +29,9 @@ public interface WXMiniService {
 		}
 
 		public String getSessionKey() {
+			if (sessionKey == null) {
+				sessionKey = "session_key";
+			}
 			return sessionKey;
 		}
 
