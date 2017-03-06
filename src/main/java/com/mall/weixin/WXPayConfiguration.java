@@ -34,7 +34,7 @@ public class WXPayConfiguration {
 
 	private HttpLoggingInterceptor loggingInterceptor() {
 		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(msg -> logger.debug("WeixinPayOkHttp", msg));
-		logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 		return logging;
 	}
 

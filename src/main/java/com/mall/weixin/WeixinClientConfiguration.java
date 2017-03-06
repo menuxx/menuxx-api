@@ -46,7 +46,7 @@ public class WeixinClientConfiguration {
 				logger.debug("WeixinOkHttp", msg);
 			}
 		});
-		logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 		return logging;
 	}
 
