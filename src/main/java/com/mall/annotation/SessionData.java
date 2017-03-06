@@ -9,8 +9,6 @@ import com.mall.utils.AESCoder;
  */
 public class SessionData {
 
-	private String appId;
-
 	private String sessionKey;
 
 	private int userId;
@@ -22,8 +20,7 @@ public class SessionData {
 	public SessionData() {
 	}
 
-	public SessionData(String appId, String sessionKey, int userId, String mchid, String openid) {
-		this.appId = appId;
+	public SessionData(String openid, String sessionKey, int userId, String mchid) {
 		this.sessionKey = sessionKey;
 		this.userId = userId;
 		this.mchid = mchid;
@@ -38,15 +35,7 @@ public class SessionData {
 		}
 
 		String[] strs = sessionToken.split(":");
-		return new SessionData(strs[0], strs[1], Integer.valueOf(strs[2]), strs[3], strs[4]);
-	}
-
-	public String getAppId() {
-		return appId;
-	}
-
-	public void setAppId(String appId) {
-		this.appId = appId;
+		return new SessionData(strs[0], strs[1], Integer.valueOf(strs[2]), strs[3]);
 	}
 
 	public String getSessionKey() {
