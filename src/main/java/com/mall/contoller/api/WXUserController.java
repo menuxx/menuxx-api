@@ -87,10 +87,10 @@ public class WXUserController extends BaseCorpController {
 					TUser user = loginCode.getUser();
 					user.setOpenid(openid);
 
-					userService.saveUser(user, corp);
+					int userId = userService.saveUser(user, corp);
 
 					// 生成 token: 生成规则 aes(openid:session_key:userId:mchid)
-					String sessionToken = AESCoder.encrypt(session.getOpenid() + ":" + session.getSessionKey() + ":" + user.getId() + ":" + corp.getMchId());
+					String sessionToken = AESCoder.encrypt(session.getOpenid() + ":" + session.getSessionKey() + ":" + userId + ":" + corp.getMchId());
 					data.put("sessionToken", sessionToken);
 					data.put("openid", session.getOpenid());
 					data.put("userId", user.getId());

@@ -22,4 +22,13 @@ public class AESCoderTest {
 
         System.out.println(source);
     }
+
+    @Test
+    public void testDecrypt() {
+        String str = "fb21c00f295f454e294eef49bf76c62d093f5056639d7ffde7469c094ba8be0ab3039e0977e58b5ae3bb12b1aa160050";
+
+        str = AESCoder.decrypt(str);
+
+        System.out.println(str);
+    }
 }
