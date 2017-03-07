@@ -29,6 +29,8 @@ public class TCorp {
 
     private String appSecret;
 
+    private String paySecret;
+
     private String mchId;
 
     private Date createTime;
@@ -135,6 +137,14 @@ public class TCorp {
 
     public void setAppSecret(String appSecret) {
         this.appSecret = appSecret == null ? null : appSecret.trim();
+    }
+
+    public String getPaySecret() {
+        return paySecret;
+    }
+
+    public void setPaySecret(String paySecret) {
+        this.paySecret = paySecret == null ? null : paySecret.trim();
     }
 
     public String getMchId() {

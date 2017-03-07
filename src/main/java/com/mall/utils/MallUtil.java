@@ -2,6 +2,7 @@ package com.mall.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -46,4 +47,18 @@ public class MallUtil {
         return format.format(date);
     }
 
+
+    public static String dateFormatNow() {
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        return format.format(date);
+    }
+
+    public static String dateFormatAddMinites(int minites) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, minites);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        return format.format(calendar.getTime());
+    }
 }

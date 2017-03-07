@@ -25,7 +25,6 @@ public class Order extends TOrder {
     public static final int ORDER_TYPE_CARRY_OUT = 1;
     public static final String ORDER_TYPE_CARRY_OUT_TEXT = "打包";
 
-
     private String orderTypeText;
 
     private String statusText;
@@ -84,4 +83,5 @@ public class Order extends TOrder {
     public void setStatusText(String statusText) {
         this.statusText = statusText;
     }
+
 }

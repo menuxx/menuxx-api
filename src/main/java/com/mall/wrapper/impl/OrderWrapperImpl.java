@@ -2,10 +2,7 @@ package com.mall.wrapper.impl;
 
 import com.github.pagehelper.PageInfo;
 import com.mall.model.*;
-import com.mall.service.ItemService;
-import com.mall.service.OrderItemService;
-import com.mall.service.OrderService;
-import com.mall.service.TableService;
+import com.mall.service.*;
 import com.mall.utils.MallUtil;
 import com.mall.utils.QueueUtil;
 import com.mall.wrapper.OrderItemWrapper;
@@ -41,9 +38,13 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    ChargeApplyService chargeApplyService;
+
+
     @Override
     @Transactional
-    public void createOrder(Order order, List<Integer> itemIdList) {
+    public void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList) {
         Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
 
         // 先创建订单
@@ -75,7 +76,10 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setQueueId(QueueUtil.getQueueNum(order.getCorpId()));
 
         // 更新订单号、排序号
+        order.setPayAmount(totalAcount);
+        order.setTotalAmount(totalAcount);
         orderService.updateOrder(order);
+
     }
 
     @Override
@@ -145,5 +149,20 @@ public class OrderWrapperImpl implements OrderWrapper {
     public PageInfo<Order> selectAllOrders(int corpId) {
         PageInfo<TOrder> tOrderPageInfo = orderService.selectAllOrders(corpId);
         return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
+
+    @Override
+    @Transactional
+    public void setStatusToPaid(TChargeApply chargeApply) {
+        String orderCode = chargeApply.getOutTradeNo();
+        TOrder order = orderService.selectOrderByCode(orderCode);
+
+        chargeApply.setUserId(order.getUserId());
+        chargeApply.setOrderId(order.getId());
+        chargeApplyService.createChargeApply(chargeApply);
+
+
+
+        orderService.updateOrderPaid(order.getId());
     }
 }

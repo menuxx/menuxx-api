@@ -15,6 +15,7 @@
     <result column="corp_phone" jdbcType="VARCHAR" property="corpPhone" />
     <result column="app_id" jdbcType="VARCHAR" property="appId" />
     <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
+    <result column="pay_secret" jdbcType="VARCHAR" property="paySecret" />
     <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -78,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, corp_name, app_key, legal_entity, business_license, business_license_img, shop_name, 
-    master_name, master_phone, wechat_id, corp_phone, app_id, app_secret, mch_id, create_time
+    master_name, master_phone, wechat_id, corp_phone, app_id, app_secret, pay_secret, 
+    mch_id, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpExample" resultMap="BaseResultMap">
     select
@@ -118,12 +120,14 @@
       business_license, business_license_img, shop_name, 
       master_name, master_phone, wechat_id, 
       corp_phone, app_id, app_secret, 
-      mch_id, create_time)
+      pay_secret, mch_id, create_time
+      )
     values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{legalEntity,jdbcType=VARCHAR}, 
       #{businessLicense,jdbcType=VARCHAR}, #{businessLicenseImg,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
       #{masterName,jdbcType=VARCHAR}, #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, 
       #{corpPhone,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
-      #{mchId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorp">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -166,6 +170,9 @@
       </if>
       <if test="appSecret != null">
         app_secret,
+      </if>
+      <if test="paySecret != null">
+        pay_secret,
       </if>
       <if test="mchId != null">
         mch_id,
@@ -210,6 +217,9 @@
       </if>
       <if test="appSecret != null">
         #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="paySecret != null">
+        #{paySecret,jdbcType=VARCHAR},
       </if>
       <if test="mchId != null">
         #{mchId,jdbcType=VARCHAR},
@@ -267,6 +277,9 @@
       <if test="record.appSecret != null">
         app_secret = #{record.appSecret,jdbcType=VARCHAR},
       </if>
+      <if test="record.paySecret != null">
+        pay_secret = #{record.paySecret,jdbcType=VARCHAR},
+      </if>
       <if test="record.mchId != null">
         mch_id = #{record.mchId,jdbcType=VARCHAR},
       </if>
@@ -293,6 +306,7 @@
       corp_phone = #{record.corpPhone,jdbcType=VARCHAR},
       app_id = #{record.appId,jdbcType=VARCHAR},
       app_secret = #{record.appSecret,jdbcType=VARCHAR},
+      pay_secret = #{record.paySecret,jdbcType=VARCHAR},
       mch_id = #{record.mchId,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -338,6 +352,9 @@
       <if test="appSecret != null">
         app_secret = #{appSecret,jdbcType=VARCHAR},
       </if>
+      <if test="paySecret != null">
+        pay_secret = #{paySecret,jdbcType=VARCHAR},
+      </if>
       <if test="mchId != null">
         mch_id = #{mchId,jdbcType=VARCHAR},
       </if>
@@ -361,6 +378,7 @@
       corp_phone = #{corpPhone,jdbcType=VARCHAR},
       app_id = #{appId,jdbcType=VARCHAR},
       app_secret = #{appSecret,jdbcType=VARCHAR},
+      pay_secret = #{paySecret,jdbcType=VARCHAR},
       mch_id = #{mchId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

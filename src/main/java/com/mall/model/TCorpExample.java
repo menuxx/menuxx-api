@@ -1005,6 +1005,76 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andPaySecretIsNull() {
+            addCriterion("pay_secret is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretIsNotNull() {
+            addCriterion("pay_secret is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretEqualTo(String value) {
+            addCriterion("pay_secret =", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretNotEqualTo(String value) {
+            addCriterion("pay_secret <>", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretGreaterThan(String value) {
+            addCriterion("pay_secret >", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_secret >=", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretLessThan(String value) {
+            addCriterion("pay_secret <", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretLessThanOrEqualTo(String value) {
+            addCriterion("pay_secret <=", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretLike(String value) {
+            addCriterion("pay_secret like", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretNotLike(String value) {
+            addCriterion("pay_secret not like", value, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretIn(List<String> values) {
+            addCriterion("pay_secret in", values, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretNotIn(List<String> values) {
+            addCriterion("pay_secret not in", values, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretBetween(String value1, String value2) {
+            addCriterion("pay_secret between", value1, value2, "paySecret");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaySecretNotBetween(String value1, String value2) {
+            addCriterion("pay_secret not between", value1, value2, "paySecret");
+            return (Criteria) this;
+        }
+
         public Criteria andMchIdIsNull() {
             addCriterion("mch_id is null");
             return (Criteria) this;

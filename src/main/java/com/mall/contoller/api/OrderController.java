@@ -3,21 +3,33 @@ package com.mall.contoller.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.mall.annotation.SessionKey;
+import com.mall.annotation.SessionData;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
+import com.mall.model.TCorp;
+import com.mall.service.CorpsService;
 import com.mall.service.OrderService;
 import com.mall.utils.Constants;
 import com.mall.utils.JPushUtil;
+import com.mall.utils.Util;
+import com.mall.weixin.*;
+import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -25,11 +37,22 @@ import java.util.List;
 @Controller
 public class OrderController extends BaseCorpController {
 
+    /**
+     * 支付回调地址
+     */
+    private static final String NOTIFY_URL = "https://dev.api.menuxx.com/weixin/pay_notify";
+
     @Autowired
     OrderWrapper orderWrapper;
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    CorpsService corpsService;
+
+    @Autowired
+    WXPayService wxPayService;
 
     /**
      * 1002 创建订单
@@ -39,9 +62,8 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order) {
-        // TODO 获取用户ID
-        int userId = 1;
+    public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {
+        int userId = sessionData.getUserId();
         order.setUserId(userId);
 
         // 订单状态默认为未付款
@@ -65,9 +87,48 @@ public class OrderController extends BaseCorpController {
             }
         }
 
-        orderWrapper.createOrder(order, itemIdList);
+        orderWrapper.createOrder(sessionData.getOpenid(), sessionData.getMchid(), order, itemIdList);
 
-        order = orderWrapper.selectOrder(order.getId());
+        // Body
+        String body = "已成功支付¥" + order.getTotalAmount()/100;
+
+        TCorp corp = corpsService.findByMchId(sessionData.getMchid());
+
+        // 创建微信支付订单，向微信发起请求
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
+
+        WXPayOrder payOrder = new WXPayOrder();
+        payOrder.setAppid(corp.getAppId());
+        payOrder.setMchId(corp.getMchId());
+        payOrder.setNonceStr(Util.genNonce());
+        payOrder.setNotifyUrl(NOTIFY_URL);
+        payOrder.setOpenid(sessionData.getOpenid());
+        payOrder.setOutTradeNo(order.getOrderCode());
+        payOrder.setBody(body);
+        payOrder.setTotalFee(order.getPayAmount());
+
+        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
+        orderDigest.digest(SignEncryptorImpl.MD5());
+
+        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+
+        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
+            @Override
+            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
+                if (response.isSuccessful()) {
+                    WXPayResult payResult = response.body();
+                    String prePayId = payResult.getPrepayId();
+
+                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
+                    deferredResult.setResult(paySign);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
+                deferredResult.setErrorResult(throwable);
+            }
+        });
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
@@ -82,29 +143,12 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders", method = RequestMethod.GET)
     @ResponseBody
     @Page
-    public ResponseEntity<?> getPaidOrders(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+    public ResponseEntity<?> getPaidOrders(@SessionKey SessionData sessionData, @PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
-        // TODO 获取用户ID
-        int userId = 1;
+        int userId = sessionData.getUserId();
 
         PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(userId, dinerId);
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> pushOrder(@PathVariable int dinerId, @PathVariable int orderId) {
-        Order order = orderWrapper.selectOrder(orderId);
-
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String content = mapper.writeValueAsString(order);
-            JPushUtil.sendPushOrder(content, "1");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
     /**
@@ -124,13 +168,38 @@ public class OrderController extends BaseCorpController {
     }
 
 
+    @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> pushOrder(@PathVariable int dinerId, @PathVariable int orderId) {
+        Order order = orderWrapper.selectOrder(orderId);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String content = mapper.writeValueAsString(order);
+            JPushUtil.sendPushOrder(content, "1");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> updateOrderPaid(@PathVariable int orderId) {
         orderService.updateOrderPaid(orderId);
-        return new ResponseEntity<Object>(HttpStatus.OK);
+
+        Order order = orderWrapper.selectOrder(orderId);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String content = mapper.writeValueAsString(order);
+            JPushUtil.sendPushOrder(content, "1");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
-
-
 
 }
