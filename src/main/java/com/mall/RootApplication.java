@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class RootApplication extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("**********************RootApplication start************************");
+        System.out.println("**********************RootApplication start1111************************");
         final ApplicationContext applicationContext = SpringApplication.run(RootApplication.class, args);
         System.out.println("**********************RootApplication end************************");
     }
