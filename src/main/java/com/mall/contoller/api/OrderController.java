@@ -54,6 +54,9 @@ public class OrderController extends BaseCorpController {
     @Autowired
     WXPayService wxPayService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     /**
      * 1002 创建订单
      * @param dinerId
@@ -173,9 +176,8 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> pushOrder(@PathVariable int dinerId, @PathVariable int orderId) {
         Order order = orderWrapper.selectOrder(orderId);
 
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            String content = mapper.writeValueAsString(order);
+            String content = objectMapper.writeValueAsString(order);
             JPushUtil.sendPushOrder(content, "1");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
