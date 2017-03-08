@@ -29,7 +29,7 @@ public class AESCoder {
 			byte[] original = cipher.doFinal(encrypted1);
 			return new String(original);
 		} catch (Exception ex) {
-			throw new RuntimeException("AESCoder.decrypt fail");
+			throw new RuntimeException("AESCoder.decrypt fail:" + sSrc);
 		}
 	}
 
