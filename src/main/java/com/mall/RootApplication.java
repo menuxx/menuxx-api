@@ -1,28 +1,16 @@
 package com.mall;
 
-import com.mall.weixin.CDATADomDriver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@EnableAutoConfiguration
 @SpringBootApplication
 @EnableAsync
 public class RootApplication extends WebMvcConfigurerAdapter {
-
-    @Bean
-    public XStreamMarshaller xStreamMarshaller() {
-        XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
-        xstreamMarshaller.setAutodetectAnnotations(true);
-        xstreamMarshaller.setStreamDriver(new CDATADomDriver());
-        return xstreamMarshaller;
-    }
 
     public static void main(String[] args) throws Exception {
         System.out.println("********************** RootApplication start ************************");

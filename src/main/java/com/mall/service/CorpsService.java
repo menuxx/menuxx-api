@@ -12,6 +12,6 @@ public interface CorpsService {
 
 	TCorp findByCorpId(int corpId);
 
-	TCorp findByAppId(String appId);
+	TCorp findByMchId(String mchId);
 	
 }

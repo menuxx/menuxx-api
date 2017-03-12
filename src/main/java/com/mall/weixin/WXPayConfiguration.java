@@ -1,11 +1,15 @@
 package com.mall.weixin;
 
+import com.mall.configure.WebConfiguration;
+import com.mall.utils.Constants;
 import com.thoughtworks.xstream.XStream;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -20,6 +24,7 @@ import java.util.concurrent.TimeUnit;
  * 微信: yin80871901
  */
 @Configuration
+@AutoConfigureAfter(WebConfiguration.class)
 public class WXPayConfiguration {
 
 	public static final String WX_PAY_OK_HTTP = "WX_PAY_OK_HTTP";
@@ -29,11 +34,10 @@ public class WXPayConfiguration {
 
 	private HttpLoggingInterceptor loggingInterceptor() {
 		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(msg -> logger.debug("WeixinPayOkHttp", msg));
-		logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 		return logging;
 	}
 
-	@Bean(name = WX_PAY_OK_HTTP, autowire = Autowire.BY_NAME)
 	public OkHttpClient wxPayClient() {
 		return new OkHttpClient.Builder()
 				.addInterceptor(loggingInterceptor())
@@ -42,23 +46,22 @@ public class WXPayConfiguration {
 				.build();
 	}
 
-	@DependsOn({WX_PAY_OK_HTTP, "xStreamMarshaller"})
 	@Bean(name = WX_PAY_RETROFIT, autowire = Autowire.BY_NAME)
-	public Retrofit wxPayRetrofit(OkHttpClient httpClient, XStreamMarshaller marshaller) {
-		XStream xStream = marshaller.getXStream();
+	public Retrofit wxPayRetrofit() {
+		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
+		XStream xStream = xStreamMarshaller.getXStream();
 		xStream.autodetectAnnotations(true);
 		// CustomTrust trust = new CustomTrust();
 		return new Retrofit.Builder()
 				.baseUrl("https://api.mch.weixin.qq.com/")
 				.addConverterFactory(XStreamXmlConverterFactory.create(xStream))
-				.client(httpClient)
+				.client(wxPayClient())
 				.build();
 	}
 
-	@DependsOn(WX_PAY_RETROFIT)
 	@Bean
-	public WXPayService wxPayService(Retrofit wxPayRetrofit) {
-		return wxPayRetrofit.create(WXPayService.class);
+	public WXPayService wxPayService() {
+		return wxPayRetrofit().create(WXPayService.class);
 	}
 
 }

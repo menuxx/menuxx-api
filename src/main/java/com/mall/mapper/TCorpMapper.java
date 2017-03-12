@@ -16,21 +16,15 @@ public interface TCorpMapper {
 
     int insertSelective(TCorp record);
 
-    List<TCorp> selectByExampleWithBLOBs(TCorpExample example);
-
     List<TCorp> selectByExample(TCorpExample example);
 
     TCorp selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") TCorp record, @Param("example") TCorpExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") TCorp record, @Param("example") TCorpExample example);
-
     int updateByExample(@Param("record") TCorp record, @Param("example") TCorpExample example);
 
     int updateByPrimaryKeySelective(TCorp record);
-
-    int updateByPrimaryKeyWithBLOBs(TCorp record);
 
     int updateByPrimaryKey(TCorp record);
 }

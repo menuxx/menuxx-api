@@ -35,8 +35,6 @@ public class TCorp {
 
     private Date createTime;
 
-    private String key;
-
     public Integer getId() {
         return id;
     }
@@ -163,13 +161,5 @@ public class TCorp {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key == null ? null : key.trim();
     }
 }

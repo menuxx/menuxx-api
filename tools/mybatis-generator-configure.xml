@@ -29,7 +29,7 @@
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mapper"  targetProject="${projmvectPath}src/main/resources">
+        <sqlMapGenerator targetPackage="mapper"  targetProject="${projectPath}src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
@@ -58,13 +58,13 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
-
-        <table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >
+        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
+
+        <!--<table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_user" domainObjectName="TUser" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->

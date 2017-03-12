@@ -87,12 +87,12 @@ public class OrderController extends BaseCorpController {
             }
         }
 
-        orderWrapper.createOrder(sessionData.getAppId(), sessionData.getMchid(), order, itemIdList);
+        orderWrapper.createOrder(sessionData.getOpenid(), sessionData.getMchid(), order, itemIdList);
 
         // Body
         String body = "已成功支付¥" + order.getTotalAmount()/100;
 
-        TCorp corp = corpsService.findByAppId(sessionData.getAppId());
+        TCorp corp = corpsService.findByMchId(sessionData.getMchid());
 
         // 创建微信支付订单，向微信发起请求
         WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
@@ -130,7 +130,7 @@ public class OrderController extends BaseCorpController {
             }
         });
 
-        return new ResponseEntity<Object>(deferredResult, HttpStatus.OK);
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
     /**

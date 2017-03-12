@@ -25,11 +25,11 @@ public class CorpsServiceImpl implements CorpsService {
 	}
 
 	@Override
-	public TCorp findByAppId(String appId) {
+	public TCorp findByMchId(String mchId) {
 		TCorpExample example = new TCorpExample();
 		TCorpExample.Criteria criteria = example.createCriteria();
 		
-		criteria.andAppIdEqualTo(appId);
+		criteria.andMchIdEqualTo(mchId);
 		
 		TCorp corp = onlyOne(tCorpMapper.selectByExample(example));
 		
