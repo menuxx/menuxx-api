@@ -1,8 +1,7 @@
 *.class
 
 .idea
-target/*
-!target/mall-server.jar
+target
 *.iml
 
 .classpath
