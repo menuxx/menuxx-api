@@ -11,7 +11,7 @@ public interface CorpUserService {
 
     List<TCorpUser> selectCorpUsersByCorpId(int corpId);
 
-    TCorpUser selectCorpUser(int corpId, String mobile);
+    TCorpUser selectCorpUserByMobile(String mobile);
 
     void updateCorpUser(TCorpUser corpUser);
 

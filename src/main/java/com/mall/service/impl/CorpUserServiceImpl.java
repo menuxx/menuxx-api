@@ -30,11 +30,10 @@ public class CorpUserServiceImpl implements CorpUserService {
     }
 
     @Override
-    public TCorpUser selectCorpUser(int corpId, String mobile) {
+    public TCorpUser selectCorpUserByMobile(String mobile) {
         TCorpUserExample example = new TCorpUserExample();
         TCorpUserExample.Criteria criteria = example.createCriteria();
 
-        criteria.andCorpIdEqualTo(corpId);
         criteria.andMobileEqualTo(mobile);
 
         List<TCorpUser> list = corpUserMapper.selectByExample(example);

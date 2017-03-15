@@ -32,7 +32,7 @@ public class CorpUserController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> login(@PathVariable int dinerId, @PathVariable String phone, @PathVariable String captcha, @PathVariable String clientId) {
         if (SMSUtil.checkCaptcha(phone, captcha)) {
-            TCorpUser corpUser = corpUserService.selectCorpUser(dinerId, phone);
+            TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
             corpUser.setClientId(clientId);
             corpUserService.updateCorpUser(corpUser);
 

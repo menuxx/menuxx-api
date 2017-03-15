@@ -26,11 +26,11 @@ public class SendCaptchaController {
      * @param phone
      * @return
      */
-    @RequestMapping(value = "captcha/{phone}", method = RequestMethod.GET)
+    @RequestMapping(value = "/captcha/{phone}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> sendCaptcha(@PathVariable int dinerId, @PathVariable String phone) {
+    public ResponseEntity<?> sendCaptcha(@PathVariable String phone) {
         // 先判断手机号是否已录入，未录入手机号不得发送短信
-        TCorpUser corpUser = corpUserService.selectCorpUser(dinerId, phone);
+        TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
 
         if (corpUser == null) {
             return new ResponseEntity<Object>("你的手机暂未授权", HttpStatus.INTERNAL_SERVER_ERROR);
