@@ -3,7 +3,7 @@ package com.mall.service.impl;
 import com.mall.mapper.TCorpMapper;
 import com.mall.model.TCorp;
 import com.mall.model.TCorpExample;
-import com.mall.service.CorpsService;
+import com.mall.service.CorpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import static com.mall.utils.Util.onlyOne;
  * 微信: yin80871901
  */
 @Service
-public class CorpsServiceImpl implements CorpsService {
+public class CorpServiceImpl implements CorpService {
 
 	@Autowired
 	TCorpMapper tCorpMapper;

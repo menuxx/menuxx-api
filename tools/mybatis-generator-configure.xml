@@ -58,7 +58,7 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
+        <table schema="jiujin" tableName="t_corp_user" domainObjectName="TCorpUser" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
 

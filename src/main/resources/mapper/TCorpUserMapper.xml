@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.TCorpUserMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TCorpUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="corp_id" jdbcType="INTEGER" property="corpId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="client_id" jdbcType="VARCHAR" property="clientId" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="gender" jdbcType="SMALLINT" property="gender" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, corp_id, mobile, client_id, nickname, gender, avatar, email, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.mall.model.TCorpUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_corp_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_corp_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_corp_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mall.model.TCorpUserExample">
+    delete from t_corp_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mall.model.TCorpUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_corp_user (corp_id, mobile, client_id, 
+      nickname, gender, avatar, 
+      email, create_time)
+    values (#{corpId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{clientId,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT}, #{avatar,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.model.TCorpUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_corp_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="corpId != null">
+        corp_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="corpId != null">
+        #{corpId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mall.model.TCorpUserExample" resultType="java.lang.Integer">
+    select count(*) from t_corp_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_corp_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.corpId != null">
+        corp_id = #{record.corpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientId != null">
+        client_id = #{record.clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null">
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=SMALLINT},
+      </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_corp_user
+    set id = #{record.id,jdbcType=INTEGER},
+      corp_id = #{record.corpId,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      client_id = #{record.clientId,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=SMALLINT},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TCorpUser">
+    update t_corp_user
+    <set>
+      <if test="corpId != null">
+        corp_id = #{corpId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null">
+        client_id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TCorpUser">
+    update t_corp_user
+    set corp_id = #{corpId,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      client_id = #{clientId,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=SMALLINT},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

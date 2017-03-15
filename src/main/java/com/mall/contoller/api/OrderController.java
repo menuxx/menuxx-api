@@ -9,9 +9,12 @@ import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
 import com.mall.model.TCorp;
-import com.mall.service.CorpsService;
+import com.mall.model.TCorpUser;
+import com.mall.service.CorpService;
+import com.mall.service.CorpUserService;
 import com.mall.service.OrderService;
 import com.mall.utils.Constants;
+import com.mall.utils.IPushUtil;
 import com.mall.utils.JPushUtil;
 import com.mall.utils.Util;
 import com.mall.weixin.*;
@@ -49,13 +52,16 @@ public class OrderController extends BaseCorpController {
     OrderService orderService;
 
     @Autowired
-    CorpsService corpsService;
+    CorpService corpsService;
 
     @Autowired
     WXPayService wxPayService;
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    CorpUserService corpUserService;
 
     /**
      * 1002 创建订单
@@ -188,15 +194,24 @@ public class OrderController extends BaseCorpController {
 
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> updateOrderPaid(@PathVariable int orderId) {
+    public ResponseEntity<?> updateOrderPaid(@PathVariable int dinerId, @PathVariable int orderId) {
         orderService.updateOrderPaid(orderId);
 
         Order order = orderWrapper.selectOrder(orderId);
 
+        List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(dinerId);
+
+        List<String> clientIdList = new ArrayList<>();
+
+        for (TCorpUser corpUser : corpUserList) {
+            clientIdList.add(corpUser.getClientId());
+        }
+
         try {
             ObjectMapper mapper = new ObjectMapper();
             String content = mapper.writeValueAsString(order);
-            JPushUtil.sendPushOrder(content, "1");
+            IPushUtil.sendPushOrder(content, clientIdList);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

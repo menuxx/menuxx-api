@@ -8,7 +8,7 @@ import com.mall.model.TCorp;
  * 微信: yin80871901
  */
 
-public interface CorpsService {
+public interface CorpService {
 
 	TCorp findByCorpId(int corpId);
 
