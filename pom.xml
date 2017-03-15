@@ -259,6 +259,12 @@
             <version>4.0.1.7</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,6 +1,5 @@
 package com.mall.utils;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class QueueUtil {
             indexMap = new HashMap<>();
         }
 
-        String dateKey = MallUtil.getYearMonthDay();
+        String dateKey = Util.getYearMonthDay();
 
         if (indexMap.containsKey(dateKey)) {
             queueNum = indexMap.get(dateKey) + 1;

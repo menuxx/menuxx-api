@@ -1,5 +1,11 @@
 package com.mall.utils;
 
+import org.apache.commons.lang3.RandomUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -10,6 +16,57 @@ import java.util.Random;
  */
 public class Util {
 
+	/**
+	 * 获取请求IP
+	 * @param request
+	 * @return
+	 */
+	public static String getRequestIP(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
+
+	public static String getYearMonthDay() {
+		Date date = new Date();
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+		return format.format(date);
+	}
+
+	public static String dateFormat(Date date) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return format.format(date);
+	}
+
+
+	public static String dateFormatNow() {
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		return format.format(date);
+	}
+
+	public static String dateFormatAddMinites(int minites) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MINUTE, minites);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		return format.format(calendar.getTime());
+	}
 	public static  <T> T onlyOne(List<T> objs) {
 		if ( objs == null ) {
 			return null;
@@ -33,4 +90,9 @@ public class Util {
 		return sb.toString();
 	}
 
+	public static String generateCaptcha() {
+		int random = RandomUtils.nextInt(0, 9999);
+		String captcha = String.format("%04d", random);
+		return captcha;
+	}
 }
