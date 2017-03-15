@@ -17,6 +17,8 @@ public class SessionData {
 
 	private String openid;
 
+	private String sessionToken;
+
 	public SessionData() {
 	}
 
@@ -68,5 +70,16 @@ public class SessionData {
 
 	public String getOpenid() {
 		return openid;
+	}
+
+	public String getSessionToken() {
+		//用户端 生成 token: 生成规则 aes(openid:session_key:userId:mchid)
+		//客户端 生成 token: 生成规则 aes("":"":userId:corpId)
+		sessionToken = AESCoder.encrypt(this.getOpenid() + ":" + this.getSessionKey() + ":" + userId + ":" + this.getMchid());
+		return sessionToken;
+	}
+
+	public void setSessionToken(String sessionToken) {
+		this.sessionToken = sessionToken;
 	}
 }

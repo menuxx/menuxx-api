@@ -4,6 +4,7 @@ import com.mall.mapper.TCorpUserMapper;
 import com.mall.model.TCorpUser;
 import com.mall.model.TCorpUserExample;
 import com.mall.service.CorpUserService;
+import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,24 @@ public class CorpUserServiceImpl implements CorpUserService {
         criteria.andCorpIdEqualTo(corpId);
 
         return corpUserMapper.selectByExample(example);
+    }
+
+    @Override
+    public TCorpUser selectCorpUser(int corpId, String mobile) {
+        TCorpUserExample example = new TCorpUserExample();
+        TCorpUserExample.Criteria criteria = example.createCriteria();
+
+        criteria.andCorpIdEqualTo(corpId);
+        criteria.andMobileEqualTo(mobile);
+
+        List<TCorpUser> list = corpUserMapper.selectByExample(example);
+
+        TCorpUser user = Util.onlyOne(list);
+        return user;
+    }
+
+    @Override
+    public void updateCorpUser(TCorpUser corpUser) {
+        corpUserMapper.updateByPrimaryKey(corpUser);
     }
 }
