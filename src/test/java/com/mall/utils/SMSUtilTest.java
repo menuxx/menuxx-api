@@ -5,8 +5,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -58,9 +56,9 @@ public class SMSUtilTest {
         String phone = "17681834305";
         String captcha = "2344";
 
-        SMSUtil.sendCaptcha(phone, captcha);
+//        SMSUtil.sendCaptcha(phone, captcha);
 
-        boolean check = SMSUtil.checkCaptcha(phone, captcha);
-        System.out.println(check);
+//        boolean check = SMSUtil.checkCaptcha(phone, captcha);
+//        System.out.println(check);
     }
 }
