@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
+import com.mall.configure.AppConfiguration;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
@@ -44,6 +45,9 @@ public class OrderController extends BaseCorpController {
      * 支付回调地址
      */
     private static final String NOTIFY_URL = "https://dev.api.menuxx.com/weixin/pay_notify";
+
+    @Autowired
+    AppConfiguration appConfiguration;
 
     @Autowired
     OrderWrapper orderWrapper;
@@ -210,7 +214,7 @@ public class OrderController extends BaseCorpController {
         try {
             ObjectMapper mapper = new ObjectMapper();
             String content = mapper.writeValueAsString(order);
-            IPushUtil.sendPushOrder(content, clientIdList);
+            IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
