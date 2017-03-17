@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by Supeng on 15/03/2017.
  */
 @Controller
-public class CorpUserController extends BaseCorpController {
+public class CorpUserController {
 
     @Autowired
     CorpUserService corpUserService;
@@ -30,7 +30,7 @@ public class CorpUserController extends BaseCorpController {
      */
     @RequestMapping(value = "captcha/{phone}/{captcha}/{clientId}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> login(@PathVariable int dinerId, @PathVariable String phone, @PathVariable String captcha, @PathVariable String clientId) {
+    public ResponseEntity<?> login(@PathVariable String phone, @PathVariable String captcha, @PathVariable String clientId) {
         if (SMSUtil.checkCaptcha(phone, captcha)) {
             TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
             corpUser.setClientId(clientId);
