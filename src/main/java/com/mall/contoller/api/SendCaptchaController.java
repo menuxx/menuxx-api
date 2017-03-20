@@ -22,7 +22,7 @@ public class SendCaptchaController {
 
     /**
      * 2004 发送验证码
-     * @param dinerId
+     * @param phone
      * @param phone
      * @return
      */

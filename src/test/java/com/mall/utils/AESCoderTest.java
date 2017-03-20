@@ -31,4 +31,22 @@ public class AESCoderTest {
 
         System.out.println(str);
     }
+
+    @Test
+    public void testEncrypt1() {
+        // String appId, String sessionKey, int userId, String mchid, String openid
+        String userId = "5";
+        String corpId = "1";
+//        "":"":userId:corpId
+        String source = "" + ":" + "" + ":" + userId + ":" + corpId;
+
+        String encryptString = AESCoder.encrypt(source);
+
+        System.out.println(source + "==>" + encryptString);
+
+        source = AESCoder.decrypt(encryptString);
+
+        System.out.println(source);
+    }
+
 }

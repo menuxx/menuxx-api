@@ -655,6 +655,216 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andAddressIsNull() {
+            addCriterion("address is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressIsNotNull() {
+            addCriterion("address is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressEqualTo(String value) {
+            addCriterion("address =", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotEqualTo(String value) {
+            addCriterion("address <>", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressGreaterThan(String value) {
+            addCriterion("address >", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressGreaterThanOrEqualTo(String value) {
+            addCriterion("address >=", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressLessThan(String value) {
+            addCriterion("address <", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressLessThanOrEqualTo(String value) {
+            addCriterion("address <=", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressLike(String value) {
+            addCriterion("address like", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotLike(String value) {
+            addCriterion("address not like", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressIn(List<String> values) {
+            addCriterion("address in", values, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotIn(List<String> values) {
+            addCriterion("address not in", values, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressBetween(String value1, String value2) {
+            addCriterion("address between", value1, value2, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotBetween(String value1, String value2) {
+            addCriterion("address not between", value1, value2, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneIsNull() {
+            addCriterion("corp_phone is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneIsNotNull() {
+            addCriterion("corp_phone is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneEqualTo(String value) {
+            addCriterion("corp_phone =", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneNotEqualTo(String value) {
+            addCriterion("corp_phone <>", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneGreaterThan(String value) {
+            addCriterion("corp_phone >", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("corp_phone >=", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneLessThan(String value) {
+            addCriterion("corp_phone <", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneLessThanOrEqualTo(String value) {
+            addCriterion("corp_phone <=", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneLike(String value) {
+            addCriterion("corp_phone like", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneNotLike(String value) {
+            addCriterion("corp_phone not like", value, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneIn(List<String> values) {
+            addCriterion("corp_phone in", values, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneNotIn(List<String> values) {
+            addCriterion("corp_phone not in", values, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneBetween(String value1, String value2) {
+            addCriterion("corp_phone between", value1, value2, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpPhoneNotBetween(String value1, String value2) {
+            addCriterion("corp_phone not between", value1, value2, "corpPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursIsNull() {
+            addCriterion("business_hours is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursIsNotNull() {
+            addCriterion("business_hours is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursEqualTo(String value) {
+            addCriterion("business_hours =", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursNotEqualTo(String value) {
+            addCriterion("business_hours <>", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursGreaterThan(String value) {
+            addCriterion("business_hours >", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursGreaterThanOrEqualTo(String value) {
+            addCriterion("business_hours >=", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursLessThan(String value) {
+            addCriterion("business_hours <", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursLessThanOrEqualTo(String value) {
+            addCriterion("business_hours <=", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursLike(String value) {
+            addCriterion("business_hours like", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursNotLike(String value) {
+            addCriterion("business_hours not like", value, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursIn(List<String> values) {
+            addCriterion("business_hours in", values, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursNotIn(List<String> values) {
+            addCriterion("business_hours not in", values, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursBetween(String value1, String value2) {
+            addCriterion("business_hours between", value1, value2, "businessHours");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessHoursNotBetween(String value1, String value2) {
+            addCriterion("business_hours not between", value1, value2, "businessHours");
+            return (Criteria) this;
+        }
+
         public Criteria andMasterPhoneIsNull() {
             addCriterion("master_phone is null");
             return (Criteria) this;
@@ -792,76 +1002,6 @@ public class TCorpExample {
 
         public Criteria andWechatIdNotBetween(String value1, String value2) {
             addCriterion("wechat_id not between", value1, value2, "wechatId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneIsNull() {
-            addCriterion("corp_phone is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneIsNotNull() {
-            addCriterion("corp_phone is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneEqualTo(String value) {
-            addCriterion("corp_phone =", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneNotEqualTo(String value) {
-            addCriterion("corp_phone <>", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneGreaterThan(String value) {
-            addCriterion("corp_phone >", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneGreaterThanOrEqualTo(String value) {
-            addCriterion("corp_phone >=", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneLessThan(String value) {
-            addCriterion("corp_phone <", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneLessThanOrEqualTo(String value) {
-            addCriterion("corp_phone <=", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneLike(String value) {
-            addCriterion("corp_phone like", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneNotLike(String value) {
-            addCriterion("corp_phone not like", value, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneIn(List<String> values) {
-            addCriterion("corp_phone in", values, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneNotIn(List<String> values) {
-            addCriterion("corp_phone not in", values, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneBetween(String value1, String value2) {
-            addCriterion("corp_phone between", value1, value2, "corpPhone");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpPhoneNotBetween(String value1, String value2) {
-            addCriterion("corp_phone not between", value1, value2, "corpPhone");
             return (Criteria) this;
         }
 

@@ -42,7 +42,7 @@ public class CorpsInterceptor implements HandlerInterceptor {
 			if ( isEmpty(corpId) ) {
 				throw new IllegalArgumentException("url参数不正确");
 			}
-			TCorp currCorp = corpsService.findByCorpId(Integer.parseInt(corpId));
+			TCorp currCorp = corpsService.selectCorpByCorpId(Integer.parseInt(corpId));
 			request.setAttribute(CURRENT_DINER, currCorp);
 		} catch (IllegalStateException e) {
 			throw new IllegalArgumentException("url参数不正确");

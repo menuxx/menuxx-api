@@ -46,4 +46,9 @@ public class CorpUserServiceImpl implements CorpUserService {
     public void updateCorpUser(TCorpUser corpUser) {
         corpUserMapper.updateByPrimaryKey(corpUser);
     }
+
+    @Override
+    public TCorpUser selectCorpUser(int corpUserId) {
+        return corpUserMapper.selectByPrimaryKey(corpUserId);
+    }
 }

@@ -20,12 +20,12 @@ public class CorpServiceImpl implements CorpService {
 	TCorpMapper tCorpMapper;
 
 	@Override
-	public TCorp findByCorpId(int corpId) {
+	public TCorp selectCorpByCorpId(int corpId) {
 		return tCorpMapper.selectByPrimaryKey(corpId);
 	}
 
 	@Override
-	public TCorp findByMchId(String mchId) {
+	public TCorp selectCorpByMchId(String mchId) {
 		TCorpExample example = new TCorpExample();
 		TCorpExample.Criteria criteria = example.createCriteria();
 		

@@ -15,4 +15,6 @@ public interface CorpUserService {
 
     void updateCorpUser(TCorpUser corpUser);
 
+    TCorpUser selectCorpUser(int corpUserId);
+
 }

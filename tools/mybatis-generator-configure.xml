@@ -15,9 +15,9 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://xzwsq.com:3306/jiujin?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"
-                        userId="dongzone_dev"
-                        password="dongzone123456">
+                        connectionURL="jdbc:mysql://rm-uf68lsw07o293t779o.mysql.rds.aliyuncs.com/menuxx?characterEncoding=UTF-8"
+                        userId="qurenjiadb"
+                        password="1s$kh8g!1">
         </jdbcConnection>
 
         <javaTypeResolver >
@@ -58,9 +58,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_corp_user" domainObjectName="TCorpUser" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_corp_user" domainObjectName="TCorpUser" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -70,6 +70,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
     </context>
 
 </generatorConfiguration>

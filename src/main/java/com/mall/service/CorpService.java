@@ -10,8 +10,8 @@ import com.mall.model.TCorp;
 
 public interface CorpService {
 
-	TCorp findByCorpId(int corpId);
+	TCorp selectCorpByCorpId(int corpId);
 
-	TCorp findByMchId(String mchId);
+	TCorp selectCorpByMchId(String mchId);
 	
 }

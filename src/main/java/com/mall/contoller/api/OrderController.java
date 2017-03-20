@@ -105,7 +105,7 @@ public class OrderController extends BaseCorpController {
         // Body
         String body = "已成功支付¥" + order.getTotalAmount()/100;
 
-        TCorp corp = corpsService.findByMchId(sessionData.getMchid());
+        TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
 
         // 创建微信支付订单，向微信发起请求
         WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
