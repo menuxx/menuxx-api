@@ -80,19 +80,7 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {
-        try {
-            String content = objectMapper.writeValueAsString(order);
-            logger.info("content :" + content);
-            System.out.println("sopf content :" + content);
 
-            String userInfo = objectMapper.writeValueAsString(sessionData);
-            logger.info("sessionData :" + userInfo);
-            System.out.println("sopf sessionData :" + userInfo);
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
 
         int userId = sessionData.getUserId();
         order.setUserId(userId);
@@ -111,6 +99,20 @@ public class OrderController extends BaseCorpController {
             order.setTableId(null);
         }
 
+        try {
+            String content = objectMapper.writeValueAsString(order);
+            logger.info("content :" + content);
+            System.out.println("sopf content :" + content);
+
+            String userInfo = objectMapper.writeValueAsString(sessionData);
+            logger.info("sessionData :" + userInfo);
+            System.out.println("sopf sessionData :" + userInfo);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         List<Integer> itemIdList = new ArrayList<>();
 
         if (order.getItemList() != null && order.getItemList().size() > 0) {
@@ -127,40 +129,40 @@ public class OrderController extends BaseCorpController {
         TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
 
         // 创建微信支付订单，向微信发起请求
-        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
-
-        WXPayOrder payOrder = new WXPayOrder();
-        payOrder.setAppid(corp.getAppId());
-        payOrder.setMchId(corp.getMchId());
-        payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(NOTIFY_URL);
-        payOrder.setOpenid(sessionData.getOpenid());
-        payOrder.setOutTradeNo(order.getOrderCode());
-        payOrder.setBody(body);
-        payOrder.setTotalFee(order.getPayAmount());
-
-        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
-        orderDigest.digest(SignEncryptorImpl.MD5());
-
-        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
-
-        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
-            @Override
-            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
-                if (response.isSuccessful()) {
-                    WXPayResult payResult = response.body();
-                    String prePayId = payResult.getPrepayId();
-
-                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
-                    deferredResult.setResult(paySign);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
-                deferredResult.setErrorResult(throwable);
-            }
-        });
+//        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
+//
+//        WXPayOrder payOrder = new WXPayOrder();
+//        payOrder.setAppid(corp.getAppId());
+//        payOrder.setMchId(corp.getMchId());
+//        payOrder.setNonceStr(Util.genNonce());
+//        payOrder.setNotifyUrl(NOTIFY_URL);
+//        payOrder.setOpenid(sessionData.getOpenid());
+//        payOrder.setOutTradeNo(order.getOrderCode());
+//        payOrder.setBody(body);
+//        payOrder.setTotalFee(order.getPayAmount());
+//
+//        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
+//        orderDigest.digest(SignEncryptorImpl.MD5());
+//
+//        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+//
+//        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
+//            @Override
+//            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
+//                if (response.isSuccessful()) {
+//                    WXPayResult payResult = response.body();
+//                    String prePayId = payResult.getPrepayId();
+//
+//                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
+//                    deferredResult.setResult(paySign);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
+//                deferredResult.setErrorResult(throwable);
+//            }
+//        });
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
