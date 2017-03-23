@@ -72,8 +72,8 @@ public class WXUserController extends BaseCorpController {
 	 * @return
 	 */
 	@PutMapping("wx/liteLogin")
-	public DeferredResult<Map<String, Object>> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
-		final DeferredResult<Map<String, Object>> deferred = new DeferredResult<>();
+	public DeferredResult<Object> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
+		final DeferredResult<Object> deferred = new DeferredResult<>();
 
 		wxMiniService.jscodeToSession(corp.getAppId(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXMiniService.CodeSession>() {
 			@Override
@@ -89,14 +89,8 @@ public class WXUserController extends BaseCorpController {
 
 					int userId = userService.saveUser(user, corp);
 
-					// 生成 token: 生成规则 aes(openid:session_key:userId:mchid)
-					String sessionToken = AESCoder.encrypt(session.getOpenid() + ":" + session.getSessionKey() + ":" + userId + ":" + corp.getMchId());
-					data.put("sessionToken", sessionToken);
-					data.put("openid", session.getOpenid());
-					data.put("userId", user.getId());
-					data.put("corpId", corp.getId());
-
-					deferred.setResult(data);
+					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId());
+					deferred.setResult(sessionData);
 				} else {
 					deferred.setErrorResult(session);
 				}

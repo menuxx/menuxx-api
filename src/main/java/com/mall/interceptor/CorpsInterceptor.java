@@ -1,7 +1,7 @@
 package com.mall.interceptor;
 
 import com.mall.model.TCorp;
-import com.mall.service.CorpsService;
+import com.mall.service.CorpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,7 +26,7 @@ public class CorpsInterceptor implements HandlerInterceptor {
 	static final Pattern pathPattern = Pattern.compile("/diners/([0-9]*)");
 
 	@Autowired
-	CorpsService corpsService;
+    CorpService corpsService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
@@ -42,7 +42,7 @@ public class CorpsInterceptor implements HandlerInterceptor {
 			if ( isEmpty(corpId) ) {
 				throw new IllegalArgumentException("url参数不正确");
 			}
-			TCorp currCorp = corpsService.findByCorpId(Integer.parseInt(corpId));
+			TCorp currCorp = corpsService.selectCorpByCorpId(Integer.parseInt(corpId));
 			request.setAttribute(CURRENT_DINER, currCorp);
 		} catch (IllegalStateException e) {
 			throw new IllegalArgumentException("url参数不正确");

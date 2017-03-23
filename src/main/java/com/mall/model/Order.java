@@ -1,6 +1,7 @@
 package com.mall.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by Supeng on 14/02/2017.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Order extends TOrder {
 
     // 待付款

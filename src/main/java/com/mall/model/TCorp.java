@@ -19,11 +19,15 @@ public class TCorp {
 
     private String masterName;
 
+    private String address;
+
+    private String corpPhone;
+
+    private String businessHours;
+
     private String masterPhone;
 
     private String wechatId;
-
-    private String corpPhone;
 
     private String appId;
 
@@ -99,6 +103,30 @@ public class TCorp {
         this.masterName = masterName == null ? null : masterName.trim();
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getCorpPhone() {
+        return corpPhone;
+    }
+
+    public void setCorpPhone(String corpPhone) {
+        this.corpPhone = corpPhone == null ? null : corpPhone.trim();
+    }
+
+    public String getBusinessHours() {
+        return businessHours;
+    }
+
+    public void setBusinessHours(String businessHours) {
+        this.businessHours = businessHours == null ? null : businessHours.trim();
+    }
+
     public String getMasterPhone() {
         return masterPhone;
     }
@@ -113,14 +141,6 @@ public class TCorp {
 
     public void setWechatId(String wechatId) {
         this.wechatId = wechatId == null ? null : wechatId.trim();
-    }
-
-    public String getCorpPhone() {
-        return corpPhone;
-    }
-
-    public void setCorpPhone(String corpPhone) {
-        this.corpPhone = corpPhone == null ? null : corpPhone.trim();
     }
 
     public String getAppId() {

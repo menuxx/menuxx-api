@@ -3,8 +3,8 @@ package com.mall.wrapper.impl;
 import com.github.pagehelper.PageInfo;
 import com.mall.model.*;
 import com.mall.service.*;
-import com.mall.utils.MallUtil;
 import com.mall.utils.QueueUtil;
+import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.BeanUtils;
@@ -70,7 +70,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         // 创建订单号
-        order.setOrderCode(MallUtil.getYearMonthDay() + (10000000 + order.getId()));
+        order.setOrderCode(Util.getYearMonthDay() + (10000000 + order.getId()));
 
         // 创建排序号
         order.setQueueId(QueueUtil.getQueueNum(order.getCorpId()));

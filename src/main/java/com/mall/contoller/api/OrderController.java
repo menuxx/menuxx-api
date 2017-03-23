@@ -1,22 +1,28 @@
 package com.mall.contoller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
+import com.mall.configure.AppConfiguration;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
 import com.mall.model.TCorp;
-import com.mall.service.CorpsService;
+import com.mall.model.TCorpUser;
+import com.mall.service.CorpService;
+import com.mall.service.CorpUserService;
 import com.mall.service.OrderService;
 import com.mall.utils.Constants;
+import com.mall.utils.IPushUtil;
 import com.mall.utils.JPushUtil;
 import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +43,15 @@ import java.util.Map;
 @Controller
 public class OrderController extends BaseCorpController {
 
+    private static final Logger logger = Logger.getLogger(OrderController.class);
+
     /**
      * 支付回调地址
      */
     private static final String NOTIFY_URL = "https://dev.api.menuxx.com/weixin/pay_notify";
+
+    @Autowired
+    AppConfiguration appConfiguration;
 
     @Autowired
     OrderWrapper orderWrapper;
@@ -49,13 +60,16 @@ public class OrderController extends BaseCorpController {
     OrderService orderService;
 
     @Autowired
-    CorpsService corpsService;
+    CorpService corpsService;
 
     @Autowired
     WXPayService wxPayService;
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    CorpUserService corpUserService;
 
     /**
      * 1002 创建订单
@@ -66,8 +80,23 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {
+        try {
+            String content = objectMapper.writeValueAsString(order);
+            logger.info("content :" + content);
+            System.out.println("sopf content :" + content);
+
+            String userInfo = objectMapper.writeValueAsString(sessionData);
+            logger.info("sessionData :" + userInfo);
+            System.out.println("sopf sessionData :" + userInfo);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         int userId = sessionData.getUserId();
         order.setUserId(userId);
+
 
         // 订单状态默认为未付款
         order.setStatus(Order.STATUS_CREATED);
@@ -95,7 +124,7 @@ public class OrderController extends BaseCorpController {
         // Body
         String body = "已成功支付¥" + order.getTotalAmount()/100;
 
-        TCorp corp = corpsService.findByMchId(sessionData.getMchid());
+        TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
 
         // 创建微信支付订单，向微信发起请求
         WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
@@ -188,15 +217,24 @@ public class OrderController extends BaseCorpController {
 
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> updateOrderPaid(@PathVariable int orderId) {
+    public ResponseEntity<?> updateOrderPaid(@PathVariable int dinerId, @PathVariable int orderId) {
         orderService.updateOrderPaid(orderId);
 
         Order order = orderWrapper.selectOrder(orderId);
 
+        List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(dinerId);
+
+        List<String> clientIdList = new ArrayList<>();
+
+        for (TCorpUser corpUser : corpUserList) {
+            clientIdList.add(corpUser.getClientId());
+        }
+
         try {
             ObjectMapper mapper = new ObjectMapper();
             String content = mapper.writeValueAsString(order);
-            JPushUtil.sendPushOrder(content, "1");
+            IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
