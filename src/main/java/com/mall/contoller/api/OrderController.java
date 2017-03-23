@@ -163,6 +163,7 @@ public class OrderController extends BaseCorpController {
 //                deferredResult.setErrorResult(throwable);
 //            }
 //        });
+        order = orderWrapper.selectOrder(order.getId());
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
