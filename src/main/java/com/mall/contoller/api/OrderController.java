@@ -1,6 +1,7 @@
 package com.mall.contoller.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.annotation.SessionKey;
@@ -79,9 +80,6 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {
-        int userId = sessionData.getUserId();
-        order.setUserId(userId);
-
         try {
             String content = objectMapper.writeValueAsString(order);
             logger.info("content :" + content);
@@ -90,9 +88,15 @@ public class OrderController extends BaseCorpController {
             String userInfo = objectMapper.writeValueAsString(sessionData);
             logger.info("sessionData :" + userInfo);
             System.out.println("sopf sessionData :" + userInfo);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
+        int userId = sessionData.getUserId();
+        order.setUserId(userId);
+
 
         // 订单状态默认为未付款
         order.setStatus(Order.STATUS_CREATED);
