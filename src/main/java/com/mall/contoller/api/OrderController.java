@@ -21,6 +21,7 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,8 @@ import java.util.Map;
  */
 @Controller
 public class OrderController extends BaseCorpController {
+
+    private static final Logger logger = Logger.getLogger(OrderController.class);
 
     /**
      * 支付回调地址
@@ -78,6 +81,18 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> createOrder(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
         order.setUserId(userId);
+
+        try {
+            String content = objectMapper.writeValueAsString(order);
+            logger.info("content :" + content);
+            System.out.println("sopf content :" + content);
+
+            String userInfo = objectMapper.writeValueAsString(sessionData);
+            logger.info("sessionData :" + userInfo);
+            System.out.println("sopf sessionData :" + userInfo);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         // 订单状态默认为未付款
         order.setStatus(Order.STATUS_CREATED);
