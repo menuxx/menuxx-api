@@ -139,8 +139,10 @@ public class OrderWrapperImpl implements OrderWrapper {
         List<OrderItem> orderItemList = orderItemWrapper.selectOrderItemByOrderId(orderId);
         order.setItemList(orderItemList);
 
-        TTable table = tableService.selectTable(order.getTableId());
-        order.setTable(table);
+        if ( order.getTableId() != null && order.getTableId() > 0 ) {
+            TTable table = tableService.selectTable(order.getTableId());
+            order.setTable(table);
+        }
 
         return order;
     }
