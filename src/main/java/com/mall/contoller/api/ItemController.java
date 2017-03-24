@@ -58,13 +58,13 @@ public class ItemController extends BaseCorpController {
 
     /**
      * 2002 加载菜单
-     * @param corpId
+     * @param dinerId
      * @return
      */
     @RequestMapping(value = "items", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getItems(@PathVariable int corpId) {
-        List<Item> itemList = itemWrapper.selectItems(corpId);
+    public ResponseEntity<?> getItems(@PathVariable("dinerId") int dinerId) {
+        List<Item> itemList = itemWrapper.selectItems(dinerId);
         return new ResponseEntity<Object>(itemList, HttpStatus.OK);
     }
 
