@@ -74,11 +74,15 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_corp_collect" domainObjectName="TCorpCollect" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_corp_collect" domainObjectName="TCorpCollect" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <table schema="jiujin" tableName="t_corp_discover" domainObjectName="TCorpDiscover" >
+        <!--<table schema="jiujin" tableName="t_corp_discover" domainObjectName="TCorpDiscover" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <table schema="jiujin" tableName="t_corp_feedback" domainObjectName="TCorpFeedback" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
     </context>
