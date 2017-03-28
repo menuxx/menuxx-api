@@ -1,0 +1,11 @@
+FROM frolvlad/alpine-oraclejdk8:slim
+MAINTAINER Yinchangsheng <yinchangsheng@gmail.com>
+
+COPY app.jar /app.jar
+
+VOLUME /tmp
+VOLUME /log
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar"]
+EXPOSE 8080
+EXPOSE 8081

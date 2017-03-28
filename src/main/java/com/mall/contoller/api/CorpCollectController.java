@@ -21,7 +21,6 @@ public class CorpCollectController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> createCorpCollect(@PathVariable("dinerId") int dinerId, @RequestBody TCorpCollect corpCollect) {
         corpCollect.setFormCorpId(dinerId);
-
         corpCollectService.createCorpCollect(corpCollect);
         return new ResponseEntity<Object>(HttpStatus.OK);
     }

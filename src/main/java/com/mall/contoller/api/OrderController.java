@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
+import com.mall.annotation.SessionKey;
 import com.mall.configure.AppConfiguration;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
@@ -18,9 +18,7 @@ import com.mall.service.OrderService;
 import com.mall.utils.Constants;
 import com.mall.utils.IPushUtil;
 import com.mall.utils.JPushUtil;
-import com.mall.utils.Util;
-import com.mall.weixin.*;
-import com.mall.weixin.encrypt.SignEncryptorImpl;
+import com.mall.weixin.WXPayService;
 import com.mall.wrapper.OrderWrapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +26,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -181,7 +174,6 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> getPaidOrders(@SessionKey SessionData sessionData, @PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
         int userId = sessionData.getUserId();
-
         PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(userId, dinerId);
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
@@ -199,6 +191,9 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                                  @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
         PageInfo<Order> pageInfo = orderWrapper.selectAllOrders(dinerId);
+        if (true) {
+            throw new NullPointerException();
+        }
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 

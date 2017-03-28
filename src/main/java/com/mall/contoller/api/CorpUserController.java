@@ -47,6 +47,9 @@ public class CorpUserController {
     @RequestMapping(value = "captcha/{phone}/{captcha}/{clientId}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> login(@PathVariable String phone, @PathVariable String captcha, @PathVariable String clientId) {
+        if (true) {
+            throw new NullPointerException();
+        }
         if (SMSUtil.checkCaptcha(phone, captcha)) {
             TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
             corpUser.setClientId(clientId);
