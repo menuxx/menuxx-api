@@ -2,7 +2,6 @@ FROM maven:3.3-jdk-8-alpine
 MAINTAINER Yinchangsheng <yinchangsheng@gmail.com>
 
 ADD pom.xml /tmp/build/
-ADD settings.xml /tmp/build/settings.xml
 
 RUN cd /tmp/build && mvn  -q dependency:resolve
 
