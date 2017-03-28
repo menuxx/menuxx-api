@@ -12,6 +12,7 @@
     <url>http://maven.apache.org</url>
 
     <repositories>
+
         <repository>
             <id>central</id>
             <name>Central Repository</name>
