@@ -7,6 +7,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="linkman" jdbcType="VARCHAR" property="linkman" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_id, create_time, linkman, phone
+    id, corp_id, create_time, linkman, phone, content
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpFeedbackExample" resultMap="BaseResultMap">
     select
@@ -104,9 +105,9 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_corp_feedback (corp_id, create_time, linkman, 
-      phone)
+      phone, content)
     values (#{corpId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{linkman,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorpFeedback">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -126,6 +127,9 @@
       <if test="phone != null">
         phone,
       </if>
+      <if test="content != null">
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
@@ -139,6 +143,9 @@
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +173,9 @@
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +187,8 @@
       corp_id = #{record.corpId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       linkman = #{record.linkman,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR}
+      phone = #{record.phone,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +208,9 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +219,8 @@
     set corp_id = #{corpId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       linkman = #{linkman,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR}
+      phone = #{phone,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
