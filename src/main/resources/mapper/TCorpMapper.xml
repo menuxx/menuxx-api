@@ -12,6 +12,7 @@
     <result column="master_name" jdbcType="VARCHAR" property="masterName" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="corp_phone" jdbcType="VARCHAR" property="corpPhone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="business_hours" jdbcType="VARCHAR" property="businessHours" />
     <result column="master_phone" jdbcType="VARCHAR" property="masterPhone" />
     <result column="wechat_id" jdbcType="VARCHAR" property="wechatId" />
@@ -81,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, corp_name, app_key, legal_entity, business_license, business_license_img, shop_name, 
-    master_name, address, corp_phone, business_hours, master_phone, wechat_id, app_id, 
-    app_secret, pay_secret, mch_id, create_time
+    master_name, address, corp_phone, email, business_hours, master_phone, wechat_id, 
+    app_id, app_secret, pay_secret, mch_id, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpExample" resultMap="BaseResultMap">
     select
@@ -121,15 +122,17 @@
     insert into t_corp (corp_name, app_key, legal_entity, 
       business_license, business_license_img, shop_name, 
       master_name, address, corp_phone, 
-      business_hours, master_phone, wechat_id, 
-      app_id, app_secret, pay_secret, 
-      mch_id, create_time)
+      email, business_hours, master_phone, 
+      wechat_id, app_id, app_secret, 
+      pay_secret, mch_id, create_time
+      )
     values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{legalEntity,jdbcType=VARCHAR}, 
       #{businessLicense,jdbcType=VARCHAR}, #{businessLicenseImg,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
       #{masterName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{corpPhone,jdbcType=VARCHAR}, 
-      #{businessHours,jdbcType=VARCHAR}, #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, 
-      #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, #{paySecret,jdbcType=VARCHAR}, 
-      #{mchId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{email,jdbcType=VARCHAR}, #{businessHours,jdbcType=VARCHAR}, #{masterPhone,jdbcType=VARCHAR}, 
+      #{wechatId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
+      #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorp">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -163,6 +166,9 @@
       </if>
       <if test="corpPhone != null">
         corp_phone,
+      </if>
+      <if test="email != null">
+        email,
       </if>
       <if test="businessHours != null">
         business_hours,
@@ -216,6 +222,9 @@
       </if>
       <if test="corpPhone != null">
         #{corpPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="businessHours != null">
         #{businessHours,jdbcType=VARCHAR},
@@ -282,6 +291,9 @@
       <if test="record.corpPhone != null">
         corp_phone = #{record.corpPhone,jdbcType=VARCHAR},
       </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
       <if test="record.businessHours != null">
         business_hours = #{record.businessHours,jdbcType=VARCHAR},
       </if>
@@ -323,6 +335,7 @@
       master_name = #{record.masterName,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       corp_phone = #{record.corpPhone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
       business_hours = #{record.businessHours,jdbcType=VARCHAR},
       master_phone = #{record.masterPhone,jdbcType=VARCHAR},
       wechat_id = #{record.wechatId,jdbcType=VARCHAR},
@@ -365,6 +378,9 @@
       <if test="corpPhone != null">
         corp_phone = #{corpPhone,jdbcType=VARCHAR},
       </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
       <if test="businessHours != null">
         business_hours = #{businessHours,jdbcType=VARCHAR},
       </if>
@@ -403,6 +419,7 @@
       master_name = #{masterName,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       corp_phone = #{corpPhone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
       business_hours = #{businessHours,jdbcType=VARCHAR},
       master_phone = #{masterPhone,jdbcType=VARCHAR},
       wechat_id = #{wechatId,jdbcType=VARCHAR},
