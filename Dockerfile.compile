@@ -7,7 +7,7 @@ ADD tools/lib/CCP_REST_SMS_SDK_JAVA_v2.6.3r.jar /tmp/build/
 
 RUN cd /tmp/build && mvn install:install-file -DgroupId=com.cloopen.rest.sdk -DartifactId=ccp-java-sdk -Dversion=2.6.3r -Dpackaging=jar -Dfile=CCP_REST_SMS_SDK_JAVA_v2.6.3r.jar
 
-RUN cd /tmp/build && mvn -q dependency:resolve --settings=settings-docker.xml
+RUN cd /tmp/build && mvn -q install:install --settings=settings-docker.xml
 
 ADD src /tmp/build/src
 
