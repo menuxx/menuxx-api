@@ -44,11 +44,6 @@ public class OrderController extends BaseCorpController {
 
     private static final Logger logger = Logger.getLogger(OrderController.class);
 
-    /**
-     * 支付回调地址
-     */
-    private static final String NOTIFY_URL = "https://dev.api.menuxx.com/weixin/pay_notify";
-
     @Autowired
     AppConfiguration appConfiguration;
 
@@ -98,7 +93,7 @@ public class OrderController extends BaseCorpController {
         payOrder.setAppid(corp.getAppId());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(NOTIFY_URL);
+        payOrder.setNotifyUrl(appConfiguration.getPayNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(order.getOrderCode());
         payOrder.setBody(body);
@@ -219,24 +214,7 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> updateOrderPaid(@PathVariable int dinerId, @PathVariable int orderId) {
         orderService.updateOrderPaid(orderId);
 
-        Order order = orderWrapper.selectOrder(orderId);
-
-        List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(dinerId);
-
-        List<String> clientIdList = new ArrayList<>();
-
-        for (TCorpUser corpUser : corpUserList) {
-            clientIdList.add(corpUser.getClientId());
-        }
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String content = mapper.writeValueAsString(order);
-            IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        Order order = orderWrapper.pushOrder(orderId);
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }

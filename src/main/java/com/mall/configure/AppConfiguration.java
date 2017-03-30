@@ -18,6 +18,8 @@ public class AppConfiguration {
 
     private String ipushUrl;
 
+    private String payNotifyUrl;
+
     public String getIpushAppId() {
         return ipushAppId;
     }
@@ -48,5 +50,13 @@ public class AppConfiguration {
 
     public void setIpushUrl(String ipushUrl) {
         this.ipushUrl = ipushUrl;
+    }
+
+    public String getPayNotifyUrl() {
+        return payNotifyUrl;
+    }
+
+    public void setPayNotifyUrl(String payNotifyUrl) {
+        this.payNotifyUrl = payNotifyUrl;
     }
 }
