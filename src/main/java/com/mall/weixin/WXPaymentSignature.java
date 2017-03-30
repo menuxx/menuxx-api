@@ -30,7 +30,7 @@ public class WXPaymentSignature {
 
 	private String timeStamp;
 
-	@JsonProperty("packages")
+	@JsonProperty("package")
 	private String packages;
 
 	private String paySign;
