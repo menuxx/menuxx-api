@@ -81,7 +81,7 @@ public class OrderController extends BaseCorpController {
         // Body
         String body = order.getItemList().get(0).getItem().getItemName();
         if (order.getItemList().size() > 0) {
-            body += "等";
+            body += "...";
         }
 
         TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
