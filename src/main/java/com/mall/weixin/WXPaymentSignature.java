@@ -61,6 +61,8 @@ public class WXPaymentSignature {
 			// WXPayOrder 转换成 querystring
 			TypeReference<HashMap<String, String>> typeRef = new TypeReference<HashMap<String, String>>() {};
 			HashMap<String, String> props = mapper.readValue(json, typeRef);
+			// 第一次不参与签名
+			props.remove("paySign");
 			// 1. key 排序
 			Map<String, String> sortedProps = new TreeMap<>(props);
 			// 2. 序列化成 querystring
