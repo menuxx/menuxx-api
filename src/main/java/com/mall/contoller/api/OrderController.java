@@ -84,7 +84,10 @@ public class OrderController extends BaseCorpController {
         Order order = orderWrapper.selectOrder(orderId);
 
         // Body
-        String body = "已成功支付¥" + order.getTotalAmount()/100;
+        String body = order.getItemList().get(0).getItem().getItemName();
+        if (order.getItemList().size() > 0) {
+            body += "等";
+        }
 
         TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
 

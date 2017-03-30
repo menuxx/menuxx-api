@@ -7,6 +7,9 @@ import com.mall.service.CorpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import static com.mall.utils.Util.onlyOne;
 /**
  * 作者: yinchangsheng@gmail.com
@@ -34,5 +37,24 @@ public class CorpServiceImpl implements CorpService {
 		TCorp corp = onlyOne(tCorpMapper.selectByExample(example));
 		
 		return corp;
+	}
+
+	@Override
+	public Map<String, Object> selectCorpForMap(int corpId) {
+		TCorp corp = selectCorpByCorpId(corpId);
+
+		Map<String, Object> map = new HashMap();
+
+		if (null != corp) {
+			map.put("id", corp.getId());
+			map.put("address", corp.getAddress());
+			map.put("corpPhone", corp.getCorpPhone());
+			map.put("email", corp.getEmail());
+			map.put("businessHours", corp.getBusinessHours());
+			map.put("shopName", corp.getShopName());
+			map.put("masterName", corp.getMasterName());
+		}
+
+		return map;
 	}
 }
