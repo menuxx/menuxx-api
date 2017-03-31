@@ -28,6 +28,12 @@
             <url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>
         </repository>
 
+        <repository>
+            <id>myMavenRepo.read</id>
+            <name>myMavenRepo</name>
+            <url>https://mymavenrepo.com/repo/Yi9uClX522yL9V2DpDyI/</url>
+        </repository>
+
     </repositories>
     
 
@@ -180,7 +186,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>21.0</version>
         </dependency>
 
         <dependency>

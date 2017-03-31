@@ -53,8 +53,6 @@ under the License.
     <localRepository>/path/to/local/repo</localRepository>
     -->
 
-    <localRepository>/root/.m2/repository</localRepository>
-
     <!-- interactiveMode
      | This will determine whether maven prompts you when it needs input. If set to false,
      | maven will use a sensible default value, perhaps based on some other setting, for
@@ -160,6 +158,7 @@ under the License.
           <url>http://my.repository.com/repo/path</url>
         </mirror>
          -->
+
         <mirror>
             <id>nexus-aliyun</id>
             <mirrorOf>*</mirrorOf>
@@ -269,14 +268,32 @@ under the License.
           </properties>
         </profile>
         -->
+
+        <profile>
+            <id>myMavenRepo</id>
+            <activation>
+                <property>
+                    <name>!doNotUseMyMavenRepo</name>
+                </property>
+            </activation>
+            <properties>
+                <myMavenRepo.read.url>https://mymavenrepo.com/repo/Yi9uClX522yL9V2DpDyI/</myMavenRepo.read.url>
+                <myMavenRepo.write.url>https://mymavenrepo.com/repo/DLmRvuMzTxiSGJxyoJje/</myMavenRepo.write.url>
+            </properties>
+        </profile>
+
     </profiles>
 
     <!-- activeProfiles
      | List of profiles that are active for all builds.
      |
     <activeProfiles>
-      <activeProfile>alwaysActiveProfile</activeProfile>
+      <activeProfile>myMavenRepo</activeProfile>
       <activeProfile>anotherAlwaysActiveProfile</activeProfile>
     </activeProfiles>
     -->
+    <activeProfiles>
+        <activeProfile>myMavenRepo</activeProfile>
+    </activeProfiles>
+
 </settings>
