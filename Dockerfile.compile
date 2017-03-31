@@ -15,6 +15,7 @@ RUN cd /tmp/build && mvn -q -DskipTests=true package \
         && cd / && rm -rf /tmp/build
 
 VOLUME /tmp
+VOLUME /log
 
 EXPOSE 8080
 
