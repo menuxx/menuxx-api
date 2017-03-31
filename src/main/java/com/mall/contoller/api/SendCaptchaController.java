@@ -33,7 +33,13 @@ public class SendCaptchaController {
         TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
 
         if (corpUser == null) {
-            return new ResponseEntity<Object>("你的手机暂未授权", HttpStatus.INTERNAL_SERVER_ERROR);
+            // 创建CorpUser
+            corpUser = new TCorpUser();
+            corpUser.setMobile(phone);
+            corpUser.setCorpId(0);
+
+            corpUserService.createCorpUser(corpUser);
+//            return new ResponseEntity<Object>("你的手机暂未授权", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         String captcha = Util.generateCaptcha();

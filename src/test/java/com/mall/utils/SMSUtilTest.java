@@ -53,11 +53,11 @@ public class SMSUtilTest {
 
     @Test
     public void testSendCaptcha() {
-        String phone = "17681834305";
+        String phone = "13738142344";
         String captcha = "2344";
 
 //        SMSUtil.sendCaptcha(phone, captcha);
-
+//
 //        boolean check = SMSUtil.checkCaptcha(phone, captcha);
 //        System.out.println(check);
     }

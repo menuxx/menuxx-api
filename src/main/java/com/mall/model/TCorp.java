@@ -23,6 +23,8 @@ public class TCorp {
 
     private String corpPhone;
 
+    private String email;
+
     private String businessHours;
 
     private String masterPhone;
@@ -117,6 +119,14 @@ public class TCorp {
 
     public void setCorpPhone(String corpPhone) {
         this.corpPhone = corpPhone == null ? null : corpPhone.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     public String getBusinessHours() {

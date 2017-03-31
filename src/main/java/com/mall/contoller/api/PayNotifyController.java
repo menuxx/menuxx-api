@@ -3,6 +3,7 @@ package com.mall.contoller.api;
 import com.mall.model.Order;
 import com.mall.model.TChargeApply;
 import com.mall.service.ChargeApplyService;
+import com.mall.utils.Constants;
 import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 import retrofit2.Call;
@@ -91,16 +94,24 @@ public class PayNotifyController {
 //
 //	}
 
-	@PostMapping(path = "weixin/pay_notify", consumes = {MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<?> onNotify(@RequestBody WXNotifyEvent event) {
+	/**
+	 * 微信支付回调频率：15/15/30/180/1800/1800/1800/1800/3600（秒）
+	 * @param event
+	 * @return
+	 */
+	@PostMapping(path = "weixin/pay_notify", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public String onNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] notify start***************************");
 		logger.info(event);
+
+		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
+		logger.info(xStreamMarshaller.getXStream().toXML(event));
 
 		if ("SUCCESS".equals(event.getResultCode())) {
 			TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
 
 			if (null != chargeApply) {
-				return new ResponseEntity<>(HttpStatus.OK);
+				return "SUCCESS";
 			}
 
 			chargeApply = new TChargeApply();
@@ -122,11 +133,11 @@ public class PayNotifyController {
 			chargeApply.setTransactionId(event.getTransactionId());
 
 			orderWrapper.setStatusToPaid(chargeApply);
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			return "SUCCESS";
 
 		}
 
-		return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return "FAIL";
 
 	}
 
