@@ -57,7 +57,7 @@ public class CorpUserController {
 
             SessionData sessionData = new SessionData("", "", corpUser.getId(), String.valueOf(corpUser.getCorpId()));
 
-            TCorp corp = corpService.selectCorpByCorpId(corpUser.getCorpId());
+            Map<String, Object> corp = corpService.selectCorpForMap(corpUser.getCorpId());
 
             Map<String, Object> map = new java.util.HashMap<>();
             map.put("sessionData", sessionData);

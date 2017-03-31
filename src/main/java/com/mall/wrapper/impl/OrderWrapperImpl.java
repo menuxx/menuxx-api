@@ -1,12 +1,17 @@
 package com.mall.wrapper.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.mall.configure.AppConfiguration;
 import com.mall.model.*;
 import com.mall.service.*;
+import com.mall.utils.IPushUtil;
 import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +46,11 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Autowired
     ChargeApplyService chargeApplyService;
 
+    @Autowired
+    CorpUserService corpUserService;
+
+    @Autowired
+    AppConfiguration appConfiguration;
 
     @Override
     @Transactional
@@ -154,6 +164,30 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
+    public Order pushOrder(int orderId) {
+        Order order = selectOrder(orderId);
+
+        List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
+
+        List<String> clientIdList = new ArrayList<>();
+
+        for (TCorpUser corpUser : corpUserList) {
+            clientIdList.add(corpUser.getClientId());
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String content = mapper.writeValueAsString(order);
+            IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return order;
+    }
+
+    @Override
     @Transactional
     public void setStatusToPaid(TChargeApply chargeApply) {
         String orderCode = chargeApply.getOutTradeNo();
@@ -163,8 +197,9 @@ public class OrderWrapperImpl implements OrderWrapper {
         chargeApply.setOrderId(order.getId());
         chargeApplyService.createChargeApply(chargeApply);
 
-
-
         orderService.updateOrderPaid(order.getId());
+
+        // PUSH
+        pushOrder(order.getId());
     }
 }

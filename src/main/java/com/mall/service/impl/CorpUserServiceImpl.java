@@ -51,4 +51,9 @@ public class CorpUserServiceImpl implements CorpUserService {
     public TCorpUser selectCorpUser(int corpUserId) {
         return corpUserMapper.selectByPrimaryKey(corpUserId);
     }
+
+    @Override
+    public void createCorpUser(TCorpUser corpUser) {
+        corpUserMapper.insert(corpUser);
+    }
 }

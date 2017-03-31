@@ -22,4 +22,6 @@ public interface OrderWrapper {
     Order selectOrder(int orderId);
 
     void setStatusToPaid(TChargeApply chargeApply);
+
+    Order pushOrder(int orderId);
 }
