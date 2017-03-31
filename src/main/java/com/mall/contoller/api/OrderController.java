@@ -3,8 +3,8 @@ package com.mall.contoller.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
+import com.mall.annotation.SessionKey;
 import com.mall.configure.AppConfiguration;
 import com.mall.configure.page.Page;
 import com.mall.model.Order;
@@ -174,7 +174,6 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> getPaidOrders(@SessionKey SessionData sessionData, @PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
         int userId = sessionData.getUserId();
-
         PageInfo<Order> pageInfo = orderWrapper.selectPaidOrders(userId, dinerId);
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
@@ -192,6 +191,9 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                                  @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
         PageInfo<Order> pageInfo = orderWrapper.selectAllOrders(dinerId);
+        if (true) {
+            throw new NullPointerException();
+        }
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 

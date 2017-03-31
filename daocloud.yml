@@ -1,0 +1,22 @@
+version: 2.0
+
+test:
+  image: daocloud/ci-java:oraclejdk8
+
+  script:
+    - ./mvn clean package
+    - ./mvn spring-boot:run -Dspring.profiles.active=development
+    - cat $TEST_RESULT
+
+build:
+  lite_image:
+    compile:
+      dockerfile_path: Dockerfile.compile
+      build_dir: /
+      cache: true
+    extract:
+      - /app.jar
+    package:
+      dockerfile_path: Dockerfile.package
+      build_dir: /
+      cache: true

@@ -12,6 +12,7 @@
     <url>http://maven.apache.org</url>
 
     <repositories>
+
         <repository>
             <id>central</id>
             <name>Central Repository</name>
@@ -21,12 +22,19 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
         <repository>
             <id>getui-nexus</id>
             <url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>
         </repository>
+
+        <repository>
+            <id>myMavenRepo.read</id>
+            <name>myMavenRepo</name>
+            <url>https://mymavenrepo.com/repo/Yi9uClX522yL9V2DpDyI/</url>
+        </repository>
+
     </repositories>
-    
 
     <pluginRepositories>
         <pluginRepository>
@@ -177,7 +185,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>21.0</version>
         </dependency>
 
         <dependency>
@@ -305,23 +313,6 @@
                 <configuration>
                     <forkMode>once</forkMode>
                     <argLine>-Dfile.encoding=UTF-8</argLine>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.11</version>
-                <configuration>
-                    <imageName>nizhuantech/${project.artifactId}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
                 </configuration>
             </plugin>
 
