@@ -10,14 +10,15 @@ import com.mall.configure.page.Page;
 import com.mall.model.Order;
 import com.mall.model.OrderItem;
 import com.mall.model.TCorp;
-import com.mall.model.TCorpUser;
 import com.mall.service.CorpService;
 import com.mall.service.CorpUserService;
 import com.mall.service.OrderService;
+import com.mall.service.StatisticsService;
 import com.mall.utils.Constants;
-import com.mall.utils.IPushUtil;
 import com.mall.utils.JPushUtil;
-import com.mall.weixin.WXPayService;
+import com.mall.utils.Util;
+import com.mall.weixin.*;
+import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -58,6 +64,9 @@ public class OrderController extends BaseCorpController {
     @Autowired
     CorpUserService corpUserService;
 
+    @Autowired
+    StatisticsService statisticsService;
+
     /**
      * 1003 发起支付
      * @param dinerId
@@ -73,7 +82,7 @@ public class OrderController extends BaseCorpController {
 
         // Body
         String body = order.getItemList().get(0).getItem().getItemName();
-        if (order.getItemList().size() > 0) {
+        if (order.getItemList().size() > 1) {
             body += "...";
         }
 
@@ -213,5 +222,7 @@ public class OrderController extends BaseCorpController {
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
+
+
 
 }

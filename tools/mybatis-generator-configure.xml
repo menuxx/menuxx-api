@@ -86,6 +86,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <table schema="jiujin" tableName="t_corp_total" domainObjectName="TCorpTotal" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
     </context>
 
 </generatorConfiguration>
