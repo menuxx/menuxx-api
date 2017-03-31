@@ -13,6 +13,11 @@
 
     <repositories>
         <repository>
+            <id>myMavenRepo.read</id>
+            <name>myMavenRepo</name>
+            <url>https://mymavenrepo.com/repo/Yi9uClX522yL9V2DpDyI/</url>
+        </repository>
+        <repository>
             <id>central</id>
             <name>Central Repository</name>
             <url>http://repo.maven.apache.org/maven2</url>
@@ -177,7 +182,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>21.0</version>
         </dependency>
 
         <dependency>
