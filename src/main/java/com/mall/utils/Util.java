@@ -1,13 +1,11 @@
 package com.mall.utils;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 作者: yinchangsheng@gmail.com
@@ -95,4 +93,12 @@ public class Util {
 		String captcha = String.format("%04d", random);
 		return captcha;
 	}
+
+	public static Map<String, Object> makeError(int errCode, String errMsg) {
+		Map<String, Object> err = new HashMap<>();
+		err.put("errCode", errCode);
+		err.put("errMsg", errMsg);
+		return err;
+	}
+
 }
