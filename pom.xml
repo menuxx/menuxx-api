@@ -28,11 +28,6 @@
             <url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>
         </repository>
 
-        <repository>
-            <id>local-repo</id>
-            <url>file://root/.m2/repository</url>
-        </repository>
-
     </repositories>
     
 
