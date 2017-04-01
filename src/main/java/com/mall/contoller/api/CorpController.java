@@ -35,7 +35,7 @@ public class CorpController {
      * 3001 获取入驻商家
      * @return
      */
-    @GetMapping("diners/enter")
+    @RequestMapping(value = "entered_diners", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> selectEnterCorp() {
         List<?> list = corpService.selectEnterCorp();
