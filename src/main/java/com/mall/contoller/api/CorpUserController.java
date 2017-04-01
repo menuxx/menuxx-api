@@ -107,6 +107,8 @@ public class CorpUserController {
         List<OrderItem> orderItemList = new ArrayList<>();
         orderItemList.add(orderItem);
 
+        order.setItemList(orderItemList);
+
         try {
             ObjectMapper mapper = new ObjectMapper();
             String content = mapper.writeValueAsString(order);
