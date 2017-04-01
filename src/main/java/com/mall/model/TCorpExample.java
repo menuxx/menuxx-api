@@ -1355,6 +1355,186 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andCorpTypeIsNull() {
+            addCriterion("corp_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeIsNotNull() {
+            addCriterion("corp_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeEqualTo(Integer value) {
+            addCriterion("corp_type =", value, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeNotEqualTo(Integer value) {
+            addCriterion("corp_type <>", value, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeGreaterThan(Integer value) {
+            addCriterion("corp_type >", value, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("corp_type >=", value, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeLessThan(Integer value) {
+            addCriterion("corp_type <", value, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("corp_type <=", value, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeIn(List<Integer> values) {
+            addCriterion("corp_type in", values, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeNotIn(List<Integer> values) {
+            addCriterion("corp_type not in", values, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeBetween(Integer value1, Integer value2) {
+            addCriterion("corp_type between", value1, value2, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorpTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("corp_type not between", value1, value2, "corpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIsNull() {
+            addCriterion("lon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIsNotNull() {
+            addCriterion("lon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonEqualTo(Double value) {
+            addCriterion("lon =", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotEqualTo(Double value) {
+            addCriterion("lon <>", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonGreaterThan(Double value) {
+            addCriterion("lon >", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonGreaterThanOrEqualTo(Double value) {
+            addCriterion("lon >=", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonLessThan(Double value) {
+            addCriterion("lon <", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonLessThanOrEqualTo(Double value) {
+            addCriterion("lon <=", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIn(List<Double> values) {
+            addCriterion("lon in", values, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotIn(List<Double> values) {
+            addCriterion("lon not in", values, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonBetween(Double value1, Double value2) {
+            addCriterion("lon between", value1, value2, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotBetween(Double value1, Double value2) {
+            addCriterion("lon not between", value1, value2, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIsNull() {
+            addCriterion("lat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIsNotNull() {
+            addCriterion("lat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatEqualTo(Double value) {
+            addCriterion("lat =", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotEqualTo(Double value) {
+            addCriterion("lat <>", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThan(Double value) {
+            addCriterion("lat >", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThanOrEqualTo(Double value) {
+            addCriterion("lat >=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThan(Double value) {
+            addCriterion("lat <", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThanOrEqualTo(Double value) {
+            addCriterion("lat <=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIn(List<Double> values) {
+            addCriterion("lat in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotIn(List<Double> values) {
+            addCriterion("lat not in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatBetween(Double value1, Double value2) {
+            addCriterion("lat between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotBetween(Double value1, Double value2) {
+            addCriterion("lat not between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

@@ -2,6 +2,7 @@ package com.mall.service;
 
 import com.mall.model.TCorp;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,5 +18,6 @@ public interface CorpService {
 	TCorp selectCorpByMchId(String mchId);
 
 	Map<String, Object> selectCorpForMap(int corpId);
-	
+
+	List<Map<String, Object>> selectEnterCorp();
 }

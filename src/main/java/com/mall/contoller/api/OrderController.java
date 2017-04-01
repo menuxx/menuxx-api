@@ -69,13 +69,12 @@ public class OrderController extends BaseCorpController {
 
     /**
      * 1003 发起支付
-     * @param dinerId
      * @param orderId
      * @return
      */
     @RequestMapping(value = "orders/{orderId}/create", method = RequestMethod.POST)
     @ResponseBody
-    public DeferredResult<?> createOrder(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
+    public DeferredResult<?> createOrder(@PathVariable int orderId, @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
 
         Order order = orderWrapper.selectOrder(orderId);
@@ -127,6 +126,13 @@ public class OrderController extends BaseCorpController {
         return deferredResult;
     }
 
+    /**
+     * 1002 创建订单
+     * @param dinerId
+     * @param order
+     * @param sessionData
+     * @return
+     */
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> createOrderNoPay(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {

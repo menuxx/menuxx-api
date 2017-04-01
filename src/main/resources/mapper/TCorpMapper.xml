@@ -20,6 +20,9 @@
     <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
     <result column="pay_secret" jdbcType="VARCHAR" property="paySecret" />
     <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="corp_type" jdbcType="INTEGER" property="corpType" />
+    <result column="lon" jdbcType="DOUBLE" property="lon" />
+    <result column="lat" jdbcType="DOUBLE" property="lat" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -83,7 +86,7 @@
   <sql id="Base_Column_List">
     id, corp_name, app_key, legal_entity, business_license, business_license_img, shop_name, 
     master_name, address, corp_phone, email, business_hours, master_phone, wechat_id, 
-    app_id, app_secret, pay_secret, mch_id, create_time
+    app_id, app_secret, pay_secret, mch_id, corp_type, lon, lat, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpExample" resultMap="BaseResultMap">
     select
@@ -124,14 +127,16 @@
       master_name, address, corp_phone, 
       email, business_hours, master_phone, 
       wechat_id, app_id, app_secret, 
-      pay_secret, mch_id, create_time
+      pay_secret, mch_id, corp_type, 
+      lon, lat, create_time
       )
     values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{legalEntity,jdbcType=VARCHAR}, 
       #{businessLicense,jdbcType=VARCHAR}, #{businessLicenseImg,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
       #{masterName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{corpPhone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{businessHours,jdbcType=VARCHAR}, #{masterPhone,jdbcType=VARCHAR}, 
       #{wechatId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
-      #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{corpType,jdbcType=INTEGER}, 
+      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorp">
@@ -191,6 +196,15 @@
       <if test="mchId != null">
         mch_id,
       </if>
+      <if test="corpType != null">
+        corp_type,
+      </if>
+      <if test="lon != null">
+        lon,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -246,6 +260,15 @@
       </if>
       <if test="mchId != null">
         #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="corpType != null">
+        #{corpType,jdbcType=INTEGER},
+      </if>
+      <if test="lon != null">
+        #{lon,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=DOUBLE},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -315,6 +338,15 @@
       <if test="record.mchId != null">
         mch_id = #{record.mchId,jdbcType=VARCHAR},
       </if>
+      <if test="record.corpType != null">
+        corp_type = #{record.corpType,jdbcType=INTEGER},
+      </if>
+      <if test="record.lon != null">
+        lon = #{record.lon,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lat != null">
+        lat = #{record.lat,jdbcType=DOUBLE},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -343,6 +375,9 @@
       app_secret = #{record.appSecret,jdbcType=VARCHAR},
       pay_secret = #{record.paySecret,jdbcType=VARCHAR},
       mch_id = #{record.mchId,jdbcType=VARCHAR},
+      corp_type = #{record.corpType,jdbcType=INTEGER},
+      lon = #{record.lon,jdbcType=DOUBLE},
+      lat = #{record.lat,jdbcType=DOUBLE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -402,6 +437,15 @@
       <if test="mchId != null">
         mch_id = #{mchId,jdbcType=VARCHAR},
       </if>
+      <if test="corpType != null">
+        corp_type = #{corpType,jdbcType=INTEGER},
+      </if>
+      <if test="lon != null">
+        lon = #{lon,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=DOUBLE},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -427,6 +471,9 @@
       app_secret = #{appSecret,jdbcType=VARCHAR},
       pay_secret = #{paySecret,jdbcType=VARCHAR},
       mch_id = #{mchId,jdbcType=VARCHAR},
+      corp_type = #{corpType,jdbcType=INTEGER},
+      lon = #{lon,jdbcType=DOUBLE},
+      lat = #{lat,jdbcType=DOUBLE},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -39,6 +39,12 @@ public class TCorp {
 
     private String mchId;
 
+    private Integer corpType;
+
+    private Double lon;
+
+    private Double lat;
+
     private Date createTime;
 
     public Integer getId() {
@@ -183,6 +189,30 @@ public class TCorp {
 
     public void setMchId(String mchId) {
         this.mchId = mchId == null ? null : mchId.trim();
+    }
+
+    public Integer getCorpType() {
+        return corpType;
+    }
+
+    public void setCorpType(Integer corpType) {
+        this.corpType = corpType;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
     public Date getCreateTime() {

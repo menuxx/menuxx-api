@@ -11,6 +11,12 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
  */
 public class Constants {
 
+    // 入驻类型商户
+    public static final Integer CORP_TYPE_ENTER = 1;
+
+    // 独立类型商户
+    public static final Integer CORP_TYPE_INDEPENDENT = 0;
+
     public static final Integer ZERO = 0;
 
     public static final Integer ONE = 1;
