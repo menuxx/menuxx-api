@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.mall.utils.Util.makeError;
 
 /**
  * Created by Supeng on 15/03/2017.
@@ -47,27 +46,18 @@ public class CorpUserController {
     @RequestMapping(value = "captcha/{phone}/{captcha}/{clientId}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> login(@PathVariable String phone, @PathVariable String captcha, @PathVariable String clientId) {
-        if (true) {
-            throw new NullPointerException();
-        }
         if (SMSUtil.checkCaptcha(phone, captcha)) {
             TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
             corpUser.setClientId(clientId);
             corpUserService.updateCorpUser(corpUser);
-
             SessionData sessionData = new SessionData("", "", corpUser.getId(), String.valueOf(corpUser.getCorpId()));
-
             Map<String, Object> corp = corpService.selectCorpForMap(corpUser.getCorpId());
-
             Map<String, Object> map = new java.util.HashMap<>();
             map.put("sessionData", sessionData);
             map.put("corp", corp);
-
-            return new ResponseEntity<Object>(map, HttpStatus.OK);
+            return new ResponseEntity<>(map, HttpStatus.OK);
         }
-
-
-        return new ResponseEntity<Object>("手机号和验证码不匹配", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(makeError(401, "手机号和验证码不匹配"), HttpStatus.UNAUTHORIZED);
     }
 
 
