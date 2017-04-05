@@ -52,6 +52,9 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Autowired
     AppConfiguration appConfiguration;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Override
     @Transactional
     public void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList) {
@@ -176,8 +179,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            String content = mapper.writeValueAsString(order);
+            String content = objectMapper.writeValueAsString(order);
             IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
 
         } catch (JsonProcessingException e) {
