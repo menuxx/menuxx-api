@@ -305,6 +305,76 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andLogoPathIsNull() {
+            addCriterion("logo_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathIsNotNull() {
+            addCriterion("logo_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathEqualTo(String value) {
+            addCriterion("logo_path =", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathNotEqualTo(String value) {
+            addCriterion("logo_path <>", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathGreaterThan(String value) {
+            addCriterion("logo_path >", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathGreaterThanOrEqualTo(String value) {
+            addCriterion("logo_path >=", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathLessThan(String value) {
+            addCriterion("logo_path <", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathLessThanOrEqualTo(String value) {
+            addCriterion("logo_path <=", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathLike(String value) {
+            addCriterion("logo_path like", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathNotLike(String value) {
+            addCriterion("logo_path not like", value, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathIn(List<String> values) {
+            addCriterion("logo_path in", values, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathNotIn(List<String> values) {
+            addCriterion("logo_path not in", values, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathBetween(String value1, String value2) {
+            addCriterion("logo_path between", value1, value2, "logoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoPathNotBetween(String value1, String value2) {
+            addCriterion("logo_path not between", value1, value2, "logoPath");
+            return (Criteria) this;
+        }
+
         public Criteria andLegalEntityIsNull() {
             addCriterion("legal_entity is null");
             return (Criteria) this;

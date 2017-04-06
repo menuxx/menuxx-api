@@ -9,6 +9,8 @@ public class TCorp {
 
     private String appKey;
 
+    private String logoPath;
+
     private String legalEntity;
 
     private String businessLicense;
@@ -69,6 +71,14 @@ public class TCorp {
 
     public void setAppKey(String appKey) {
         this.appKey = appKey == null ? null : appKey.trim();
+    }
+
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath == null ? null : logoPath.trim();
     }
 
     public String getLegalEntity() {
