@@ -25,7 +25,9 @@ public class AESCoderTest {
 
     @Test
     public void testDecrypt() {
-        String str = "1afdbe7ec3c92b6bb63369053d5804f12b7e66697f57be4022e53b73a2ffa2824cebaea7cc45682ffeccc1ebebd77369ec3386d75c7da2bc46e4e14fe2e2e8a2";
+//        String str = "1afdbe7ec3c92b6bb63369053d5804f12b7e66697f57be4022e53b73a2ffa2824cebaea7cc45682ffeccc1ebebd77369ec3386d75c7da2bc46e4e14fe2e2e8a2";
+
+        String str = "36ca398f28218c764daa71fbb6871e7c";
 
         str = AESCoder.decrypt(str);
 

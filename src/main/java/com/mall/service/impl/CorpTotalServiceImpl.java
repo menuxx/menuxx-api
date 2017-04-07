@@ -44,6 +44,8 @@ public class CorpTotalServiceImpl implements CorpTotalService {
         TCorpTotalExample example = new TCorpTotalExample();
         TCorpTotalExample.Criteria criteria = example.createCriteria();
 
+        example.setOrderByClause(" ID DESC ");
+
         criteria.andCorpIdEqualTo(corpId);
 
         PageInfo<TCorpTotal> pageInfo = new PageInfo<>(corpTotalMapper.selectByExample(example));
