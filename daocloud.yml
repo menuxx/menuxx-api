@@ -1,22 +1,38 @@
-version: 2.0
-
-test:
-  image: daocloud/ci-java:oraclejdk8
-
-  script:
-    - ./mvn clean package
-    - ./mvn spring-boot:run -Dspring.profiles.active=development
-    - cat $TEST_RESULT
-
+version: "3"
+stages:
+- build
+- deploy
 build:
-  lite_image:
-    compile:
-      dockerfile_path: Dockerfile.compile
-      build_dir: /
-      cache: true
-    extract:
-      - /app.jar
-    package:
-      dockerfile_path: Dockerfile.package
-      build_dir: /
-      cache: true
+  stage: build
+  job_type: image_build
+  only:
+    branches:
+    - pre
+    tags:
+    - .*
+  build_dir: /
+  cache: true
+  dockerfile_path: Dockerfile.compile
+menuxx-api:
+  label: production
+  stage: deploy
+  job_type: DCS_deploy
+  only:
+    tags:
+    - .*
+  app_id: 8a0c9f7d-197e-48c6-a92c-72d32e9c15c9
+  app_name: menuxx-api
+  cluster_id: sr346813-8475-845a-a8j5-66e6z1d17a50
+  deploy_trigger: .*
+  dockerfile_path: Dockerfile.package
+menuxx_pre-api:
+  label: development
+  stage: deploy
+  job_type: DCS_deploy
+  only:
+    branches:
+    - pre
+  app_id: b70c793c-c8a2-4c32-ae30-3d71e83a078c
+  app_name: menuxx_pre-api
+  cluster_id: sr346813-8475-845a-a8j5-66e6z1d17a50
+  deploy_trigger: .*
