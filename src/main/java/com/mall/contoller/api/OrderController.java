@@ -197,9 +197,6 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                                  @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
         PageInfo<Order> pageInfo = orderWrapper.selectAllOrders(dinerId);
-        if (true) {
-            throw new NullPointerException();
-        }
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 
