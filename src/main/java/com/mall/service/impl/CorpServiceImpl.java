@@ -89,4 +89,9 @@ public class CorpServiceImpl implements CorpService {
 
 		return map;
 	}
+
+	@Override
+	public List<TCorp> selectAllCorps() {
+		return tCorpMapper.selectByExample(new TCorpExample());
+	}
 }

@@ -20,4 +20,6 @@ public interface CorpService {
 	Map<String, Object> selectCorpForMap(int corpId);
 
 	List<Map<String, Object>> selectEnterCorp();
+
+	List<TCorp> selectAllCorps();
 }

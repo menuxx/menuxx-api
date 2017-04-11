@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.mall.mapper.TCorpTotalMapper;
 import com.mall.model.TCorpTotal;
 import com.mall.model.TCorpTotalExample;
-import com.mall.model.TOrderExample;
 import com.mall.service.CorpTotalService;
 import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,10 @@ public class CorpTotalServiceImpl implements CorpTotalService {
 
     @Override
     public void createCorpTotal(TCorpTotal corpTotal) {
-        corpTotalMapper.insert(corpTotal);
+        // 判断是否存在
+        if (null == selectCorpTotal(corpTotal.getCorpId(), corpTotal.getDay())) {
+            corpTotalMapper.insert(corpTotal);
+        }
     }
 
     @Override
@@ -51,4 +53,5 @@ public class CorpTotalServiceImpl implements CorpTotalService {
         PageInfo<TCorpTotal> pageInfo = new PageInfo<>(corpTotalMapper.selectByExample(example));
         return pageInfo;
     }
+
 }

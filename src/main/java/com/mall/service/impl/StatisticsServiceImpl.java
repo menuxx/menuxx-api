@@ -3,6 +3,7 @@ package com.mall.service.impl;
 import com.mall.mapper.StatisticsMapper;
 import com.mall.model.TCorp;
 import com.mall.model.TCorpTotal;
+import com.mall.service.CorpService;
 import com.mall.service.CorpTotalService;
 import com.mall.service.StatisticsService;
 import com.mall.utils.Util;
@@ -23,6 +24,9 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Autowired
     CorpTotalService corpTotalService;
+
+    @Autowired
+    CorpService corpService;
 
     @Override
     public List<TCorpTotal> selectByDay(Map<String, String> dayMap) {
@@ -76,7 +80,34 @@ public class StatisticsServiceImpl implements StatisticsService {
         todayMap.put("toDay", toDay);
         todayMap.put("fromDay", fromDay);
 
-        List<TCorpTotal> totalList = selectByDay(todayMap);
+        // 获取所有的商家
+        List<TCorp> corpList = corpService.selectAllCorps();
+
+        // 获取统计信息
+        Map<Integer, TCorpTotal> totalMap = selectTotal(todayMap, yesterday);
+
+       for (TCorp corp : corpList) {
+           if (totalMap.containsKey(corp.getId())) {
+               corpTotalService.createCorpTotal(totalMap.get(corp.getId()));
+           } else {
+               TCorpTotal corpTotal = new TCorpTotal();
+               corpTotal.setDay(yesterday);
+               corpTotal.setCorpId(corp.getId());
+               corpTotal.setIncomeTotal(0);
+               corpTotal.setOrderTotal(0);
+               corpTotal.setArerage(0);
+               corpTotalService.createCorpTotal(corpTotal);
+           }
+       }
+
+
+
+    }
+
+    private Map<Integer, TCorpTotal> selectTotal(Map<String, String> dayMap, Date yesterday) {
+        Map<Integer, TCorpTotal> map = new HashMap<>();
+
+        List<TCorpTotal> totalList = selectByDay(dayMap);
 
         if (totalList.size() > 0) {
             for (TCorpTotal total : totalList) {
@@ -90,10 +121,11 @@ public class StatisticsServiceImpl implements StatisticsService {
                     corpTotal.setOrderTotal(total.getOrderTotal());
                     corpTotal.setArerage(total.getIncomeTotal() / total.getOrderTotal());
 
-                    corpTotalService.createCorpTotal(corpTotal);
+                    map.put(total.getCorpId(), corpTotal);
                 }
             }
         }
 
+        return map;
     }
 }
