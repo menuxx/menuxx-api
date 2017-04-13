@@ -17,7 +17,7 @@ public class TotalScheduler {
     /**
      * 每日凌晨 3 点统计数据
      */
-    @Scheduled(cron = "0 30 3 * * *")
+    @Scheduled(cron = "0 0 3 * * *")
     public void doStatistics() {
         System.out.println("************************ scheduler start ***************************");
         statisticsService.doStatistics();
