@@ -20,6 +20,7 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -227,5 +228,23 @@ public class OrderController extends BaseCorpController {
     }
 
 
+    /**
+     * 2016 修改备注
+     * @param dinerId
+     * @param orderId
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "orders/{orderId}/remark", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> updateOrderRemark(@PathVariable int dinerId, @PathVariable int orderId, @RequestBody Map<String, String> map) {
+        String remark = map.get("remark");
+
+        if (StringUtils.isNotBlank(remark)) {
+            orderService.updateOrderRemark(orderId, remark);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

@@ -23,6 +23,8 @@ public class TOrder {
 
     private Integer payAmount;
 
+    private String remark;
+
     private Date createTime;
 
     public Integer getId() {
@@ -103,6 +105,14 @@ public class TOrder {
 
     public void setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Date getCreateTime() {

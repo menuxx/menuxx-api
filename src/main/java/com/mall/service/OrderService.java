@@ -28,4 +28,5 @@ public interface OrderService {
 
     TOrder selectOrderByCode(String orderCode);
 
+    void updateOrderRemark(int orderId, String remark);
 }

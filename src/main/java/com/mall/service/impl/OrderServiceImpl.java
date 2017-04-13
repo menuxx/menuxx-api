@@ -111,4 +111,13 @@ public class OrderServiceImpl implements OrderService {
 
         return order;
     }
+
+    @Override
+    public void updateOrderRemark(int orderId, String remark) {
+        TOrder order = new TOrder();
+        order.setId(orderId);
+        order.setRemark(remark);
+
+        orderMapper.updateByPrimaryKeySelective(order);
+    }
 }

@@ -3,8 +3,10 @@ package com.mall.contoller.api;
 import com.mall.model.Category;
 import com.mall.model.Item;
 import com.mall.model.TTable;
+import com.mall.model.TTaste;
 import com.mall.service.ItemService;
 import com.mall.service.TableService;
+import com.mall.service.TasteService;
 import com.mall.utils.Constants;
 import com.mall.wrapper.CategoryWrapper;
 import com.mall.wrapper.ItemWrapper;
@@ -37,6 +39,9 @@ public class ItemController extends BaseCorpController {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    TasteService tasteService;
+
     /**
      * 1001 加载首页
      * @param dinerId
@@ -52,6 +57,9 @@ public class ItemController extends BaseCorpController {
 
         List<TTable> tableList = tableService.selectTablesByCorp(dinerId);
         homeMap.put("tableList", tableList);
+
+        List<TTaste> tasteList = tasteService.selectTasteByCorp(dinerId);
+        homeMap.put("tasteList", tasteList);
 
         return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
     }
