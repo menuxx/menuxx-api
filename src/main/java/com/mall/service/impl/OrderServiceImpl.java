@@ -77,6 +77,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public PageInfo<TOrder> selectAllPaidOrders(int corpId) {
+        TOrderExample example = new TOrderExample();
+        TOrderExample.Criteria criteria = example.createCriteria();
+
+        criteria.andCorpIdEqualTo(corpId);
+        criteria.andStatusEqualTo(Order.STATUS_PAID);
+
+        example.setOrderByClause("id desc");
+
+        PageInfo<TOrder> pageInfo = new PageInfo<>(orderMapper.selectByExample(example));
+
+        return pageInfo;
+    }
+
+    @Override
     public TOrder selectOrder(int orderId) {
         TOrderExample example = new TOrderExample();
         TOrderExample.Criteria criteria = example.createCriteria();

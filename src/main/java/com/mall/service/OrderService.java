@@ -22,6 +22,8 @@ public interface OrderService {
 
     PageInfo<TOrder> selectAllOrders(int corpId);
 
+    PageInfo<TOrder> selectAllPaidOrders(int corpId);
+
     TOrder selectOrder(int orderId);
 
     void updateOrderPaid(int orderId);

@@ -167,6 +167,12 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
+    public PageInfo<Order> selectAllPaidOrders(int corpId) {
+        PageInfo<TOrder> tOrderPageInfo = orderService.selectAllPaidOrders(corpId);
+        return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
+
+    @Override
     public Order pushOrder(int orderId) {
         Order order = selectOrder(orderId);
 

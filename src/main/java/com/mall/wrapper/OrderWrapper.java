@@ -19,6 +19,8 @@ public interface OrderWrapper {
 
     PageInfo<Order> selectAllOrders(int corpId);
 
+    PageInfo<Order> selectAllPaidOrders(int corpId);
+
     Order selectOrder(int orderId);
 
     void setStatusToPaid(TChargeApply chargeApply);
