@@ -20,6 +20,8 @@ public class AppConfiguration {
 
     private String payNotifyUrl;
 
+    private String transmissionType;
+
     public String getIpushAppId() {
         return ipushAppId;
     }
@@ -58,5 +60,13 @@ public class AppConfiguration {
 
     public void setPayNotifyUrl(String payNotifyUrl) {
         this.payNotifyUrl = payNotifyUrl;
+    }
+
+    public String getTransmissionType() {
+        return transmissionType;
+    }
+
+    public void setTransmissionType(String transmissionType) {
+        this.transmissionType = transmissionType;
     }
 }
