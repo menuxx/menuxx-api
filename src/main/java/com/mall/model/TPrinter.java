@@ -1,7 +1,6 @@
 package com.mall.model;
 
 public class TPrinter {
-
     private Integer id;
 
     private String macPrefix;
