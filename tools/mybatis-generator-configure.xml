@@ -97,6 +97,11 @@
         <table schema="jiujin" tableName="t_address" domainObjectName="TAddress" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
+
+        <!--<table schema="jiujin" tableName="t_printer" domainObjectName="TPrinter" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
     </context>
 
 </generatorConfiguration>
