@@ -43,6 +43,8 @@ public class TCorp {
 
     private Integer corpType;
 
+    private String lables;
+
     private Double lon;
 
     private Double lat;
@@ -207,6 +209,14 @@ public class TCorp {
 
     public void setCorpType(Integer corpType) {
         this.corpType = corpType;
+    }
+
+    public String getLables() {
+        return lables;
+    }
+
+    public void setLables(String lables) {
+        this.lables = lables == null ? null : lables.trim();
     }
 
     public Double getLon() {

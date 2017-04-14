@@ -26,11 +26,10 @@ public class ItemWrapperImpl implements ItemWrapper {
     CategoryService categoryService;
 
     @Override
-    public Map<Integer, List<TItem>> selectItemsByCorp(int corpId) {
+    public Map<Integer, List<TItem>> selectSellItemsByCorp(int corpId) {
+        List<TItem> list = itemService.selectSellItemsByCorp(corpId);
+
         Map<Integer, List<TItem>> map = new HashMap<>();
-
-        List<TItem> list = itemService.selectItemsByCorp(corpId);
-
         if (list.size() > 0) {
             for (TItem item : list) {
                 int categoryId = item.getCategoryId();
@@ -47,7 +46,6 @@ public class ItemWrapperImpl implements ItemWrapper {
 
         return map;
     }
-
 
     @Override
     public List<Item> selectItems(int corpId) {

@@ -32,7 +32,7 @@ public class CategoryWrapperImpl implements CategoryWrapper {
         if (categoryList.size() > 0) {
             List<Category> returnList = new ArrayList<>();
 
-            Map<Integer, List<TItem>> itemMap = itemWrapper.selectItemsByCorp(corpId);
+            Map<Integer, List<TItem>> itemMap = itemWrapper.selectSellItemsByCorp(corpId);
 
             for (TCategory tcategory : categoryList) {
                 Category category = new Category(tcategory);
