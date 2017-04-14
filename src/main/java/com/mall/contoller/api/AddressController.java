@@ -39,7 +39,7 @@ public class AddressController extends BaseCorpController {
 
         address.setUserId(sessionData.getUserId());
         address.setRemoved(Constants.ZERO);
-        addressService.createAddress(address);
+        address = addressService.createAddress(address);
 
         return new ResponseEntity<Object>(address, HttpStatus.OK);
     }

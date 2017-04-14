@@ -5,6 +5,7 @@ import com.mall.model.TAddress;
 import com.mall.model.TAddressExample;
 import com.mall.service.AddressService;
 import com.mall.utils.Constants;
+import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,34 @@ public class AddressServiceImpl implements AddressService {
     TAddressMapper addressMapper;
 
     @Override
-    public void createAddress(TAddress address) {
-        addressMapper.insert(address);
+    public TAddress createAddress(TAddress address) {
+        TAddress temp = selectAddress(address);
+        if (temp == null) {
+            addressMapper.insert(address);
+            return address;
+        }
+
+        return temp;
+    }
+
+    @Override
+    public TAddress selectAddress(TAddress address) {
+        TAddressExample example = new TAddressExample();
+        TAddressExample.Criteria criteria = example.createCriteria();
+
+        criteria.andUserIdEqualTo(address.getUserId());
+        criteria.andLinkmanEqualTo(address.getLinkman());
+        criteria.andPhoneEqualTo(address.getPhone());
+        criteria.andAddressEqualTo(address.getAddress());
+
+        return Util.onlyOne(addressMapper.selectByExample(example));
     }
 
     @Override
     public void updateAddress(TAddress address) {
         addressMapper.updateByPrimaryKeySelective(address);
     }
+
 
     @Override
     public void removeAddress(int addressId) {

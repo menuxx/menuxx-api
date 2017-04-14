@@ -10,9 +10,11 @@ import java.util.Map;
  */
 public interface AddressService {
 
-    void createAddress(TAddress address);
+    TAddress createAddress(TAddress address);
 
     void updateAddress(TAddress address);
+
+    TAddress selectAddress(TAddress address);
 
     void removeAddress(int addressId);
 
