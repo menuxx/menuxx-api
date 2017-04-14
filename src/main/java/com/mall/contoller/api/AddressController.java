@@ -34,7 +34,7 @@ public class AddressController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> createAddress(@RequestBody TAddress address,  @SessionKey SessionData sessionData) {
         if (StringUtils.isBlank(address.getLinkman()) || StringUtils.isBlank(address.getPhone()) || StringUtils.isBlank(address.getAddress())) {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         address.setUserId(sessionData.getUserId());
