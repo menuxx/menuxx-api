@@ -32,6 +32,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<TItem> selectSellItemsByCorp(int corpId) {
+        TItemExample example = new TItemExample();
+        TItemExample.Criteria criteria = example.createCriteria();
+
+        criteria.andCorpIdEqualTo(corpId);
+        criteria.andSoldoutEqualTo(Item.SELLING);
+
+        return itemMapper.selectByExample(example);
+    }
+
+    @Override
     public List<TItem> selectItems(List<Integer> itemIdList) {
         TItemExample example = new TItemExample();
         TItemExample.Criteria criteria = example.createCriteria();

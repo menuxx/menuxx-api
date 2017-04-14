@@ -14,6 +14,8 @@ public interface ItemService {
 
     List<TItem> selectItemsByCorp(int corpId);
 
+    List<TItem> selectSellItemsByCorp(int corpId);
+
     List<TItem> selectItems(List<Integer> itemIdList);
 
     Map<Integer, TItem> selectItemsForMap(List<Integer> itemIdList);

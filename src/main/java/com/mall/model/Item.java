@@ -7,6 +7,12 @@ import org.springframework.beans.BeanUtils;
  */
 public class Item extends TItem {
 
+    // 已卖光
+    public static final Integer SOLDOUT = 1;
+
+    // 销售中
+    public static final Integer SELLING = 0;
+
     private TCategory category;
 
     public Item() {

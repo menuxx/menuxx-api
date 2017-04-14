@@ -11,7 +11,8 @@ import java.util.Map;
  */
 public interface ItemWrapper {
 
-    Map<Integer, List<TItem>> selectItemsByCorp(int corpId);
+
+    Map<Integer, List<TItem>> selectSellItemsByCorp(int corpId);
 
     List<Item> selectItems(int corpId);
 
