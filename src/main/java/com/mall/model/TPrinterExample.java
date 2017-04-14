@@ -234,73 +234,73 @@ public class TPrinterExample {
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameIsNull() {
-            addCriterion("factory_name is null");
+        public Criteria andProductNameIsNull() {
+            addCriterion("product_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameIsNotNull() {
-            addCriterion("factory_name is not null");
+        public Criteria andProductNameIsNotNull() {
+            addCriterion("product_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameEqualTo(String value) {
-            addCriterion("factory_name =", value, "factoryName");
+        public Criteria andProductNameEqualTo(String value) {
+            addCriterion("product_name =", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameNotEqualTo(String value) {
-            addCriterion("factory_name <>", value, "factoryName");
+        public Criteria andProductNameNotEqualTo(String value) {
+            addCriterion("product_name <>", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameGreaterThan(String value) {
-            addCriterion("factory_name >", value, "factoryName");
+        public Criteria andProductNameGreaterThan(String value) {
+            addCriterion("product_name >", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameGreaterThanOrEqualTo(String value) {
-            addCriterion("factory_name >=", value, "factoryName");
+        public Criteria andProductNameGreaterThanOrEqualTo(String value) {
+            addCriterion("product_name >=", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameLessThan(String value) {
-            addCriterion("factory_name <", value, "factoryName");
+        public Criteria andProductNameLessThan(String value) {
+            addCriterion("product_name <", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameLessThanOrEqualTo(String value) {
-            addCriterion("factory_name <=", value, "factoryName");
+        public Criteria andProductNameLessThanOrEqualTo(String value) {
+            addCriterion("product_name <=", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameLike(String value) {
-            addCriterion("factory_name like", value, "factoryName");
+        public Criteria andProductNameLike(String value) {
+            addCriterion("product_name like", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameNotLike(String value) {
-            addCriterion("factory_name not like", value, "factoryName");
+        public Criteria andProductNameNotLike(String value) {
+            addCriterion("product_name not like", value, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameIn(List<String> values) {
-            addCriterion("factory_name in", values, "factoryName");
+        public Criteria andProductNameIn(List<String> values) {
+            addCriterion("product_name in", values, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameNotIn(List<String> values) {
-            addCriterion("factory_name not in", values, "factoryName");
+        public Criteria andProductNameNotIn(List<String> values) {
+            addCriterion("product_name not in", values, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameBetween(String value1, String value2) {
-            addCriterion("factory_name between", value1, value2, "factoryName");
+        public Criteria andProductNameBetween(String value1, String value2) {
+            addCriterion("product_name between", value1, value2, "productName");
             return (Criteria) this;
         }
 
-        public Criteria andFactoryNameNotBetween(String value1, String value2) {
-            addCriterion("factory_name not between", value1, value2, "factoryName");
+        public Criteria andProductNameNotBetween(String value1, String value2) {
+            addCriterion("product_name not between", value1, value2, "productName");
             return (Criteria) this;
         }
     }

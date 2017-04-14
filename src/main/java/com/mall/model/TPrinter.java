@@ -6,7 +6,7 @@ public class TPrinter {
 
     private String macPrefix;
 
-    private String factoryName;
+    private String productName;
 
     public Integer getId() {
         return id;
@@ -24,11 +24,11 @@ public class TPrinter {
         this.macPrefix = macPrefix == null ? null : macPrefix.trim();
     }
 
-    public String getFactoryName() {
-        return factoryName;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setFactoryName(String factoryName) {
-        this.factoryName = factoryName == null ? null : factoryName.trim();
+    public void setProductName(String productName) {
+        this.productName = productName == null ? null : productName.trim();
     }
 }

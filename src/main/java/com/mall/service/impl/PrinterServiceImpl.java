@@ -1,6 +1,5 @@
 package com.mall.service.impl;
 
-import com.mall.mapper.TPrinterMapper;
 import com.mall.model.TPrinter;
 import com.mall.model.TPrinterExample;
 import com.mall.service.PrinterService;

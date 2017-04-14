@@ -70,9 +70,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_corp_collect" domainObjectName="TCorpCollect" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -94,9 +94,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_printer" domainObjectName="TPrinter" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_printer" domainObjectName="TPrinter" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
     </context>
 
