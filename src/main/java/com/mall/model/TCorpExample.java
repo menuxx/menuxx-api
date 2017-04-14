@@ -1485,6 +1485,76 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andLablesIsNull() {
+            addCriterion("lables is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesIsNotNull() {
+            addCriterion("lables is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesEqualTo(String value) {
+            addCriterion("lables =", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesNotEqualTo(String value) {
+            addCriterion("lables <>", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesGreaterThan(String value) {
+            addCriterion("lables >", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesGreaterThanOrEqualTo(String value) {
+            addCriterion("lables >=", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesLessThan(String value) {
+            addCriterion("lables <", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesLessThanOrEqualTo(String value) {
+            addCriterion("lables <=", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesLike(String value) {
+            addCriterion("lables like", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesNotLike(String value) {
+            addCriterion("lables not like", value, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesIn(List<String> values) {
+            addCriterion("lables in", values, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesNotIn(List<String> values) {
+            addCriterion("lables not in", values, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesBetween(String value1, String value2) {
+            addCriterion("lables between", value1, value2, "lables");
+            return (Criteria) this;
+        }
+
+        public Criteria andLablesNotBetween(String value1, String value2) {
+            addCriterion("lables not between", value1, value2, "lables");
+            return (Criteria) this;
+        }
+
         public Criteria andLonIsNull() {
             addCriterion("lon is null");
             return (Criteria) this;
