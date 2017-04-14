@@ -27,11 +27,17 @@ public class Order extends TOrder {
     public static final int ORDER_TYPE_CARRY_OUT = 1;
     public static final String ORDER_TYPE_CARRY_OUT_TEXT = "打包";
 
+    // 外卖
+    public static final int ORDER_TYPE_DELIVERED = 2;
+    public static final String ORDER_TYPE_DELIVERED_TEXT = "外卖";
+
     private String orderTypeText;
 
     private String statusText;
 
     private TTable table;
+
+    private TAddress address;
 
     private List<OrderItem> itemList;
 
@@ -47,6 +53,8 @@ public class Order extends TOrder {
             orderTypeText = ORDER_TYPE_EAT_IN_TEXT;
         } else if (getOrderType() == ORDER_TYPE_CARRY_OUT) {
             orderTypeText = ORDER_TYPE_CARRY_OUT_TEXT;
+        } else if (getOrderType() == ORDER_TYPE_DELIVERED) {
+            orderTypeText = ORDER_TYPE_DELIVERED_TEXT;
         }
 
         return orderTypeText;
@@ -86,4 +94,11 @@ public class Order extends TOrder {
         this.statusText = statusText;
     }
 
+    public void setAddress(TAddress address) {
+        this.address = address;
+    }
+
+    public TAddress getAddress() {
+        return address;
+    }
 }

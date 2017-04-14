@@ -17,6 +17,8 @@ public class TOrder {
 
     private Integer tableId;
 
+    private Integer addressId;
+
     private Integer queueId;
 
     private Integer totalAmount;
@@ -81,6 +83,14 @@ public class TOrder {
 
     public void setTableId(Integer tableId) {
         this.tableId = tableId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public Integer getQueueId() {

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,9 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     AppConfiguration appConfiguration;
+
+    @Autowired
+    AddressService addressService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -116,12 +120,17 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         if (tOrderList.size() > 0) {
             List<Integer> orderIdList = new ArrayList<>();
+            List<Integer> addressIdList = new ArrayList<>();
 
             for (TOrder torder : tOrderList) {
                 Order order = new Order(torder);
 
                 orderList.add(order);
                 orderIdList.add(torder.getId());
+
+                if (order.getAddressId() != null && order.getAddressId() > 0) {
+                    addressIdList.add(order.getAddressId());
+                }
             }
 
             // 获取 OrderItem
@@ -129,12 +138,25 @@ public class OrderWrapperImpl implements OrderWrapper {
 
             Map<Integer, TTable> tableMap = tableService.selectTablesByCorpForMap(corpId);
 
+            Map<Integer, TAddress> addressMap = new HashMap<>();
+            if (addressIdList.size() > 0) {
+                addressMap = addressService.selectAddressForMap(addressIdList);
+            }
+
             for(Order order : orderList) {
                 List<OrderItem> orderItemList = orderItemMap.get(order.getId());
                 order.setItemList(orderItemList);
 
-                TTable table = tableMap.get(order.getTableId());
-                order.setTable(table);
+                if (order.getTableId() != null && order.getTableId() > 0) {
+                    TTable table = tableMap.get(order.getTableId());
+                    order.setTable(table);
+                }
+
+                if (order.getAddressId() != null && order.getAddressId() > 0) {
+                    TAddress address = addressMap.get(order.getAddressId());
+                    order.setAddress(address);
+                }
+
             }
 
             orderPageInfo.setList(orderList);
@@ -155,6 +177,11 @@ public class OrderWrapperImpl implements OrderWrapper {
         if ( order.getTableId() != null && order.getTableId() > 0 ) {
             TTable table = tableService.selectTable(order.getTableId());
             order.setTable(table);
+        }
+
+        if (order.getAddressId() != null && order.getAddressId() > 0) {
+            TAddress address = addressService.selectAddress(order.getAddressId());
+            order.setAddress(address);
         }
 
         return order;
