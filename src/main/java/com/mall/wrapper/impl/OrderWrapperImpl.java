@@ -75,7 +75,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         for (OrderItem orderItem : orderItemList) {
             TItem item = itemMap.get(orderItem.getItemId());
 
-            int payAmount = item.getProductPrice() * orderItem.getQuantity();
+            int payAmount = item.getDiscountPrice() * orderItem.getQuantity();
 
             orderItem.setOrderId(order.getId());
 
