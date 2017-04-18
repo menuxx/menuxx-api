@@ -201,6 +201,23 @@ public class OrderController extends BaseCorpController {
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 
+    /**
+     * 2021 获取订单详情
+     * @param dinerId
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "orders/{orderId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> getOrder(@PathVariable int dinerId, @PathVariable int orderId) {
+        Order order = orderWrapper.selectOrder(orderId);
+
+        if (null == order) {
+            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
     @ResponseBody
