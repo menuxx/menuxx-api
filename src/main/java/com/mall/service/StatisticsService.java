@@ -12,7 +12,7 @@ public interface StatisticsService {
 
     List<TCorpTotal> selectByDay(Map<String, String> dayMap);
 
-    List<TCorpTotal> selectByToday();
+    TCorpTotal selectByToday();
 
     void doStatistics();
 }

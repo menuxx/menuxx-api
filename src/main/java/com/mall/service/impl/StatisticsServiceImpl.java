@@ -34,9 +34,17 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<TCorpTotal> selectByToday() {
+    public TCorpTotal selectByToday() {
         Map<String, String> dayMap = getTodayMap();
-        return selectByDay(dayMap);
+        List<TCorpTotal> list = selectByDay(dayMap);
+
+        TCorpTotal corpTotal = Util.onlyOne(list);
+
+        if (null != corpTotal) {
+            corpTotal.setArerage(corpTotal.getIncomeTotal() / corpTotal.getOrderTotal());
+        }
+
+        return corpTotal;
     }
 
     private Map<String, String> getTodayMap() {
@@ -45,14 +53,15 @@ public class StatisticsServiceImpl implements StatisticsService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Calendar calendar = Calendar.getInstance();
-        String toDay = dateFormat.format(calendar.getTime());
 
-        calendar.add(Calendar.DAY_OF_YEAR, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         String fromDay = dateFormat.format(calendar.getTime());
+
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        String toDay = dateFormat.format(calendar.getTime());
 
         dayMap.put("toDay", toDay);
         dayMap.put("fromDay", fromDay);
@@ -68,10 +77,10 @@ public class StatisticsServiceImpl implements StatisticsService {
         Calendar calendar = Calendar.getInstance();
         String toDay = dateFormat.format(calendar.getTime());
 
-        calendar.add(Calendar.DAY_OF_YEAR, -1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
 
         String fromDay = dateFormat.format(calendar.getTime());
 
@@ -99,8 +108,6 @@ public class StatisticsServiceImpl implements StatisticsService {
                corpTotalService.createCorpTotal(corpTotal);
            }
        }
-
-
 
     }
 
