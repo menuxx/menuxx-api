@@ -19,6 +19,8 @@ public class TItem {
 
     private Integer soldout;
 
+    private Integer sortId;
+
     private Date createTime;
 
     public Integer getId() {
@@ -83,6 +85,14 @@ public class TItem {
 
     public void setSoldout(Integer soldout) {
         this.soldout = soldout;
+    }
+
+    public Integer getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(Integer sortId) {
+        this.sortId = sortId;
     }
 
     public Date getCreateTime() {

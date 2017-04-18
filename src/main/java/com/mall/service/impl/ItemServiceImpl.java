@@ -39,6 +39,8 @@ public class ItemServiceImpl implements ItemService {
         criteria.andCorpIdEqualTo(corpId);
         criteria.andSoldoutEqualTo(Item.SELLING);
 
+        example.setOrderByClause("sort_id asc, id asc");
+
         return itemMapper.selectByExample(example);
     }
 
