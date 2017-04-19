@@ -34,14 +34,22 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public TCorpTotal selectByToday() {
-        Map<String, String> dayMap = getTodayMap();
-        List<TCorpTotal> list = selectByDay(dayMap);
+    public TCorpTotal selectByToday(int corpId) {
+        Map<String, String> map = getTodayMap();
+        map.put("corpId", String.valueOf(corpId));
+
+        List<TCorpTotal> list = selectByDay(map);
 
         TCorpTotal corpTotal = Util.onlyOne(list);
 
         if (null != corpTotal) {
             corpTotal.setArerage(corpTotal.getIncomeTotal() / corpTotal.getOrderTotal());
+        } else {
+            corpTotal = new TCorpTotal();
+            corpTotal.setArerage(0);
+            corpTotal.setOrderTotal(0);
+            corpTotal.setCorpId(corpId);
+            corpTotal.setIncomeTotal(0);
         }
 
         return corpTotal;

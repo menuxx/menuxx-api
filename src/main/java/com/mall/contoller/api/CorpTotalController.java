@@ -56,7 +56,7 @@ public class CorpTotalController extends BaseCorpController {
     @ResponseBody
     @Page
     public ResponseEntity<?> getTodayTotal(@PathVariable int dinerId) {
-        TCorpTotal corpTotal = statisticsService.selectByToday();
+        TCorpTotal corpTotal = statisticsService.selectByToday(dinerId);
         return new ResponseEntity<Object>(corpTotal, HttpStatus.OK);
     }
 

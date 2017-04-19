@@ -15,6 +15,9 @@
     from t_order
     where `status` = 1
     and create_time between STR_TO_DATE(#{fromDay,jdbcType=VARCHAR}, '%Y-%m-%d') and STR_TO_DATE(#{toDay,jdbcType=VARCHAR}, '%Y-%m-%d')
+    <if test="corpId != null">
+        and corp_id = #{corpId,jdbcType=VARCHAR}
+    </if>
     group by corp_id
   </select>
 </mapper>
