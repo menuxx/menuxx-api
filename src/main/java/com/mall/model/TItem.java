@@ -21,6 +21,8 @@ public class TItem {
 
     private Integer sortId;
 
+    private Integer formatId;
+
     private Date createTime;
 
     public Integer getId() {
@@ -93,6 +95,14 @@ public class TItem {
 
     public void setSortId(Integer sortId) {
         this.sortId = sortId;
+    }
+
+    public Integer getFormatId() {
+        return formatId;
+    }
+
+    public void setFormatId(Integer formatId) {
+        this.formatId = formatId;
     }
 
     public Date getCreateTime() {
