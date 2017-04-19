@@ -1,9 +1,7 @@
 package com.mall.contoller.api;
 
-import com.mall.model.Category;
-import com.mall.model.Item;
-import com.mall.model.TTable;
-import com.mall.model.TTaste;
+import com.mall.model.*;
+import com.mall.service.FormatService;
 import com.mall.service.ItemService;
 import com.mall.service.TableService;
 import com.mall.service.TasteService;
@@ -42,6 +40,9 @@ public class ItemController extends BaseCorpController {
     @Autowired
     TasteService tasteService;
 
+    @Autowired
+    FormatService formatService;
+
     /**
      * 1001 加载首页
      * @param dinerId
@@ -60,6 +61,9 @@ public class ItemController extends BaseCorpController {
 
         List<TTaste> tasteList = tasteService.selectTasteByCorp(dinerId);
         homeMap.put("tasteList", tasteList);
+
+        List<TFormat> formatList = formatService.selectFormatByCorpId(dinerId);
+        homeMap.put("formatList", formatList);
 
         return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
     }

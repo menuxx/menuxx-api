@@ -50,10 +50,13 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+<<<<<<< HEAD
+=======
         <!--<table schema="jiujin" tableName="t_item" domainObjectName="TItem" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+>>>>>>> e1dc1fa5423caa5089c4e90212e0e341ffad3d2e
         <!--<table schema="jiujin" tableName="t_category" domainObjectName="TCategory" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
@@ -103,6 +106,13 @@
         <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_config" domainObjectName="TConfig" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+        <!--<table schema="jiujin" tableName="t_item" domainObjectName="TItem" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <!--<table schema="jiujin" tableName="t_format" domainObjectName="TFormat" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 

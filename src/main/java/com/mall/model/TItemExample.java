@@ -665,6 +665,66 @@ public class TItemExample {
             return (Criteria) this;
         }
 
+        public Criteria andFormatIdIsNull() {
+            addCriterion("format_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdIsNotNull() {
+            addCriterion("format_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdEqualTo(Integer value) {
+            addCriterion("format_id =", value, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdNotEqualTo(Integer value) {
+            addCriterion("format_id <>", value, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdGreaterThan(Integer value) {
+            addCriterion("format_id >", value, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("format_id >=", value, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdLessThan(Integer value) {
+            addCriterion("format_id <", value, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdLessThanOrEqualTo(Integer value) {
+            addCriterion("format_id <=", value, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdIn(List<Integer> values) {
+            addCriterion("format_id in", values, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdNotIn(List<Integer> values) {
+            addCriterion("format_id not in", values, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdBetween(Integer value1, Integer value2) {
+            addCriterion("format_id between", value1, value2, "formatId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormatIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("format_id not between", value1, value2, "formatId");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
