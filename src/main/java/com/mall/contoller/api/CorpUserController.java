@@ -80,6 +80,7 @@ public class CorpUserController {
         order.setUserId(0);
         order.setCorpId(0);
         order.setOrderCode("88888888");
+        order.setRemark("不要葱，不要蒜，加辣");
         order.setStatus(1);
         order.setOrderType(Order.ORDER_TYPE_CARRY_OUT);
         order.setQueueId(0);
