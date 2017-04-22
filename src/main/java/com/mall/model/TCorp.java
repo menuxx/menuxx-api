@@ -43,6 +43,8 @@ public class TCorp {
 
     private Integer corpType;
 
+    private Integer platformId;
+
     private String lables;
 
     private Double lon;
@@ -209,6 +211,14 @@ public class TCorp {
 
     public void setCorpType(Integer corpType) {
         this.corpType = corpType;
+    }
+
+    public Integer getPlatformId() {
+        return platformId;
+    }
+
+    public void setPlatformId(Integer platformId) {
+        this.platformId = platformId;
     }
 
     public String getLables() {

@@ -60,6 +60,19 @@ public class CorpServiceImpl implements CorpService {
 		return buildCorp2Map(list);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectEnterCorp(int corpId) {
+		TCorpExample example = new TCorpExample();
+		TCorpExample.Criteria criteria = example.createCriteria();
+
+		criteria.andCorpTypeEqualTo(Constants.CORP_TYPE_ENTER);
+		criteria.andPlatformIdEqualTo(corpId);
+
+		List<TCorp> list =  tCorpMapper.selectByExample(example);
+
+		return buildCorp2Map(list);
+	}
+
 	private List<Map<String, Object>> buildCorp2Map(List<TCorp> list) {
 		List<Map<String, Object>> mapList = new ArrayList<>();
 
