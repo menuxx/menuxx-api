@@ -24,6 +24,7 @@ public class FormatServiceImpl implements FormatService {
         TFormatExample.Criteria criteria = example.createCriteria();
 
         criteria.andCorpIdEqualTo(corpId);
+        example.setOrderByClause("sort_id asc");
 
         return formatMapper.selectByExample(example);
     }

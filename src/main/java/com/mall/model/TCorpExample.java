@@ -1485,6 +1485,66 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andPlatformIdIsNull() {
+            addCriterion("platform_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdIsNotNull() {
+            addCriterion("platform_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdEqualTo(Integer value) {
+            addCriterion("platform_id =", value, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdNotEqualTo(Integer value) {
+            addCriterion("platform_id <>", value, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdGreaterThan(Integer value) {
+            addCriterion("platform_id >", value, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("platform_id >=", value, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdLessThan(Integer value) {
+            addCriterion("platform_id <", value, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdLessThanOrEqualTo(Integer value) {
+            addCriterion("platform_id <=", value, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdIn(List<Integer> values) {
+            addCriterion("platform_id in", values, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdNotIn(List<Integer> values) {
+            addCriterion("platform_id not in", values, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdBetween(Integer value1, Integer value2) {
+            addCriterion("platform_id between", value1, value2, "platformId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlatformIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("platform_id not between", value1, value2, "platformId");
+            return (Criteria) this;
+        }
+
         public Criteria andLablesIsNull() {
             addCriterion("lables is null");
             return (Criteria) this;

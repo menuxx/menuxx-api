@@ -21,5 +21,7 @@ public interface CorpService {
 
 	List<Map<String, Object>> selectEnterCorp();
 
+	List<Map<String, Object>> selectEnterCorp(int corpId);
+
 	List<TCorp> selectAllCorps();
 }

@@ -42,4 +42,15 @@ public class CorpController {
         return new ResponseEntity<Object>(list, HttpStatus.OK);
     }
 
+    /**
+     * 3002 获取入驻商家
+     * @return
+     */
+    @RequestMapping(value = "diners/{dinerId}/entered_diners", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> selectEnterCorp(@PathVariable int dinerId) {
+        List<?> list = corpService.selectEnterCorp();
+        return new ResponseEntity<Object>(list, HttpStatus.OK);
+    }
+
 }

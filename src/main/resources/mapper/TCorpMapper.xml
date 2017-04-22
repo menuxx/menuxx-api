@@ -22,6 +22,7 @@
     <result column="pay_secret" jdbcType="VARCHAR" property="paySecret" />
     <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
     <result column="corp_type" jdbcType="INTEGER" property="corpType" />
+    <result column="platform_id" jdbcType="INTEGER" property="platformId" />
     <result column="lables" jdbcType="VARCHAR" property="lables" />
     <result column="lon" jdbcType="DOUBLE" property="lon" />
     <result column="lat" jdbcType="DOUBLE" property="lat" />
@@ -88,7 +89,8 @@
   <sql id="Base_Column_List">
     id, corp_name, app_key, logo_path, legal_entity, business_license, business_license_img, 
     shop_name, master_name, address, corp_phone, email, business_hours, master_phone, 
-    wechat_id, app_id, app_secret, pay_secret, mch_id, corp_type, lables, lon, lat, create_time
+    wechat_id, app_id, app_secret, pay_secret, mch_id, corp_type, platform_id, lables, 
+    lon, lat, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpExample" resultMap="BaseResultMap">
     select
@@ -130,16 +132,18 @@
       corp_phone, email, business_hours, 
       master_phone, wechat_id, app_id, 
       app_secret, pay_secret, mch_id, 
-      corp_type, lables, lon, 
-      lat, create_time)
+      corp_type, platform_id, lables, 
+      lon, lat, create_time
+      )
     values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
       #{legalEntity,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{businessLicenseImg,jdbcType=VARCHAR}, 
       #{shopName,jdbcType=VARCHAR}, #{masterName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{corpPhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{businessHours,jdbcType=VARCHAR}, 
       #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
       #{appSecret,jdbcType=VARCHAR}, #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
-      #{corpType,jdbcType=INTEGER}, #{lables,jdbcType=VARCHAR}, #{lon,jdbcType=DOUBLE}, 
-      #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP})
+      #{corpType,jdbcType=INTEGER}, #{platformId,jdbcType=INTEGER}, #{lables,jdbcType=VARCHAR}, 
+      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorp">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -203,6 +207,9 @@
       </if>
       <if test="corpType != null">
         corp_type,
+      </if>
+      <if test="platformId != null">
+        platform_id,
       </if>
       <if test="lables != null">
         lables,
@@ -274,6 +281,9 @@
       </if>
       <if test="corpType != null">
         #{corpType,jdbcType=INTEGER},
+      </if>
+      <if test="platformId != null">
+        #{platformId,jdbcType=INTEGER},
       </if>
       <if test="lables != null">
         #{lables,jdbcType=VARCHAR},
@@ -358,6 +368,9 @@
       <if test="record.corpType != null">
         corp_type = #{record.corpType,jdbcType=INTEGER},
       </if>
+      <if test="record.platformId != null">
+        platform_id = #{record.platformId,jdbcType=INTEGER},
+      </if>
       <if test="record.lables != null">
         lables = #{record.lables,jdbcType=VARCHAR},
       </if>
@@ -397,6 +410,7 @@
       pay_secret = #{record.paySecret,jdbcType=VARCHAR},
       mch_id = #{record.mchId,jdbcType=VARCHAR},
       corp_type = #{record.corpType,jdbcType=INTEGER},
+      platform_id = #{record.platformId,jdbcType=INTEGER},
       lables = #{record.lables,jdbcType=VARCHAR},
       lon = #{record.lon,jdbcType=DOUBLE},
       lat = #{record.lat,jdbcType=DOUBLE},
@@ -465,6 +479,9 @@
       <if test="corpType != null">
         corp_type = #{corpType,jdbcType=INTEGER},
       </if>
+      <if test="platformId != null">
+        platform_id = #{platformId,jdbcType=INTEGER},
+      </if>
       <if test="lables != null">
         lables = #{lables,jdbcType=VARCHAR},
       </if>
@@ -501,6 +518,7 @@
       pay_secret = #{paySecret,jdbcType=VARCHAR},
       mch_id = #{mchId,jdbcType=VARCHAR},
       corp_type = #{corpType,jdbcType=INTEGER},
+      platform_id = #{platformId,jdbcType=INTEGER},
       lables = #{lables,jdbcType=VARCHAR},
       lon = #{lon,jdbcType=DOUBLE},
       lat = #{lat,jdbcType=DOUBLE},
