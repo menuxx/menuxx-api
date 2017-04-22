@@ -7,6 +7,8 @@ public class TFormat {
 
     private String format;
 
+    private Integer sortId;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class TFormat {
 
     public void setFormat(String format) {
         this.format = format == null ? null : format.trim();
+    }
+
+    public Integer getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(Integer sortId) {
+        this.sortId = sortId;
     }
 }
