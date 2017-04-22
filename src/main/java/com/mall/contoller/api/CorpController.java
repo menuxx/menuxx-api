@@ -49,7 +49,7 @@ public class CorpController {
     @RequestMapping(value = "diners/{dinerId}/entered_diners", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> selectEnterCorp(@PathVariable int dinerId) {
-        List<?> list = corpService.selectEnterCorp();
+        List<?> list = corpService.selectEnterCorp(dinerId);
         return new ResponseEntity<Object>(list, HttpStatus.OK);
     }
 
