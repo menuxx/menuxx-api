@@ -26,6 +26,7 @@ public class TableServiceImpl implements TableService {
         TTableExample.Criteria criteria = example.createCriteria();
 
         criteria.andCorpIdEqualTo(corpId);
+        example.setOrderByClause("sort_id asc");
 
         return tableMapper.selectByExample(example);
     }
