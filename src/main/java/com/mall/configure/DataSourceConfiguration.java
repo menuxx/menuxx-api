@@ -39,7 +39,7 @@ public class DataSourceConfiguration {
         config.setJdbcUrl(hikariConfig.getDataSourceProperties().getUrl()); // jdbc uri
         config.setUsername(hikariConfig.getDataSourceProperties().getUser());   // jdbc username
         config.setPassword(hikariConfig.getDataSourceProperties().getPassword());   // password
-        config.setDataSourceClassName(hikariConfig.getDataSourceClassName());
+        // config.setDataSourceClassName(hikariConfig.getDataSourceClassName());
 
         config.setInitializationFailFast(hikariConfig.isInitializationFailFast()); //初始化快速失败，提高可靠性
         config.setMaximumPoolSize(hikariConfig.getMaximumPoolSize());
@@ -49,6 +49,8 @@ public class DataSourceConfiguration {
         config.setValidationTimeout(hikariConfig.getValidationTimeout());
 
         config.setPoolName(hikariConfig.getPoolName());
+
+        config.setConnectionInitSql("SET NAMES utf8mb4");
 
         return new HikariDataSource(config);
 
