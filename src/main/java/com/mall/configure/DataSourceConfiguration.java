@@ -50,6 +50,7 @@ public class DataSourceConfiguration {
 
         config.setPoolName(hikariConfig.getPoolName());
 
+        // jdbc 会话支持 utf8mb4
         config.setConnectionInitSql("SET NAMES utf8mb4");
 
         return new HikariDataSource(config);
