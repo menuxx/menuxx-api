@@ -121,7 +121,7 @@ public class Order extends TOrder {
     public String getPayTypeText() {
         payTypeText = PAY_TYPE_WX_TEXT;
 
-        if (getPayType() == PAY_TYPE_RECHARGE) {
+        if (null != getPayType() && getPayType() == PAY_TYPE_RECHARGE) {
             payTypeText = PAY_TYPE_RECHARGE_TEXT;
         }
 

@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
 		// 用户不存在
 		user.setCorpId(corp.getId());
 		if ( existsUser == null ) {
+			user.setBalance(0);
 			tUserMapper.insertSelective(user);
 		} else {
 			tUserMapper.updateByExampleSelective(user, ex);
@@ -52,6 +53,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void increaseBalance(int userId, int amount) {
 		TUser user = selectUser(userId);
+
+		if (user.getBalance() == null) {
+			user.setBalance(0);
+		}
+
 		user.setBalance(user.getBalance() + amount);
 
 		tUserMapper.updateByPrimaryKey(user);
@@ -60,6 +66,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void reduceBalance(int userId, int amount) {
 		TUser user = selectUser(userId);
+
+		if (user.getBalance() == null) {
+			user.setBalance(0);
+		}
+
 		user.setBalance(user.getBalance() - amount);
 
 		tUserMapper.updateByPrimaryKey(user);
