@@ -213,6 +213,7 @@ public class OrderController extends BaseCorpController {
         // 订单状态默认为未付款
         order.setStatus(Order.STATUS_CREATED);
         order.setCorpId(dinerId);
+        order.setPayType(Order.PAY_TYPE_WX);
 
         // 如果选择堂食，必须有桌号；否则桌号为空
         if (order.getOrderType() == Order.ORDER_TYPE_EAT_IN) {
