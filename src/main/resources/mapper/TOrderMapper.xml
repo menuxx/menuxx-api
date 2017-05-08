@@ -8,6 +8,7 @@
     <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="pay_type" jdbcType="INTEGER" property="payType" />
     <result column="table_id" jdbcType="INTEGER" property="tableId" />
     <result column="address_id" jdbcType="INTEGER" property="addressId" />
     <result column="queue_id" jdbcType="INTEGER" property="queueId" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, corp_id, order_code, status, order_type, table_id, address_id, queue_id, 
-    total_amount, pay_amount, remark, create_time
+    id, user_id, corp_id, order_code, status, order_type, pay_type, table_id, address_id, 
+    queue_id, total_amount, pay_amount, remark, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TOrderExample" resultMap="BaseResultMap">
     select
@@ -113,15 +114,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_order (user_id, corp_id, order_code, 
-      status, order_type, table_id, 
-      address_id, queue_id, total_amount, 
-      pay_amount, remark, create_time
-      )
+      status, order_type, pay_type, 
+      table_id, address_id, queue_id, 
+      total_amount, pay_amount, remark, 
+      create_time)
     values (#{userId,jdbcType=INTEGER}, #{corpId,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{tableId,jdbcType=INTEGER}, 
-      #{addressId,jdbcType=INTEGER}, #{queueId,jdbcType=INTEGER}, #{totalAmount,jdbcType=INTEGER}, 
-      #{payAmount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{status,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, 
+      #{tableId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{queueId,jdbcType=INTEGER}, 
+      #{totalAmount,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -143,6 +144,9 @@
       </if>
       <if test="orderType != null">
         order_type,
+      </if>
+      <if test="payType != null">
+        pay_type,
       </if>
       <if test="tableId != null">
         table_id,
@@ -181,6 +185,9 @@
       </if>
       <if test="orderType != null">
         #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=INTEGER},
       </if>
       <if test="tableId != null">
         #{tableId,jdbcType=INTEGER},
@@ -232,6 +239,9 @@
       <if test="record.orderType != null">
         order_type = #{record.orderType,jdbcType=INTEGER},
       </if>
+      <if test="record.payType != null">
+        pay_type = #{record.payType,jdbcType=INTEGER},
+      </if>
       <if test="record.tableId != null">
         table_id = #{record.tableId,jdbcType=INTEGER},
       </if>
@@ -266,6 +276,7 @@
       order_code = #{record.orderCode,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       order_type = #{record.orderType,jdbcType=INTEGER},
+      pay_type = #{record.payType,jdbcType=INTEGER},
       table_id = #{record.tableId,jdbcType=INTEGER},
       address_id = #{record.addressId,jdbcType=INTEGER},
       queue_id = #{record.queueId,jdbcType=INTEGER},
@@ -294,6 +305,9 @@
       </if>
       <if test="orderType != null">
         order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=INTEGER},
       </if>
       <if test="tableId != null">
         table_id = #{tableId,jdbcType=INTEGER},
@@ -326,6 +340,7 @@
       order_code = #{orderCode,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       order_type = #{orderType,jdbcType=INTEGER},
+      pay_type = #{payType,jdbcType=INTEGER},
       table_id = #{tableId,jdbcType=INTEGER},
       address_id = #{addressId,jdbcType=INTEGER},
       queue_id = #{queueId,jdbcType=INTEGER},

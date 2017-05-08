@@ -117,6 +117,14 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <!--<table schema="jiujin" tableName="t_topup" domainObjectName="TTopup" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <table schema="jiujin" tableName="t_recharge_record" domainObjectName="TRechargeRecord" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
     </context>
 
 </generatorConfiguration>

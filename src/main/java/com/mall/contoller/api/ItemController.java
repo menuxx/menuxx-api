@@ -43,6 +43,9 @@ public class ItemController extends BaseCorpController {
     @Autowired
     SceneService sceneService;
 
+    @Autowired
+    TopupService topupService;
+
     /**
      * 1001 加载首页
      * @param dinerId
@@ -67,6 +70,9 @@ public class ItemController extends BaseCorpController {
 
         List<TScene> tScene = sceneService.getCorpSceneTabsWithEnable(dinerId);
         homeMap.put("sceneTabs", tScene);
+
+        List<TTopup> topupList = topupService.selectTopups(dinerId);
+        homeMap.put("topupList", topupList);
 
         return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
     }

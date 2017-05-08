@@ -30,6 +30,11 @@ public class Constants {
     // 多字段 分割符
     public static final String SEPARATOR = ":";
 
+    // 充值类型：充值
+    public static final Integer CHARGE_TYPE_TOPUP = 0;
+    // 充值类型：消费
+    public static final Integer CHARGE_TYPE_PAY = 1;
+
     public static XStreamMarshaller getXStreamMarshaller() {
         XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
         xstreamMarshaller.setAutodetectAnnotations(true);
