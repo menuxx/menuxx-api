@@ -26,4 +26,8 @@ public interface OrderWrapper {
     void setStatusToPaid(TChargeApply chargeApply);
 
     Order pushOrder(int orderId);
+
+    void rechargeCompleted(TChargeApply chargeApply);
+
+    void rechargePay(int userId, int corpId, Order order);
 }

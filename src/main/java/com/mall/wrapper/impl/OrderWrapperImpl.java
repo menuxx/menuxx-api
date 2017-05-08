@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.mall.configure.AppConfiguration;
 import com.mall.model.*;
 import com.mall.service.*;
+import com.mall.utils.Constants;
 import com.mall.utils.IPushUtil;
 import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
@@ -17,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -55,6 +53,12 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     AddressService addressService;
+
+    @Autowired
+    RechargeRecordService rechargeRecordService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -202,7 +206,10 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Override
     public Order pushOrder(int orderId) {
         Order order = selectOrder(orderId);
+        return pushOrder(order);
+    }
 
+    private Order pushOrder(Order order) {
         List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
 
         List<String> clientIdList = new ArrayList<>();
@@ -232,9 +239,66 @@ public class OrderWrapperImpl implements OrderWrapper {
         chargeApply.setOrderId(order.getId());
         chargeApplyService.createChargeApply(chargeApply);
 
-        orderService.updateOrderPaid(order.getId());
+        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX);
 
         // PUSH
         pushOrder(order.getId());
+    }
+
+    @Override
+    @Transactional
+    public void rechargeCompleted(TChargeApply chargeApply) {
+        // 充值完成
+        String rechargeCode = chargeApply.getOutTradeNo();
+        TRechargeRecord rechargeRecord = rechargeRecordService.selectRechargeRecordByCode(rechargeCode);
+        rechargeRecord.setStatus(Constants.ONE);
+        rechargeRecordService.updateRechargeRecordStatus2Completed(rechargeRecord.getId());
+
+        // 订单支付
+        orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE);
+
+        // 创建消费记录
+        TRechargeRecord recharge = new TRechargeRecord();
+        recharge.setCorpId(rechargeRecord.getCorpId());
+        recharge.setUserId(rechargeRecord.getUserId());
+        recharge.setOrderId(rechargeRecord.getOrderId());
+        recharge.setRechargeCode(UUID.randomUUID().toString());
+        recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
+        recharge.setStatus(Constants.ONE);
+
+        Order order = selectOrder(rechargeRecord.getOrderId());
+        recharge.setAmount(order.getPayAmount());
+
+        rechargeRecordService.createRechargeRecord(recharge);
+
+        // 更新余额
+        userService.increaseBalance(rechargeRecord.getUserId(), rechargeRecord.getAmount() - order.getPayAmount());
+
+        // PUSH
+        pushOrder(order);
+    }
+
+    @Override
+    public void rechargePay(int userId, int corpId, Order order) {
+        // 减掉应付款
+        userService.reduceBalance(userId, order.getPayAmount());
+
+        // 更新订单状态
+        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE);
+
+        // 创建消费记录
+        TRechargeRecord recharge = new TRechargeRecord();
+        recharge.setCorpId(corpId);
+        recharge.setUserId(userId);
+        recharge.setOrderId(order.getId());
+        recharge.setRechargeCode(UUID.randomUUID().toString());
+        recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
+        recharge.setStatus(Constants.ONE);
+        recharge.setAmount(order.getPayAmount());
+
+        rechargeRecordService.createRechargeRecord(recharge);
+
+        // PUSH
+        pushOrder(order);
     }
 }

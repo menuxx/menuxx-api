@@ -22,6 +22,8 @@ public class AppConfiguration {
 
     private String transmissionType;
 
+    private String rechargeNotifyUrl;
+
     public String getIpushAppId() {
         return ipushAppId;
     }
@@ -68,5 +70,13 @@ public class AppConfiguration {
 
     public void setTransmissionType(String transmissionType) {
         this.transmissionType = transmissionType;
+    }
+
+    public void setRechargeNotifyUrl(String rechargeNotifyUrl) {
+        this.rechargeNotifyUrl = rechargeNotifyUrl;
+    }
+
+    public String getRechargeNotifyUrl() {
+        return rechargeNotifyUrl;
     }
 }

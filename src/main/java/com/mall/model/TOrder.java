@@ -15,6 +15,8 @@ public class TOrder {
 
     private Integer orderType;
 
+    private Integer payType;
+
     private Integer tableId;
 
     private Integer addressId;
@@ -75,6 +77,14 @@ public class TOrder {
 
     public void setOrderType(Integer orderType) {
         this.orderType = orderType;
+    }
+
+    public Integer getPayType() {
+        return payType;
+    }
+
+    public void setPayType(Integer payType) {
+        this.payType = payType;
     }
 
     public Integer getTableId() {

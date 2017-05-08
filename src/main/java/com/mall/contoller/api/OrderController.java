@@ -7,13 +7,8 @@ import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
 import com.mall.configure.AppConfiguration;
 import com.mall.configure.page.Page;
-import com.mall.model.Order;
-import com.mall.model.OrderItem;
-import com.mall.model.TCorp;
-import com.mall.service.CorpService;
-import com.mall.service.CorpUserService;
-import com.mall.service.OrderService;
-import com.mall.service.StatisticsService;
+import com.mall.model.*;
+import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.utils.JPushUtil;
 import com.mall.utils.Util;
@@ -35,6 +30,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -67,6 +63,80 @@ public class OrderController extends BaseCorpController {
 
     @Autowired
     StatisticsService statisticsService;
+
+    @Autowired
+    RechargeRecordService rechargeRecordService;
+
+    @Autowired
+    UserService userService;
+
+    /**
+     * 2023 发起充值
+     * @param dinerId
+     * @param orderId
+     * @param sessionData
+     * @param topup
+     * @return
+     */
+    @RequestMapping(value = "orders/{orderId}/recharge", method = RequestMethod.POST)
+    @ResponseBody
+    public DeferredResult<?> createRecharge(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData, @RequestBody TTopup topup) {
+        int userId = sessionData.getUserId();
+
+        // 创建充值记录
+        TRechargeRecord rechargeRecord = new TRechargeRecord();
+        rechargeRecord.setCorpId(dinerId);
+        rechargeRecord.setUserId(userId);
+        rechargeRecord.setOrderId(orderId);
+        rechargeRecord.setRechargeCode(UUID.randomUUID().toString());
+        rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
+        rechargeRecord.setAmount(topup.getRechargeAmount());
+        rechargeRecord.setRemark(topup.getDesc());
+        rechargeRecord.setStatus(Constants.ZERO);
+
+        rechargeRecordService.createRechargeRecord(rechargeRecord);
+
+        // 获取商户信息
+        TCorp corp = corpsService.selectCorpByCorpId(dinerId);
+
+        // 创建微信支付订单，向微信发起请求
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
+
+        WXPayOrder payOrder = new WXPayOrder();
+        payOrder.setAppid(corp.getAppId());
+        payOrder.setMchId(corp.getMchId());
+        payOrder.setNonceStr(Util.genNonce());
+        payOrder.setNotifyUrl(appConfiguration.getPayNotifyUrl());
+        payOrder.setOpenid(sessionData.getOpenid());
+        payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
+        payOrder.setBody(rechargeRecord.getRemark());
+        payOrder.setTotalFee(rechargeRecord.getAmount());
+
+        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
+        orderDigest.digest(SignEncryptorImpl.MD5());
+
+        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+
+        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
+            @Override
+            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
+                if (response.isSuccessful()) {
+                    WXPayResult payResult = response.body();
+                    String prePayId = payResult.getPrepayId();
+
+                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
+                    deferredResult.setResult(paySign);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
+                deferredResult.setErrorResult(throwable);
+            }
+        });
+
+        return deferredResult;
+    }
 
     /**
      * 1003 发起支付
@@ -234,10 +304,33 @@ public class OrderController extends BaseCorpController {
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "orders/{orderId}", method = RequestMethod.PUT)
+    /**
+     * 2024 充值卡支付
+     * @param dinerId
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "orders/{orderId}/recharge_pay", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> rechargePay(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
+        int userId = sessionData.getUserId();
+        TUser user = userService.selectUser(userId);
+
+        Order order = orderWrapper.selectOrder(orderId);
+
+        if (user.getBalance() < order.getPayAmount()) {
+            return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        orderWrapper.rechargePay(userId, dinerId, order);
+
+        return new ResponseEntity<Object>(order, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "orders/{orderId}/", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> updateOrderPaid(@PathVariable int dinerId, @PathVariable int orderId) {
-        orderService.updateOrderPaid(orderId);
+        orderService.updateOrderPaid(orderId, Order.PAY_TYPE_RECHARGE);
 
         Order order = orderWrapper.pushOrder(orderId);
 

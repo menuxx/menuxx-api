@@ -15,7 +15,7 @@ public class Order extends TOrder {
     // 待付款
     public static final int STATUS_CREATED = 0;
     public static final String STATUS_CREATED_TEXT = "待付款";
-    // 待发货
+    // 已付款
     public static final int STATUS_PAID = 1;
     public static final String STATUS_PAID_TEXT = "已付款";
 
@@ -31,9 +31,21 @@ public class Order extends TOrder {
     public static final int ORDER_TYPE_DELIVERED = 2;
     public static final String ORDER_TYPE_DELIVERED_TEXT = "外卖";
 
+    // 微信支付
+    public static final int PAY_TYPE_WX = 0;
+    public static final String PAY_TYPE_WX_TEXT = "微信支付";
+    // 充值卡支付
+    public static final int PAY_TYPE_RECHARGE = 1;
+    public static final String PAY_TYPE_RECHARGE_TEXT = "充值卡支付";
+
+
+
+
     private String orderTypeText;
 
     private String statusText;
+
+    private String payTypeText;
 
     private TTable table;
 
@@ -100,5 +112,19 @@ public class Order extends TOrder {
 
     public TAddress getAddress() {
         return address;
+    }
+
+    public void setPayTypeText(String payTypeText) {
+        this.payTypeText = payTypeText;
+    }
+
+    public String getPayTypeText() {
+        payTypeText = PAY_TYPE_WX_TEXT;
+
+        if (getPayType() == PAY_TYPE_RECHARGE) {
+            payTypeText = PAY_TYPE_RECHARGE_TEXT;
+        }
+
+        return payTypeText;
     }
 }

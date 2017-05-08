@@ -38,9 +38,9 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="jiujin" tableName="t_table" domainObjectName="TTable" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_table" domainObjectName="TTable" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_order" domainObjectName="TOrder" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -113,6 +113,13 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <!--<table schema="jiujin" tableName="t_topup" domainObjectName="TTopup" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <table schema="jiujin" tableName="t_recharge_record" domainObjectName="TRechargeRecord" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
     </context>
 
 </generatorConfiguration>

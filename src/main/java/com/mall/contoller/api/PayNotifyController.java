@@ -1,29 +1,18 @@
 package com.mall.contoller.api;
 
-import com.mall.model.Order;
 import com.mall.model.TChargeApply;
 import com.mall.service.ChargeApplyService;
+import com.mall.service.RechargeRecordService;
 import com.mall.utils.Constants;
-import com.mall.utils.Util;
 import com.mall.weixin.*;
-import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.DeferredResult;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import java.util.Map;
 
 /**
  * 作者: yinchangsheng@gmail.com
@@ -43,6 +32,9 @@ public class PayNotifyController {
 
 	@Autowired
 	OrderWrapper orderWrapper;
+
+	@Autowired
+	RechargeRecordService rechargeRecordService;
 
 //	@PostMapping("weixin/orderpay")
 //	public DeferredResult<Map<String, String>> wxPayment() {
@@ -141,4 +133,49 @@ public class PayNotifyController {
 
 	}
 
+	/**
+	 * 微信支付回调频率：15/15/30/180/1800/1800/1800/1800/3600（秒）
+	 * @param event
+	 * @return
+	 */
+	@PostMapping(path = "weixin/pay_notify/recharge", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public String onRechargeNotify(@RequestBody WXNotifyEvent event) {
+		logger.info("***************************[tenpay] recharge notify start***************************");
+		logger.info(event);
+
+		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
+		logger.info(xStreamMarshaller.getXStream().toXML(event));
+
+		if ("SUCCESS".equals(event.getResultCode())) {
+			TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
+
+			if (null != chargeApply) {
+				return "SUCCESS";
+			}
+
+			chargeApply = new TChargeApply();
+			chargeApply.setAttach(event.getAttach());
+			chargeApply.setBankType(event.getBankType());
+			chargeApply.setCashFee(event.getCashFee());
+			chargeApply.setFeeType(event.getFeeType());
+			chargeApply.setIsSubscribe(event.getIsSubscribe());
+			chargeApply.setMchId(event.getMchid());
+			chargeApply.setNonceStr(event.getNonceStr());
+			chargeApply.setOpenid(event.getOpenid());
+			chargeApply.setOutTradeNo(event.getOutTradeNo());
+			chargeApply.setResultCode(event.getResultCode());
+			chargeApply.setReturnCode(event.getReturnCode());
+			chargeApply.setSign(event.getSign());
+			chargeApply.setTimeEnd(event.getTimeEnd());
+			chargeApply.setTotalFee(event.getTotalFee());
+			chargeApply.setTradeType(event.getTradeType());
+			chargeApply.setTransactionId(event.getTransactionId());
+
+			orderWrapper.rechargeCompleted(chargeApply);
+			return "SUCCESS";
+
+		}
+
+		return "FAIL";
+	}
 }

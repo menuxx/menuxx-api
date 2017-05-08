@@ -12,4 +12,10 @@ public interface UserService {
 
 	int saveUser(TUser user, TCorp corp);
 
+	TUser selectUser(int userId);
+
+	void increaseBalance(int userId, int amount);
+
+	void reduceBalance(int userId, int amount);
+
 }
