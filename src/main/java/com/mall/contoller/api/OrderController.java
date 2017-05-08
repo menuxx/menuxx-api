@@ -91,7 +91,7 @@ public class OrderController extends BaseCorpController {
         rechargeRecord.setRechargeCode(UUID.randomUUID().toString());
         rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
         rechargeRecord.setAmount(topup.getRechargeAmount());
-        rechargeRecord.setRemark(topup.getDesc());
+        rechargeRecord.setRemark(topup.getContent());
         rechargeRecord.setStatus(Constants.ZERO);
 
         rechargeRecordService.createRechargeRecord(rechargeRecord);

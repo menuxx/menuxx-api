@@ -1,7 +1,6 @@
 package com.mall.service.impl;
 
 import com.mall.mapper.TRechargeRecordMapper;
-import com.mall.model.TChargeApply;
 import com.mall.model.TRechargeRecord;
 import com.mall.model.TRechargeRecordExample;
 import com.mall.service.RechargeRecordService;
@@ -20,9 +19,6 @@ public class RechargeRecordServiceImpl implements RechargeRecordService {
 
     @Autowired
     TRechargeRecordMapper rechargeRecordMapper;
-
-    @Autowired
-
 
     @Override
     public void createRechargeRecord(TRechargeRecord rechargeRecord) {
