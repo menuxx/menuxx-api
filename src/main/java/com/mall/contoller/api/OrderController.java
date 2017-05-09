@@ -237,7 +237,12 @@ public class OrderController extends BaseCorpController {
         order = orderWrapper.selectOrder(order.getId());
 
         TUserBalance userBalance = userBalanceService.selectUserBalance(userId, dinerId);
-        order.setUserBalance(userBalance.getBalance());
+
+        if (null == userBalance) {
+            order.setUserBalance(0);
+        } else {
+            order.setUserBalance(userBalance.getBalance());
+        }
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
