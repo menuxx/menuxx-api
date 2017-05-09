@@ -14,8 +14,4 @@ public interface UserService {
 
 	TUser selectUser(int userId);
 
-	void increaseBalance(int userId, int amount);
-
-	void reduceBalance(int userId, int amount);
-
 }

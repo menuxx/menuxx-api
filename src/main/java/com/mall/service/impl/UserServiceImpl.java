@@ -50,29 +50,4 @@ public class UserServiceImpl implements UserService {
 		return tUserMapper.selectByPrimaryKey(userId);
 	}
 
-	@Override
-	public void increaseBalance(int userId, int amount) {
-		TUser user = selectUser(userId);
-
-		if (user.getBalance() == null) {
-			user.setBalance(0);
-		}
-
-		user.setBalance(user.getBalance() + amount);
-
-		tUserMapper.updateByPrimaryKey(user);
-	}
-
-	@Override
-	public void reduceBalance(int userId, int amount) {
-		TUser user = selectUser(userId);
-
-		if (user.getBalance() == null) {
-			user.setBalance(0);
-		}
-
-		user.setBalance(user.getBalance() - amount);
-
-		tUserMapper.updateByPrimaryKey(user);
-	}
 }

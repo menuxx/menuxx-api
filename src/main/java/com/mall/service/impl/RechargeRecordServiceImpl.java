@@ -1,5 +1,6 @@
 package com.mall.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import com.mall.mapper.TRechargeRecordMapper;
 import com.mall.model.TRechargeRecord;
 import com.mall.model.TRechargeRecordExample;
@@ -44,5 +45,19 @@ public class RechargeRecordServiceImpl implements RechargeRecordService {
         rechargeRecord.setStatus(Constants.ONE);
 
         rechargeRecordMapper.updateByPrimaryKeySelective(rechargeRecord);
+    }
+
+    @Override
+    public PageInfo<TRechargeRecord> selectRechargeRecordByUser(int userId, int corpId) {
+        TRechargeRecordExample example = new TRechargeRecordExample();
+        TRechargeRecordExample.Criteria criteria = example.createCriteria();
+
+        example.setOrderByClause("id desc");
+
+        criteria.andUserIdEqualTo(userId);
+        criteria.andCorpIdEqualTo(corpId);
+
+        PageInfo<TRechargeRecord> pageInfo = new PageInfo<>(rechargeRecordMapper.selectByExample(example));
+        return pageInfo;
     }
 }

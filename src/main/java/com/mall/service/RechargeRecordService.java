@@ -1,5 +1,6 @@
 package com.mall.service;
 
+import com.github.pagehelper.PageInfo;
 import com.mall.model.TRechargeRecord;
 
 /**
@@ -12,4 +13,6 @@ public interface RechargeRecordService {
     TRechargeRecord selectRechargeRecordByCode(String recordCode);
 
     void updateRechargeRecordStatus2Completed(int recordId);
+
+    PageInfo<TRechargeRecord> selectRechargeRecordByUser(int userId, int corpId);
 }

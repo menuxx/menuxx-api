@@ -68,7 +68,7 @@ public class OrderController extends BaseCorpController {
     RechargeRecordService rechargeRecordService;
 
     @Autowired
-    UserService userService;
+    UserBalanceService userBalanceService;
 
     /**
      * 2023 发起充值
@@ -106,7 +106,7 @@ public class OrderController extends BaseCorpController {
         payOrder.setAppid(corp.getAppId());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(appConfiguration.getPayNotifyUrl());
+        payOrder.setNotifyUrl(appConfiguration.getRechargeNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
         payOrder.setBody(rechargeRecord.getRemark());
@@ -236,6 +236,9 @@ public class OrderController extends BaseCorpController {
 
         order = orderWrapper.selectOrder(order.getId());
 
+        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, dinerId);
+        order.setUserBalance(userBalance.getBalance());
+
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
@@ -315,11 +318,13 @@ public class OrderController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> rechargePay(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
-        TUser user = userService.selectUser(userId);
+
+        // 获取用户余额
+        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, dinerId);
 
         Order order = orderWrapper.selectOrder(orderId);
 
-        if (user.getBalance() < order.getPayAmount()) {
+        if (userBalance.getBalance() < order.getPayAmount()) {
             return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

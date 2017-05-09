@@ -39,8 +39,6 @@ public class Order extends TOrder {
     public static final String PAY_TYPE_RECHARGE_TEXT = "充值卡支付";
 
 
-
-
     private String orderTypeText;
 
     private String statusText;
@@ -52,6 +50,8 @@ public class Order extends TOrder {
     private TAddress address;
 
     private List<OrderItem> itemList;
+
+    private int userBalance; // 用户充值余额
 
     public Order() {
     }
@@ -126,5 +126,13 @@ public class Order extends TOrder {
         }
 
         return payTypeText;
+    }
+
+    public int getUserBalance() {
+        return userBalance;
+    }
+
+    public void setUserBalance(int userBalance) {
+        this.userBalance = userBalance;
     }
 }
