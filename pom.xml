@@ -264,7 +264,7 @@
         <dependency>
             <groupId>com.gexin.platform</groupId>
             <artifactId>gexin-rp-sdk-http</artifactId>
-            <version>4.0.1.7</version>
+            <version>4.0.1.9</version>
         </dependency>
 
         <dependency>
