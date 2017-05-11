@@ -15,6 +15,7 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static com.mall.utils.Util.genOrderNo;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -88,7 +91,7 @@ public class OrderController extends BaseCorpController {
         rechargeRecord.setCorpId(dinerId);
         rechargeRecord.setUserId(userId);
         rechargeRecord.setOrderId(orderId);
-        rechargeRecord.setRechargeCode(UUID.randomUUID().toString());
+        rechargeRecord.setRechargeCode(genOrderNo());
         rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
         rechargeRecord.setAmount(topup.getRechargeAmount());
         rechargeRecord.setRemark(topup.getContent());

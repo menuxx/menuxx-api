@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -13,6 +14,8 @@ import java.util.*;
  * 微信: yin80871901
  */
 public class Util {
+
+	public static final DateFormat ORDER_NO_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINESE);
 
 	/**
 	 * 获取请求IP
@@ -99,6 +102,14 @@ public class Util {
 		err.put("errCode", errCode);
 		err.put("errMsg", errMsg);
 		return err;
+	}
+
+	public static String genOrderNo() {
+		return ORDER_NO_FORMAT.format(new Date()) + random(1, 99999);
+	}
+
+	public static int random(int min, int max) {
+		return new Random().nextInt(max - min + 1) + min;
 	}
 
 }
