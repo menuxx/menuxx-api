@@ -9,7 +9,7 @@ public class TConfig {
 
     private Integer corpId;
 
-    private String desc;
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -43,11 +43,11 @@ public class TConfig {
         this.corpId = corpId;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }
