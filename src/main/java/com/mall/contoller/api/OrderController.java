@@ -96,6 +96,7 @@ public class OrderController extends BaseCorpController {
 
         if (null == topup) {
             deferredResult.setErrorResult(new Exception("充值配置不匹配。"));
+            return deferredResult;
         }
 
         // 创建充值记录
@@ -129,8 +130,6 @@ public class OrderController extends BaseCorpController {
 
         WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
-
-
 
         wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
             @Override
