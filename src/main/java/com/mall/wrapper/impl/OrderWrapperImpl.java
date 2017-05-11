@@ -61,6 +61,9 @@ public class OrderWrapperImpl implements OrderWrapper {
     UserService userService;
 
     @Autowired
+    UserBalanceService userBalanceService;
+
+    @Autowired
     ObjectMapper objectMapper;
 
     @Override
@@ -248,40 +251,50 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Override
     @Transactional
     public void rechargeCompleted(TChargeApply chargeApply) {
-        // 充值完成
+        // 充值完成：更新记录状态
         String rechargeCode = chargeApply.getOutTradeNo();
         TRechargeRecord rechargeRecord = rechargeRecordService.selectRechargeRecordByCode(rechargeCode);
         rechargeRecord.setStatus(Constants.ONE);
         rechargeRecordService.updateRechargeRecordStatus2Completed(rechargeRecord.getId());
 
-        // 订单支付
-        orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE);
-
-        // 创建消费记录
-        TRechargeRecord recharge = new TRechargeRecord();
-        recharge.setCorpId(rechargeRecord.getCorpId());
-        recharge.setUserId(rechargeRecord.getUserId());
-        recharge.setOrderId(rechargeRecord.getOrderId());
-        recharge.setRechargeCode(UUID.randomUUID().toString());
-        recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
-        recharge.setStatus(Constants.ONE);
-
-        Order order = selectOrder(rechargeRecord.getOrderId());
-        recharge.setAmount(order.getPayAmount());
-
-        rechargeRecordService.createRechargeRecord(recharge);
-
         // 更新余额
-        userService.increaseBalance(rechargeRecord.getUserId(), rechargeRecord.getAmount() - order.getPayAmount());
+        int balance = userBalanceService.increaseBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), rechargeRecord.getAmount());
 
-        // PUSH
-        pushOrder(order);
+        // 获取订单
+        Order order = selectOrder(rechargeRecord.getOrderId());
+
+        // 如果充值后余额 不够支付当前订单，则不更新订单状态
+        if (balance >= order.getPayAmount()) {
+            // 订单支付
+            orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE);
+
+            // 创建消费记录
+            TRechargeRecord recharge = new TRechargeRecord();
+            recharge.setCorpId(rechargeRecord.getCorpId());
+            recharge.setUserId(rechargeRecord.getUserId());
+            recharge.setOrderId(rechargeRecord.getOrderId());
+            recharge.setRechargeCode(UUID.randomUUID().toString());
+            recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
+            recharge.setStatus(Constants.ONE);
+
+
+            recharge.setAmount(order.getPayAmount());
+
+            rechargeRecordService.createRechargeRecord(recharge);
+
+            // 更新余额
+            userBalanceService.reduceBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), order.getPayAmount());
+
+            // PUSH
+            pushOrder(order);
+        }
+
     }
 
     @Override
     public void rechargePay(int userId, int corpId, Order order) {
         // 减掉应付款
-        userService.reduceBalance(userId, order.getPayAmount());
+        userBalanceService.reduceBalance(userId, corpId, order.getPayAmount());
 
         // 更新订单状态
         orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE);

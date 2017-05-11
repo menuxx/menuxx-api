@@ -30,7 +30,8 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
+import static com.mall.utils.Util.genOrderNo;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -68,29 +69,41 @@ public class OrderController extends BaseCorpController {
     RechargeRecordService rechargeRecordService;
 
     @Autowired
-    UserService userService;
+    UserBalanceService userBalanceService;
+
+    @Autowired
+    TopupService topupService;
 
     /**
      * 2023 发起充值
      * @param dinerId
      * @param orderId
      * @param sessionData
-     * @param topup
+     * @param topupId
      * @return
      */
-    @RequestMapping(value = "orders/{orderId}/recharge", method = RequestMethod.POST)
+    @RequestMapping(value = "orders/{orderId}/recharge/{topupId}", method = RequestMethod.POST)
     @ResponseBody
-    public DeferredResult<?> createRecharge(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData, @RequestBody TTopup topup) {
+    public DeferredResult<?> createRecharge(@PathVariable int dinerId, @PathVariable int topupId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
+
+        // 获取充值配置
+        TTopup topup = topupService.selectTopup(dinerId, topupId);
+
+        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+
+        if (null == topup) {
+            deferredResult.setErrorResult(new Exception("充值配置不匹配。"));
+        }
 
         // 创建充值记录
         TRechargeRecord rechargeRecord = new TRechargeRecord();
         rechargeRecord.setCorpId(dinerId);
         rechargeRecord.setUserId(userId);
         rechargeRecord.setOrderId(orderId);
-        rechargeRecord.setRechargeCode(UUID.randomUUID().toString());
+        rechargeRecord.setRechargeCode(genOrderNo());
         rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
-        rechargeRecord.setAmount(topup.getRechargeAmount());
+        rechargeRecord.setAmount(topup.getRechargeAmount() + topup.getGiftAmount());
         rechargeRecord.setRemark(topup.getContent());
         rechargeRecord.setStatus(Constants.ZERO);
 
@@ -99,23 +112,28 @@ public class OrderController extends BaseCorpController {
         // 获取商户信息
         TCorp corp = corpsService.selectCorpByCorpId(dinerId);
 
-        // 创建微信支付订单，向微信发起请求
-        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
-
         WXPayOrder payOrder = new WXPayOrder();
         payOrder.setAppid(corp.getAppId());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(appConfiguration.getPayNotifyUrl());
+        payOrder.setNotifyUrl(appConfiguration.getRechargeNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
         payOrder.setBody(rechargeRecord.getRemark());
-        payOrder.setTotalFee(rechargeRecord.getAmount());
+        payOrder.setTotalFee(topup.getRechargeAmount());
 
         WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
 
-        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+        unifiedOrderAsync(payOrder, corp, deferredResult);
+
+        return deferredResult;
+    }
+
+    private void unifiedOrderAsync(WXPayOrder payOrder, TCorp corp, DeferredResult<Map<String, String>> deferredResult) {
+
+        // 创建微信支付订单，向微信发起请求
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
 
         wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
             @Override
@@ -135,7 +153,6 @@ public class OrderController extends BaseCorpController {
             }
         });
 
-        return deferredResult;
     }
 
     /**
@@ -176,23 +193,7 @@ public class OrderController extends BaseCorpController {
 
         DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
 
-        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
-            @Override
-            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
-                if (response.isSuccessful()) {
-                    WXPayResult payResult = response.body();
-                    String prePayId = payResult.getPrepayId();
-
-                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
-                    deferredResult.setResult(paySign);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
-                deferredResult.setErrorResult(throwable);
-            }
-        });
+        unifiedOrderAsync(payOrder, corp, deferredResult);
 
         return deferredResult;
     }
@@ -213,6 +214,7 @@ public class OrderController extends BaseCorpController {
         // 订单状态默认为未付款
         order.setStatus(Order.STATUS_CREATED);
         order.setCorpId(dinerId);
+        order.setPayType(Order.PAY_TYPE_WX);
 
         // 如果选择堂食，必须有桌号；否则桌号为空
         if (order.getOrderType() == Order.ORDER_TYPE_EAT_IN) {
@@ -234,6 +236,14 @@ public class OrderController extends BaseCorpController {
         orderWrapper.createOrder(sessionData.getOpenid(), sessionData.getMchid(), order, itemIdList);
 
         order = orderWrapper.selectOrder(order.getId());
+
+        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, dinerId);
+
+        if (null == userBalance) {
+            order.setUserBalance(0);
+        } else {
+            order.setUserBalance(userBalance.getBalance());
+        }
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
@@ -314,11 +324,13 @@ public class OrderController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> rechargePay(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
-        TUser user = userService.selectUser(userId);
+
+        // 获取用户余额
+        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, dinerId);
 
         Order order = orderWrapper.selectOrder(orderId);
 
-        if (user.getBalance() < order.getPayAmount()) {
+        if (userBalance.getBalance() < order.getPayAmount()) {
             return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

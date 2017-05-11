@@ -4,6 +4,7 @@ import com.mall.mapper.TTopupMapper;
 import com.mall.model.TTopup;
 import com.mall.model.TTopupExample;
 import com.mall.service.TopupService;
+import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,18 @@ public class TopupServiceImpl implements TopupService {
         criteria.andCorpIdEqualTo(corpId);
 
         return topupMapper.selectByExample(example);
+    }
+
+    @Override
+    public TTopup selectTopup(int corpId, int topupId) {
+        TTopupExample example = new TTopupExample();
+        TTopupExample.Criteria criteria = example.createCriteria();
+
+        criteria.andCorpIdEqualTo(corpId);
+        criteria.andIdEqualTo(topupId);
+
+        List<TTopup> list = topupMapper.selectByExample(example);
+
+        return Util.onlyOne(list);
     }
 }

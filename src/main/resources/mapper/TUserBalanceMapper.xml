@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mall.mapper.TConfigMapper">
-  <resultMap id="BaseResultMap" type="com.mall.model.TConfig">
+<mapper namespace="com.mall.mapper.TUserBalanceMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TUserBalance">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="corp_id" jdbcType="INTEGER" property="corpId" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, value, corp_id, remark
+    id, user_id, corp_id, balance
   </sql>
-  <select id="selectByExample" parameterType="com.mall.model.TConfigExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.mall.model.TUserBalanceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_config
+    from t_user_balance
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +85,76 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_config
+    from t_user_balance
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_config
+    delete from t_user_balance
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mall.model.TConfigExample">
-    delete from t_config
+  <delete id="deleteByExample" parameterType="com.mall.model.TUserBalanceExample">
+    delete from t_user_balance
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mall.model.TConfig">
+  <insert id="insert" parameterType="com.mall.model.TUserBalance">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_config (name, value, corp_id, 
-      remark)
-    values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=INTEGER}, #{corpId,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+    insert into t_user_balance (user_id, corp_id, balance
+      )
+    values (#{userId,jdbcType=INTEGER}, #{corpId,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.mall.model.TConfig">
+  <insert id="insertSelective" parameterType="com.mall.model.TUserBalance">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_config
+    insert into t_user_balance
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
-      </if>
-      <if test="value != null">
-        value,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="corpId != null">
         corp_id,
       </if>
-      <if test="remark != null">
-        remark,
+      <if test="balance != null">
+        balance,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="value != null">
-        #{value,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="corpId != null">
         #{corpId,jdbcType=INTEGER},
       </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
+      <if test="balance != null">
+        #{balance,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.mall.model.TConfigExample" resultType="java.lang.Integer">
-    select count(*) from t_config
+  <select id="countByExample" parameterType="com.mall.model.TUserBalanceExample" resultType="java.lang.Integer">
+    select count(*) from t_user_balance
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_config
+    update t_user_balance
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.value != null">
-        value = #{record.value,jdbcType=INTEGER},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.corpId != null">
         corp_id = #{record.corpId,jdbcType=INTEGER},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
+      <if test="record.balance != null">
+        balance = #{record.balance,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,40 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_config
+    update t_user_balance
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      value = #{record.value,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
       corp_id = #{record.corpId,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      balance = #{record.balance,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TConfig">
-    update t_config
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TUserBalance">
+    update t_user_balance
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="value != null">
-        value = #{value,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="corpId != null">
         corp_id = #{corpId,jdbcType=INTEGER},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="balance != null">
+        balance = #{balance,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mall.model.TConfig">
-    update t_config
-    set name = #{name,jdbcType=VARCHAR},
-      value = #{value,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TUserBalance">
+    update t_user_balance
+    set user_id = #{userId,jdbcType=INTEGER},
       corp_id = #{corpId,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      balance = #{balance,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
