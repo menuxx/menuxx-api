@@ -10,4 +10,6 @@ import java.util.List;
 public interface TopupService {
 
     List<TTopup> selectTopups(int corpId);
+
+    TTopup selectTopup(int corpId, int topupId);
 }

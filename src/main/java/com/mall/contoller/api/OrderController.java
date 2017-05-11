@@ -70,18 +70,30 @@ public class OrderController extends BaseCorpController {
     @Autowired
     UserBalanceService userBalanceService;
 
+    @Autowired
+    TopupService topupService;
+
     /**
      * 2023 发起充值
      * @param dinerId
      * @param orderId
      * @param sessionData
-     * @param topup
+     * @param topupId
      * @return
      */
-    @RequestMapping(value = "orders/{orderId}/recharge", method = RequestMethod.POST)
+    @RequestMapping(value = "orders/{orderId}/recharge/{topupId}", method = RequestMethod.POST)
     @ResponseBody
-    public DeferredResult<?> createRecharge(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData, @RequestBody TTopup topup) {
+    public DeferredResult<?> createRecharge(@PathVariable int dinerId, @PathVariable int topupId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
+
+        // 获取充值配置
+        TTopup topup = topupService.selectTopup(dinerId, topupId);
+
+        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+
+        if (null == topup) {
+            deferredResult.setErrorResult(new Exception("充值配置不匹配。"));
+        }
 
         // 创建充值记录
         TRechargeRecord rechargeRecord = new TRechargeRecord();
@@ -110,12 +122,12 @@ public class OrderController extends BaseCorpController {
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
         payOrder.setBody(rechargeRecord.getRemark());
-        payOrder.setTotalFee(rechargeRecord.getAmount());
+        payOrder.setTotalFee(topup.getRechargeAmount());
 
         WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
 
-        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+
 
         wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
             @Override
