@@ -12,6 +12,10 @@
     <result column="soldout" jdbcType="INTEGER" property="soldout" />
     <result column="sort_id" jdbcType="INTEGER" property="sortId" />
     <result column="format_id" jdbcType="INTEGER" property="formatId" />
+    <result column="bar_code" jdbcType="VARCHAR" property="barCode" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="suppliers" jdbcType="VARCHAR" property="suppliers" />
+    <result column="package_flag" jdbcType="INTEGER" property="packageFlag" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -74,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, corp_id, item_name, item_desc, category_id, product_price, discount_price, soldout, 
-    sort_id, format_id, create_time
+    sort_id, format_id, bar_code, item_code, suppliers, package_flag, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TItemExample" resultMap="BaseResultMap">
     select
@@ -113,11 +117,13 @@
     insert into t_item (corp_id, item_name, item_desc, 
       category_id, product_price, discount_price, 
       soldout, sort_id, format_id, 
-      create_time)
+      bar_code, item_code, suppliers, 
+      package_flag, create_time)
     values (#{corpId,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
       #{categoryId,jdbcType=INTEGER}, #{productPrice,jdbcType=INTEGER}, #{discountPrice,jdbcType=INTEGER}, 
       #{soldout,jdbcType=INTEGER}, #{sortId,jdbcType=INTEGER}, #{formatId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{barCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, #{suppliers,jdbcType=VARCHAR}, 
+      #{packageFlag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -152,6 +158,18 @@
       <if test="formatId != null">
         format_id,
       </if>
+      <if test="barCode != null">
+        bar_code,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="suppliers != null">
+        suppliers,
+      </if>
+      <if test="packageFlag != null">
+        package_flag,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -183,6 +201,18 @@
       </if>
       <if test="formatId != null">
         #{formatId,jdbcType=INTEGER},
+      </if>
+      <if test="barCode != null">
+        #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliers != null">
+        #{suppliers,jdbcType=VARCHAR},
+      </if>
+      <if test="packageFlag != null">
+        #{packageFlag,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -228,6 +258,18 @@
       <if test="record.formatId != null">
         format_id = #{record.formatId,jdbcType=INTEGER},
       </if>
+      <if test="record.barCode != null">
+        bar_code = #{record.barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemCode != null">
+        item_code = #{record.itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suppliers != null">
+        suppliers = #{record.suppliers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packageFlag != null">
+        package_flag = #{record.packageFlag,jdbcType=INTEGER},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -248,6 +290,10 @@
       soldout = #{record.soldout,jdbcType=INTEGER},
       sort_id = #{record.sortId,jdbcType=INTEGER},
       format_id = #{record.formatId,jdbcType=INTEGER},
+      bar_code = #{record.barCode,jdbcType=VARCHAR},
+      item_code = #{record.itemCode,jdbcType=VARCHAR},
+      suppliers = #{record.suppliers,jdbcType=VARCHAR},
+      package_flag = #{record.packageFlag,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,6 +329,18 @@
       <if test="formatId != null">
         format_id = #{formatId,jdbcType=INTEGER},
       </if>
+      <if test="barCode != null">
+        bar_code = #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliers != null">
+        suppliers = #{suppliers,jdbcType=VARCHAR},
+      </if>
+      <if test="packageFlag != null">
+        package_flag = #{packageFlag,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -300,6 +358,10 @@
       soldout = #{soldout,jdbcType=INTEGER},
       sort_id = #{sortId,jdbcType=INTEGER},
       format_id = #{formatId,jdbcType=INTEGER},
+      bar_code = #{barCode,jdbcType=VARCHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      suppliers = #{suppliers,jdbcType=VARCHAR},
+      package_flag = #{packageFlag,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
