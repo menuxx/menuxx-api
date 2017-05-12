@@ -96,9 +96,6 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 创建订单号
         order.setOrderCode(Util.getYearMonthDay() + (10000000 + order.getId()));
 
-        // 创建排序号
-        order.setQueueId(QueueUtil.getQueueNum(order.getCorpId()));
-
         // 更新订单号、排序号
         order.setPayAmount(totalAcount);
         order.setTotalAmount(totalAcount);
@@ -242,7 +239,9 @@ public class OrderWrapperImpl implements OrderWrapper {
         chargeApply.setOrderId(order.getId());
         chargeApplyService.createChargeApply(chargeApply);
 
-        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX);
+        // 创建排序号
+        int queueId = QueueUtil.getQueueNum(order.getCorpId());
+        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX, queueId);
 
         // PUSH
         pushOrder(order.getId());
@@ -265,8 +264,11 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // 如果充值后余额 不够支付当前订单，则不更新订单状态
         if (balance >= order.getPayAmount()) {
+            // 创建排序号
+            int queueId = QueueUtil.getQueueNum(order.getCorpId());
+
             // 订单支付
-            orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE);
+            orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE, queueId);
 
             // 创建消费记录
             TRechargeRecord recharge = new TRechargeRecord();
@@ -296,8 +298,11 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 减掉应付款
         userBalanceService.reduceBalance(userId, corpId, order.getPayAmount());
 
+        // 创建排序号
+        int queueId = QueueUtil.getQueueNum(order.getCorpId());
+
         // 更新订单状态
-        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE);
+        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE, queueId);
 
         // 创建消费记录
         TRechargeRecord recharge = new TRechargeRecord();

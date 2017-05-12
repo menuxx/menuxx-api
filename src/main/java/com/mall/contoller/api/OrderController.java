@@ -11,6 +11,7 @@ import com.mall.model.*;
 import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.utils.JPushUtil;
+import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
@@ -343,7 +344,10 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders/{orderId}/", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> updateOrderPaid(@PathVariable int dinerId, @PathVariable int orderId) {
-        orderService.updateOrderPaid(orderId, Order.PAY_TYPE_RECHARGE);
+        // 创建排序号
+        int queueId = QueueUtil.getQueueNum(dinerId);
+
+        orderService.updateOrderPaid(orderId, Order.PAY_TYPE_RECHARGE, queueId);
 
         Order order = orderWrapper.pushOrder(orderId);
 

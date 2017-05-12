@@ -26,7 +26,7 @@ public interface OrderService {
 
     TOrder selectOrder(int orderId);
 
-    void updateOrderPaid(int orderId, int payType);
+    void updateOrderPaid(int orderId, int payType, Integer queueId);
 
     TOrder selectOrderByCode(String orderCode);
 

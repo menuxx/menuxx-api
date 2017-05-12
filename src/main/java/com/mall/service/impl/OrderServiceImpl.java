@@ -107,11 +107,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderPaid(int orderId, int payType) {
+    public void updateOrderPaid(int orderId, int payType, Integer queueId) {
         TOrder order = new TOrder();
         order.setId(orderId);
         order.setStatus(Order.STATUS_PAID);
         order.setPayType(payType);
+
+        if (null != queueId) {
+            order.setQueueId(queueId);
+        }
 
         orderMapper.updateByPrimaryKeySelective(order);
     }
