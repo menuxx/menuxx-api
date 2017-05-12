@@ -240,7 +240,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         chargeApplyService.createChargeApply(chargeApply);
 
         // 创建排序号
-        int queueId = QueueUtil.getQueueNum(order.getCorpId());
+        Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
         orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX, queueId);
 
         // PUSH
@@ -265,7 +265,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 如果充值后余额 不够支付当前订单，则不更新订单状态
         if (balance >= order.getPayAmount()) {
             // 创建排序号
-            int queueId = QueueUtil.getQueueNum(order.getCorpId());
+            Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
 
             // 订单支付
             orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE, queueId);
@@ -299,7 +299,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         userBalanceService.reduceBalance(userId, corpId, order.getPayAmount());
 
         // 创建排序号
-        int queueId = QueueUtil.getQueueNum(order.getCorpId());
+        Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
 
         // 更新订单状态
         orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE, queueId);
