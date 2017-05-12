@@ -129,6 +129,7 @@
         <!--<table schema="jiujin" tableName="t_user_balance" domainObjectName="TUserBalance" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
+
     </context>
 
 </generatorConfiguration>

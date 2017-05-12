@@ -15,7 +15,6 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.mall.utils.Util.genOrderNo;
 
@@ -115,9 +113,6 @@ public class OrderController extends BaseCorpController {
         // 获取商户信息
         TCorp corp = corpsService.selectCorpByCorpId(dinerId);
 
-        // 创建微信支付订单，向微信发起请求
-        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
-
         WXPayOrder payOrder = new WXPayOrder();
         payOrder.setAppid(corp.getAppId());
         payOrder.setMchId(corp.getMchId());
@@ -130,6 +125,16 @@ public class OrderController extends BaseCorpController {
 
         WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
+
+        unifiedOrderAsync(payOrder, corp, deferredResult);
+
+        return deferredResult;
+    }
+
+    private void unifiedOrderAsync(WXPayOrder payOrder, TCorp corp, DeferredResult<Map<String, String>> deferredResult) {
+
+        // 创建微信支付订单，向微信发起请求
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
 
         wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
             @Override
@@ -149,7 +154,6 @@ public class OrderController extends BaseCorpController {
             }
         });
 
-        return deferredResult;
     }
 
     /**
@@ -190,23 +194,7 @@ public class OrderController extends BaseCorpController {
 
         DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
 
-        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
-            @Override
-            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
-                if (response.isSuccessful()) {
-                    WXPayResult payResult = response.body();
-                    String prePayId = payResult.getPrepayId();
-
-                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
-                    deferredResult.setResult(paySign);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
-                deferredResult.setErrorResult(throwable);
-            }
-        });
+        unifiedOrderAsync(payOrder, corp, deferredResult);
 
         return deferredResult;
     }
