@@ -300,9 +300,10 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // 创建排序号
         Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
+        order.setQueueId(queueId);
 
         // 更新订单状态
-        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE, queueId);
+        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE, order.getQueueId());
 
         // 创建消费记录
         TRechargeRecord recharge = new TRechargeRecord();
