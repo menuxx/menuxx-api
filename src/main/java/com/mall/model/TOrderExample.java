@@ -835,6 +835,126 @@ public class TOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andPackageAmountIsNull() {
+            addCriterion("package_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountIsNotNull() {
+            addCriterion("package_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountEqualTo(Integer value) {
+            addCriterion("package_amount =", value, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountNotEqualTo(Integer value) {
+            addCriterion("package_amount <>", value, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountGreaterThan(Integer value) {
+            addCriterion("package_amount >", value, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("package_amount >=", value, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountLessThan(Integer value) {
+            addCriterion("package_amount <", value, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("package_amount <=", value, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountIn(List<Integer> values) {
+            addCriterion("package_amount in", values, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountNotIn(List<Integer> values) {
+            addCriterion("package_amount not in", values, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountBetween(Integer value1, Integer value2) {
+            addCriterion("package_amount between", value1, value2, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackageAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("package_amount not between", value1, value2, "packageAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountIsNull() {
+            addCriterion("delivery_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountIsNotNull() {
+            addCriterion("delivery_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountEqualTo(Integer value) {
+            addCriterion("delivery_amount =", value, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountNotEqualTo(Integer value) {
+            addCriterion("delivery_amount <>", value, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountGreaterThan(Integer value) {
+            addCriterion("delivery_amount >", value, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("delivery_amount >=", value, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountLessThan(Integer value) {
+            addCriterion("delivery_amount <", value, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("delivery_amount <=", value, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountIn(List<Integer> values) {
+            addCriterion("delivery_amount in", values, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountNotIn(List<Integer> values) {
+            addCriterion("delivery_amount not in", values, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountBetween(Integer value1, Integer value2) {
+            addCriterion("delivery_amount between", value1, value2, "deliveryAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("delivery_amount not between", value1, value2, "deliveryAmount");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

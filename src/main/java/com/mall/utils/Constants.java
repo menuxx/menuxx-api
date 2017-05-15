@@ -35,6 +35,21 @@ public class Constants {
     // 充值类型：消费
     public static final Integer CHARGE_TYPE_PAY = 1;
 
+    //会员充值功能 是否开启
+    public static final String vipRecharge = "vip_recharge";
+
+    //外卖功能 是否开启
+    public static final String takeout = "takeout";
+    //外卖起送阈值
+    public static final String takeoutMinLimit = "takeout_min_limit";
+    //外卖免配送费阈值
+    public static final String takeoutNofeeLimit = "takeout_nofee_limit";
+    //外卖打包盒单价
+    public static final String takeoutPackFee = "takeout_pack_fee";
+    //外卖打包盒单价
+    public static final String takeoutFee = "takeout_fee";
+
+
     public static XStreamMarshaller getXStreamMarshaller() {
         XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
         xstreamMarshaller.setAutodetectAnnotations(true);
