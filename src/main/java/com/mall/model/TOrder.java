@@ -27,6 +27,10 @@ public class TOrder {
 
     private Integer payAmount;
 
+    private Integer packageAmount;
+
+    private Integer deliveryAmount;
+
     private String remark;
 
     private Date createTime;
@@ -125,6 +129,22 @@ public class TOrder {
 
     public void setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;
+    }
+
+    public Integer getPackageAmount() {
+        return packageAmount;
+    }
+
+    public void setPackageAmount(Integer packageAmount) {
+        this.packageAmount = packageAmount;
+    }
+
+    public Integer getDeliveryAmount() {
+        return deliveryAmount;
+    }
+
+    public void setDeliveryAmount(Integer deliveryAmount) {
+        this.deliveryAmount = deliveryAmount;
     }
 
     public String getRemark() {

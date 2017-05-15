@@ -64,6 +64,9 @@ public class OrderWrapperImpl implements OrderWrapper {
     UserBalanceService userBalanceService;
 
     @Autowired
+    ConfigService configService;
+
+    @Autowired
     ObjectMapper objectMapper;
 
     @Override
@@ -76,6 +79,22 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // 总金额
         int totalAcount = 0;
+        // 打包盒价格
+        int packageAmount = 0;
+        // 派送费
+        int deliveryAmount = 0;
+
+        // 获取配置信息
+        Map<String, Integer> configMap = configService.selectMyConfigs4Map(order.getCorpId());
+        // 单个打包盒费用
+        int takeoutPackFee = configMap.get(Constants.takeoutPackFee);
+        // 配送费
+        Integer takeoutFee = configMap.get(Constants.takeoutFee);
+        // 外卖起送费
+        Integer takeoutMinLimit = configMap.get(Constants.takeoutMinLimit);
+        // 免外送费起值
+        Integer takeoutNofeeLimit = configMap.get(Constants.takeoutNofeeLimit);
+
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
@@ -91,9 +110,29 @@ public class OrderWrapperImpl implements OrderWrapper {
             orderItemService.createOrderItem(orderItem);
 
             totalAcount = totalAcount + payAmount;
+
+            // 如果选择打包或者外卖，计入打包盒价格
+            if (order.getOrderType() == Order.ORDER_TYPE_CARRY_OUT || order.getOrderType() == Order.ORDER_TYPE_DELIVERED) {
+                if (item.getPackageFlag() == Constants.ONE && takeoutPackFee > 0) {
+                    packageAmount = packageAmount + (orderItem.getQuantity() * takeoutPackFee);
+                }
+            }
+
         }
 
-        // 创建订单号
+        order.setPackageAmount(packageAmount);
+        totalAcount = totalAcount + packageAmount;
+
+        // 如果选择外卖，计入配送费
+        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED) {
+            if (totalAcount < takeoutNofeeLimit) {
+                deliveryAmount = takeoutFee;
+            }
+        }
+        order.setDeliveryAmount(deliveryAmount);
+        totalAcount = totalAcount + deliveryAmount;
+
+        // 设置订单号
         order.setOrderCode(Util.getYearMonthDay() + (10000000 + order.getId()));
 
         // 更新订单号、排序号

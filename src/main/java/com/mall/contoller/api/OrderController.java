@@ -223,8 +223,10 @@ public class OrderController extends BaseCorpController {
             if (order.getTableId() == null) {
                 return new ResponseEntity<Object>("请选择就餐桌号.", HttpStatus.BAD_REQUEST);
             }
+
         } else {
             order.setTableId(null);
+
         }
 
         List<Integer> itemIdList = new ArrayList<>();
