@@ -111,8 +111,10 @@ public class OrderController extends BaseCorpController {
 
         rechargeRecordService.createRechargeRecord(rechargeRecord);
 
-        // 获取商户信息
-        TCorp corp = corpsService.selectCorpByCorpId(dinerId);
+        String mchId = sessionData.getMchid();
+
+        // 查询 个体店 和 平台店 的通用方案
+        TCorp corp = corpsService.selectCorpByMchId(mchId);
 
         WXPayOrder payOrder = new WXPayOrder();
         payOrder.setAppid(corp.getAppId());
