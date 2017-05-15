@@ -179,9 +179,6 @@ public class OrderController extends BaseCorpController {
 
         TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
 
-        // 创建微信支付订单，向微信发起请求
-        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
-
         WXPayOrder payOrder = new WXPayOrder();
         payOrder.setAppid(corp.getAppId());
         payOrder.setMchId(corp.getMchId());
