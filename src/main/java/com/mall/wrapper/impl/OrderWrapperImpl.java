@@ -64,6 +64,9 @@ public class OrderWrapperImpl implements OrderWrapper {
     UserBalanceService userBalanceService;
 
     @Autowired
+    ConfigService configService;
+
+    @Autowired
     ObjectMapper objectMapper;
 
     @Override
@@ -76,6 +79,20 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // 总金额
         int totalAcount = 0;
+        // 打包盒价格
+        int packageAmount = 0;
+        // 派送费
+        int deliveryAmount = 0;
+
+        // 获取配置信息
+        Map<String, Integer> configMap = configService.selectMyConfigs4Map(order.getCorpId());
+        // 单个打包盒费用
+        int takeoutPackFee = configMap.get(Constants.takeoutPackFee);
+        // 配送费
+        Integer takeoutFee = configMap.get(Constants.takeoutFee);
+        // 外卖起送费
+        Integer takeoutMinLimit = configMap.get(Constants.takeoutMinLimit);
+
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
@@ -91,13 +108,28 @@ public class OrderWrapperImpl implements OrderWrapper {
             orderItemService.createOrderItem(orderItem);
 
             totalAcount = totalAcount + payAmount;
+
+            // 如果选择打包或者外卖，计入打包盒价格
+            if (order.getOrderType() == Order.ORDER_TYPE_CARRY_OUT || order.getOrderType() == Order.ORDER_TYPE_DELIVERED) {
+                if (item.getPackageFlag() == Constants.ONE && takeoutPackFee > 0) {
+                    packageAmount = packageAmount + (orderItem.getQuantity() * takeoutPackFee);
+                }
+            }
+
         }
 
-        // 创建订单号
-        order.setOrderCode(Util.getYearMonthDay() + (10000000 + order.getId()));
+        order.setPackageAmount(packageAmount);
+        totalAcount = totalAcount + packageAmount;
 
-        // 创建排序号
-        order.setQueueId(QueueUtil.getQueueNum(order.getCorpId()));
+        // 如果选择外卖，计入配送费
+        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && takeoutFee > 0) {
+            deliveryAmount = takeoutFee;
+        }
+        order.setDeliveryAmount(deliveryAmount);
+        totalAcount = totalAcount + deliveryAmount;
+
+        // 设置订单号
+        order.setOrderCode(Util.getYearMonthDay() + (10000000 + order.getId()));
 
         // 更新订单号、排序号
         order.setPayAmount(totalAcount);
@@ -242,7 +274,9 @@ public class OrderWrapperImpl implements OrderWrapper {
         chargeApply.setOrderId(order.getId());
         chargeApplyService.createChargeApply(chargeApply);
 
-        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX);
+        // 创建排序号
+        Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
+        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX, queueId);
 
         // PUSH
         pushOrder(order.getId());
@@ -265,8 +299,11 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // 如果充值后余额 不够支付当前订单，则不更新订单状态
         if (balance >= order.getPayAmount()) {
+            // 创建排序号
+            Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
+
             // 订单支付
-            orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE);
+            orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE, queueId);
 
             // 创建消费记录
             TRechargeRecord recharge = new TRechargeRecord();
@@ -296,8 +333,12 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 减掉应付款
         userBalanceService.reduceBalance(userId, corpId, order.getPayAmount());
 
+        // 创建排序号
+        Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
+        order.setQueueId(queueId);
+
         // 更新订单状态
-        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE);
+        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE, order.getQueueId());
 
         // 创建消费记录
         TRechargeRecord recharge = new TRechargeRecord();

@@ -23,6 +23,14 @@ public class TItem {
 
     private Integer formatId;
 
+    private String barCode;
+
+    private String itemCode;
+
+    private String suppliers;
+
+    private Integer packageFlag;
+
     private Date createTime;
 
     public Integer getId() {
@@ -103,6 +111,38 @@ public class TItem {
 
     public void setFormatId(Integer formatId) {
         this.formatId = formatId;
+    }
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode == null ? null : barCode.trim();
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode == null ? null : itemCode.trim();
+    }
+
+    public String getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(String suppliers) {
+        this.suppliers = suppliers == null ? null : suppliers.trim();
+    }
+
+    public Integer getPackageFlag() {
+        return packageFlag;
+    }
+
+    public void setPackageFlag(Integer packageFlag) {
+        this.packageFlag = packageFlag;
     }
 
     public Date getCreateTime() {

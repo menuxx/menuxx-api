@@ -11,6 +11,7 @@ import com.mall.model.*;
 import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.utils.JPushUtil;
+import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
@@ -94,6 +95,7 @@ public class OrderController extends BaseCorpController {
 
         if (null == topup) {
             deferredResult.setErrorResult(new Exception("充值配置不匹配。"));
+            return deferredResult;
         }
 
         // 创建充值记录
@@ -109,8 +111,10 @@ public class OrderController extends BaseCorpController {
 
         rechargeRecordService.createRechargeRecord(rechargeRecord);
 
-        // 获取商户信息
-        TCorp corp = corpsService.selectCorpByCorpId(dinerId);
+        String mchId = sessionData.getMchid();
+
+        // 查询 个体店 和 平台店 的通用方案
+        TCorp corp = corpsService.selectCorpByMchId(mchId);
 
         WXPayOrder payOrder = new WXPayOrder();
         payOrder.setAppid(corp.getAppId());
@@ -175,9 +179,6 @@ public class OrderController extends BaseCorpController {
 
         TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
 
-        // 创建微信支付订单，向微信发起请求
-        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
-
         WXPayOrder payOrder = new WXPayOrder();
         payOrder.setAppid(corp.getAppId());
         payOrder.setMchId(corp.getMchId());
@@ -221,8 +222,10 @@ public class OrderController extends BaseCorpController {
             if (order.getTableId() == null) {
                 return new ResponseEntity<Object>("请选择就餐桌号.", HttpStatus.BAD_REQUEST);
             }
+
         } else {
             order.setTableId(null);
+
         }
 
         List<Integer> itemIdList = new ArrayList<>();
@@ -342,7 +345,10 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders/{orderId}/", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> updateOrderPaid(@PathVariable int dinerId, @PathVariable int orderId) {
-        orderService.updateOrderPaid(orderId, Order.PAY_TYPE_RECHARGE);
+        // 创建排序号
+        int queueId = QueueUtil.getQueueNum(dinerId);
+
+        orderService.updateOrderPaid(orderId, Order.PAY_TYPE_RECHARGE, queueId);
 
         Order order = orderWrapper.pushOrder(orderId);
 

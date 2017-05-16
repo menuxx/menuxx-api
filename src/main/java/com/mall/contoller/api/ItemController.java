@@ -46,6 +46,9 @@ public class ItemController extends BaseCorpController {
     @Autowired
     TopupService topupService;
 
+    @Autowired
+    ConfigService configService;
+
     /**
      * 1001 加载首页
      * @param dinerId
@@ -73,6 +76,10 @@ public class ItemController extends BaseCorpController {
 
         List<TTopup> topupList = topupService.selectTopups(dinerId);
         homeMap.put("topupList", topupList);
+
+        Map<String, Integer> configMap = configService.selectMyConfigs4Map(dinerId);
+
+        homeMap.putAll(configMap);
 
         return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
     }

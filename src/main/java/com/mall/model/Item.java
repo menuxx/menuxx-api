@@ -13,6 +13,12 @@ public class Item extends TItem {
     // 销售中
     public static final Integer SELLING = 0;
 
+    // 不要打包盒
+    public static final Integer PACKAGE_FLAG_NO = 0;
+
+    // 需要打包盒
+    public static final Integer PACKAGE_FLAG_YES = 1;
+
     private TCategory category;
 
     public Item() {
