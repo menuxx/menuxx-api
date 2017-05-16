@@ -130,7 +130,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         totalAcount = totalAcount + deliveryAmount;
 
         // 设置订单号
-        order.setOrderCode(Util.getYearMonthDay() + (10000000 + order.getId()));
+        order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
 
         // 更新订单号、排序号
         order.setPayAmount(totalAcount);
