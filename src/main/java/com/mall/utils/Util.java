@@ -112,4 +112,14 @@ public class Util {
 		return new Random().nextInt(max - min + 1) + min;
 	}
 
+	public static int getWeekday() {
+		Calendar calendar = Calendar.getInstance();
+		int weekday = calendar.get(Calendar.DAY_OF_WEEK);
+		weekday = weekday - 1;
+		if (weekday == 0) {
+			weekday = 7;
+		}
+		return weekday;
+	}
+
 }

@@ -1,12 +1,15 @@
 package com.mall.utils;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gexin.rp.sdk.base.IPushResult;
 import com.gexin.rp.sdk.base.impl.ListMessage;
 import com.gexin.rp.sdk.base.impl.Target;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
 import com.mall.configure.AppConfiguration;
+import com.mall.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,15 @@ public class IPushUtil {
 //    private static String appKey = "gkHgaZzxJ2A5BASWIIK8Z2";
 //    private static String masterSecret = "gK9wqQLNKm6bZe0JNYcAQ7";
 //    private static String url = "http://sdk.open.api.igexin.com/apiex.htm";
+
+    public static void sendPushOrder(AppConfiguration appConfiguration, ObjectMapper objectMapper, Order order, List<String> clientIdList) {
+        try {
+            String content = objectMapper.writeValueAsString(order);
+            sendPushOrder(appConfiguration, content, clientIdList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void sendPushOrder(AppConfiguration appConfiguration, String content, List<String> clientIdList) {
         IGtPush push = new IGtPush(appConfiguration.getIpushUrl(), appConfiguration.getIpushAppKey(), appConfiguration.getIpushMasterSecret());

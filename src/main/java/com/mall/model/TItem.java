@@ -17,6 +17,10 @@ public class TItem {
 
     private Integer discountPrice;
 
+    private Integer specialPrice;
+
+    private Integer weekday;
+
     private Integer soldout;
 
     private Integer sortId;
@@ -87,6 +91,22 @@ public class TItem {
 
     public void setDiscountPrice(Integer discountPrice) {
         this.discountPrice = discountPrice;
+    }
+
+    public Integer getSpecialPrice() {
+        return specialPrice;
+    }
+
+    public void setSpecialPrice(Integer specialPrice) {
+        this.specialPrice = specialPrice;
+    }
+
+    public Integer getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(Integer weekday) {
+        this.weekday = weekday;
     }
 
     public Integer getSoldout() {

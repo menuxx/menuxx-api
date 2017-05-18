@@ -34,6 +34,15 @@ public class CategoryWrapperImpl implements CategoryWrapper {
 
             Map<Integer, List<TItem>> itemMap = itemWrapper.selectSellItemsByCorp(corpId);
 
+            if (itemMap.containsKey(0)) {
+                Category todayCategory = new Category();
+                todayCategory.setId(0);
+                todayCategory.setCategoryName("今日特价");
+                todayCategory.setItemList(itemMap.get(0));
+                todayCategory.setSortId(1);
+                returnList.add(todayCategory);
+            }
+
             for (TCategory tcategory : categoryList) {
                 Category category = new Category(tcategory);
 
