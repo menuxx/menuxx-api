@@ -99,13 +99,11 @@ public class PayNotifyController {
 		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
 		logger.info(xStreamMarshaller.getXStream().toXML(event));
 
-		if ("SUCCESS".equals(event.getResultCode())) {
-			TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
+		// 先获取 ChargeApply 是否存在
+		TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
 
-			if (null != chargeApply) {
-				return "SUCCESS";
-			}
-
+		// 如果为空，先创建 ChargeApply
+		if (null == chargeApply) {
 			chargeApply = new TChargeApply();
 			chargeApply.setAttach(event.getAttach());
 			chargeApply.setBankType(event.getBankType());
@@ -124,10 +122,17 @@ public class PayNotifyController {
 			chargeApply.setTradeType(event.getTradeType());
 			chargeApply.setTransactionId(event.getTransactionId());
 
-			orderWrapper.setStatusToPaid(chargeApply);
-			return "SUCCESS";
+			chargeApplyService.createChargeApply(chargeApply);
 
+			// 如果状态码为 SUCCESS，更新付款状态
+			if ("SUCCESS".equals(event.getResultCode())) {
+				orderWrapper.setStatusToPaid(chargeApply);
+				return "SUCCESS";
+			}
+		} else {
+			return "SUCCESS";
 		}
+
 
 		return "FAIL";
 
@@ -146,13 +151,10 @@ public class PayNotifyController {
 		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
 		logger.info(xStreamMarshaller.getXStream().toXML(event));
 
-		if ("SUCCESS".equals(event.getResultCode())) {
-			TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
+		TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
 
-			if (null != chargeApply) {
-				return "SUCCESS";
-			}
-
+		// 如果为空，先创建 ChargeApply
+		if (null == chargeApply) {
 			chargeApply = new TChargeApply();
 			chargeApply.setAttach(event.getAttach());
 			chargeApply.setBankType(event.getBankType());
@@ -171,9 +173,16 @@ public class PayNotifyController {
 			chargeApply.setTradeType(event.getTradeType());
 			chargeApply.setTransactionId(event.getTransactionId());
 
-			orderWrapper.rechargeCompleted(chargeApply);
-			return "SUCCESS";
+			chargeApplyService.createChargeApply(chargeApply);
 
+			// 如果状态码为 SUCCESS，更新付款状态
+			if ("SUCCESS".equals(event.getResultCode())) {
+				orderWrapper.rechargeCompleted(chargeApply);
+				return "SUCCESS";
+			}
+
+		} else {
+			return "SUCCESS";
 		}
 
 		return "FAIL";

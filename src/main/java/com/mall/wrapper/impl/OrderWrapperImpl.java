@@ -277,7 +277,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         chargeApply.setUserId(order.getUserId());
         chargeApply.setOrderId(order.getId());
-        chargeApplyService.createChargeApply(chargeApply);
+        chargeApplyService.updateChargeApply(chargeApply);
 
         // 创建排序号
         Integer queueId = QueueUtil.getQueueNum(order.getCorpId());

@@ -53,7 +53,7 @@ public class TotalScheduler {
     /**
      * 每日早上 9 点发出推送测试流程
      */
-    @Scheduled(cron = "0 0 17 * * *")
+    @Scheduled(cron = "0 0 9 * * *")
     public void doSelfCheck() {
         System.out.println("************************ doSelfCheck scheduler start ***************************");
         System.out.println("************************ " + new Date() + " ***************************");
@@ -64,15 +64,15 @@ public class TotalScheduler {
 
         List<String> clientIdList = new ArrayList<>();
 
-//        if (userList != null && userList.size() > 0) {
-//            for (TCorpUser corpUser : userList) {
-//                if (StringUtils.isNotBlank(corpUser.getClientId())) {
-//                    clientIdList.add(corpUser.getClientId());
-//                }
-//            }
-//        }
+        if (userList != null && userList.size() > 0) {
+            for (TCorpUser corpUser : userList) {
+                if (StringUtils.isNotBlank(corpUser.getClientId())) {
+                    clientIdList.add(corpUser.getClientId());
+                }
+            }
+        }
 
-        clientIdList.add("195d25e14fc157ebd65ed447a5c86911");
+//        clientIdList.add("1591f5b6f767f5f5215ce44a1515ffe6");
 
         IPushUtil.sendPushOrder(appConfiguration, objectMapper, order, clientIdList);
 
