@@ -1,6 +1,5 @@
 package com.mall.scheduler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.configure.AppConfiguration;
 import com.mall.model.Order;

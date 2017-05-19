@@ -71,6 +71,20 @@ public class TChargeApply {
 
     private String couponId4;
 
+    private String couponId5;
+
+    private Integer couponFee0;
+
+    private Integer couponFee1;
+
+    private Integer couponFee2;
+
+    private Integer couponFee3;
+
+    private Integer couponFee4;
+
+    private Integer couponFee5;
+
     private String returnMsg;
 
     private Date createTime;
@@ -345,6 +359,62 @@ public class TChargeApply {
 
     public void setCouponId4(String couponId4) {
         this.couponId4 = couponId4 == null ? null : couponId4.trim();
+    }
+
+    public String getCouponId5() {
+        return couponId5;
+    }
+
+    public void setCouponId5(String couponId5) {
+        this.couponId5 = couponId5 == null ? null : couponId5.trim();
+    }
+
+    public Integer getCouponFee0() {
+        return couponFee0;
+    }
+
+    public void setCouponFee0(Integer couponFee0) {
+        this.couponFee0 = couponFee0;
+    }
+
+    public Integer getCouponFee1() {
+        return couponFee1;
+    }
+
+    public void setCouponFee1(Integer couponFee1) {
+        this.couponFee1 = couponFee1;
+    }
+
+    public Integer getCouponFee2() {
+        return couponFee2;
+    }
+
+    public void setCouponFee2(Integer couponFee2) {
+        this.couponFee2 = couponFee2;
+    }
+
+    public Integer getCouponFee3() {
+        return couponFee3;
+    }
+
+    public void setCouponFee3(Integer couponFee3) {
+        this.couponFee3 = couponFee3;
+    }
+
+    public Integer getCouponFee4() {
+        return couponFee4;
+    }
+
+    public void setCouponFee4(Integer couponFee4) {
+        this.couponFee4 = couponFee4;
+    }
+
+    public Integer getCouponFee5() {
+        return couponFee5;
+    }
+
+    public void setCouponFee5(Integer couponFee5) {
+        this.couponFee5 = couponFee5;
     }
 
     public String getReturnMsg() {

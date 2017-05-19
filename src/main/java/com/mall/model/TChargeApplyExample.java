@@ -2385,6 +2385,436 @@ public class TChargeApplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andCouponId5IsNull() {
+            addCriterion("coupon_id_5 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5IsNotNull() {
+            addCriterion("coupon_id_5 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5EqualTo(String value) {
+            addCriterion("coupon_id_5 =", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5NotEqualTo(String value) {
+            addCriterion("coupon_id_5 <>", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5GreaterThan(String value) {
+            addCriterion("coupon_id_5 >", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5GreaterThanOrEqualTo(String value) {
+            addCriterion("coupon_id_5 >=", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5LessThan(String value) {
+            addCriterion("coupon_id_5 <", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5LessThanOrEqualTo(String value) {
+            addCriterion("coupon_id_5 <=", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5Like(String value) {
+            addCriterion("coupon_id_5 like", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5NotLike(String value) {
+            addCriterion("coupon_id_5 not like", value, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5In(List<String> values) {
+            addCriterion("coupon_id_5 in", values, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5NotIn(List<String> values) {
+            addCriterion("coupon_id_5 not in", values, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5Between(String value1, String value2) {
+            addCriterion("coupon_id_5 between", value1, value2, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponId5NotBetween(String value1, String value2) {
+            addCriterion("coupon_id_5 not between", value1, value2, "couponId5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0IsNull() {
+            addCriterion("coupon_fee_0 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0IsNotNull() {
+            addCriterion("coupon_fee_0 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0EqualTo(Integer value) {
+            addCriterion("coupon_fee_0 =", value, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0NotEqualTo(Integer value) {
+            addCriterion("coupon_fee_0 <>", value, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0GreaterThan(Integer value) {
+            addCriterion("coupon_fee_0 >", value, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0GreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_0 >=", value, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0LessThan(Integer value) {
+            addCriterion("coupon_fee_0 <", value, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0LessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_0 <=", value, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0In(List<Integer> values) {
+            addCriterion("coupon_fee_0 in", values, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0NotIn(List<Integer> values) {
+            addCriterion("coupon_fee_0 not in", values, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0Between(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_0 between", value1, value2, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee0NotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_0 not between", value1, value2, "couponFee0");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1IsNull() {
+            addCriterion("coupon_fee_1 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1IsNotNull() {
+            addCriterion("coupon_fee_1 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1EqualTo(Integer value) {
+            addCriterion("coupon_fee_1 =", value, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1NotEqualTo(Integer value) {
+            addCriterion("coupon_fee_1 <>", value, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1GreaterThan(Integer value) {
+            addCriterion("coupon_fee_1 >", value, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1GreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_1 >=", value, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1LessThan(Integer value) {
+            addCriterion("coupon_fee_1 <", value, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1LessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_1 <=", value, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1In(List<Integer> values) {
+            addCriterion("coupon_fee_1 in", values, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1NotIn(List<Integer> values) {
+            addCriterion("coupon_fee_1 not in", values, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1Between(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_1 between", value1, value2, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee1NotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_1 not between", value1, value2, "couponFee1");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2IsNull() {
+            addCriterion("coupon_fee_2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2IsNotNull() {
+            addCriterion("coupon_fee_2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2EqualTo(Integer value) {
+            addCriterion("coupon_fee_2 =", value, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2NotEqualTo(Integer value) {
+            addCriterion("coupon_fee_2 <>", value, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2GreaterThan(Integer value) {
+            addCriterion("coupon_fee_2 >", value, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2GreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_2 >=", value, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2LessThan(Integer value) {
+            addCriterion("coupon_fee_2 <", value, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2LessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_2 <=", value, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2In(List<Integer> values) {
+            addCriterion("coupon_fee_2 in", values, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2NotIn(List<Integer> values) {
+            addCriterion("coupon_fee_2 not in", values, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2Between(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_2 between", value1, value2, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee2NotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_2 not between", value1, value2, "couponFee2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3IsNull() {
+            addCriterion("coupon_fee_3 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3IsNotNull() {
+            addCriterion("coupon_fee_3 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3EqualTo(Integer value) {
+            addCriterion("coupon_fee_3 =", value, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3NotEqualTo(Integer value) {
+            addCriterion("coupon_fee_3 <>", value, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3GreaterThan(Integer value) {
+            addCriterion("coupon_fee_3 >", value, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3GreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_3 >=", value, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3LessThan(Integer value) {
+            addCriterion("coupon_fee_3 <", value, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3LessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_3 <=", value, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3In(List<Integer> values) {
+            addCriterion("coupon_fee_3 in", values, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3NotIn(List<Integer> values) {
+            addCriterion("coupon_fee_3 not in", values, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3Between(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_3 between", value1, value2, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee3NotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_3 not between", value1, value2, "couponFee3");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4IsNull() {
+            addCriterion("coupon_fee_4 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4IsNotNull() {
+            addCriterion("coupon_fee_4 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4EqualTo(Integer value) {
+            addCriterion("coupon_fee_4 =", value, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4NotEqualTo(Integer value) {
+            addCriterion("coupon_fee_4 <>", value, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4GreaterThan(Integer value) {
+            addCriterion("coupon_fee_4 >", value, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4GreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_4 >=", value, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4LessThan(Integer value) {
+            addCriterion("coupon_fee_4 <", value, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4LessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_4 <=", value, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4In(List<Integer> values) {
+            addCriterion("coupon_fee_4 in", values, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4NotIn(List<Integer> values) {
+            addCriterion("coupon_fee_4 not in", values, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4Between(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_4 between", value1, value2, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee4NotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_4 not between", value1, value2, "couponFee4");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5IsNull() {
+            addCriterion("coupon_fee_5 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5IsNotNull() {
+            addCriterion("coupon_fee_5 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5EqualTo(Integer value) {
+            addCriterion("coupon_fee_5 =", value, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5NotEqualTo(Integer value) {
+            addCriterion("coupon_fee_5 <>", value, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5GreaterThan(Integer value) {
+            addCriterion("coupon_fee_5 >", value, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5GreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_5 >=", value, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5LessThan(Integer value) {
+            addCriterion("coupon_fee_5 <", value, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5LessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_fee_5 <=", value, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5In(List<Integer> values) {
+            addCriterion("coupon_fee_5 in", values, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5NotIn(List<Integer> values) {
+            addCriterion("coupon_fee_5 not in", values, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5Between(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_5 between", value1, value2, "couponFee5");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponFee5NotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_fee_5 not between", value1, value2, "couponFee5");
+            return (Criteria) this;
+        }
+
         public Criteria andReturnMsgIsNull() {
             addCriterion("return_msg is null");
             return (Criteria) this;

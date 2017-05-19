@@ -36,6 +36,13 @@
     <result column="coupon_id_2" jdbcType="VARCHAR" property="couponId2" />
     <result column="coupon_id_3" jdbcType="VARCHAR" property="couponId3" />
     <result column="coupon_id_4" jdbcType="VARCHAR" property="couponId4" />
+    <result column="coupon_id_5" jdbcType="VARCHAR" property="couponId5" />
+    <result column="coupon_fee_0" jdbcType="INTEGER" property="couponFee0" />
+    <result column="coupon_fee_1" jdbcType="INTEGER" property="couponFee1" />
+    <result column="coupon_fee_2" jdbcType="INTEGER" property="couponFee2" />
+    <result column="coupon_fee_3" jdbcType="INTEGER" property="couponFee3" />
+    <result column="coupon_fee_4" jdbcType="INTEGER" property="couponFee4" />
+    <result column="coupon_fee_5" jdbcType="INTEGER" property="couponFee5" />
     <result column="return_msg" jdbcType="VARCHAR" property="returnMsg" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -102,7 +109,8 @@
     nonce_str, openid, out_trade_no, result_code, return_code, sign, time_end, total_fee, 
     trade_type, transaction_id, divice_info, sign_type, err_code, err_code_des, settlement_total_fee, 
     cash_fee_type, coupon_fee, coupon_count, coupon_type_0, coupon_type_1, coupon_id_0, 
-    coupon_id_1, coupon_id_2, coupon_id_3, coupon_id_4, return_msg, create_time
+    coupon_id_1, coupon_id_2, coupon_id_3, coupon_id_4, coupon_id_5, coupon_fee_0, coupon_fee_1, 
+    coupon_fee_2, coupon_fee_3, coupon_fee_4, coupon_fee_5, return_msg, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TChargeApplyExample" resultMap="BaseResultMap">
     select
@@ -149,7 +157,10 @@
       coupon_fee, coupon_count, coupon_type_0, 
       coupon_type_1, coupon_id_0, coupon_id_1, 
       coupon_id_2, coupon_id_3, coupon_id_4, 
-      return_msg, create_time)
+      coupon_id_5, coupon_fee_0, coupon_fee_1, 
+      coupon_fee_2, coupon_fee_3, coupon_fee_4, 
+      coupon_fee_5, return_msg, create_time
+      )
     values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{attach,jdbcType=VARCHAR}, 
       #{bankType,jdbcType=VARCHAR}, #{cashFee,jdbcType=INTEGER}, #{feeType,jdbcType=VARCHAR}, 
       #{isSubscribe,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{nonceStr,jdbcType=VARCHAR}, 
@@ -161,7 +172,10 @@
       #{couponFee,jdbcType=INTEGER}, #{couponCount,jdbcType=INTEGER}, #{couponType0,jdbcType=INTEGER}, 
       #{couponType1,jdbcType=INTEGER}, #{couponId0,jdbcType=VARCHAR}, #{couponId1,jdbcType=VARCHAR}, 
       #{couponId2,jdbcType=VARCHAR}, #{couponId3,jdbcType=VARCHAR}, #{couponId4,jdbcType=VARCHAR}, 
-      #{returnMsg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{couponId5,jdbcType=VARCHAR}, #{couponFee0,jdbcType=INTEGER}, #{couponFee1,jdbcType=INTEGER}, 
+      #{couponFee2,jdbcType=INTEGER}, #{couponFee3,jdbcType=INTEGER}, #{couponFee4,jdbcType=INTEGER}, 
+      #{couponFee5,jdbcType=INTEGER}, #{returnMsg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TChargeApply">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -267,6 +281,27 @@
       </if>
       <if test="couponId4 != null">
         coupon_id_4,
+      </if>
+      <if test="couponId5 != null">
+        coupon_id_5,
+      </if>
+      <if test="couponFee0 != null">
+        coupon_fee_0,
+      </if>
+      <if test="couponFee1 != null">
+        coupon_fee_1,
+      </if>
+      <if test="couponFee2 != null">
+        coupon_fee_2,
+      </if>
+      <if test="couponFee3 != null">
+        coupon_fee_3,
+      </if>
+      <if test="couponFee4 != null">
+        coupon_fee_4,
+      </if>
+      <if test="couponFee5 != null">
+        coupon_fee_5,
       </if>
       <if test="returnMsg != null">
         return_msg,
@@ -374,6 +409,27 @@
       </if>
       <if test="couponId4 != null">
         #{couponId4,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId5 != null">
+        #{couponId5,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee0 != null">
+        #{couponFee0,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee1 != null">
+        #{couponFee1,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee2 != null">
+        #{couponFee2,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee3 != null">
+        #{couponFee3,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee4 != null">
+        #{couponFee4,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee5 != null">
+        #{couponFee5,jdbcType=INTEGER},
       </if>
       <if test="returnMsg != null">
         #{returnMsg,jdbcType=VARCHAR},
@@ -494,6 +550,27 @@
       <if test="record.couponId4 != null">
         coupon_id_4 = #{record.couponId4,jdbcType=VARCHAR},
       </if>
+      <if test="record.couponId5 != null">
+        coupon_id_5 = #{record.couponId5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponFee0 != null">
+        coupon_fee_0 = #{record.couponFee0,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee1 != null">
+        coupon_fee_1 = #{record.couponFee1,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee2 != null">
+        coupon_fee_2 = #{record.couponFee2,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee3 != null">
+        coupon_fee_3 = #{record.couponFee3,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee4 != null">
+        coupon_fee_4 = #{record.couponFee4,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee5 != null">
+        coupon_fee_5 = #{record.couponFee5,jdbcType=INTEGER},
+      </if>
       <if test="record.returnMsg != null">
         return_msg = #{record.returnMsg,jdbcType=VARCHAR},
       </if>
@@ -541,6 +618,13 @@
       coupon_id_2 = #{record.couponId2,jdbcType=VARCHAR},
       coupon_id_3 = #{record.couponId3,jdbcType=VARCHAR},
       coupon_id_4 = #{record.couponId4,jdbcType=VARCHAR},
+      coupon_id_5 = #{record.couponId5,jdbcType=VARCHAR},
+      coupon_fee_0 = #{record.couponFee0,jdbcType=INTEGER},
+      coupon_fee_1 = #{record.couponFee1,jdbcType=INTEGER},
+      coupon_fee_2 = #{record.couponFee2,jdbcType=INTEGER},
+      coupon_fee_3 = #{record.couponFee3,jdbcType=INTEGER},
+      coupon_fee_4 = #{record.couponFee4,jdbcType=INTEGER},
+      coupon_fee_5 = #{record.couponFee5,jdbcType=INTEGER},
       return_msg = #{record.returnMsg,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -649,6 +733,27 @@
       <if test="couponId4 != null">
         coupon_id_4 = #{couponId4,jdbcType=VARCHAR},
       </if>
+      <if test="couponId5 != null">
+        coupon_id_5 = #{couponId5,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee0 != null">
+        coupon_fee_0 = #{couponFee0,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee1 != null">
+        coupon_fee_1 = #{couponFee1,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee2 != null">
+        coupon_fee_2 = #{couponFee2,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee3 != null">
+        coupon_fee_3 = #{couponFee3,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee4 != null">
+        coupon_fee_4 = #{couponFee4,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee5 != null">
+        coupon_fee_5 = #{couponFee5,jdbcType=INTEGER},
+      </if>
       <if test="returnMsg != null">
         return_msg = #{returnMsg,jdbcType=VARCHAR},
       </if>
@@ -693,6 +798,13 @@
       coupon_id_2 = #{couponId2,jdbcType=VARCHAR},
       coupon_id_3 = #{couponId3,jdbcType=VARCHAR},
       coupon_id_4 = #{couponId4,jdbcType=VARCHAR},
+      coupon_id_5 = #{couponId5,jdbcType=VARCHAR},
+      coupon_fee_0 = #{couponFee0,jdbcType=INTEGER},
+      coupon_fee_1 = #{couponFee1,jdbcType=INTEGER},
+      coupon_fee_2 = #{couponFee2,jdbcType=INTEGER},
+      coupon_fee_3 = #{couponFee3,jdbcType=INTEGER},
+      coupon_fee_4 = #{couponFee4,jdbcType=INTEGER},
+      coupon_fee_5 = #{couponFee5,jdbcType=INTEGER},
       return_msg = #{returnMsg,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

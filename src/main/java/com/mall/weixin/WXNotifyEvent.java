@@ -131,6 +131,34 @@ public class WXNotifyEvent {
 	@XStreamAlias("coupon_id_4")
 	private String couponId4;
 
+	//new
+	@XStreamAlias("coupon_id_5")
+	private String couponId5;
+
+	//new
+	@XStreamAlias("coupon_fee_0")
+	private Integer couponFee0;
+
+	//new
+	@XStreamAlias("coupon_fee_1")
+	private Integer couponFee1;
+
+	//new
+	@XStreamAlias("coupon_fee_2")
+	private Integer couponFee2;
+
+	//new
+	@XStreamAlias("coupon_fee_3")
+	private Integer couponFee3;
+
+	//new
+	@XStreamAlias("coupon_fee_4")
+	private Integer couponFee4;
+
+	//new
+	@XStreamAlias("coupon_fee_5")
+	private Integer couponFee5;
+
 	@XStreamAlias("transaction_id")
 	private String transactionId;
 
@@ -411,5 +439,61 @@ public class WXNotifyEvent {
 
 	public void setReturnMsg(String returnMsg) {
 		this.returnMsg = returnMsg;
+	}
+
+	public String getCouponId5() {
+		return couponId5;
+	}
+
+	public void setCouponId5(String couponId5) {
+		this.couponId5 = couponId5;
+	}
+
+	public Integer getCouponFee0() {
+		return couponFee0;
+	}
+
+	public void setCouponFee0(Integer couponFee0) {
+		this.couponFee0 = couponFee0;
+	}
+
+	public Integer getCouponFee1() {
+		return couponFee1;
+	}
+
+	public void setCouponFee1(Integer couponFee1) {
+		this.couponFee1 = couponFee1;
+	}
+
+	public Integer getCouponFee2() {
+		return couponFee2;
+	}
+
+	public void setCouponFee2(Integer couponFee2) {
+		this.couponFee2 = couponFee2;
+	}
+
+	public Integer getCouponFee3() {
+		return couponFee3;
+	}
+
+	public void setCouponFee3(Integer couponFee3) {
+		this.couponFee3 = couponFee3;
+	}
+
+	public Integer getCouponFee4() {
+		return couponFee4;
+	}
+
+	public void setCouponFee4(Integer couponFee4) {
+		this.couponFee4 = couponFee4;
+	}
+
+	public Integer getCouponFee5() {
+		return couponFee5;
+	}
+
+	public void setCouponFee5(Integer couponFee5) {
+		this.couponFee5 = couponFee5;
 	}
 }
