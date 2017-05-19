@@ -290,6 +290,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Override
     @Transactional
     public void rechargeCompleted(TChargeApply chargeApply) {
+        chargeApplyService.updateChargeApply(chargeApply);
         // 充值完成：更新记录状态
         String rechargeCode = chargeApply.getOutTradeNo();
         TRechargeRecord rechargeRecord = rechargeRecordService.selectRechargeRecordByCode(rechargeCode);

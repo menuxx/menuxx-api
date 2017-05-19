@@ -130,7 +130,11 @@ public class PayNotifyController {
 				return "SUCCESS";
 			}
 		} else {
-			return "SUCCESS";
+			if ("SUCCESS".equals(event.getResultCode()) && !"SUCCESS".equals(chargeApply.getResultCode())) {
+				// 更新状态
+				orderWrapper.setStatusToPaid(chargeApply);
+				return "SUCCESS";
+			}
 		}
 
 
@@ -182,7 +186,11 @@ public class PayNotifyController {
 			}
 
 		} else {
-			return "SUCCESS";
+			if ("SUCCESS".equals(event.getResultCode()) && !"SUCCESS".equals(chargeApply.getResultCode())) {
+				// 更新状态
+				orderWrapper.rechargeCompleted(chargeApply);
+				return "SUCCESS";
+			}
 		}
 
 		return "FAIL";
