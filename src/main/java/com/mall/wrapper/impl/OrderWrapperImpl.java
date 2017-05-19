@@ -100,6 +100,11 @@ public class OrderWrapperImpl implements OrderWrapper {
         for (OrderItem orderItem : orderItemList) {
             TItem item = itemMap.get(orderItem.getItemId());
 
+            // 每日特价商品按特价处理
+            if (Util.getWeekday() == item.getWeekday()) {
+                item.setDiscountPrice(item.getSpecialPrice());
+            }
+
             int payAmount = item.getDiscountPrice() * orderItem.getQuantity();
 
             orderItem.setOrderId(order.getId());
@@ -273,7 +278,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         chargeApply.setUserId(order.getUserId());
         chargeApply.setOrderId(order.getId());
-        chargeApplyService.createChargeApply(chargeApply);
+        chargeApplyService.updateChargeApply(chargeApply);
 
         // 创建排序号
         Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
@@ -286,6 +291,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Override
     @Transactional
     public void rechargeCompleted(TChargeApply chargeApply) {
+        chargeApplyService.updateChargeApply(chargeApply);
         // 充值完成：更新记录状态
         String rechargeCode = chargeApply.getOutTradeNo();
         TRechargeRecord rechargeRecord = rechargeRecordService.selectRechargeRecordByCode(rechargeCode);
@@ -355,5 +361,44 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // PUSH
         pushOrder(order);
+    }
+
+    @Override
+    public Order buildTestOrder() {
+        Order order = new Order();
+        order.setId(0);
+        order.setUserId(0);
+        order.setCorpId(0);
+        order.setOrderCode("88888888");
+        order.setRemark("不要葱，不要蒜，加辣");
+        order.setStatus(1);
+        order.setOrderType(Order.ORDER_TYPE_CARRY_OUT);
+        order.setQueueId(0);
+        order.setTotalAmount(1);
+        order.setPayAmount(1);
+        order.setCreateTime(new Date());
+
+        Item item = new Item();
+        item.setId(0);
+        item.setCorpId(0);
+        item.setItemName("测试订单");
+        item.setCategoryId(0);
+        item.setProductPrice(1);
+        item.setCreateTime(new Date());
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setId(0);
+        orderItem.setOrderId(0);
+        orderItem.setItemId(0);
+        orderItem.setQuantity(1);
+        orderItem.setPayAmount(1);
+        orderItem.setCreateTime(new Date());
+        orderItem.setItem(item);
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+        orderItemList.add(orderItem);
+
+        order.setItemList(orderItemList);
+        return order;
     }
 }

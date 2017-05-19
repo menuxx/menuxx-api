@@ -545,6 +545,126 @@ public class TItemExample {
             return (Criteria) this;
         }
 
+        public Criteria andSpecialPriceIsNull() {
+            addCriterion("special_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceIsNotNull() {
+            addCriterion("special_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceEqualTo(Integer value) {
+            addCriterion("special_price =", value, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceNotEqualTo(Integer value) {
+            addCriterion("special_price <>", value, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceGreaterThan(Integer value) {
+            addCriterion("special_price >", value, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("special_price >=", value, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceLessThan(Integer value) {
+            addCriterion("special_price <", value, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceLessThanOrEqualTo(Integer value) {
+            addCriterion("special_price <=", value, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceIn(List<Integer> values) {
+            addCriterion("special_price in", values, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceNotIn(List<Integer> values) {
+            addCriterion("special_price not in", values, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceBetween(Integer value1, Integer value2) {
+            addCriterion("special_price between", value1, value2, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpecialPriceNotBetween(Integer value1, Integer value2) {
+            addCriterion("special_price not between", value1, value2, "specialPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayIsNull() {
+            addCriterion("weekday is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayIsNotNull() {
+            addCriterion("weekday is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayEqualTo(Integer value) {
+            addCriterion("weekday =", value, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayNotEqualTo(Integer value) {
+            addCriterion("weekday <>", value, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayGreaterThan(Integer value) {
+            addCriterion("weekday >", value, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayGreaterThanOrEqualTo(Integer value) {
+            addCriterion("weekday >=", value, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayLessThan(Integer value) {
+            addCriterion("weekday <", value, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayLessThanOrEqualTo(Integer value) {
+            addCriterion("weekday <=", value, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayIn(List<Integer> values) {
+            addCriterion("weekday in", values, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayNotIn(List<Integer> values) {
+            addCriterion("weekday not in", values, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayBetween(Integer value1, Integer value2) {
+            addCriterion("weekday between", value1, value2, "weekday");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekdayNotBetween(Integer value1, Integer value2) {
+            addCriterion("weekday not between", value1, value2, "weekday");
+            return (Criteria) this;
+        }
+
         public Criteria andSoldoutIsNull() {
             addCriterion("soldout is null");
             return (Criteria) this;

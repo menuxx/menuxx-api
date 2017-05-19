@@ -24,6 +24,11 @@ public class ChargeApplyServiceImpl implements ChargeApplyService {
     }
 
     @Override
+    public void updateChargeApply(TChargeApply chargeApply) {
+        chargeApplyMapper.updateByPrimaryKey(chargeApply);
+    }
+
+    @Override
     public TChargeApply selectChargeApplyByOutTradeNo(String outTradeNo) {
         TChargeApplyExample example = new TChargeApplyExample();
         TChargeApplyExample.Criteria criteria = example.createCriteria();

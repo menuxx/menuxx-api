@@ -19,4 +19,5 @@ public interface CorpUserService {
 
     void createCorpUser(TCorpUser corpUser);
 
+    List<TCorpUser> selectAllCorpUsers();
 }
