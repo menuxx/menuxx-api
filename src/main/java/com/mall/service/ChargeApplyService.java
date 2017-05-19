@@ -10,6 +10,8 @@ public interface ChargeApplyService {
 
     void createChargeApply(TChargeApply chargeApply);
 
+    void updateChargeApply(TChargeApply chargeApply);
+
     TChargeApply selectChargeApplyByOutTradeNo(String outTradeNo);
 
 }
