@@ -87,7 +87,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 获取配置信息
         Map<String, Integer> configMap = configService.selectMyConfigs4Map(order.getCorpId());
         // 单个打包盒费用
-        int takeoutPackFee = configMap.get(Constants.takeoutPackFee);
+        Integer takeoutPackFee = configMap.get(Constants.takeoutPackFee);
         // 配送费
         Integer takeoutFee = configMap.get(Constants.takeoutFee);
         // 外卖起送费
