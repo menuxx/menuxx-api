@@ -115,51 +115,7 @@ public class PayNotifyController {
 
 			TOrder order = orderService.selectOrderByCode(outTradeNo);
 
-			chargeApply = new TChargeApply();
-
-			chargeApply.setUserId(order.getUserId());
-			chargeApply.setOrderId(order.getId());
-
-			chargeApply.setAttach(event.getAttach());
-			chargeApply.setBankType(event.getBankType());
-			chargeApply.setCashFee(event.getCashFee());
-			chargeApply.setFeeType(event.getFeeType());
-			chargeApply.setIsSubscribe(event.getIsSubscribe());
-			chargeApply.setMchId(event.getMchid());
-			chargeApply.setNonceStr(event.getNonceStr());
-			chargeApply.setOpenid(event.getOpenid());
-			chargeApply.setOutTradeNo(event.getOutTradeNo());
-			chargeApply.setResultCode(event.getResultCode());
-			chargeApply.setReturnCode(event.getReturnCode());
-			chargeApply.setSign(event.getSign());
-			chargeApply.setTimeEnd(event.getTimeEnd());
-			chargeApply.setTotalFee(event.getTotalFee());
-			chargeApply.setTradeType(event.getTradeType());
-			chargeApply.setTransactionId(event.getTransactionId());
-
-			chargeApply.setDiviceInfo(event.getDeviceInfo());
-			chargeApply.setSignType(event.getSignType());
-			chargeApply.setErrCode(event.getErrCode());
-			chargeApply.setErrCodeDes(event.getErrCodeDes());
-			chargeApply.setSettlementTotalFee(event.getSettlementTotalFee());
-			chargeApply.setCashFeeType(event.getCashFeeType());
-			chargeApply.setCouponFee(event.getCouponFee());
-			chargeApply.setCouponCount(event.getCouponCount());
-			chargeApply.setCouponType0(event.getCouponType0());
-			chargeApply.setCouponType1(event.getCouponType1());
-			chargeApply.setCouponId0(event.getCouponId0());
-			chargeApply.setCouponId1(event.getCouponId1());
-			chargeApply.setCouponId2(event.getCouponId2());
-			chargeApply.setCouponId3(event.getCouponId3());
-			chargeApply.setCouponId4(event.getCouponId4());
-			chargeApply.setCouponId5(event.getCouponId5());
-			chargeApply.setCouponFee0(event.getCouponFee0());
-			chargeApply.setCouponFee1(event.getCouponFee1());
-			chargeApply.setCouponFee2(event.getCouponFee2());
-			chargeApply.setCouponFee3(event.getCouponFee3());
-			chargeApply.setCouponFee4(event.getCouponFee4());
-			chargeApply.setCouponFee5(event.getCouponFee5());
-			chargeApply.setReturnMsg(event.getReturnMsg());
+			chargeApply = buildChargeApply(event, order.getUserId(), order.getId());
 
 			chargeApplyService.createChargeApply(chargeApply);
 
@@ -200,52 +156,7 @@ public class PayNotifyController {
 			String outTradeNo = event.getOutTradeNo();
 			TRechargeRecord rechargeRecord = rechargeRecordService.selectRechargeRecordByCode(outTradeNo);
 
-			chargeApply = new TChargeApply();
-
-			chargeApply.setUserId(rechargeRecord.getUserId());
-			chargeApply.setOrderId(rechargeRecord.getOrderId());
-
-			chargeApply.setAttach(event.getAttach());
-			chargeApply.setBankType(event.getBankType());
-			chargeApply.setCashFee(event.getCashFee());
-			chargeApply.setFeeType(event.getFeeType());
-			chargeApply.setIsSubscribe(event.getIsSubscribe());
-			chargeApply.setMchId(event.getMchid());
-			chargeApply.setNonceStr(event.getNonceStr());
-			chargeApply.setOpenid(event.getOpenid());
-			chargeApply.setOutTradeNo(event.getOutTradeNo());
-			chargeApply.setResultCode(event.getResultCode());
-			chargeApply.setReturnCode(event.getReturnCode());
-			chargeApply.setSign(event.getSign());
-			chargeApply.setTimeEnd(event.getTimeEnd());
-			chargeApply.setTotalFee(event.getTotalFee());
-			chargeApply.setTradeType(event.getTradeType());
-			chargeApply.setTransactionId(event.getTransactionId());
-
-			chargeApply.setDiviceInfo(event.getDeviceInfo());
-			chargeApply.setSignType(event.getSignType());
-			chargeApply.setErrCode(event.getErrCode());
-			chargeApply.setErrCodeDes(event.getErrCodeDes());
-			chargeApply.setSettlementTotalFee(event.getSettlementTotalFee());
-			chargeApply.setCashFeeType(event.getCashFeeType());
-			chargeApply.setCouponFee(event.getCouponFee());
-			chargeApply.setCouponCount(event.getCouponCount());
-			chargeApply.setCouponType0(event.getCouponType0());
-			chargeApply.setCouponType1(event.getCouponType1());
-			chargeApply.setCouponId0(event.getCouponId0());
-			chargeApply.setCouponId1(event.getCouponId1());
-			chargeApply.setCouponId2(event.getCouponId2());
-			chargeApply.setCouponId3(event.getCouponId3());
-			chargeApply.setCouponId4(event.getCouponId4());
-			chargeApply.setCouponId5(event.getCouponId5());
-			chargeApply.setCouponFee0(event.getCouponFee0());
-			chargeApply.setCouponFee1(event.getCouponFee1());
-			chargeApply.setCouponFee2(event.getCouponFee2());
-			chargeApply.setCouponFee3(event.getCouponFee3());
-			chargeApply.setCouponFee4(event.getCouponFee4());
-			chargeApply.setCouponFee5(event.getCouponFee5());
-			chargeApply.setReturnMsg(event.getReturnMsg());
-
+			chargeApply = buildChargeApply(event, rechargeRecord.getUserId(), rechargeRecord.getOrderId());
 			chargeApplyService.createChargeApply(chargeApply);
 
 			// 如果状态码为 SUCCESS，更新付款状态
@@ -263,5 +174,55 @@ public class PayNotifyController {
 		}
 
 		return "FAIL";
+	}
+
+	private TChargeApply buildChargeApply(WXNotifyEvent event, int userId, int orderId) {
+		TChargeApply chargeApply = new TChargeApply();
+
+		chargeApply.setUserId(userId);
+		chargeApply.setOrderId(orderId);
+
+		chargeApply.setAttach(event.getAttach());
+		chargeApply.setBankType(event.getBankType());
+		chargeApply.setCashFee(event.getCashFee());
+		chargeApply.setFeeType(event.getFeeType());
+		chargeApply.setIsSubscribe(event.getIsSubscribe());
+		chargeApply.setMchId(event.getMchid());
+		chargeApply.setNonceStr(event.getNonceStr());
+		chargeApply.setOpenid(event.getOpenid());
+		chargeApply.setOutTradeNo(event.getOutTradeNo());
+		chargeApply.setResultCode(event.getResultCode());
+		chargeApply.setReturnCode(event.getReturnCode());
+		chargeApply.setSign(event.getSign());
+		chargeApply.setTimeEnd(event.getTimeEnd());
+		chargeApply.setTotalFee(event.getTotalFee());
+		chargeApply.setTradeType(event.getTradeType());
+		chargeApply.setTransactionId(event.getTransactionId());
+
+		chargeApply.setDiviceInfo(event.getDeviceInfo());
+		chargeApply.setSignType(event.getSignType());
+		chargeApply.setErrCode(event.getErrCode());
+		chargeApply.setErrCodeDes(event.getErrCodeDes());
+		chargeApply.setSettlementTotalFee(event.getSettlementTotalFee());
+		chargeApply.setCashFeeType(event.getCashFeeType());
+		chargeApply.setCouponFee(event.getCouponFee());
+		chargeApply.setCouponCount(event.getCouponCount());
+		chargeApply.setCouponType0(event.getCouponType0());
+		chargeApply.setCouponType1(event.getCouponType1());
+		chargeApply.setCouponId0(event.getCouponId0());
+		chargeApply.setCouponId1(event.getCouponId1());
+		chargeApply.setCouponId2(event.getCouponId2());
+		chargeApply.setCouponId3(event.getCouponId3());
+		chargeApply.setCouponId4(event.getCouponId4());
+		chargeApply.setCouponId5(event.getCouponId5());
+		chargeApply.setCouponFee0(event.getCouponFee0());
+		chargeApply.setCouponFee1(event.getCouponFee1());
+		chargeApply.setCouponFee2(event.getCouponFee2());
+		chargeApply.setCouponFee3(event.getCouponFee3());
+		chargeApply.setCouponFee4(event.getCouponFee4());
+		chargeApply.setCouponFee5(event.getCouponFee5());
+		chargeApply.setReturnMsg(event.getReturnMsg());
+
+		return chargeApply;
 	}
 }
