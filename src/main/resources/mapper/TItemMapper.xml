@@ -9,6 +9,8 @@
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="product_price" jdbcType="INTEGER" property="productPrice" />
     <result column="discount_price" jdbcType="INTEGER" property="discountPrice" />
+    <result column="special_price" jdbcType="INTEGER" property="specialPrice" />
+    <result column="weekday" jdbcType="INTEGER" property="weekday" />
     <result column="soldout" jdbcType="INTEGER" property="soldout" />
     <result column="sort_id" jdbcType="INTEGER" property="sortId" />
     <result column="format_id" jdbcType="INTEGER" property="formatId" />
@@ -77,8 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_id, item_name, item_desc, category_id, product_price, discount_price, soldout, 
-    sort_id, format_id, bar_code, item_code, suppliers, package_flag, create_time
+    id, corp_id, item_name, item_desc, category_id, product_price, discount_price, special_price, 
+    weekday, soldout, sort_id, format_id, bar_code, item_code, suppliers, package_flag, 
+    create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TItemExample" resultMap="BaseResultMap">
     select
@@ -116,14 +119,16 @@
     </selectKey>
     insert into t_item (corp_id, item_name, item_desc, 
       category_id, product_price, discount_price, 
-      soldout, sort_id, format_id, 
-      bar_code, item_code, suppliers, 
-      package_flag, create_time)
+      special_price, weekday, soldout, 
+      sort_id, format_id, bar_code, 
+      item_code, suppliers, package_flag, 
+      create_time)
     values (#{corpId,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
       #{categoryId,jdbcType=INTEGER}, #{productPrice,jdbcType=INTEGER}, #{discountPrice,jdbcType=INTEGER}, 
-      #{soldout,jdbcType=INTEGER}, #{sortId,jdbcType=INTEGER}, #{formatId,jdbcType=INTEGER}, 
-      #{barCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, #{suppliers,jdbcType=VARCHAR}, 
-      #{packageFlag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{specialPrice,jdbcType=INTEGER}, #{weekday,jdbcType=INTEGER}, #{soldout,jdbcType=INTEGER}, 
+      #{sortId,jdbcType=INTEGER}, #{formatId,jdbcType=INTEGER}, #{barCode,jdbcType=VARCHAR}, 
+      #{itemCode,jdbcType=VARCHAR}, #{suppliers,jdbcType=VARCHAR}, #{packageFlag,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -148,6 +153,12 @@
       </if>
       <if test="discountPrice != null">
         discount_price,
+      </if>
+      <if test="specialPrice != null">
+        special_price,
+      </if>
+      <if test="weekday != null">
+        weekday,
       </if>
       <if test="soldout != null">
         soldout,
@@ -192,6 +203,12 @@
       </if>
       <if test="discountPrice != null">
         #{discountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="specialPrice != null">
+        #{specialPrice,jdbcType=INTEGER},
+      </if>
+      <if test="weekday != null">
+        #{weekday,jdbcType=INTEGER},
       </if>
       <if test="soldout != null">
         #{soldout,jdbcType=INTEGER},
@@ -249,6 +266,12 @@
       <if test="record.discountPrice != null">
         discount_price = #{record.discountPrice,jdbcType=INTEGER},
       </if>
+      <if test="record.specialPrice != null">
+        special_price = #{record.specialPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekday != null">
+        weekday = #{record.weekday,jdbcType=INTEGER},
+      </if>
       <if test="record.soldout != null">
         soldout = #{record.soldout,jdbcType=INTEGER},
       </if>
@@ -287,6 +310,8 @@
       category_id = #{record.categoryId,jdbcType=INTEGER},
       product_price = #{record.productPrice,jdbcType=INTEGER},
       discount_price = #{record.discountPrice,jdbcType=INTEGER},
+      special_price = #{record.specialPrice,jdbcType=INTEGER},
+      weekday = #{record.weekday,jdbcType=INTEGER},
       soldout = #{record.soldout,jdbcType=INTEGER},
       sort_id = #{record.sortId,jdbcType=INTEGER},
       format_id = #{record.formatId,jdbcType=INTEGER},
@@ -319,6 +344,12 @@
       </if>
       <if test="discountPrice != null">
         discount_price = #{discountPrice,jdbcType=INTEGER},
+      </if>
+      <if test="specialPrice != null">
+        special_price = #{specialPrice,jdbcType=INTEGER},
+      </if>
+      <if test="weekday != null">
+        weekday = #{weekday,jdbcType=INTEGER},
       </if>
       <if test="soldout != null">
         soldout = #{soldout,jdbcType=INTEGER},
@@ -355,6 +386,8 @@
       category_id = #{categoryId,jdbcType=INTEGER},
       product_price = #{productPrice,jdbcType=INTEGER},
       discount_price = #{discountPrice,jdbcType=INTEGER},
+      special_price = #{specialPrice,jdbcType=INTEGER},
+      weekday = #{weekday,jdbcType=INTEGER},
       soldout = #{soldout,jdbcType=INTEGER},
       sort_id = #{sortId,jdbcType=INTEGER},
       format_id = #{formatId,jdbcType=INTEGER},

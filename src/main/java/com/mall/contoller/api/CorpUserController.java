@@ -10,6 +10,7 @@ import com.mall.service.CorpService;
 import com.mall.service.CorpUserService;
 import com.mall.utils.IPushUtil;
 import com.mall.utils.SMSUtil;
+import com.mall.wrapper.OrderWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,12 @@ public class CorpUserController {
     @Autowired
     CorpService corpService;
 
+    @Autowired
+    OrderWrapper orderWrapper;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
     /**
      * 2005 手机号登录
      *
@@ -62,7 +69,7 @@ public class CorpUserController {
 
 
     /**
-     *
+     * 2010 流程自检
      * @return
      */
     @RequestMapping(value = "self_check", method = RequestMethod.GET)
@@ -75,50 +82,12 @@ public class CorpUserController {
         List<String> clientIdList = new ArrayList<>();
         clientIdList.add(corpUser.getClientId());
 
-        Order order = new Order();
-        order.setId(0);
-        order.setUserId(0);
-        order.setCorpId(0);
-        order.setOrderCode("88888888");
-        order.setRemark("不要葱，不要蒜，加辣");
-        order.setStatus(1);
-        order.setOrderType(Order.ORDER_TYPE_CARRY_OUT);
-        order.setQueueId(0);
-        order.setTotalAmount(1);
-        order.setPayAmount(1);
-        order.setCreateTime(new Date());
+        Order order = orderWrapper.buildTestOrder();
 
-        Item item = new Item();
-        item.setId(0);
-        item.setCorpId(0);
-        item.setItemName("测试订单");
-        item.setCategoryId(0);
-        item.setProductPrice(1);
-        item.setCreateTime(new Date());
-
-        OrderItem orderItem = new OrderItem();
-        orderItem.setId(0);
-        orderItem.setOrderId(0);
-        orderItem.setItemId(0);
-        orderItem.setQuantity(1);
-        orderItem.setPayAmount(1);
-        orderItem.setCreateTime(new Date());
-        orderItem.setItem(item);
-
-        List<OrderItem> orderItemList = new ArrayList<>();
-        orderItemList.add(orderItem);
-
-        order.setItemList(orderItemList);
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String content = mapper.writeValueAsString(order);
-            IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        IPushUtil.sendPushOrder(appConfiguration, objectMapper, order, clientIdList);
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
+
+
 }

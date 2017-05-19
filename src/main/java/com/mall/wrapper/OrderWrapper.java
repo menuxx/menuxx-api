@@ -30,4 +30,6 @@ public interface OrderWrapper {
     void rechargeCompleted(TChargeApply chargeApply);
 
     void rechargePay(int userId, int corpId, Order order);
+
+    Order buildTestOrder();
 }

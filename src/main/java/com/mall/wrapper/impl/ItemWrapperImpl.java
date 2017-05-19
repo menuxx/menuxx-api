@@ -7,6 +7,7 @@ import com.mall.model.TItem;
 import com.mall.service.CategoryService;
 import com.mall.service.ItemService;
 import com.mall.utils.Constants;
+import com.mall.utils.Util;
 import com.mall.wrapper.ItemWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,19 @@ public class ItemWrapperImpl implements ItemWrapper {
     public Map<Integer, List<TItem>> selectSellItemsByCorp(int corpId) {
         List<TItem> list = itemService.selectSellItemsByCorp(corpId);
 
-        Map<Integer, List<TItem>> map = new HashMap<>();
+        // 今日特价
+        List<TItem> specialList = new ArrayList<>();
+
+        Map<Integer, List<TItem>> map = new LinkedHashMap<>();
         if (list.size() > 0) {
             for (TItem item : list) {
+                // 判断是否是特价菜
+                if (Util.getWeekday() == item.getWeekday()) {
+                    item.setDiscountPrice(item.getSpecialPrice());
+                    specialList.add(item);
+                    continue;
+                }
+
                 int categoryId = item.getCategoryId();
 
                 if (map.containsKey(categoryId)) {
@@ -41,6 +52,10 @@ public class ItemWrapperImpl implements ItemWrapper {
                     tempList.add(item);
                     map.put(categoryId, tempList);
                 }
+            }
+
+            if (specialList.size() > 0) {
+                map.put(0, specialList);
             }
         }
 
