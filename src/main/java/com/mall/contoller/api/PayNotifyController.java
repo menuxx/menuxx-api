@@ -8,11 +8,14 @@ import com.mall.weixin.*;
 import com.mall.wrapper.OrderWrapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 作者: yinchangsheng@gmail.com
@@ -94,6 +97,7 @@ public class PayNotifyController {
 	@PostMapping(path = "weixin/pay_notify", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public String onNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] notify start***************************");
+
 		logger.info(event);
 
 		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
