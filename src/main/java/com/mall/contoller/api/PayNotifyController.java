@@ -1,21 +1,21 @@
 package com.mall.contoller.api;
 
 import com.mall.model.TChargeApply;
+import com.mall.model.TOrder;
+import com.mall.model.TRechargeRecord;
 import com.mall.service.ChargeApplyService;
+import com.mall.service.OrderService;
 import com.mall.service.RechargeRecordService;
 import com.mall.utils.Constants;
 import com.mall.weixin.*;
 import com.mall.wrapper.OrderWrapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 作者: yinchangsheng@gmail.com
@@ -38,6 +38,9 @@ public class PayNotifyController {
 
 	@Autowired
 	RechargeRecordService rechargeRecordService;
+
+	@Autowired
+	OrderService orderService;
 
 //	@PostMapping("weixin/orderpay")
 //	public DeferredResult<Map<String, String>> wxPayment() {
@@ -91,11 +94,11 @@ public class PayNotifyController {
 
 	/**
 	 * 微信支付回调频率：15/15/30/180/1800/1800/1800/1800/3600（秒）
-	 * @param event
+	 * @param
 	 * @return
 	 */
 	@PostMapping(path = "weixin/pay_notify", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public String onNotify(@RequestBody WXNotifyEvent event) {
+	 public String onNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] notify start***************************");
 
 		logger.info(event);
@@ -108,7 +111,15 @@ public class PayNotifyController {
 
 		// 如果为空，先创建 ChargeApply
 		if (null == chargeApply) {
+			String outTradeNo = event.getOutTradeNo();
+
+			TOrder order = orderService.selectOrderByCode(outTradeNo);
+
 			chargeApply = new TChargeApply();
+
+			chargeApply.setUserId(order.getUserId());
+			chargeApply.setOrderId(order.getId());
+
 			chargeApply.setAttach(event.getAttach());
 			chargeApply.setBankType(event.getBankType());
 			chargeApply.setCashFee(event.getCashFee());
@@ -126,6 +137,30 @@ public class PayNotifyController {
 			chargeApply.setTradeType(event.getTradeType());
 			chargeApply.setTransactionId(event.getTransactionId());
 
+			chargeApply.setDiviceInfo(event.getDeviceInfo());
+			chargeApply.setSignType(event.getSignType());
+			chargeApply.setErrCode(event.getErrCode());
+			chargeApply.setErrCodeDes(event.getErrCodeDes());
+			chargeApply.setSettlementTotalFee(event.getSettlementTotalFee());
+			chargeApply.setCashFeeType(event.getCashFeeType());
+			chargeApply.setCouponFee(event.getCouponFee());
+			chargeApply.setCouponCount(event.getCouponCount());
+			chargeApply.setCouponType0(event.getCouponType0());
+			chargeApply.setCouponType1(event.getCouponType1());
+			chargeApply.setCouponId0(event.getCouponId0());
+			chargeApply.setCouponId1(event.getCouponId1());
+			chargeApply.setCouponId2(event.getCouponId2());
+			chargeApply.setCouponId3(event.getCouponId3());
+			chargeApply.setCouponId4(event.getCouponId4());
+			chargeApply.setCouponId5(event.getCouponId5());
+			chargeApply.setCouponFee0(event.getCouponFee0());
+			chargeApply.setCouponFee1(event.getCouponFee1());
+			chargeApply.setCouponFee2(event.getCouponFee2());
+			chargeApply.setCouponFee3(event.getCouponFee3());
+			chargeApply.setCouponFee4(event.getCouponFee4());
+			chargeApply.setCouponFee5(event.getCouponFee5());
+			chargeApply.setReturnMsg(event.getReturnMsg());
+
 			chargeApplyService.createChargeApply(chargeApply);
 
 			// 如果状态码为 SUCCESS，更新付款状态
@@ -140,7 +175,6 @@ public class PayNotifyController {
 				return "SUCCESS";
 			}
 		}
-
 
 		return "FAIL";
 
@@ -163,7 +197,14 @@ public class PayNotifyController {
 
 		// 如果为空，先创建 ChargeApply
 		if (null == chargeApply) {
+			String outTradeNo = event.getOutTradeNo();
+			TRechargeRecord rechargeRecord = rechargeRecordService.selectRechargeRecordByCode(outTradeNo);
+
 			chargeApply = new TChargeApply();
+
+			chargeApply.setUserId(rechargeRecord.getUserId());
+			chargeApply.setOrderId(rechargeRecord.getOrderId());
+
 			chargeApply.setAttach(event.getAttach());
 			chargeApply.setBankType(event.getBankType());
 			chargeApply.setCashFee(event.getCashFee());
@@ -180,6 +221,30 @@ public class PayNotifyController {
 			chargeApply.setTotalFee(event.getTotalFee());
 			chargeApply.setTradeType(event.getTradeType());
 			chargeApply.setTransactionId(event.getTransactionId());
+
+			chargeApply.setDiviceInfo(event.getDeviceInfo());
+			chargeApply.setSignType(event.getSignType());
+			chargeApply.setErrCode(event.getErrCode());
+			chargeApply.setErrCodeDes(event.getErrCodeDes());
+			chargeApply.setSettlementTotalFee(event.getSettlementTotalFee());
+			chargeApply.setCashFeeType(event.getCashFeeType());
+			chargeApply.setCouponFee(event.getCouponFee());
+			chargeApply.setCouponCount(event.getCouponCount());
+			chargeApply.setCouponType0(event.getCouponType0());
+			chargeApply.setCouponType1(event.getCouponType1());
+			chargeApply.setCouponId0(event.getCouponId0());
+			chargeApply.setCouponId1(event.getCouponId1());
+			chargeApply.setCouponId2(event.getCouponId2());
+			chargeApply.setCouponId3(event.getCouponId3());
+			chargeApply.setCouponId4(event.getCouponId4());
+			chargeApply.setCouponId5(event.getCouponId5());
+			chargeApply.setCouponFee0(event.getCouponFee0());
+			chargeApply.setCouponFee1(event.getCouponFee1());
+			chargeApply.setCouponFee2(event.getCouponFee2());
+			chargeApply.setCouponFee3(event.getCouponFee3());
+			chargeApply.setCouponFee4(event.getCouponFee4());
+			chargeApply.setCouponFee5(event.getCouponFee5());
+			chargeApply.setReturnMsg(event.getReturnMsg());
 
 			chargeApplyService.createChargeApply(chargeApply);
 

@@ -7,7 +7,7 @@
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="attach" jdbcType="VARCHAR" property="attach" />
     <result column="bank_type" jdbcType="VARCHAR" property="bankType" />
-    <result column="cash_fee" jdbcType="VARCHAR" property="cashFee" />
+    <result column="cash_fee" jdbcType="INTEGER" property="cashFee" />
     <result column="fee_type" jdbcType="VARCHAR" property="feeType" />
     <result column="is_subscribe" jdbcType="VARCHAR" property="isSubscribe" />
     <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
@@ -18,9 +18,32 @@
     <result column="return_code" jdbcType="VARCHAR" property="returnCode" />
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="time_end" jdbcType="VARCHAR" property="timeEnd" />
-    <result column="total_fee" jdbcType="VARCHAR" property="totalFee" />
+    <result column="total_fee" jdbcType="INTEGER" property="totalFee" />
     <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
     <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="divice_info" jdbcType="VARCHAR" property="diviceInfo" />
+    <result column="sign_type" jdbcType="VARCHAR" property="signType" />
+    <result column="err_code" jdbcType="VARCHAR" property="errCode" />
+    <result column="err_code_des" jdbcType="VARCHAR" property="errCodeDes" />
+    <result column="settlement_total_fee" jdbcType="INTEGER" property="settlementTotalFee" />
+    <result column="cash_fee_type" jdbcType="VARCHAR" property="cashFeeType" />
+    <result column="coupon_fee" jdbcType="INTEGER" property="couponFee" />
+    <result column="coupon_count" jdbcType="INTEGER" property="couponCount" />
+    <result column="coupon_type_0" jdbcType="INTEGER" property="couponType0" />
+    <result column="coupon_type_1" jdbcType="INTEGER" property="couponType1" />
+    <result column="coupon_id_0" jdbcType="VARCHAR" property="couponId0" />
+    <result column="coupon_id_1" jdbcType="VARCHAR" property="couponId1" />
+    <result column="coupon_id_2" jdbcType="VARCHAR" property="couponId2" />
+    <result column="coupon_id_3" jdbcType="VARCHAR" property="couponId3" />
+    <result column="coupon_id_4" jdbcType="VARCHAR" property="couponId4" />
+    <result column="coupon_id_5" jdbcType="VARCHAR" property="couponId5" />
+    <result column="coupon_fee_0" jdbcType="INTEGER" property="couponFee0" />
+    <result column="coupon_fee_1" jdbcType="INTEGER" property="couponFee1" />
+    <result column="coupon_fee_2" jdbcType="INTEGER" property="couponFee2" />
+    <result column="coupon_fee_3" jdbcType="INTEGER" property="couponFee3" />
+    <result column="coupon_fee_4" jdbcType="INTEGER" property="couponFee4" />
+    <result column="coupon_fee_5" jdbcType="INTEGER" property="couponFee5" />
+    <result column="return_msg" jdbcType="VARCHAR" property="returnMsg" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -84,7 +107,10 @@
   <sql id="Base_Column_List">
     id, user_id, order_id, attach, bank_type, cash_fee, fee_type, is_subscribe, mch_id, 
     nonce_str, openid, out_trade_no, result_code, return_code, sign, time_end, total_fee, 
-    trade_type, transaction_id, create_time
+    trade_type, transaction_id, divice_info, sign_type, err_code, err_code_des, settlement_total_fee, 
+    cash_fee_type, coupon_fee, coupon_count, coupon_type_0, coupon_type_1, coupon_id_0, 
+    coupon_id_1, coupon_id_2, coupon_id_3, coupon_id_4, coupon_id_5, coupon_fee_0, coupon_fee_1, 
+    coupon_fee_2, coupon_fee_3, coupon_fee_4, coupon_fee_5, return_msg, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TChargeApplyExample" resultMap="BaseResultMap">
     select
@@ -126,14 +152,30 @@
       openid, out_trade_no, result_code, 
       return_code, sign, time_end, 
       total_fee, trade_type, transaction_id, 
-      create_time)
+      divice_info, sign_type, err_code, 
+      err_code_des, settlement_total_fee, cash_fee_type, 
+      coupon_fee, coupon_count, coupon_type_0, 
+      coupon_type_1, coupon_id_0, coupon_id_1, 
+      coupon_id_2, coupon_id_3, coupon_id_4, 
+      coupon_id_5, coupon_fee_0, coupon_fee_1, 
+      coupon_fee_2, coupon_fee_3, coupon_fee_4, 
+      coupon_fee_5, return_msg, create_time
+      )
     values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{attach,jdbcType=VARCHAR}, 
-      #{bankType,jdbcType=VARCHAR}, #{cashFee,jdbcType=VARCHAR}, #{feeType,jdbcType=VARCHAR}, 
+      #{bankType,jdbcType=VARCHAR}, #{cashFee,jdbcType=INTEGER}, #{feeType,jdbcType=VARCHAR}, 
       #{isSubscribe,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{nonceStr,jdbcType=VARCHAR}, 
       #{openid,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, #{resultCode,jdbcType=VARCHAR}, 
       #{returnCode,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{timeEnd,jdbcType=VARCHAR}, 
-      #{totalFee,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{totalFee,jdbcType=INTEGER}, #{tradeType,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{diviceInfo,jdbcType=VARCHAR}, #{signType,jdbcType=VARCHAR}, #{errCode,jdbcType=VARCHAR}, 
+      #{errCodeDes,jdbcType=VARCHAR}, #{settlementTotalFee,jdbcType=INTEGER}, #{cashFeeType,jdbcType=VARCHAR}, 
+      #{couponFee,jdbcType=INTEGER}, #{couponCount,jdbcType=INTEGER}, #{couponType0,jdbcType=INTEGER}, 
+      #{couponType1,jdbcType=INTEGER}, #{couponId0,jdbcType=VARCHAR}, #{couponId1,jdbcType=VARCHAR}, 
+      #{couponId2,jdbcType=VARCHAR}, #{couponId3,jdbcType=VARCHAR}, #{couponId4,jdbcType=VARCHAR}, 
+      #{couponId5,jdbcType=VARCHAR}, #{couponFee0,jdbcType=INTEGER}, #{couponFee1,jdbcType=INTEGER}, 
+      #{couponFee2,jdbcType=INTEGER}, #{couponFee3,jdbcType=INTEGER}, #{couponFee4,jdbcType=INTEGER}, 
+      #{couponFee5,jdbcType=INTEGER}, #{returnMsg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TChargeApply">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -195,6 +237,75 @@
       <if test="transactionId != null">
         transaction_id,
       </if>
+      <if test="diviceInfo != null">
+        divice_info,
+      </if>
+      <if test="signType != null">
+        sign_type,
+      </if>
+      <if test="errCode != null">
+        err_code,
+      </if>
+      <if test="errCodeDes != null">
+        err_code_des,
+      </if>
+      <if test="settlementTotalFee != null">
+        settlement_total_fee,
+      </if>
+      <if test="cashFeeType != null">
+        cash_fee_type,
+      </if>
+      <if test="couponFee != null">
+        coupon_fee,
+      </if>
+      <if test="couponCount != null">
+        coupon_count,
+      </if>
+      <if test="couponType0 != null">
+        coupon_type_0,
+      </if>
+      <if test="couponType1 != null">
+        coupon_type_1,
+      </if>
+      <if test="couponId0 != null">
+        coupon_id_0,
+      </if>
+      <if test="couponId1 != null">
+        coupon_id_1,
+      </if>
+      <if test="couponId2 != null">
+        coupon_id_2,
+      </if>
+      <if test="couponId3 != null">
+        coupon_id_3,
+      </if>
+      <if test="couponId4 != null">
+        coupon_id_4,
+      </if>
+      <if test="couponId5 != null">
+        coupon_id_5,
+      </if>
+      <if test="couponFee0 != null">
+        coupon_fee_0,
+      </if>
+      <if test="couponFee1 != null">
+        coupon_fee_1,
+      </if>
+      <if test="couponFee2 != null">
+        coupon_fee_2,
+      </if>
+      <if test="couponFee3 != null">
+        coupon_fee_3,
+      </if>
+      <if test="couponFee4 != null">
+        coupon_fee_4,
+      </if>
+      <if test="couponFee5 != null">
+        coupon_fee_5,
+      </if>
+      <if test="returnMsg != null">
+        return_msg,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -213,7 +324,7 @@
         #{bankType,jdbcType=VARCHAR},
       </if>
       <if test="cashFee != null">
-        #{cashFee,jdbcType=VARCHAR},
+        #{cashFee,jdbcType=INTEGER},
       </if>
       <if test="feeType != null">
         #{feeType,jdbcType=VARCHAR},
@@ -246,13 +357,82 @@
         #{timeEnd,jdbcType=VARCHAR},
       </if>
       <if test="totalFee != null">
-        #{totalFee,jdbcType=VARCHAR},
+        #{totalFee,jdbcType=INTEGER},
       </if>
       <if test="tradeType != null">
         #{tradeType,jdbcType=VARCHAR},
       </if>
       <if test="transactionId != null">
         #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="diviceInfo != null">
+        #{diviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="signType != null">
+        #{signType,jdbcType=VARCHAR},
+      </if>
+      <if test="errCode != null">
+        #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errCodeDes != null">
+        #{errCodeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementTotalFee != null">
+        #{settlementTotalFee,jdbcType=INTEGER},
+      </if>
+      <if test="cashFeeType != null">
+        #{cashFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee != null">
+        #{couponFee,jdbcType=INTEGER},
+      </if>
+      <if test="couponCount != null">
+        #{couponCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponType0 != null">
+        #{couponType0,jdbcType=INTEGER},
+      </if>
+      <if test="couponType1 != null">
+        #{couponType1,jdbcType=INTEGER},
+      </if>
+      <if test="couponId0 != null">
+        #{couponId0,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId1 != null">
+        #{couponId1,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId2 != null">
+        #{couponId2,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId3 != null">
+        #{couponId3,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId4 != null">
+        #{couponId4,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId5 != null">
+        #{couponId5,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee0 != null">
+        #{couponFee0,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee1 != null">
+        #{couponFee1,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee2 != null">
+        #{couponFee2,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee3 != null">
+        #{couponFee3,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee4 != null">
+        #{couponFee4,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee5 != null">
+        #{couponFee5,jdbcType=INTEGER},
+      </if>
+      <if test="returnMsg != null">
+        #{returnMsg,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -284,7 +464,7 @@
         bank_type = #{record.bankType,jdbcType=VARCHAR},
       </if>
       <if test="record.cashFee != null">
-        cash_fee = #{record.cashFee,jdbcType=VARCHAR},
+        cash_fee = #{record.cashFee,jdbcType=INTEGER},
       </if>
       <if test="record.feeType != null">
         fee_type = #{record.feeType,jdbcType=VARCHAR},
@@ -317,13 +497,82 @@
         time_end = #{record.timeEnd,jdbcType=VARCHAR},
       </if>
       <if test="record.totalFee != null">
-        total_fee = #{record.totalFee,jdbcType=VARCHAR},
+        total_fee = #{record.totalFee,jdbcType=INTEGER},
       </if>
       <if test="record.tradeType != null">
         trade_type = #{record.tradeType,jdbcType=VARCHAR},
       </if>
       <if test="record.transactionId != null">
         transaction_id = #{record.transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diviceInfo != null">
+        divice_info = #{record.diviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signType != null">
+        sign_type = #{record.signType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errCode != null">
+        err_code = #{record.errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errCodeDes != null">
+        err_code_des = #{record.errCodeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.settlementTotalFee != null">
+        settlement_total_fee = #{record.settlementTotalFee,jdbcType=INTEGER},
+      </if>
+      <if test="record.cashFeeType != null">
+        cash_fee_type = #{record.cashFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponFee != null">
+        coupon_fee = #{record.couponFee,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponCount != null">
+        coupon_count = #{record.couponCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponType0 != null">
+        coupon_type_0 = #{record.couponType0,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponType1 != null">
+        coupon_type_1 = #{record.couponType1,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponId0 != null">
+        coupon_id_0 = #{record.couponId0,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponId1 != null">
+        coupon_id_1 = #{record.couponId1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponId2 != null">
+        coupon_id_2 = #{record.couponId2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponId3 != null">
+        coupon_id_3 = #{record.couponId3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponId4 != null">
+        coupon_id_4 = #{record.couponId4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponId5 != null">
+        coupon_id_5 = #{record.couponId5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponFee0 != null">
+        coupon_fee_0 = #{record.couponFee0,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee1 != null">
+        coupon_fee_1 = #{record.couponFee1,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee2 != null">
+        coupon_fee_2 = #{record.couponFee2,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee3 != null">
+        coupon_fee_3 = #{record.couponFee3,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee4 != null">
+        coupon_fee_4 = #{record.couponFee4,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponFee5 != null">
+        coupon_fee_5 = #{record.couponFee5,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnMsg != null">
+        return_msg = #{record.returnMsg,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -340,7 +589,7 @@
       order_id = #{record.orderId,jdbcType=INTEGER},
       attach = #{record.attach,jdbcType=VARCHAR},
       bank_type = #{record.bankType,jdbcType=VARCHAR},
-      cash_fee = #{record.cashFee,jdbcType=VARCHAR},
+      cash_fee = #{record.cashFee,jdbcType=INTEGER},
       fee_type = #{record.feeType,jdbcType=VARCHAR},
       is_subscribe = #{record.isSubscribe,jdbcType=VARCHAR},
       mch_id = #{record.mchId,jdbcType=VARCHAR},
@@ -351,9 +600,32 @@
       return_code = #{record.returnCode,jdbcType=VARCHAR},
       sign = #{record.sign,jdbcType=VARCHAR},
       time_end = #{record.timeEnd,jdbcType=VARCHAR},
-      total_fee = #{record.totalFee,jdbcType=VARCHAR},
+      total_fee = #{record.totalFee,jdbcType=INTEGER},
       trade_type = #{record.tradeType,jdbcType=VARCHAR},
       transaction_id = #{record.transactionId,jdbcType=VARCHAR},
+      divice_info = #{record.diviceInfo,jdbcType=VARCHAR},
+      sign_type = #{record.signType,jdbcType=VARCHAR},
+      err_code = #{record.errCode,jdbcType=VARCHAR},
+      err_code_des = #{record.errCodeDes,jdbcType=VARCHAR},
+      settlement_total_fee = #{record.settlementTotalFee,jdbcType=INTEGER},
+      cash_fee_type = #{record.cashFeeType,jdbcType=VARCHAR},
+      coupon_fee = #{record.couponFee,jdbcType=INTEGER},
+      coupon_count = #{record.couponCount,jdbcType=INTEGER},
+      coupon_type_0 = #{record.couponType0,jdbcType=INTEGER},
+      coupon_type_1 = #{record.couponType1,jdbcType=INTEGER},
+      coupon_id_0 = #{record.couponId0,jdbcType=VARCHAR},
+      coupon_id_1 = #{record.couponId1,jdbcType=VARCHAR},
+      coupon_id_2 = #{record.couponId2,jdbcType=VARCHAR},
+      coupon_id_3 = #{record.couponId3,jdbcType=VARCHAR},
+      coupon_id_4 = #{record.couponId4,jdbcType=VARCHAR},
+      coupon_id_5 = #{record.couponId5,jdbcType=VARCHAR},
+      coupon_fee_0 = #{record.couponFee0,jdbcType=INTEGER},
+      coupon_fee_1 = #{record.couponFee1,jdbcType=INTEGER},
+      coupon_fee_2 = #{record.couponFee2,jdbcType=INTEGER},
+      coupon_fee_3 = #{record.couponFee3,jdbcType=INTEGER},
+      coupon_fee_4 = #{record.couponFee4,jdbcType=INTEGER},
+      coupon_fee_5 = #{record.couponFee5,jdbcType=INTEGER},
+      return_msg = #{record.returnMsg,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -375,7 +647,7 @@
         bank_type = #{bankType,jdbcType=VARCHAR},
       </if>
       <if test="cashFee != null">
-        cash_fee = #{cashFee,jdbcType=VARCHAR},
+        cash_fee = #{cashFee,jdbcType=INTEGER},
       </if>
       <if test="feeType != null">
         fee_type = #{feeType,jdbcType=VARCHAR},
@@ -408,13 +680,82 @@
         time_end = #{timeEnd,jdbcType=VARCHAR},
       </if>
       <if test="totalFee != null">
-        total_fee = #{totalFee,jdbcType=VARCHAR},
+        total_fee = #{totalFee,jdbcType=INTEGER},
       </if>
       <if test="tradeType != null">
         trade_type = #{tradeType,jdbcType=VARCHAR},
       </if>
       <if test="transactionId != null">
         transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="diviceInfo != null">
+        divice_info = #{diviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="signType != null">
+        sign_type = #{signType,jdbcType=VARCHAR},
+      </if>
+      <if test="errCode != null">
+        err_code = #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errCodeDes != null">
+        err_code_des = #{errCodeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementTotalFee != null">
+        settlement_total_fee = #{settlementTotalFee,jdbcType=INTEGER},
+      </if>
+      <if test="cashFeeType != null">
+        cash_fee_type = #{cashFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee != null">
+        coupon_fee = #{couponFee,jdbcType=INTEGER},
+      </if>
+      <if test="couponCount != null">
+        coupon_count = #{couponCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponType0 != null">
+        coupon_type_0 = #{couponType0,jdbcType=INTEGER},
+      </if>
+      <if test="couponType1 != null">
+        coupon_type_1 = #{couponType1,jdbcType=INTEGER},
+      </if>
+      <if test="couponId0 != null">
+        coupon_id_0 = #{couponId0,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId1 != null">
+        coupon_id_1 = #{couponId1,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId2 != null">
+        coupon_id_2 = #{couponId2,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId3 != null">
+        coupon_id_3 = #{couponId3,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId4 != null">
+        coupon_id_4 = #{couponId4,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId5 != null">
+        coupon_id_5 = #{couponId5,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee0 != null">
+        coupon_fee_0 = #{couponFee0,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee1 != null">
+        coupon_fee_1 = #{couponFee1,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee2 != null">
+        coupon_fee_2 = #{couponFee2,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee3 != null">
+        coupon_fee_3 = #{couponFee3,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee4 != null">
+        coupon_fee_4 = #{couponFee4,jdbcType=INTEGER},
+      </if>
+      <if test="couponFee5 != null">
+        coupon_fee_5 = #{couponFee5,jdbcType=INTEGER},
+      </if>
+      <if test="returnMsg != null">
+        return_msg = #{returnMsg,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -428,7 +769,7 @@
       order_id = #{orderId,jdbcType=INTEGER},
       attach = #{attach,jdbcType=VARCHAR},
       bank_type = #{bankType,jdbcType=VARCHAR},
-      cash_fee = #{cashFee,jdbcType=VARCHAR},
+      cash_fee = #{cashFee,jdbcType=INTEGER},
       fee_type = #{feeType,jdbcType=VARCHAR},
       is_subscribe = #{isSubscribe,jdbcType=VARCHAR},
       mch_id = #{mchId,jdbcType=VARCHAR},
@@ -439,9 +780,32 @@
       return_code = #{returnCode,jdbcType=VARCHAR},
       sign = #{sign,jdbcType=VARCHAR},
       time_end = #{timeEnd,jdbcType=VARCHAR},
-      total_fee = #{totalFee,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=INTEGER},
       trade_type = #{tradeType,jdbcType=VARCHAR},
       transaction_id = #{transactionId,jdbcType=VARCHAR},
+      divice_info = #{diviceInfo,jdbcType=VARCHAR},
+      sign_type = #{signType,jdbcType=VARCHAR},
+      err_code = #{errCode,jdbcType=VARCHAR},
+      err_code_des = #{errCodeDes,jdbcType=VARCHAR},
+      settlement_total_fee = #{settlementTotalFee,jdbcType=INTEGER},
+      cash_fee_type = #{cashFeeType,jdbcType=VARCHAR},
+      coupon_fee = #{couponFee,jdbcType=INTEGER},
+      coupon_count = #{couponCount,jdbcType=INTEGER},
+      coupon_type_0 = #{couponType0,jdbcType=INTEGER},
+      coupon_type_1 = #{couponType1,jdbcType=INTEGER},
+      coupon_id_0 = #{couponId0,jdbcType=VARCHAR},
+      coupon_id_1 = #{couponId1,jdbcType=VARCHAR},
+      coupon_id_2 = #{couponId2,jdbcType=VARCHAR},
+      coupon_id_3 = #{couponId3,jdbcType=VARCHAR},
+      coupon_id_4 = #{couponId4,jdbcType=VARCHAR},
+      coupon_id_5 = #{couponId5,jdbcType=VARCHAR},
+      coupon_fee_0 = #{couponFee0,jdbcType=INTEGER},
+      coupon_fee_1 = #{couponFee1,jdbcType=INTEGER},
+      coupon_fee_2 = #{couponFee2,jdbcType=INTEGER},
+      coupon_fee_3 = #{couponFee3,jdbcType=INTEGER},
+      coupon_fee_4 = #{couponFee4,jdbcType=INTEGER},
+      coupon_fee_5 = #{couponFee5,jdbcType=INTEGER},
+      return_msg = #{returnMsg,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
