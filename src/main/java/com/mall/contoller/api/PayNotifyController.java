@@ -122,6 +122,23 @@ public class PayNotifyController {
 			chargeApply.setTradeType(event.getTradeType());
 			chargeApply.setTransactionId(event.getTransactionId());
 
+			chargeApply.setDiviceInfo(event.getDeviceInfo());
+			chargeApply.setSignType(event.getSignType());
+			chargeApply.setErrCode(event.getErrCode());
+			chargeApply.setErrCodeDes(event.getErrCodeDes());
+			chargeApply.setSettlementTotalFee(event.getSettlementTotalFee());
+			chargeApply.setCashFeeType(event.getCashFeeType());
+			chargeApply.setCouponFee(event.getCouponFee());
+			chargeApply.setCouponCount(event.getCouponCount());
+			chargeApply.setCouponType0(event.getCouponType0());
+			chargeApply.setCouponType1(event.getCouponType1());
+			chargeApply.setCouponId0(event.getCouponId0());
+			chargeApply.setCouponId1(event.getCouponId1());
+			chargeApply.setCouponId2(event.getCouponId2());
+			chargeApply.setCouponId3(event.getCouponId3());
+			chargeApply.setCouponId4(event.getCouponId4());
+			chargeApply.setReturnMsg(event.getReturnMsg());
+
 			chargeApplyService.createChargeApply(chargeApply);
 
 			// 如果状态码为 SUCCESS，更新付款状态
@@ -176,6 +193,23 @@ public class PayNotifyController {
 			chargeApply.setTotalFee(event.getTotalFee());
 			chargeApply.setTradeType(event.getTradeType());
 			chargeApply.setTransactionId(event.getTransactionId());
+
+			chargeApply.setDiviceInfo(event.getDeviceInfo());
+			chargeApply.setSignType(event.getSignType());
+			chargeApply.setErrCode(event.getErrCode());
+			chargeApply.setErrCodeDes(event.getErrCodeDes());
+			chargeApply.setSettlementTotalFee(event.getSettlementTotalFee());
+			chargeApply.setCashFeeType(event.getCashFeeType());
+			chargeApply.setCouponFee(event.getCouponFee());
+			chargeApply.setCouponCount(event.getCouponCount());
+			chargeApply.setCouponType0(event.getCouponType0());
+			chargeApply.setCouponType1(event.getCouponType1());
+			chargeApply.setCouponId0(event.getCouponId0());
+			chargeApply.setCouponId1(event.getCouponId1());
+			chargeApply.setCouponId2(event.getCouponId2());
+			chargeApply.setCouponId3(event.getCouponId3());
+			chargeApply.setCouponId4(event.getCouponId4());
+			chargeApply.setReturnMsg(event.getReturnMsg());
 
 			chargeApplyService.createChargeApply(chargeApply);
 
