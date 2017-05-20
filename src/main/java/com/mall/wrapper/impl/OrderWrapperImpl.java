@@ -266,17 +266,17 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         List<String> clientIdList = new ArrayList<>();
 
-        List<String> phoneIdList = new ArrayList<>();
+        List<String> phoneList = new ArrayList<>();
 
         for (TCorpUser corpUser : corpUserList) {
             clientIdList.add(corpUser.getClientId());
-            phoneIdList.add(corpUser.getMobile());
+            phoneList.add(corpUser.getMobile());
         }
 
         try {
             String content = objectMapper.writeValueAsString(order);
             IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-            pushService.sendToAliases(content, clientIdList).enqueue(new Callback<PushState>() {
+            pushService.sendToAliases(content, phoneList).enqueue(new Callback<PushState>() {
                 @Override
                 public void onResponse(Call<PushState> call, Response<PushState> response) {
                     if ( response.isSuccessful() ) {
