@@ -24,6 +24,36 @@ public class AppConfiguration {
 
     private String rechargeNotifyUrl;
 
+    private String yunBaPushEntryPointUrl;
+
+    private String yunBaAppKey;
+
+    private String yunBaSecretKey;
+
+    public String getYunBaSecretKey() {
+        return yunBaSecretKey;
+    }
+
+    public void setYunBaSecretKey(String yunBaSecretKey) {
+        this.yunBaSecretKey = yunBaSecretKey;
+    }
+
+    public String getYunBaPushEntryPointUrl() {
+        return yunBaPushEntryPointUrl;
+    }
+
+    public void setYunBaPushEntryPointUrl(String yunBaPushEntryPointUrl) {
+        this.yunBaPushEntryPointUrl = yunBaPushEntryPointUrl;
+    }
+
+    public String getYunBaAppKey() {
+        return yunBaAppKey;
+    }
+
+    public void setYunBaAppKey(String yunBaAppKey) {
+        this.yunBaAppKey = yunBaAppKey;
+    }
+
     public String getIpushAppId() {
         return ipushAppId;
     }

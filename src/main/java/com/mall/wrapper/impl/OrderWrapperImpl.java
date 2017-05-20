@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.configure.AppConfiguration;
 import com.mall.model.*;
+import com.mall.push.PushState;
 import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.utils.IPushUtil;
@@ -13,10 +14,15 @@ import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
 import org.aspectj.weaver.ast.Or;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.*;
 
@@ -26,6 +32,7 @@ import java.util.*;
 @Service
 public class OrderWrapperImpl implements OrderWrapper {
 
+    Logger logger = LoggerFactory.getLogger(OrderWrapperImpl.class);
 
     @Autowired
     OrderService orderService;
@@ -68,6 +75,9 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    PushService pushService;
 
     @Override
     @Transactional
@@ -184,6 +194,7 @@ public class OrderWrapperImpl implements OrderWrapper {
             Map<Integer, TTable> tableMap = tableService.selectTablesByCorpForMap(corpId);
 
             Map<Integer, TAddress> addressMap = new HashMap<>();
+
             if (addressIdList.size() > 0) {
                 addressMap = addressService.selectAddressForMap(addressIdList);
             }
@@ -255,14 +266,33 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         List<String> clientIdList = new ArrayList<>();
 
+        List<String> phoneIdList = new ArrayList<>();
+
         for (TCorpUser corpUser : corpUserList) {
             clientIdList.add(corpUser.getClientId());
+            phoneIdList.add(corpUser.getMobile());
         }
 
         try {
             String content = objectMapper.writeValueAsString(order);
             IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-
+            pushService.sendToAliases(content, clientIdList).enqueue(new Callback<PushState>() {
+                @Override
+                public void onResponse(Call<PushState> call, Response<PushState> response) {
+                    if ( response.isSuccessful() ) {
+                        PushState state = response.body();
+                        if ( PushState.SUCCESS == state.getStatus() ) {
+                            logger.info("yunba send ok");
+                        }else {
+                            logger.error("yunba send fail: " + state.getError());
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<PushState> call, Throwable throwable) {
+                    logger.error("yunba send ok", throwable);
+                }
+            });
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
