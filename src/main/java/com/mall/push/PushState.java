@@ -36,7 +36,7 @@ public class PushState {
 
     private String messageId;
 
-    private Map<String, String> results;
+    private Map<String, Object> results;
 
     public String getMessageId() {
         return messageId;
@@ -46,11 +46,11 @@ public class PushState {
         this.messageId = messageId;
     }
 
-    public Map<String, String> getResults() {
+    public Map<String, Object> getResults() {
         return results;
     }
 
-    public void setResults(Map<String, String> results) {
+    public void setResults(Map<String, Object> results) {
         this.results = results;
     }
 
