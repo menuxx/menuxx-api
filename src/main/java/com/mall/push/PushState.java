@@ -46,6 +46,14 @@ public class PushState {
         this.messageId = messageId;
     }
 
+    public Map<String, String> getResults() {
+        return results;
+    }
+
+    public void setResults(Map<String, String> results) {
+        this.results = results;
+    }
+
     public int getStatus() {
         return status;
     }
