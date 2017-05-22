@@ -1,5 +1,10 @@
 package com.mall.push;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class BroadcastPayload implements Payload {
 
     private String method;
@@ -10,11 +15,24 @@ public class BroadcastPayload implements Payload {
 
     private String msg;
 
+    @JsonProperty("opts")
+    private Map<String, Object> opts = new HashMap<>();
+
     public BroadcastPayload(String method, String appkey, String seckey, String msg) {
         this.method = method;
         this.appkey = appkey;
         this.seckey = seckey;
         this.msg = msg;
+        this.opts.put("qos", 1);
+        this.opts.put("time_to_live", 300);
+    }
+
+    public Map<String, Object> getOpts() {
+        return opts;
+    }
+
+    public void setOpts(Map<String, Object> opts) {
+        this.opts = opts;
     }
 
     @Override

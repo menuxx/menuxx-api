@@ -22,6 +22,14 @@ public class EndToEndPayload implements Payload {
     @JsonProperty("opts")
     private Map<String, Object> opts = new HashMap<>();
 
+    public Map<String, Object> getOpts() {
+        return opts;
+    }
+
+    public void setOpts(Map<String, Object> opts) {
+        this.opts = opts;
+    }
+
     public EndToEndPayload(String method, String appkey, String seckey, String msg, String alias) {
         this.method = method;
         this.appkey = appkey;

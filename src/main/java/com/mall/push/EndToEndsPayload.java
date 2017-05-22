@@ -33,6 +33,14 @@ public class EndToEndsPayload implements Payload {
         this.opts.put("time_to_live", 300);
     }
 
+    public Map<String, Object> getOpts() {
+        return opts;
+    }
+
+    public void setOpts(Map<String, Object> opts) {
+        this.opts = opts;
+    }
+
     @Override
     public String getMethod() {
         return method;
