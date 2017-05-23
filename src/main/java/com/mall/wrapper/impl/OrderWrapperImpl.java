@@ -92,7 +92,8 @@ public class OrderWrapperImpl implements OrderWrapper {
         Integer takeoutFee = configMap.get(Constants.takeoutFee);
         // 外卖起送费
         Integer takeoutMinLimit = configMap.get(Constants.takeoutMinLimit);
-
+        // 外卖免配送费金额
+        Integer takeoutNofeeLimit = configMap.get(Constants.takeoutNofeeLimit);
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
@@ -130,6 +131,12 @@ public class OrderWrapperImpl implements OrderWrapper {
         if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && takeoutFee > 0) {
             deliveryAmount = takeoutFee;
         }
+
+        // 如果选择外卖，达到免配送金额，免配送费
+        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && totalAcount >= takeoutNofeeLimit) {
+            deliveryAmount = 0;
+        }
+
         order.setDeliveryAmount(deliveryAmount);
         totalAcount = totalAcount + deliveryAmount;
 
