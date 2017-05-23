@@ -40,12 +40,7 @@ public class WeixinClientConfiguration {
 	}
 
 	private HttpLoggingInterceptor loggingInterceptor() {
-		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-			@Override
-			public void log(String msg) {
-				logger.debug("WeixinOkHttp", msg);
-			}
-		});
+		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(msg -> logger.debug("WeixinOkHttp", msg));
 		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 		return logging;
 	}

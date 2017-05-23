@@ -1,26 +1,27 @@
 package com.mall.contoller.api;
 
-import com.google.common.io.CharStreams;
 import com.mall.model.TChargeApply;
 import com.mall.model.TOrder;
 import com.mall.model.TRechargeRecord;
+import com.mall.push.PushState;
 import com.mall.service.ChargeApplyService;
 import com.mall.service.OrderService;
+import com.mall.service.PushService;
 import com.mall.service.RechargeRecordService;
 import com.mall.utils.Constants;
 import com.mall.weixin.*;
 import com.mall.wrapper.OrderWrapper;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.oxm.xstream.XStreamMarshaller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 作者: yinchangsheng@gmail.com
@@ -105,6 +106,7 @@ public class PayNotifyController {
 	@PostMapping(path = "weixin/pay_notify", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	 public String onNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] notify start***************************");
+
 		logger.info(event);
 
 		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();

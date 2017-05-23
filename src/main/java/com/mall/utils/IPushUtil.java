@@ -35,6 +35,7 @@ public class IPushUtil {
     }
 
     public static void sendPushOrder(AppConfiguration appConfiguration, String content, List<String> clientIdList) {
+
         IGtPush push = new IGtPush(appConfiguration.getIpushUrl(), appConfiguration.getIpushAppKey(), appConfiguration.getIpushMasterSecret());
 
         // 透传模版
