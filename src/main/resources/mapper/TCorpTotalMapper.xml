@@ -8,6 +8,9 @@
     <result column="income_total" jdbcType="INTEGER" property="incomeTotal" />
     <result column="order_total" jdbcType="INTEGER" property="orderTotal" />
     <result column="arerage" jdbcType="INTEGER" property="arerage" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="pay_total" jdbcType="INTEGER" property="payTotal" />
+    <result column="recharge_total" jdbcType="INTEGER" property="rechargeTotal" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_id, day, income_total, order_total, arerage, create_time
+    id, corp_id, day, income_total, order_total, arerage, status, pay_total, recharge_total, 
+    create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpTotalExample" resultMap="BaseResultMap">
     select
@@ -106,10 +110,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_corp_total (corp_id, day, income_total, 
-      order_total, arerage, create_time
+      order_total, arerage, status, 
+      pay_total, recharge_total, create_time
       )
     values (#{corpId,jdbcType=INTEGER}, #{day,jdbcType=DATE}, #{incomeTotal,jdbcType=INTEGER}, 
-      #{orderTotal,jdbcType=INTEGER}, #{arerage,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      #{orderTotal,jdbcType=INTEGER}, #{arerage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{payTotal,jdbcType=INTEGER}, #{rechargeTotal,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorpTotal">
@@ -133,6 +139,15 @@
       <if test="arerage != null">
         arerage,
       </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="payTotal != null">
+        pay_total,
+      </if>
+      <if test="rechargeTotal != null">
+        recharge_total,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -152,6 +167,15 @@
       </if>
       <if test="arerage != null">
         #{arerage,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payTotal != null">
+        #{payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeTotal != null">
+        #{rechargeTotal,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -185,6 +209,15 @@
       <if test="record.arerage != null">
         arerage = #{record.arerage,jdbcType=INTEGER},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.payTotal != null">
+        pay_total = #{record.payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargeTotal != null">
+        recharge_total = #{record.rechargeTotal,jdbcType=INTEGER},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -201,6 +234,9 @@
       income_total = #{record.incomeTotal,jdbcType=INTEGER},
       order_total = #{record.orderTotal,jdbcType=INTEGER},
       arerage = #{record.arerage,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      pay_total = #{record.payTotal,jdbcType=INTEGER},
+      recharge_total = #{record.rechargeTotal,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,6 +260,15 @@
       <if test="arerage != null">
         arerage = #{arerage,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payTotal != null">
+        pay_total = #{payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeTotal != null">
+        recharge_total = #{rechargeTotal,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -237,6 +282,9 @@
       income_total = #{incomeTotal,jdbcType=INTEGER},
       order_total = #{orderTotal,jdbcType=INTEGER},
       arerage = #{arerage,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      pay_total = #{payTotal,jdbcType=INTEGER},
+      recharge_total = #{rechargeTotal,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -39,44 +39,14 @@ public class TotalScheduler {
     ObjectMapper objectMapper;
 
     /**
-     * 每日凌晨 3 点统计数据
+     * 每日凌晨 2 点统计数据
      */
-    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public void doStatistics() {
         System.out.println("************************ doStatistics scheduler start ***************************");
         System.out.println("************************ " + new Date() + " ***************************");
         statisticsService.doStatistics();
         System.out.println("************************ doStatistics scheduler end *****************************");
     }
-
-    /**
-     * 每日早上 9 点发出推送测试流程
-     */
-    @Scheduled(cron = "0 0 9 * * *")
-    public void doSelfCheck() {
-        System.out.println("************************ doSelfCheck scheduler start ***************************");
-        System.out.println("************************ " + new Date() + " ***************************");
-
-        Order order = orderWrapper.buildTestOrder();
-
-        List<TCorpUser> userList = corpUserService.selectAllCorpUsers();
-
-        List<String> clientIdList = new ArrayList<>();
-
-        if (userList != null && userList.size() > 0) {
-            for (TCorpUser corpUser : userList) {
-                if (StringUtils.isNotBlank(corpUser.getClientId())) {
-                    clientIdList.add(corpUser.getClientId());
-                }
-            }
-        }
-
-//        clientIdList.add("1591f5b6f767f5f5215ce44a1515ffe6");
-
-        IPushUtil.sendPushOrder(appConfiguration, objectMapper, order, clientIdList);
-
-        System.out.println("************************ doSelfCheck scheduler end *****************************");
-    }
-
 
 }

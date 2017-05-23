@@ -10,14 +10,26 @@
     <result column="arerage" jdbcType="DOUBLE" property="arerage" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
- <select id="selectByDay" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+ <select id="countTotalByDay" parameterType="java.util.Map" resultMap="BaseResultMap">
     select corp_id, sum(pay_amount) as income_total, count(*) as order_total
     from t_order
     where `status` = 1
     and create_time between STR_TO_DATE(#{fromDay,jdbcType=VARCHAR}, '%Y-%m-%d') and STR_TO_DATE(#{toDay,jdbcType=VARCHAR}, '%Y-%m-%d')
-    <if test="corpId != null">
-        and corp_id = #{corpId,jdbcType=VARCHAR}
-    </if>
+     <if test="corpId != null">
+         and corp_id = #{corpId,jdbcType=VARCHAR}
+     </if>
+     <if test="payType != null">
+         and pay_type = #{pay_type,jdbcType=VARCHAR}
+     </if>
     group by corp_id
   </select>
+
+    <select id="countRechargeByDay" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select corp_id, sum(amount) as income_total
+        from `t_recharge_record`
+        where charge_type = 0 and status = 1
+        and create_time between STR_TO_DATE(#{fromDay,jdbcType=VARCHAR}, '%Y-%m-%d') and STR_TO_DATE(#{toDay,jdbcType=VARCHAR}, '%Y-%m-%d')
+        group by corp_id
+    </select>
 </mapper>

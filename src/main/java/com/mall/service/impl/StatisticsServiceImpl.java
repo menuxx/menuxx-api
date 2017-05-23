@@ -1,6 +1,7 @@
 package com.mall.service.impl;
 
 import com.mall.mapper.StatisticsMapper;
+import com.mall.model.Order;
 import com.mall.model.TCorp;
 import com.mall.model.TCorpTotal;
 import com.mall.service.CorpService;
@@ -29,8 +30,13 @@ public class StatisticsServiceImpl implements StatisticsService {
     CorpService corpService;
 
     @Override
-    public List<TCorpTotal> selectByDay(Map<String, String> dayMap) {
-        return statisticsMapper.selectByDay(dayMap);
+    public List<TCorpTotal> countTotalByDay(Map<String, String> dayMap) {
+        return statisticsMapper.countTotalByDay(dayMap);
+    }
+
+    @Override
+    public List<TCorpTotal> countRechargeByDay(Map<String, String> dayMap) {
+        return statisticsMapper.countRechargeByDay(dayMap);
     }
 
     @Override
@@ -38,7 +44,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         Map<String, String> map = getTodayMap();
         map.put("corpId", String.valueOf(corpId));
 
-        List<TCorpTotal> list = selectByDay(map);
+        List<TCorpTotal> list = countTotalByDay(map);
 
         TCorpTotal corpTotal = Util.onlyOne(list);
 
@@ -78,7 +84,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public void doStatistics() {
-        Map<String, String> todayMap = new HashMap<>();
+        Map<String, String> dayMap = new HashMap<>();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -94,50 +100,90 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         Date yesterday = calendar.getTime();
 
-        todayMap.put("toDay", toDay);
-        todayMap.put("fromDay", fromDay);
+        dayMap.put("toDay", toDay);
+        dayMap.put("fromDay", fromDay);
 
         // 获取所有的商家
         List<TCorp> corpList = corpService.selectAllCorps();
 
-        // 获取统计信息
-        Map<Integer, TCorpTotal> totalMap = selectTotal(todayMap, yesterday);
+        // 获取营业额统计
+        Map<Integer, TCorpTotal> incomeMap = selectIncomeTotal(dayMap);
+
+        // 获取微信支付金额
+        Map<Integer, Integer> payTotalMap = selectPayTotal(dayMap);
+
+        // 获取充值金额
+        Map<Integer, Integer> rechargeMap = selectRechargeTotal(dayMap);
 
        for (TCorp corp : corpList) {
-           if (totalMap.containsKey(corp.getId())) {
-               corpTotalService.createCorpTotal(totalMap.get(corp.getId()));
-           } else {
-               TCorpTotal corpTotal = new TCorpTotal();
+           int corpId = corp.getId();
+
+           TCorpTotal corpTotal = corpTotalService.selectCorpTotal(corpId, yesterday);
+
+           if (null == corpTotal) {
+               corpTotal = new TCorpTotal();
+               corpTotal.setCorpId(corpId);
                corpTotal.setDay(yesterday);
-               corpTotal.setCorpId(corp.getId());
-               corpTotal.setIncomeTotal(0);
-               corpTotal.setOrderTotal(0);
-               corpTotal.setArerage(0);
+
+               int incomeTotal = incomeMap.containsKey(corpId) ? incomeMap.get(corpId).getIncomeTotal() : 0;
+               corpTotal.setIncomeTotal(incomeTotal);
+
+               int orderTotal = incomeMap.containsKey(corpId) ? incomeMap.get(corpId).getOrderTotal() : 0;
+               corpTotal.setOrderTotal(orderTotal);
+
+               int arerage = incomeMap.containsKey(corpId) ? incomeTotal/orderTotal : 0;
+               corpTotal.setArerage(arerage);
+
+               int payTotal = payTotalMap.containsKey(corpId) ? payTotalMap.get(corpId) : 0;
+               corpTotal.setPayTotal(payTotal);
+
+               int rechargeTotal = rechargeMap.containsKey(corpId) ? rechargeMap.get(corpId) : 0;
+               corpTotal.setRechargeTotal(rechargeTotal);
+
                corpTotalService.createCorpTotal(corpTotal);
            }
        }
 
     }
 
-    private Map<Integer, TCorpTotal> selectTotal(Map<String, String> dayMap, Date yesterday) {
-        Map<Integer, TCorpTotal> map = new HashMap<>();
+    private Map<Integer, TCorpTotal> selectIncomeTotal(Map<String, String> dayMap) {
+        List<TCorpTotal> totalList = countTotalByDay(dayMap);
 
-        List<TCorpTotal> totalList = selectByDay(dayMap);
+        Map<Integer, TCorpTotal> map = new HashMap<>();
 
         if (totalList.size() > 0) {
             for (TCorpTotal total : totalList) {
-                TCorpTotal existed = corpTotalService.selectCorpTotal(total.getCorpId(), yesterday);
+                map.put(total.getCorpId(), total);
+            }
+        }
 
-                if (existed == null) {
-                    TCorpTotal corpTotal = new TCorpTotal();
-                    corpTotal.setDay(yesterday);
-                    corpTotal.setCorpId(total.getCorpId());
-                    corpTotal.setIncomeTotal(total.getIncomeTotal());
-                    corpTotal.setOrderTotal(total.getOrderTotal());
-                    corpTotal.setArerage(total.getIncomeTotal() / total.getOrderTotal());
+        return map;
+    }
 
-                    map.put(total.getCorpId(), corpTotal);
-                }
+    private Map<Integer, Integer> selectPayTotal(Map<String, String> dayMap) {
+        dayMap.put("payType", String.valueOf(Order.PAY_TYPE_WX));
+
+        List<TCorpTotal> totalList = countTotalByDay(dayMap);
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        if (totalList.size() > 0) {
+            for(TCorpTotal total : totalList) {
+                map.put(total.getCorpId(), total.getIncomeTotal());
+            }
+        }
+
+        return map;
+    }
+
+    private Map<Integer, Integer> selectRechargeTotal(Map<String, String> dayMap) {
+        List<TCorpTotal> totalList = countRechargeByDay(dayMap);
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        if (totalList.size() > 0) {
+            for(TCorpTotal total : totalList) {
+                map.put(total.getCorpId(), total.getIncomeTotal());
             }
         }
 

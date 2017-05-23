@@ -62,9 +62,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_charge_apply" domainObjectName="TChargeApply" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_user" domainObjectName="TUser" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -86,9 +86,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_corp_total" domainObjectName="TCorpTotal" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_corp_total" domainObjectName="TCorpTotal" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
         <!--<table schema="jiujin" tableName="t_taste" domainObjectName="TTaste" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->

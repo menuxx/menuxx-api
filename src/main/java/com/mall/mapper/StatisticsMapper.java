@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public interface StatisticsMapper {
 
-    List<TCorpTotal> selectByDay(Map<String, String> dayMap);
+    List<TCorpTotal> countTotalByDay(Map<String, String> dayMap);
 
+    List<TCorpTotal> countRechargeByDay(Map<String, String> dayMap);
 }

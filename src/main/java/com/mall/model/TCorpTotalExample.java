@@ -492,6 +492,186 @@ public class TCorpTotalExample {
             return (Criteria) this;
         }
 
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Integer value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Integer value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Integer value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Integer value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Integer> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Integer> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalIsNull() {
+            addCriterion("pay_total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalIsNotNull() {
+            addCriterion("pay_total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalEqualTo(Integer value) {
+            addCriterion("pay_total =", value, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalNotEqualTo(Integer value) {
+            addCriterion("pay_total <>", value, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalGreaterThan(Integer value) {
+            addCriterion("pay_total >", value, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_total >=", value, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalLessThan(Integer value) {
+            addCriterion("pay_total <", value, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_total <=", value, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalIn(List<Integer> values) {
+            addCriterion("pay_total in", values, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalNotIn(List<Integer> values) {
+            addCriterion("pay_total not in", values, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalBetween(Integer value1, Integer value2) {
+            addCriterion("pay_total between", value1, value2, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("pay_total not between", value1, value2, "payTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalIsNull() {
+            addCriterion("recharge_total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalIsNotNull() {
+            addCriterion("recharge_total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalEqualTo(Integer value) {
+            addCriterion("recharge_total =", value, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalNotEqualTo(Integer value) {
+            addCriterion("recharge_total <>", value, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalGreaterThan(Integer value) {
+            addCriterion("recharge_total >", value, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("recharge_total >=", value, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalLessThan(Integer value) {
+            addCriterion("recharge_total <", value, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("recharge_total <=", value, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalIn(List<Integer> values) {
+            addCriterion("recharge_total in", values, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalNotIn(List<Integer> values) {
+            addCriterion("recharge_total not in", values, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalBetween(Integer value1, Integer value2) {
+            addCriterion("recharge_total between", value1, value2, "rechargeTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("recharge_total not between", value1, value2, "rechargeTotal");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

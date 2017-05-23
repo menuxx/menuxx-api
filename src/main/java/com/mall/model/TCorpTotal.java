@@ -15,6 +15,12 @@ public class TCorpTotal {
 
     private Integer arerage;
 
+    private Integer status;
+
+    private Integer payTotal;
+
+    private Integer rechargeTotal;
+
     private Date createTime;
 
     public Integer getId() {
@@ -63,6 +69,30 @@ public class TCorpTotal {
 
     public void setArerage(Integer arerage) {
         this.arerage = arerage;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getPayTotal() {
+        return payTotal;
+    }
+
+    public void setPayTotal(Integer payTotal) {
+        this.payTotal = payTotal;
+    }
+
+    public Integer getRechargeTotal() {
+        return rechargeTotal;
+    }
+
+    public void setRechargeTotal(Integer rechargeTotal) {
+        this.rechargeTotal = rechargeTotal;
     }
 
     public Date getCreateTime() {
