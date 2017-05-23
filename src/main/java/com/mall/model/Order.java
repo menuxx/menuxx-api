@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -39,6 +40,9 @@ public class Order extends TOrder {
     public static final String PAY_TYPE_RECHARGE_TEXT = "充值卡支付";
 
 
+    // 别名配置
+    private Map<Integer, String> tabNameMap;
+
     private String orderTypeText;
 
     private String statusText;
@@ -61,7 +65,9 @@ public class Order extends TOrder {
     }
 
     public String getOrderTypeText() {
-        if (getOrderType() == ORDER_TYPE_EAT_IN) {
+        if (null != getTabNameMap() && getTabNameMap().size() > 0) {
+           orderTypeText = getTabNameMap().get(getOrderType());
+        } else if (getOrderType() == ORDER_TYPE_EAT_IN) {
             orderTypeText = ORDER_TYPE_EAT_IN_TEXT;
         } else if (getOrderType() == ORDER_TYPE_CARRY_OUT) {
             orderTypeText = ORDER_TYPE_CARRY_OUT_TEXT;
@@ -134,5 +140,13 @@ public class Order extends TOrder {
 
     public void setUserBalance(int userBalance) {
         this.userBalance = userBalance;
+    }
+
+    public Map<Integer, String> getTabNameMap() {
+        return tabNameMap;
+    }
+
+    public void setTabNameMap(Map<Integer, String> tabNameMap) {
+        this.tabNameMap = tabNameMap;
     }
 }

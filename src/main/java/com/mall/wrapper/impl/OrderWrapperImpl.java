@@ -79,6 +79,9 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Autowired
     PushService pushService;
 
+    @Autowired
+    SceneService sceneService;
+
     @Override
     @Transactional
     public void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList) {
@@ -233,6 +236,10 @@ public class OrderWrapperImpl implements OrderWrapper {
         TOrder torder = orderService.selectOrder(orderId);
 
         Order order = new Order(torder);
+
+        int corpId = order.getCorpId();
+        Map<Integer, String> tabNameMap = sceneService.getTabNames(corpId);
+        order.setTabNameMap(tabNameMap);
 
         List<OrderItem> orderItemList = orderItemWrapper.selectOrderItemByOrderId(orderId);
         order.setItemList(orderItemList);
