@@ -3,11 +3,13 @@ package com.mall.contoller.api;
 import com.mall.annotation.CurrentDiner;
 import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
+import com.mall.configure.AppConfiguration;
 import com.mall.model.TCorp;
 import com.mall.model.TUser;
 import com.mall.service.UserService;
 import com.mall.service.WXMiniService;
-import com.mall.utils.AESCoder;
+import com.mall.weixin.WXCodeSession;
+import com.mall.weixin.component.WXComponentApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,12 @@ public class WXUserController extends BaseCorpController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	WXComponentApiService wxComponentApiService;
+
+	@Autowired
+	AppConfiguration appConfig;
 
 	static class LoginCode {
 
@@ -75,11 +83,10 @@ public class WXUserController extends BaseCorpController {
 	public DeferredResult<Object> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
 		final DeferredResult<Object> deferred = new DeferredResult<>();
 
-		wxMiniService.jscodeToSession(corp.getAppId(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXMiniService.CodeSession>() {
+		wxMiniService.jscodeToSession(corp.getAuthorizerAppId(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXCodeSession>() {
 			@Override
-			public void onResponse(Call<WXMiniService.CodeSession> call, Response<WXMiniService.CodeSession> response) {
-				WXMiniService.CodeSession session = response.body();
-				Map<String, Object> data = new HashMap<>();
+			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
+				WXCodeSession session = response.body();
 				if ( session.getErrcode() == null ) {
 					String openid = session.getOpenid();
 
@@ -96,12 +103,50 @@ public class WXUserController extends BaseCorpController {
 				}
 			}
 			@Override
-			public void onFailure(Call<WXMiniService.CodeSession> call, Throwable throwable) {
+			public void onFailure(Call<WXCodeSession> call, Throwable throwable) {
 				logger.error("wxLiteLogin -> jscodeToSession", throwable);
 				deferred.setErrorResult(throwable);
 			}
 		});
 		return deferred;
+	}
+
+	@PutMapping("wx/liteComponentLogin")
+	public DeferredResult<Object> wxLiteComponentLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
+		final DeferredResult<Object> deferred = new DeferredResult<>();
+		wxComponentApiService.jscodeToSession(
+				corp.getAuthorizerAppId(),
+				loginCode.getCode(),
+				"authorization_code",
+				appConfig.getWxComponent().getAppId(),
+				"YktSoLfv-xd5PRp6hP5_dLnRuuUqPGXz7GT4w1lomkUqlw3gx5vp7_AoxhfDAeVozhFXzWPMefe-KVX5dueCBqoujr505Qxj_ciPHzQ9UkuYOADUJTymQCfA0TOebOjNNKDhAFABYR"
+				).enqueue(new Callback<WXCodeSession>() {
+			@Override
+			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
+				WXCodeSession session = response.body();
+				if ( session.getErrcode() == null ) {
+					String openid = session.getOpenid();
+
+					// 根据openid和corp 创建或修改用户
+					TUser user = loginCode.getUser();
+					user.setOpenid(openid);
+
+					int userId = userService.saveUser(user, corp);
+
+					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId());
+					deferred.setResult(sessionData);
+				} else {
+					deferred.setErrorResult(session);
+				}
+			}
+			@Override
+			public void onFailure(Call<WXCodeSession> call, Throwable throwable) {
+				logger.error("wxLiteLogin -> jscodeToSession", throwable);
+				deferred.setErrorResult(throwable);
+			}
+		});
+		return deferred;
+
 	}
 
 	/**

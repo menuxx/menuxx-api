@@ -37,13 +37,13 @@ public class MyJacksonConverterFactory extends Factory {
 
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
         JavaType javaType = this.mapper.getTypeFactory().constructType(type);
-        ObjectReader reader = this.mapper.reader(javaType);
-        return new MyJacksonResponseBodyConverter(reader);
+        ObjectReader reader = this.mapper.readerFor(javaType);
+        return new MyJacksonResponseBodyConverter<>(reader);
     }
 
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
         JavaType javaType = this.mapper.getTypeFactory().constructType(type);
-        ObjectWriter writer = this.mapper.writerWithType(javaType);
-        return new MyJacksonRequestBodyConverter(writer);
+        ObjectWriter writer = this.mapper.writerFor(javaType);
+        return new MyJacksonRequestBodyConverter<>(writer);
     }
 }

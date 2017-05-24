@@ -1,6 +1,7 @@
 package com.mall.configure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +10,70 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "appconfig")
 public class AppConfiguration {
+
+    @NestedConfigurationProperty
+    private WXComponent wxComponent;
+
+    public static class WXComponent {
+
+        private String appId;
+
+        private String appSecret;
+
+        private String appKey;
+
+        private String token;
+
+        private String encodingAESKey;
+
+        public String getAppId() {
+            return appId;
+        }
+
+        public void setAppId(String appId) {
+            this.appId = appId;
+        }
+
+        public String getAppSecret() {
+            return appSecret;
+        }
+
+        public void setAppSecret(String appSecret) {
+            this.appSecret = appSecret;
+        }
+
+        public String getAppKey() {
+            return appKey;
+        }
+
+        public void setAppKey(String appKey) {
+            this.appKey = appKey;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getEncodingAESKey() {
+            return encodingAESKey;
+        }
+
+        public void setEncodingAESKey(String encodingAESKey) {
+            this.encodingAESKey = encodingAESKey;
+        }
+    }
+
+    public WXComponent getWxComponent() {
+        return wxComponent;
+    }
+
+    public void setWxComponent(WXComponent wxComponent) {
+        this.wxComponent = wxComponent;
+    }
 
     private String ipushAppId;
 

@@ -305,6 +305,76 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andAuthorizerAppIdIsNull() {
+            addCriterion("authorizer_app_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdIsNotNull() {
+            addCriterion("authorizer_app_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdEqualTo(String value) {
+            addCriterion("authorizer_app_id =", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdNotEqualTo(String value) {
+            addCriterion("authorizer_app_id <>", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdGreaterThan(String value) {
+            addCriterion("authorizer_app_id >", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdGreaterThanOrEqualTo(String value) {
+            addCriterion("authorizer_app_id >=", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdLessThan(String value) {
+            addCriterion("authorizer_app_id <", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdLessThanOrEqualTo(String value) {
+            addCriterion("authorizer_app_id <=", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdLike(String value) {
+            addCriterion("authorizer_app_id like", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdNotLike(String value) {
+            addCriterion("authorizer_app_id not like", value, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdIn(List<String> values) {
+            addCriterion("authorizer_app_id in", values, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdNotIn(List<String> values) {
+            addCriterion("authorizer_app_id not in", values, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdBetween(String value1, String value2) {
+            addCriterion("authorizer_app_id between", value1, value2, "authorizerAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerAppIdNotBetween(String value1, String value2) {
+            addCriterion("authorizer_app_id not between", value1, value2, "authorizerAppId");
+            return (Criteria) this;
+        }
+
         public Criteria andLogoPathIsNull() {
             addCriterion("logo_path is null");
             return (Criteria) this;

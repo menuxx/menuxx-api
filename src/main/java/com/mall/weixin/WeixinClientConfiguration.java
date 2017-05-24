@@ -2,6 +2,7 @@ package com.mall.weixin;
 
 import com.mall.configure.WebConfiguration;
 import com.mall.service.WXMiniService;
+import com.mall.weixin.component.WXComponentApiService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.slf4j.Logger;
@@ -60,6 +61,13 @@ public class WeixinClientConfiguration {
 	@Bean
 	public WXMiniService wxMiniServiceImpl() {
 		return wxApiRetrofit().create(WXMiniService.class);
+	}
+
+	@DependsOn({WX_RETROFIT})
+	@Qualifier
+	@Bean
+	public WXComponentApiService wxComponentServiceImpl() {
+		return wxApiRetrofit().create(WXComponentApiService.class);
 	}
 
 }

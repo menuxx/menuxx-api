@@ -9,6 +9,8 @@ public class TCorp {
 
     private String appKey;
 
+    private String authorizerAppId;
+
     private String logoPath;
 
     private String legalEntity;
@@ -75,6 +77,14 @@ public class TCorp {
 
     public void setAppKey(String appKey) {
         this.appKey = appKey == null ? null : appKey.trim();
+    }
+
+    public String getAuthorizerAppId() {
+        return authorizerAppId;
+    }
+
+    public void setAuthorizerAppId(String authorizerAppId) {
+        this.authorizerAppId = authorizerAppId == null ? null : authorizerAppId.trim();
     }
 
     public String getLogoPath() {

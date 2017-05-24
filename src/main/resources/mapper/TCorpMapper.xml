@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="corp_name" jdbcType="VARCHAR" property="corpName" />
     <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+    <result column="authorizer_app_id" jdbcType="VARCHAR" property="authorizerAppId" />
     <result column="logo_path" jdbcType="VARCHAR" property="logoPath" />
     <result column="legal_entity" jdbcType="VARCHAR" property="legalEntity" />
     <result column="business_license" jdbcType="VARCHAR" property="businessLicense" />
@@ -87,10 +88,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_name, app_key, logo_path, legal_entity, business_license, business_license_img, 
-    shop_name, master_name, address, corp_phone, email, business_hours, master_phone, 
-    wechat_id, app_id, app_secret, pay_secret, mch_id, corp_type, platform_id, lables, 
-    lon, lat, create_time
+    id, corp_name, app_key, authorizer_app_id, logo_path, legal_entity, business_license, 
+    business_license_img, shop_name, master_name, address, corp_phone, email, business_hours, 
+    master_phone, wechat_id, app_id, app_secret, pay_secret, mch_id, corp_type, platform_id, 
+    lables, lon, lat, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpExample" resultMap="BaseResultMap">
     select
@@ -126,23 +127,23 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_corp (corp_name, app_key, logo_path, 
-      legal_entity, business_license, business_license_img, 
-      shop_name, master_name, address, 
-      corp_phone, email, business_hours, 
-      master_phone, wechat_id, app_id, 
-      app_secret, pay_secret, mch_id, 
-      corp_type, platform_id, lables, 
-      lon, lat, create_time
+    insert into t_corp (corp_name, app_key, authorizer_app_id, 
+      logo_path, legal_entity, business_license, 
+      business_license_img, shop_name, master_name, 
+      address, corp_phone, email, 
+      business_hours, master_phone, wechat_id, 
+      app_id, app_secret, pay_secret, 
+      mch_id, corp_type, platform_id, 
+      lables, lon, lat, create_time
       )
-    values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
-      #{legalEntity,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{businessLicenseImg,jdbcType=VARCHAR}, 
-      #{shopName,jdbcType=VARCHAR}, #{masterName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{corpPhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{businessHours,jdbcType=VARCHAR}, 
-      #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
-      #{appSecret,jdbcType=VARCHAR}, #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
-      #{corpType,jdbcType=INTEGER}, #{platformId,jdbcType=INTEGER}, #{lables,jdbcType=VARCHAR}, 
-      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
+    values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{authorizerAppId,jdbcType=VARCHAR}, 
+      #{logoPath,jdbcType=VARCHAR}, #{legalEntity,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, 
+      #{businessLicenseImg,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{masterName,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{corpPhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{businessHours,jdbcType=VARCHAR}, #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, 
+      #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, #{paySecret,jdbcType=VARCHAR}, 
+      #{mchId,jdbcType=VARCHAR}, #{corpType,jdbcType=INTEGER}, #{platformId,jdbcType=INTEGER}, 
+      #{lables,jdbcType=VARCHAR}, #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorp">
@@ -156,6 +157,9 @@
       </if>
       <if test="appKey != null">
         app_key,
+      </if>
+      <if test="authorizerAppId != null">
+        authorizer_app_id,
       </if>
       <if test="logoPath != null">
         logo_path,
@@ -230,6 +234,9 @@
       </if>
       <if test="appKey != null">
         #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizerAppId != null">
+        #{authorizerAppId,jdbcType=VARCHAR},
       </if>
       <if test="logoPath != null">
         #{logoPath,jdbcType=VARCHAR},
@@ -317,6 +324,9 @@
       <if test="record.appKey != null">
         app_key = #{record.appKey,jdbcType=VARCHAR},
       </if>
+      <if test="record.authorizerAppId != null">
+        authorizer_app_id = #{record.authorizerAppId,jdbcType=VARCHAR},
+      </if>
       <if test="record.logoPath != null">
         logo_path = #{record.logoPath,jdbcType=VARCHAR},
       </if>
@@ -393,6 +403,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       corp_name = #{record.corpName,jdbcType=VARCHAR},
       app_key = #{record.appKey,jdbcType=VARCHAR},
+      authorizer_app_id = #{record.authorizerAppId,jdbcType=VARCHAR},
       logo_path = #{record.logoPath,jdbcType=VARCHAR},
       legal_entity = #{record.legalEntity,jdbcType=VARCHAR},
       business_license = #{record.businessLicense,jdbcType=VARCHAR},
@@ -427,6 +438,9 @@
       </if>
       <if test="appKey != null">
         app_key = #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizerAppId != null">
+        authorizer_app_id = #{authorizerAppId,jdbcType=VARCHAR},
       </if>
       <if test="logoPath != null">
         logo_path = #{logoPath,jdbcType=VARCHAR},
@@ -501,6 +515,7 @@
     update t_corp
     set corp_name = #{corpName,jdbcType=VARCHAR},
       app_key = #{appKey,jdbcType=VARCHAR},
+      authorizer_app_id = #{authorizerAppId,jdbcType=VARCHAR},
       logo_path = #{logoPath,jdbcType=VARCHAR},
       legal_entity = #{legalEntity,jdbcType=VARCHAR},
       business_license = #{businessLicense,jdbcType=VARCHAR},
