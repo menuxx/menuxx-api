@@ -3,6 +3,8 @@ MAINTAINER Yinchangsheng <yinchangsheng@gmail.com>
 
 ADD pom.xml /tmp/build/
 
+ADD lib /tmp/build/lib
+
 ADD src /tmp/build/src
 
 RUN cd /tmp/build && mvn  -q dependency:resolve -X
