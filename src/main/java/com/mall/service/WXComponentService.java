@@ -17,11 +17,11 @@ public class WXComponentService {
     public Map<String, String> cache = new ConcurrentHashMap<>();
 
     public String getComponentVerifyTicket() {
-        return cache.get(COMPONENT_ACCESS_TOKEN);
+        return cache.get(COMPONENT_VERIFY_TICKET);
     }
 
     public String getComponentAccessToken() {
-        return cache.get(COMPONENT_VERIFY_TICKET);
+        return cache.get(COMPONENT_ACCESS_TOKEN);
     }
 
     public String getPreAuthCode() {
