@@ -24,11 +24,6 @@
         </repository>
 
         <repository>
-            <id>getui-nexus</id>
-            <url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>
-        </repository>
-
-        <repository>
             <id>myMavenRepo.read</id>
             <name>myMavenRepo</name>
             <url>https://mymavenrepo.com/repo/Yi9uClX522yL9V2DpDyI/</url>
@@ -228,6 +223,8 @@
             <groupId>com.cloopen.rest.sdk</groupId>
             <artifactId>ccp-java-sdk</artifactId>
             <version>2.6.3r</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CCP_REST_SMS_SDK_JAVA_v2.6.3r.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -237,10 +234,45 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.jpush.api</groupId>
-            <artifactId>jpush-client</artifactId>
-            <version>3.2.15</version>
+            <groupId>com.gexin.rp</groupId>
+            <artifactId>gexin-rp-sdk-base</artifactId>
+            <version>4.0.0.12</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/gexin-rp-sdk-base-4.0.0.14.jar</systemPath>
         </dependency>
+
+        <dependency>
+            <groupId>com.gexin.rp</groupId>
+            <artifactId>gexin-rp-sdk-http</artifactId>
+            <version>4.0.1.9</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/gexin-rp-sdk-http-4.0.1.9.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gexin.rp</groupId>
+            <artifactId>gexin-rp-sdk-template</artifactId>
+            <version>4.0.0.8</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/gexin-rp-sdk-template-4.0.0.8.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gexin.fastjson</groupId>
+            <artifactId>gexin-rp-fastjson</artifactId>
+            <version>1.0.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/gexin-rp-fastjson-1.0.0.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>2.5.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/protobuf-java-2.5.0.jar</systemPath>
+        </dependency>
+
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
@@ -259,12 +291,6 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>1.4.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.gexin.platform</groupId>
-            <artifactId>gexin-rp-sdk-http</artifactId>
-            <version>4.0.1.9</version>
         </dependency>
 
         <dependency>

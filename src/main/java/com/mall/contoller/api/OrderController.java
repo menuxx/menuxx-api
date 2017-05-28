@@ -10,7 +10,6 @@ import com.mall.configure.page.Page;
 import com.mall.model.*;
 import com.mall.service.*;
 import com.mall.utils.Constants;
-import com.mall.utils.JPushUtil;
 import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.weixin.*;
@@ -308,8 +307,11 @@ public class OrderController extends BaseCorpController {
         Order order = orderWrapper.selectOrder(orderId);
 
         try {
+
             String content = objectMapper.writeValueAsString(order);
-            JPushUtil.sendPushOrder(content, "1");
+
+            // JPushUtil.sendPushOrder(content, "1");
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
