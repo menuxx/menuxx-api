@@ -7,6 +7,7 @@ import com.mall.configure.AppConfiguration;
 import com.mall.model.TCorp;
 import com.mall.model.TUser;
 import com.mall.service.UserService;
+import com.mall.service.WXComponentService;
 import com.mall.service.WXMiniService;
 import com.mall.weixin.WXCodeSession;
 import com.mall.weixin.component.WXComponentApiService;
@@ -47,6 +48,9 @@ public class WXUserController extends BaseCorpController {
 
 	@Autowired
 	AppConfiguration appConfig;
+
+	@Autowired
+	WXComponentService componentService;
 
 	static class LoginCode {
 
@@ -119,7 +123,7 @@ public class WXUserController extends BaseCorpController {
 				loginCode.getCode(),
 				"authorization_code",
 				appConfig.getWxComponent().getAppId(),
-				"YktSoLfv-xd5PRp6hP5_dLnRuuUqPGXz7GT4w1lomkUqlw3gx5vp7_AoxhfDAeVozhFXzWPMefe-KVX5dueCBqoujr505Qxj_ciPHzQ9UkuYOADUJTymQCfA0TOebOjNNKDhAFABYR"
+				componentService.getComponentAccessToken()
 				).enqueue(new Callback<WXCodeSession>() {
 			@Override
 			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
@@ -146,7 +150,6 @@ public class WXUserController extends BaseCorpController {
 			}
 		});
 		return deferred;
-
 	}
 
 	/**

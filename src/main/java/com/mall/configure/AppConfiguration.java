@@ -26,6 +26,8 @@ public class AppConfiguration {
 
         private String encodingAESKey;
 
+        private String wx3rdApi;
+
         public String getAppId() {
             return appId;
         }
@@ -64,6 +66,14 @@ public class AppConfiguration {
 
         public void setEncodingAESKey(String encodingAESKey) {
             this.encodingAESKey = encodingAESKey;
+        }
+
+        public String getWx3rdApi() {
+            return wx3rdApi;
+        }
+
+        public void setWx3rdApi(String wx3rdApi) {
+            this.wx3rdApi = wx3rdApi;
         }
     }
 
