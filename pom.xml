@@ -225,6 +225,8 @@
             <version>2.6.3r</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/CCP_REST_SMS_SDK_JAVA_v2.6.3r.jar</systemPath>
+            <type>jar</type>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -239,6 +241,8 @@
             <version>4.0.0.12</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/gexin-rp-sdk-base-4.0.0.14.jar</systemPath>
+            <type>jar</type>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -247,6 +251,8 @@
             <version>4.0.1.9</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/gexin-rp-sdk-http-4.0.1.9.jar</systemPath>
+            <type>jar</type>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -255,6 +261,8 @@
             <version>4.0.0.8</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/gexin-rp-sdk-template-4.0.0.8.jar</systemPath>
+            <type>jar</type>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -263,6 +271,8 @@
             <version>1.0.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/gexin-rp-fastjson-1.0.0.0.jar</systemPath>
+            <type>jar</type>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -271,6 +281,8 @@
             <version>2.5.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/protobuf-java-2.5.0.jar</systemPath>
+            <type>jar</type>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
