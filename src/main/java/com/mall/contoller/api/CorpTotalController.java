@@ -6,6 +6,7 @@ import com.mall.model.TCorpTotal;
 import com.mall.service.CorpTotalService;
 import com.mall.service.StatisticsService;
 import com.mall.utils.Constants;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,10 +61,20 @@ public class CorpTotalController extends BaseCorpController {
         return new ResponseEntity<Object>(corpTotal, HttpStatus.OK);
     }
 
+    /**
+     * 执行统计
+     * @param day
+     * @return
+     */
     @GetMapping(value = "stat")
     @ResponseBody
-    public ResponseEntity<?> doStatistics() {
-        statisticsService.doStatistics();
+    public ResponseEntity<?> doStatistics(@RequestParam(required = false) String day) {
+        if (StringUtils.isNotBlank(day)) {
+            statisticsService.doStatistics(day);
+        } else {
+            statisticsService.doStatistics();
+        }
+
         return new ResponseEntity<Object>(HttpStatus.OK);
     }
 

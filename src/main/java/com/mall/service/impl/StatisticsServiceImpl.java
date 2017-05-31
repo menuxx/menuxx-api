@@ -7,6 +7,7 @@ import com.mall.model.TCorpTotal;
 import com.mall.service.CorpService;
 import com.mall.service.CorpTotalService;
 import com.mall.service.StatisticsService;
+import com.mall.utils.Constants;
 import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,8 +84,14 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    public void doStatistics(String statDay) {
+        String toDay = Util.addOneDay(statDay);
+        calculation(statDay, toDay);
+    }
+
+    @Override
     public void doStatistics() {
-        Map<String, String> dayMap = new HashMap<>();
+
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -98,8 +105,11 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         String fromDay = dateFormat.format(calendar.getTime());
 
-        Date yesterday = calendar.getTime();
+        calculation(fromDay, toDay);
+    }
 
+    private void calculation(String fromDay, String toDay) {
+        Map<String, String> dayMap = new HashMap<>();
         dayMap.put("toDay", toDay);
         dayMap.put("fromDay", fromDay);
 
@@ -115,35 +125,36 @@ public class StatisticsServiceImpl implements StatisticsService {
         // 获取充值金额
         Map<Integer, Integer> rechargeMap = selectRechargeTotal(dayMap);
 
-       for (TCorp corp : corpList) {
-           int corpId = corp.getId();
+        for (TCorp corp : corpList) {
+            int corpId = corp.getId();
 
-           TCorpTotal corpTotal = corpTotalService.selectCorpTotal(corpId, yesterday);
+            TCorpTotal corpTotal = corpTotalService.selectCorpTotal(corpId, fromDay);
 
-           if (null == corpTotal) {
-               corpTotal = new TCorpTotal();
-               corpTotal.setCorpId(corpId);
-               corpTotal.setDay(yesterday);
+            if (null == corpTotal) {
+                corpTotal = new TCorpTotal();
+                corpTotal.setCorpId(corpId);
+                corpTotal.setDay(Util.parseDate(fromDay));
 
-               int incomeTotal = incomeMap.containsKey(corpId) ? incomeMap.get(corpId).getIncomeTotal() : 0;
-               corpTotal.setIncomeTotal(incomeTotal);
+                int incomeTotal = incomeMap.containsKey(corpId) ? incomeMap.get(corpId).getIncomeTotal() : 0;
+                corpTotal.setIncomeTotal(incomeTotal);
 
-               int orderTotal = incomeMap.containsKey(corpId) ? incomeMap.get(corpId).getOrderTotal() : 0;
-               corpTotal.setOrderTotal(orderTotal);
+                int orderTotal = incomeMap.containsKey(corpId) ? incomeMap.get(corpId).getOrderTotal() : 0;
+                corpTotal.setOrderTotal(orderTotal);
 
-               int arerage = incomeMap.containsKey(corpId) ? incomeTotal/orderTotal : 0;
-               corpTotal.setArerage(arerage);
+                int arerage = incomeMap.containsKey(corpId) ? incomeTotal/orderTotal : 0;
+                corpTotal.setArerage(arerage);
 
-               int payTotal = payTotalMap.containsKey(corpId) ? payTotalMap.get(corpId) : 0;
-               corpTotal.setPayTotal(payTotal);
+                int payTotal = payTotalMap.containsKey(corpId) ? payTotalMap.get(corpId) : 0;
+                corpTotal.setPayTotal(payTotal);
 
-               int rechargeTotal = rechargeMap.containsKey(corpId) ? rechargeMap.get(corpId) : 0;
-               corpTotal.setRechargeTotal(rechargeTotal);
+                int rechargeTotal = rechargeMap.containsKey(corpId) ? rechargeMap.get(corpId) : 0;
+                corpTotal.setRechargeTotal(rechargeTotal);
 
-               corpTotalService.createCorpTotal(corpTotal);
-           }
-       }
+                corpTotal.setStatus(Constants.ZERO);
 
+                corpTotalService.createCorpTotal(corpTotal);
+            }
+        }
     }
 
     private Map<Integer, TCorpTotal> selectIncomeTotal(Map<String, String> dayMap) {
