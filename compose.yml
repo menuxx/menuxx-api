@@ -1,4 +1,3 @@
-
 api:
   image: daocloud.io/nizhuantech/menuxx-api:prod-a4262e7
   container_name: menuxx_api
