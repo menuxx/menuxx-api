@@ -10,6 +10,8 @@ import java.util.Date;
  */
 public interface CorpTotalService {
 
+    TCorpTotal selectCorpTotal(int corpId, String day);
+
     TCorpTotal selectCorpTotal(int corpId, Date day);
 
     void createCorpTotal(TCorpTotal corpTotal);

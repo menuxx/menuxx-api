@@ -8,6 +8,7 @@ build:
   only:
     branches:
     - pre
+    - prod
     tags:
     - .*
   build_dir: /

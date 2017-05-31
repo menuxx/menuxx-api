@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -17,6 +18,7 @@ public class Util {
 
 	public static final DateFormat ORDER_NO_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINESE);
 
+	public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * 获取请求IP
 	 * @param request
@@ -76,6 +78,37 @@ public class Util {
 			return null;
 		}
 		return objs.get(0);
+	}
+
+
+	public static Date parseDate(String source) {
+		Date date = null;
+		try {
+			date = format.parse(source);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
+	public static String addOneDay(String source) {
+		String target = "";
+
+		try {
+			Date date = format.parse(source);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+
+			calendar.add(Calendar.DAY_OF_YEAR, 1);
+
+			date = calendar.getTime();
+			target = format.format(date);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return target;
 	}
 
 	public static String genNonce() {

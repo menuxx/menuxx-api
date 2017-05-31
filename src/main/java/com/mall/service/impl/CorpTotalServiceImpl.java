@@ -22,6 +22,12 @@ public class CorpTotalServiceImpl implements CorpTotalService {
     TCorpTotalMapper corpTotalMapper;
 
     @Override
+    public TCorpTotal selectCorpTotal(int corpId, String day) {
+        Date date = Util.parseDate(day);
+        return selectCorpTotal(corpId, date);
+    }
+
+    @Override
     public TCorpTotal selectCorpTotal(int corpId, Date day) {
         TCorpTotalExample example = new TCorpTotalExample();
         TCorpTotalExample.Criteria criteria = example.createCriteria();

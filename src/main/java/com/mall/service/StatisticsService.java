@@ -17,4 +17,6 @@ public interface StatisticsService {
     TCorpTotal selectByToday(int corpId);
 
     void doStatistics();
+
+    void doStatistics(String statDay);
 }
