@@ -87,7 +87,7 @@ public class WXUserController extends BaseCorpController {
 	public DeferredResult<Object> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
 		final DeferredResult<Object> deferred = new DeferredResult<>();
 
-		wxMiniService.jscodeToSession(corp.getAuthorizerAppId(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXCodeSession>() {
+		wxMiniService.jscodeToSession(corp.getAppId(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXCodeSession>() {
 			@Override
 			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
 				WXCodeSession session = response.body();
