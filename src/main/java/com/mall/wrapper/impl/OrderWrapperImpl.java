@@ -308,7 +308,9 @@ public class OrderWrapperImpl implements OrderWrapper {
                 }
             });
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error("pushOrder error : ", e);
+        } catch (Exception e) {
+            logger.error("pushOrder error : ", e);
         }
 
         return order;
