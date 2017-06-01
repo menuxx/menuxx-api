@@ -290,6 +290,9 @@ public class OrderWrapperImpl implements OrderWrapper {
         try {
             String content = objectMapper.writeValueAsString(order);
             IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
+            logger.info("------ ClientIdList", clientIdList);
+            logger.info("------ Key", appConfiguration.getYunBaAppKey());
+            logger.info("------ Secret", appConfiguration.getYunBaSecretKey());
             pushService.sendToAliases(content, phoneList).enqueue(new Callback<PushState>() {
                 @Override
                 public void onResponse(Call<PushState> call, Response<PushState> response) {
