@@ -1,13 +1,17 @@
 api:
-  image: daocloud.io/nizhuantech/menuxx-api:prod-a4262e7
+  image: daocloud.io/nizhuantech/menuxx_api:0.2
   container_name: menuxx_api
   volumes:
   - /var/log/menuxx_api:/log:rw
   - /tmp
   environment:
-  - PORT=8080
-  - JAVA_OPTS=-server -Xms2048m -Xmx2048m -Dspring.profiles.active=production
+  - PORT=8088
+  - JAVA_OPTS=-server -Xms2048m -Xmx2048m -Dspring.profiles.active=production -Duser.timezone=GMT+8
   - VIRTUAL_HOST=api.menuxx.com
-  - VIRTUAL_PORT=8080
+  - VIRTUAL_PORT=8088
   - LETSENCRYPT_HOST=api.menuxx.com
   - LETSENCRYPT_EMAIL=yin80871901@qq.com
+  ports:
+  - 8088:8088
+  restart: always
+  privileged: true
