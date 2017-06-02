@@ -84,7 +84,7 @@ public class CorpUserController {
 
         Order order = orderWrapper.buildTestOrder();
 
-        IPushUtil.sendPushOrder(appConfiguration, objectMapper, order, clientIdList);
+        orderWrapper.pushOrder(order, clientIdList);
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }

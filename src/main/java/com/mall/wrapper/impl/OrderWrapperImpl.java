@@ -275,22 +275,12 @@ public class OrderWrapperImpl implements OrderWrapper {
         return pushOrder(order);
     }
 
-    private Order pushOrder(Order order) {
-        List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
-
-        List<String> clientIdList = new ArrayList<>();
-
-        List<String> phoneList = new ArrayList<>();
-
-        for (TCorpUser corpUser : corpUserList) {
-            clientIdList.add(corpUser.getClientId());
-            phoneList.add(corpUser.getMobile());
-        }
-
+    @Override
+    public void pushOrder(Order order, List<String> clientIdList) {
         try {
             String content = objectMapper.writeValueAsString(order);
             IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-            pushService.sendToAliases(content, phoneList).enqueue(new Callback<PushState>() {
+            pushService.sendToAliases(content, clientIdList).enqueue(new Callback<PushState>() {
                 @Override
                 public void onResponse(Call<PushState> call, Response<PushState> response) {
                     if ( response.isSuccessful() ) {
@@ -313,8 +303,22 @@ public class OrderWrapperImpl implements OrderWrapper {
             logger.error("pushOrder error : ", e);
         }
 
+    }
+
+    private Order pushOrder(Order order) {
+        List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
+
+        List<String> clientIdList = new ArrayList<>();
+
+        for (TCorpUser corpUser : corpUserList) {
+            clientIdList.add(corpUser.getClientId());
+        }
+
+        pushOrder(order, clientIdList);
+
         return order;
     }
+
 
     @Override
     @Transactional

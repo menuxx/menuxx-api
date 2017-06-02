@@ -3,6 +3,7 @@ package com.mall.wrapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.model.Order;
 import com.mall.model.TChargeApply;
+import com.mall.model.TCorpUser;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public interface OrderWrapper {
     void setStatusToPaid(TChargeApply chargeApply);
 
     Order pushOrder(int orderId);
+
+    void pushOrder(Order order, List<String> clientIdList);
 
     void rechargeCompleted(TChargeApply chargeApply);
 
