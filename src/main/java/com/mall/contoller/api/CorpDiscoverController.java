@@ -2,6 +2,7 @@ package com.mall.contoller.api;
 
 import com.mall.model.TCorpDiscover;
 import com.mall.service.CorpDiscoverService;
+import com.mall.utils.SMSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ public class CorpDiscoverController extends BaseCorpController {
         corpDiscover.setFormCorpId(dinerId);
 
         corpDiscoverService.createCorpDiscover(corpDiscover);
+
+        SMSUtil.sendNotify("13738142344", new String[] {corpDiscover.getPhone(), corpDiscover.getLinkman(), corpDiscover.getCorpName()});
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

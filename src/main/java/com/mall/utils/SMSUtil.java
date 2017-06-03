@@ -10,6 +10,12 @@ import java.util.Map;
  */
 public class SMSUtil {
 
+    // 验证码模板
+    private static final String TEMPLATE_ID_CAPTCHA = "163605";
+
+    // 用户收集膜拜
+    private static final String TEMPLATE_ID_NOTIFY = "179820";
+
     private static Map<String, String> captchaMap = new HashMap<>();
 
     public static boolean checkCaptcha(String phone, String captcha) {
@@ -21,7 +27,30 @@ public class SMSUtil {
         return false;
     }
 
+    public static void sendNotify(String phone, String[] args) {
+        sendSMS(phone, TEMPLATE_ID_NOTIFY, args);
+    }
+
     public static void sendCaptcha(String phone, String captcha) {
+        HashMap<String, Object> result = sendSMS(phone, TEMPLATE_ID_CAPTCHA, new String[]{captcha});
+
+        System.out.println("SDKTestGetSubAccounts result=" + result);
+        if("000000".equals(result.get("statusCode"))){
+            //正常返回输出data包体信息（map）
+//            HashMap<String,Object> data = (HashMap<String, Object>) result.get("data");
+//            Set<String> keySet = data.keySet();
+//            for(String key:keySet){
+//                Object object = data.get(key);
+//                System.out.println(key +" = "+object);
+//            }
+            captchaMap.put(phone, captcha);
+        }else{
+            //异常返回输出错误码和错误信息
+            System.out.println("错误码=" + result.get("statusCode") +" 错误信息= "+result.get("statusMsg"));
+        }
+    }
+
+    private static HashMap<String, Object> sendSMS(String phone, String templateId, String[] captcha) {
         //初始化SDK
         CCPRestSmsSDK restAPI = new CCPRestSmsSDK();
 
@@ -60,22 +89,7 @@ public class SMSUtil {
         //*result = restAPI.sendTemplateSMS("13800000000","1" ,new String[]{"6532","5"});																		  *
         //*则13800000000手机号收到的短信内容是：【云通讯】您使用的是云通讯短信模板，您的验证码是6532，请于5分钟内正确输入     *
         //*********************************************************************************************************************
-        HashMap<String, Object> result = restAPI.sendTemplateSMS(phone,"163605" ,new String[]{captcha});
-
-        System.out.println("SDKTestGetSubAccounts result=" + result);
-        if("000000".equals(result.get("statusCode"))){
-            //正常返回输出data包体信息（map）
-//            HashMap<String,Object> data = (HashMap<String, Object>) result.get("data");
-//            Set<String> keySet = data.keySet();
-//            for(String key:keySet){
-//                Object object = data.get(key);
-//                System.out.println(key +" = "+object);
-//            }
-            captchaMap.put(phone, captcha);
-        }else{
-            //异常返回输出错误码和错误信息
-            System.out.println("错误码=" + result.get("statusCode") +" 错误信息= "+result.get("statusMsg"));
-        }
+        return restAPI.sendTemplateSMS(phone, templateId,captcha);
     }
 
 }

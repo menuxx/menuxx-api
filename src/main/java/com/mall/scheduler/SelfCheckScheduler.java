@@ -56,9 +56,7 @@ public class SelfCheckScheduler {
             }
         }
 
-//        clientIdList.add("1591f5b6f767f5f5215ce44a1515ffe6");
-
-        IPushUtil.sendPushOrder(appConfiguration, objectMapper, order, clientIdList);
+        orderWrapper.pushOrder(order, clientIdList);
 
         System.out.println("************************ doSelfCheck scheduler end *****************************");
     }
