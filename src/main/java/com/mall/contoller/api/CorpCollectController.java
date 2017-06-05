@@ -2,6 +2,7 @@ package com.mall.contoller.api;
 
 import com.mall.model.TCorpCollect;
 import com.mall.service.CorpCollectService;
+import com.mall.utils.SMSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class CorpCollectController extends BaseCorpController {
     public ResponseEntity<?> createCorpCollect(@PathVariable("dinerId") int dinerId, @RequestBody TCorpCollect corpCollect) {
         corpCollect.setFormCorpId(dinerId);
         corpCollectService.createCorpCollect(corpCollect);
+
+        SMSUtil.sendNotify("13738142344", new String[] {corpCollect.getPhone(), corpCollect.getLinkman(), corpCollect.getCorpName()});
+
         return new ResponseEntity<Object>(HttpStatus.OK);
     }
 }
