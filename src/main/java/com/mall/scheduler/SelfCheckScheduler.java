@@ -48,17 +48,20 @@ public class SelfCheckScheduler {
 
         List<String> clientIdList = new ArrayList<>();
 
+        List<String> phoneList = new ArrayList<>();
+
         if (userList != null && userList.size() > 0) {
             for (TCorpUser corpUser : userList) {
                 if (StringUtils.isNotBlank(corpUser.getClientId())) {
                     clientIdList.add(corpUser.getClientId());
                 }
+                if (StringUtils.isNoneBlank(corpUser.getMobile())) {
+                    phoneList.add(corpUser.getMobile());
+                }
             }
         }
 
-//        clientIdList.add("1591f5b6f767f5f5215ce44a1515ffe6");
-
-        IPushUtil.sendPushOrder(appConfiguration, objectMapper, order, clientIdList);
+        orderWrapper.pushOrder(order, clientIdList, phoneList);
 
         System.out.println("************************ doSelfCheck scheduler end *****************************");
     }
