@@ -26,7 +26,7 @@ public class CorpsInterceptor implements HandlerInterceptor {
 	static final Pattern pathPattern = Pattern.compile("/diners/([0-9]*)");
 
 	@Autowired
-    CorpService corpsService;
+	CorpService corpsService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {

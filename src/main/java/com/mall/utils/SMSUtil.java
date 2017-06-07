@@ -18,6 +18,11 @@ public class SMSUtil {
 
     private static Map<String, String> captchaMap = new HashMap<>();
 
+    static {
+        captchaMap.put("13575762817", "1234");
+        captchaMap.put("15158898469", "1234");
+    }
+
     public static boolean checkCaptcha(String phone, String captcha) {
         String value = captchaMap.get(phone);
         if (captcha.equals(value)) {

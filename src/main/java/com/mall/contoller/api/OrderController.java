@@ -116,7 +116,7 @@ public class OrderController extends BaseCorpController {
         TCorp corp = corpsService.selectCorpByMchId(mchId);
 
         WXPayOrder payOrder = new WXPayOrder();
-        payOrder.setAppid(corp.getAppId());
+        payOrder.setAppid(corp.getAuthorizerAppid());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
         payOrder.setNotifyUrl(appConfiguration.getRechargeNotifyUrl());
@@ -136,7 +136,7 @@ public class OrderController extends BaseCorpController {
     private void unifiedOrderAsync(WXPayOrder payOrder, TCorp corp, DeferredResult<Map<String, String>> deferredResult) {
 
         // 创建微信支付订单，向微信发起请求
-        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAuthorizerAppid(), corp.getPaySecret());
 
         wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
             @Override
@@ -179,7 +179,7 @@ public class OrderController extends BaseCorpController {
         TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
 
         WXPayOrder payOrder = new WXPayOrder();
-        payOrder.setAppid(corp.getAppId());
+        payOrder.setAppid(corp.getAuthorizerAppid());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
         payOrder.setNotifyUrl(appConfiguration.getPayNotifyUrl());

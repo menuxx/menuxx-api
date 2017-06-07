@@ -85,9 +85,9 @@ public class CorpServiceImpl implements CorpService {
 
 	private Map<String, Object> buildCorp2Map(TCorp corp) {
 		Map<String, Object> map = new HashMap();
-
 		if (null != corp) {
 			map.put("id", corp.getId());
+			map.put("appKey", corp.getAppKey());
 			map.put("address", corp.getAddress());
 			map.put("corpPhone", corp.getCorpPhone());
 			map.put("email", corp.getEmail());
@@ -99,12 +99,83 @@ public class CorpServiceImpl implements CorpService {
 			map.put("lon", corp.getLon());
 			map.put("logoPath", corp.getLogoPath());
 		}
-
 		return map;
 	}
+
+	private Map<String, Object> buildCorp23rdMap(TCorp corp) {
+		Map<String, Object> map = new HashMap<>();
+		if (null != corp) {
+			map.put("shopName", corp.getShopName());
+			map.put("masterName", corp.getMasterName());
+			map.put("wxliteVersion", corp.getWxliteVersion());
+			map.put("masterPhone", corp.getMasterPhone());
+			map.put("appKey", corp.getAppKey());
+			map.put("authorizerAppid", corp.getAuthorizerAppid());
+			map.put("authorizerStatus", corp.getAuthorizerStatus());
+			map.put("wxliteTemplateId", corp.getWxliteTemplateId());
+		}
+		return map;
+	}
+
 
 	@Override
 	public List<TCorp> selectAllCorps() {
 		return tCorpMapper.selectByExample(new TCorpExample());
+	}
+
+	@Override
+	public Map<String, Object> getByAppkey(String appkey) {
+		TCorpExample ex = new TCorpExample();
+		ex.createCriteria().andAppKeyEqualTo(appkey);
+		List<TCorp> corps = tCorpMapper.selectByExample(ex);
+		if (corps != null) {
+			return buildCorp23rdMap(corps.get(0));
+		}
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getByAppid(String appid) {
+		TCorpExample ex = new TCorpExample();
+		ex.createCriteria().andAuthorizerAppidEqualTo(appid);
+		List<TCorp> corps = tCorpMapper.selectByExample(ex);
+		if (corps != null && corps.size() > 0) {
+			return buildCorp23rdMap(corps.get(0));
+		}
+		return null;
+	}
+
+	@Override
+	public List<Map<String, ?>> getAuthorizerDiners() {
+		TCorpExample ex = new TCorpExample();
+		ex.createCriteria().andCorpTypeEqualTo(0);
+		List<TCorp> corps = tCorpMapper.selectByExample(ex);
+		List<Map<String, ?>> _corps = new ArrayList<>();
+		for (TCorp corp : corps) {
+			_corps.add(buildCorp23rdMap(corp));
+		}
+		return _corps;
+	}
+
+	@Override
+	public void updateByAppid(String appid, TCorp corp) {
+		TCorpExample ex = new TCorpExample();
+		ex.createCriteria().andAuthorizerAppidEqualTo(appid);
+		TCorp corp1 = new TCorp();
+		corp1.setWxliteVersion(corp.getWxliteVersion());
+		corp1.setAuthorizerAppid(corp.getAuthorizerAppid());
+		corp1.setAuthorizerStatus(corp.getAuthorizerStatus());
+		tCorpMapper.updateByExampleSelective(corp1, ex);
+	}
+
+	@Override
+	public void updateByAppkey(String appkey, TCorp corp) {
+		TCorpExample ex = new TCorpExample();
+		ex.createCriteria().andAppKeyEqualTo(appkey);
+		TCorp corp1 = new TCorp();
+		corp1.setWxliteVersion(corp.getWxliteVersion());
+		corp1.setAuthorizerAppid(corp.getAuthorizerAppid());
+		corp1.setAuthorizerStatus(corp.getAuthorizerStatus());
+		tCorpMapper.updateByExampleSelective(corp1, ex);
 	}
 }

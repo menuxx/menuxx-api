@@ -9,7 +9,13 @@ public class TCorp {
 
     private String appKey;
 
-    private String authorizerAppId;
+    private String authorizerAppid;
+
+    private Integer authorizerStatus;
+
+    private Integer wxliteTemplateId;
+
+    private String wxliteVersion;
 
     private String logoPath;
 
@@ -34,8 +40,6 @@ public class TCorp {
     private String masterPhone;
 
     private String wechatId;
-
-    private String appId;
 
     private String appSecret;
 
@@ -79,12 +83,36 @@ public class TCorp {
         this.appKey = appKey == null ? null : appKey.trim();
     }
 
-    public String getAuthorizerAppId() {
-        return authorizerAppId;
+    public String getAuthorizerAppid() {
+        return authorizerAppid;
     }
 
-    public void setAuthorizerAppId(String authorizerAppId) {
-        this.authorizerAppId = authorizerAppId == null ? null : authorizerAppId.trim();
+    public void setAuthorizerAppid(String authorizerAppid) {
+        this.authorizerAppid = authorizerAppid == null ? null : authorizerAppid.trim();
+    }
+
+    public Integer getAuthorizerStatus() {
+        return authorizerStatus;
+    }
+
+    public void setAuthorizerStatus(Integer authorizerStatus) {
+        this.authorizerStatus = authorizerStatus;
+    }
+
+    public Integer getWxliteTemplateId() {
+        return wxliteTemplateId;
+    }
+
+    public void setWxliteTemplateId(Integer wxliteTemplateId) {
+        this.wxliteTemplateId = wxliteTemplateId;
+    }
+
+    public String getWxliteVersion() {
+        return wxliteVersion;
+    }
+
+    public void setWxliteVersion(String wxliteVersion) {
+        this.wxliteVersion = wxliteVersion == null ? null : wxliteVersion.trim();
     }
 
     public String getLogoPath() {
@@ -181,14 +209,6 @@ public class TCorp {
 
     public void setWechatId(String wechatId) {
         this.wechatId = wechatId == null ? null : wechatId.trim();
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId == null ? null : appId.trim();
     }
 
     public String getAppSecret() {
