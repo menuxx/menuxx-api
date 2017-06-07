@@ -48,20 +48,15 @@ public class SelfCheckScheduler {
 
         List<String> clientIdList = new ArrayList<>();
 
-        List<String> phoneList = new ArrayList<>();
-
         if (userList != null && userList.size() > 0) {
             for (TCorpUser corpUser : userList) {
                 if (StringUtils.isNotBlank(corpUser.getClientId())) {
                     clientIdList.add(corpUser.getClientId());
                 }
-                if (StringUtils.isNoneBlank(corpUser.getMobile())) {
-                    phoneList.add(corpUser.getMobile());
-                }
             }
         }
 
-        orderWrapper.pushOrder(order, clientIdList, phoneList);
+        orderWrapper.pushOrder(order, clientIdList);
 
         System.out.println("************************ doSelfCheck scheduler end *****************************");
     }

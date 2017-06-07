@@ -82,12 +82,9 @@ public class CorpUserController {
         List<String> clientIdList = new ArrayList<>();
         clientIdList.add(corpUser.getClientId());
 
-        List<String> phoneList = new ArrayList<>();
-        phoneList.add(corpUser.getMobile());
-
         Order order = orderWrapper.buildTestOrder();
 
-        orderWrapper.pushOrder(order, clientIdList, phoneList);
+        orderWrapper.pushOrder(order, clientIdList);
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }

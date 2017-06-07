@@ -103,7 +103,7 @@ public class WXUserController extends BaseCorpController {
 					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId());
 					deferred.setResult(sessionData);
 				} else {
-					deferred.setErrorResult(session);
+					deferred.setErrorResult(new Exception(session.getErrmsg()));
 				}
 			}
 			@Override
@@ -140,7 +140,7 @@ public class WXUserController extends BaseCorpController {
 					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId());
 					deferred.setResult(sessionData);
 				} else {
-					deferred.setErrorResult(session);
+					deferred.setErrorResult(new Exception(session.getErrmsg()));
 				}
 			}
 			@Override

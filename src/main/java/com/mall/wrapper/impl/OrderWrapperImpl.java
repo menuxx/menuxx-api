@@ -276,11 +276,11 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
-    public void pushOrder(Order order, List<String> clientIdList, List<String> phoneList) {
+    public void pushOrder(Order order, List<String> clientIdList) {
         try {
             String content = objectMapper.writeValueAsString(order);
             IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-            pushService.sendToAliases(content, phoneList).enqueue(new Callback<PushState>() {
+            pushService.sendToAliases(content, clientIdList).enqueue(new Callback<PushState>() {
                 @Override
                 public void onResponse(Call<PushState> call, Response<PushState> response) {
                     if ( response.isSuccessful() ) {
@@ -319,7 +319,7 @@ public class OrderWrapperImpl implements OrderWrapper {
             }
         }
 
-        pushOrder(order, clientIdList, phoneList);
+        pushOrder(order, clientIdList);
 
         return order;
     }
