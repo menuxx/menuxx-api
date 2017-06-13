@@ -107,12 +107,14 @@ public class CorpServiceImpl implements CorpService {
 		if (null != corp) {
 			map.put("shopName", corp.getShopName());
 			map.put("masterName", corp.getMasterName());
-			map.put("wxliteVersion", corp.getWxliteVersion());
 			map.put("masterPhone", corp.getMasterPhone());
 			map.put("appKey", corp.getAppKey());
 			map.put("authorizerAppid", corp.getAuthorizerAppid());
 			map.put("authorizerStatus", corp.getAuthorizerStatus());
 			map.put("wxliteTemplateId", corp.getWxliteTemplateId());
+			map.put("wxliteVersion", corp.getWxliteVersion());
+			map.put("wxliteStatus", corp.getWxliteStatus());
+			map.put("originAppId", corp.getOriginAppId());
 		}
 		return map;
 	}
@@ -128,7 +130,7 @@ public class CorpServiceImpl implements CorpService {
 		TCorpExample ex = new TCorpExample();
 		ex.createCriteria().andAppKeyEqualTo(appkey);
 		List<TCorp> corps = tCorpMapper.selectByExample(ex);
-		if (corps != null) {
+		if (corps != null && corps.size() > 0) {
 			return buildCorp23rdMap(corps.get(0));
 		}
 		return null;
@@ -162,6 +164,7 @@ public class CorpServiceImpl implements CorpService {
 		TCorpExample ex = new TCorpExample();
 		ex.createCriteria().andAuthorizerAppidEqualTo(appid);
 		TCorp corp1 = new TCorp();
+		corp1.setWxliteStatus(corp.getWxliteStatus());
 		corp1.setWxliteVersion(corp.getWxliteVersion());
 		corp1.setAuthorizerAppid(corp.getAuthorizerAppid());
 		corp1.setAuthorizerStatus(corp.getAuthorizerStatus());
@@ -173,6 +176,7 @@ public class CorpServiceImpl implements CorpService {
 		TCorpExample ex = new TCorpExample();
 		ex.createCriteria().andAppKeyEqualTo(appkey);
 		TCorp corp1 = new TCorp();
+		corp1.setWxliteStatus(corp.getWxliteStatus());
 		corp1.setWxliteVersion(corp.getWxliteVersion());
 		corp1.setAuthorizerAppid(corp.getAuthorizerAppid());
 		corp1.setAuthorizerStatus(corp.getAuthorizerStatus());

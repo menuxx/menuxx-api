@@ -435,6 +435,76 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
+        public Criteria andOriginAppIdIsNull() {
+            addCriterion("origin_app_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdIsNotNull() {
+            addCriterion("origin_app_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdEqualTo(String value) {
+            addCriterion("origin_app_id =", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotEqualTo(String value) {
+            addCriterion("origin_app_id <>", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdGreaterThan(String value) {
+            addCriterion("origin_app_id >", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdGreaterThanOrEqualTo(String value) {
+            addCriterion("origin_app_id >=", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdLessThan(String value) {
+            addCriterion("origin_app_id <", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdLessThanOrEqualTo(String value) {
+            addCriterion("origin_app_id <=", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdLike(String value) {
+            addCriterion("origin_app_id like", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotLike(String value) {
+            addCriterion("origin_app_id not like", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdIn(List<String> values) {
+            addCriterion("origin_app_id in", values, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotIn(List<String> values) {
+            addCriterion("origin_app_id not in", values, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdBetween(String value1, String value2) {
+            addCriterion("origin_app_id between", value1, value2, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotBetween(String value1, String value2) {
+            addCriterion("origin_app_id not between", value1, value2, "originAppId");
+            return (Criteria) this;
+        }
+
         public Criteria andWxliteTemplateIdIsNull() {
             addCriterion("wxlite_template_id is null");
             return (Criteria) this;
@@ -492,6 +562,66 @@ public class TCorpExample {
 
         public Criteria andWxliteTemplateIdNotBetween(Integer value1, Integer value2) {
             addCriterion("wxlite_template_id not between", value1, value2, "wxliteTemplateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusIsNull() {
+            addCriterion("wxlite_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusIsNotNull() {
+            addCriterion("wxlite_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusEqualTo(Integer value) {
+            addCriterion("wxlite_status =", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusNotEqualTo(Integer value) {
+            addCriterion("wxlite_status <>", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusGreaterThan(Integer value) {
+            addCriterion("wxlite_status >", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("wxlite_status >=", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusLessThan(Integer value) {
+            addCriterion("wxlite_status <", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("wxlite_status <=", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusIn(List<Integer> values) {
+            addCriterion("wxlite_status in", values, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusNotIn(List<Integer> values) {
+            addCriterion("wxlite_status not in", values, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusBetween(Integer value1, Integer value2) {
+            addCriterion("wxlite_status between", value1, value2, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("wxlite_status not between", value1, value2, "wxliteStatus");
             return (Criteria) this;
         }
 

@@ -13,7 +13,11 @@ public class TCorp {
 
     private Integer authorizerStatus;
 
+    private String originAppId;
+
     private Integer wxliteTemplateId;
+
+    private Integer wxliteStatus;
 
     private String wxliteVersion;
 
@@ -99,12 +103,28 @@ public class TCorp {
         this.authorizerStatus = authorizerStatus;
     }
 
+    public String getOriginAppId() {
+        return originAppId;
+    }
+
+    public void setOriginAppId(String originAppId) {
+        this.originAppId = originAppId == null ? null : originAppId.trim();
+    }
+
     public Integer getWxliteTemplateId() {
         return wxliteTemplateId;
     }
 
     public void setWxliteTemplateId(Integer wxliteTemplateId) {
         this.wxliteTemplateId = wxliteTemplateId;
+    }
+
+    public Integer getWxliteStatus() {
+        return wxliteStatus;
+    }
+
+    public void setWxliteStatus(Integer wxliteStatus) {
+        this.wxliteStatus = wxliteStatus;
     }
 
     public String getWxliteVersion() {
