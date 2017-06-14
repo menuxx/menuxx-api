@@ -111,7 +111,7 @@ public class CorpServiceImpl implements CorpService {
 			map.put("appKey", corp.getAppKey());
 			map.put("authorizerAppid", corp.getAuthorizerAppid());
 			map.put("authorizerStatus", corp.getAuthorizerStatus());
-			map.put("wxliteTemplateId", corp.getWxliteTemplateType());
+			map.put("wxliteTemplateType", corp.getWxliteTemplateType());
 			map.put("wxliteVersion", corp.getWxliteVersion());
 			map.put("wxliteStatus", corp.getWxliteStatus());
 			map.put("originAppId", corp.getOriginAppId());
