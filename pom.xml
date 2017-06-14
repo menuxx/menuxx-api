@@ -24,6 +24,12 @@
         </repository>
 
         <repository>
+            <id>nexus-daocloud</id>
+            <name>Nexus daocloud</name>
+            <url>http://nexus.daocloud.io/repository/maven-public/</url>
+        </repository>
+
+        <repository>
             <id>myMavenRepo.read</id>
             <name>myMavenRepo</name>
             <url>https://mymavenrepo.com/repo/Yi9uClX522yL9V2DpDyI/</url>
