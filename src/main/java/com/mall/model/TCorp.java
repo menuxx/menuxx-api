@@ -11,13 +11,13 @@ public class TCorp {
 
     private String authorizerAppid;
 
+    private Integer wxliteTemplateType;
+
     private Integer authorizerStatus;
 
-    private String originAppId;
-
-    private Integer wxliteTemplateId;
-
     private Integer wxliteStatus;
+
+    private String originAppId;
 
     private String wxliteVersion;
 
@@ -44,6 +44,8 @@ public class TCorp {
     private String masterPhone;
 
     private String wechatId;
+
+    private String appId;
 
     private String appSecret;
 
@@ -95,6 +97,14 @@ public class TCorp {
         this.authorizerAppid = authorizerAppid == null ? null : authorizerAppid.trim();
     }
 
+    public Integer getWxliteTemplateType() {
+        return wxliteTemplateType;
+    }
+
+    public void setWxliteTemplateType(Integer wxliteTemplateType) {
+        this.wxliteTemplateType = wxliteTemplateType;
+    }
+
     public Integer getAuthorizerStatus() {
         return authorizerStatus;
     }
@@ -103,28 +113,20 @@ public class TCorp {
         this.authorizerStatus = authorizerStatus;
     }
 
-    public String getOriginAppId() {
-        return originAppId;
-    }
-
-    public void setOriginAppId(String originAppId) {
-        this.originAppId = originAppId == null ? null : originAppId.trim();
-    }
-
-    public Integer getWxliteTemplateId() {
-        return wxliteTemplateId;
-    }
-
-    public void setWxliteTemplateId(Integer wxliteTemplateId) {
-        this.wxliteTemplateId = wxliteTemplateId;
-    }
-
     public Integer getWxliteStatus() {
         return wxliteStatus;
     }
 
     public void setWxliteStatus(Integer wxliteStatus) {
         this.wxliteStatus = wxliteStatus;
+    }
+
+    public String getOriginAppId() {
+        return originAppId;
+    }
+
+    public void setOriginAppId(String originAppId) {
+        this.originAppId = originAppId == null ? null : originAppId.trim();
     }
 
     public String getWxliteVersion() {
@@ -229,6 +231,14 @@ public class TCorp {
 
     public void setWechatId(String wechatId) {
         this.wechatId = wechatId == null ? null : wechatId.trim();
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId == null ? null : appId.trim();
     }
 
     public String getAppSecret() {

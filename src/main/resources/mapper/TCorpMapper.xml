@@ -6,10 +6,10 @@
     <result column="corp_name" jdbcType="VARCHAR" property="corpName" />
     <result column="app_key" jdbcType="VARCHAR" property="appKey" />
     <result column="authorizer_appid" jdbcType="VARCHAR" property="authorizerAppid" />
+    <result column="wxlite_template_type" jdbcType="INTEGER" property="wxliteTemplateType" />
     <result column="authorizer_status" jdbcType="INTEGER" property="authorizerStatus" />
-    <result column="origin_app_id" jdbcType="VARCHAR" property="originAppId" />
-    <result column="wxlite_template_id" jdbcType="INTEGER" property="wxliteTemplateId" />
     <result column="wxlite_status" jdbcType="INTEGER" property="wxliteStatus" />
+    <result column="origin_app_id" jdbcType="VARCHAR" property="originAppId" />
     <result column="wxlite_version" jdbcType="VARCHAR" property="wxliteVersion" />
     <result column="logo_path" jdbcType="VARCHAR" property="logoPath" />
     <result column="legal_entity" jdbcType="VARCHAR" property="legalEntity" />
@@ -23,6 +23,7 @@
     <result column="business_hours" jdbcType="VARCHAR" property="businessHours" />
     <result column="master_phone" jdbcType="VARCHAR" property="masterPhone" />
     <result column="wechat_id" jdbcType="VARCHAR" property="wechatId" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
     <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
     <result column="pay_secret" jdbcType="VARCHAR" property="paySecret" />
     <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
@@ -92,11 +93,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_name, app_key, authorizer_appid, authorizer_status, origin_app_id, wxlite_template_id, 
-    wxlite_status, wxlite_version, logo_path, legal_entity, business_license, business_license_img, 
-    shop_name, master_name, address, corp_phone, email, business_hours, master_phone, 
-    wechat_id, app_secret, pay_secret, mch_id, corp_type, platform_id, lables, lon, lat, 
-    create_time
+    id, corp_name, app_key, authorizer_appid, wxlite_template_type, authorizer_status, 
+    wxlite_status, origin_app_id, wxlite_version, logo_path, legal_entity, business_license, 
+    business_license_img, shop_name, master_name, address, corp_phone, email, business_hours, 
+    master_phone, wechat_id, app_id, app_secret, pay_secret, mch_id, corp_type, platform_id, 
+    lables, lon, lat, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpExample" resultMap="BaseResultMap">
     select
@@ -133,25 +134,27 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_corp (corp_name, app_key, authorizer_appid, 
-      authorizer_status, origin_app_id, wxlite_template_id, 
-      wxlite_status, wxlite_version, logo_path, 
+      wxlite_template_type, authorizer_status, wxlite_status, 
+      origin_app_id, wxlite_version, logo_path, 
       legal_entity, business_license, business_license_img, 
       shop_name, master_name, address, 
       corp_phone, email, business_hours, 
-      master_phone, wechat_id, app_secret, 
-      pay_secret, mch_id, corp_type, 
-      platform_id, lables, lon, 
-      lat, create_time)
+      master_phone, wechat_id, app_id, 
+      app_secret, pay_secret, mch_id, 
+      corp_type, platform_id, lables, 
+      lon, lat, create_time
+      )
     values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{authorizerAppid,jdbcType=VARCHAR}, 
-      #{authorizerStatus,jdbcType=INTEGER}, #{originAppId,jdbcType=VARCHAR}, #{wxliteTemplateId,jdbcType=INTEGER}, 
-      #{wxliteStatus,jdbcType=INTEGER}, #{wxliteVersion,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
+      #{wxliteTemplateType,jdbcType=INTEGER}, #{authorizerStatus,jdbcType=INTEGER}, #{wxliteStatus,jdbcType=INTEGER}, 
+      #{originAppId,jdbcType=VARCHAR}, #{wxliteVersion,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
       #{legalEntity,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{businessLicenseImg,jdbcType=VARCHAR}, 
       #{shopName,jdbcType=VARCHAR}, #{masterName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{corpPhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{businessHours,jdbcType=VARCHAR}, 
-      #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
-      #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{corpType,jdbcType=INTEGER}, 
-      #{platformId,jdbcType=INTEGER}, #{lables,jdbcType=VARCHAR}, #{lon,jdbcType=DOUBLE}, 
-      #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP})
+      #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
+      #{appSecret,jdbcType=VARCHAR}, #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
+      #{corpType,jdbcType=INTEGER}, #{platformId,jdbcType=INTEGER}, #{lables,jdbcType=VARCHAR}, 
+      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorp">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -168,17 +171,17 @@
       <if test="authorizerAppid != null">
         authorizer_appid,
       </if>
+      <if test="wxliteTemplateType != null">
+        wxlite_template_type,
+      </if>
       <if test="authorizerStatus != null">
         authorizer_status,
       </if>
-      <if test="originAppId != null">
-        origin_app_id,
-      </if>
-      <if test="wxliteTemplateId != null">
-        wxlite_template_id,
-      </if>
       <if test="wxliteStatus != null">
         wxlite_status,
+      </if>
+      <if test="originAppId != null">
+        origin_app_id,
       </if>
       <if test="wxliteVersion != null">
         wxlite_version,
@@ -219,6 +222,9 @@
       <if test="wechatId != null">
         wechat_id,
       </if>
+      <if test="appId != null">
+        app_id,
+      </if>
       <if test="appSecret != null">
         app_secret,
       </if>
@@ -257,17 +263,17 @@
       <if test="authorizerAppid != null">
         #{authorizerAppid,jdbcType=VARCHAR},
       </if>
+      <if test="wxliteTemplateType != null">
+        #{wxliteTemplateType,jdbcType=INTEGER},
+      </if>
       <if test="authorizerStatus != null">
         #{authorizerStatus,jdbcType=INTEGER},
       </if>
-      <if test="originAppId != null">
-        #{originAppId,jdbcType=VARCHAR},
-      </if>
-      <if test="wxliteTemplateId != null">
-        #{wxliteTemplateId,jdbcType=INTEGER},
-      </if>
       <if test="wxliteStatus != null">
         #{wxliteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="originAppId != null">
+        #{originAppId,jdbcType=VARCHAR},
       </if>
       <if test="wxliteVersion != null">
         #{wxliteVersion,jdbcType=VARCHAR},
@@ -307,6 +313,9 @@
       </if>
       <if test="wechatId != null">
         #{wechatId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
       </if>
       <if test="appSecret != null">
         #{appSecret,jdbcType=VARCHAR},
@@ -358,17 +367,17 @@
       <if test="record.authorizerAppid != null">
         authorizer_appid = #{record.authorizerAppid,jdbcType=VARCHAR},
       </if>
+      <if test="record.wxliteTemplateType != null">
+        wxlite_template_type = #{record.wxliteTemplateType,jdbcType=INTEGER},
+      </if>
       <if test="record.authorizerStatus != null">
         authorizer_status = #{record.authorizerStatus,jdbcType=INTEGER},
       </if>
-      <if test="record.originAppId != null">
-        origin_app_id = #{record.originAppId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.wxliteTemplateId != null">
-        wxlite_template_id = #{record.wxliteTemplateId,jdbcType=INTEGER},
-      </if>
       <if test="record.wxliteStatus != null">
         wxlite_status = #{record.wxliteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.originAppId != null">
+        origin_app_id = #{record.originAppId,jdbcType=VARCHAR},
       </if>
       <if test="record.wxliteVersion != null">
         wxlite_version = #{record.wxliteVersion,jdbcType=VARCHAR},
@@ -409,6 +418,9 @@
       <if test="record.wechatId != null">
         wechat_id = #{record.wechatId,jdbcType=VARCHAR},
       </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
       <if test="record.appSecret != null">
         app_secret = #{record.appSecret,jdbcType=VARCHAR},
       </if>
@@ -447,10 +459,10 @@
       corp_name = #{record.corpName,jdbcType=VARCHAR},
       app_key = #{record.appKey,jdbcType=VARCHAR},
       authorizer_appid = #{record.authorizerAppid,jdbcType=VARCHAR},
+      wxlite_template_type = #{record.wxliteTemplateType,jdbcType=INTEGER},
       authorizer_status = #{record.authorizerStatus,jdbcType=INTEGER},
-      origin_app_id = #{record.originAppId,jdbcType=VARCHAR},
-      wxlite_template_id = #{record.wxliteTemplateId,jdbcType=INTEGER},
       wxlite_status = #{record.wxliteStatus,jdbcType=INTEGER},
+      origin_app_id = #{record.originAppId,jdbcType=VARCHAR},
       wxlite_version = #{record.wxliteVersion,jdbcType=VARCHAR},
       logo_path = #{record.logoPath,jdbcType=VARCHAR},
       legal_entity = #{record.legalEntity,jdbcType=VARCHAR},
@@ -464,6 +476,7 @@
       business_hours = #{record.businessHours,jdbcType=VARCHAR},
       master_phone = #{record.masterPhone,jdbcType=VARCHAR},
       wechat_id = #{record.wechatId,jdbcType=VARCHAR},
+      app_id = #{record.appId,jdbcType=VARCHAR},
       app_secret = #{record.appSecret,jdbcType=VARCHAR},
       pay_secret = #{record.paySecret,jdbcType=VARCHAR},
       mch_id = #{record.mchId,jdbcType=VARCHAR},
@@ -489,17 +502,17 @@
       <if test="authorizerAppid != null">
         authorizer_appid = #{authorizerAppid,jdbcType=VARCHAR},
       </if>
+      <if test="wxliteTemplateType != null">
+        wxlite_template_type = #{wxliteTemplateType,jdbcType=INTEGER},
+      </if>
       <if test="authorizerStatus != null">
         authorizer_status = #{authorizerStatus,jdbcType=INTEGER},
       </if>
-      <if test="originAppId != null">
-        origin_app_id = #{originAppId,jdbcType=VARCHAR},
-      </if>
-      <if test="wxliteTemplateId != null">
-        wxlite_template_id = #{wxliteTemplateId,jdbcType=INTEGER},
-      </if>
       <if test="wxliteStatus != null">
         wxlite_status = #{wxliteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="originAppId != null">
+        origin_app_id = #{originAppId,jdbcType=VARCHAR},
       </if>
       <if test="wxliteVersion != null">
         wxlite_version = #{wxliteVersion,jdbcType=VARCHAR},
@@ -540,6 +553,9 @@
       <if test="wechatId != null">
         wechat_id = #{wechatId,jdbcType=VARCHAR},
       </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
       <if test="appSecret != null">
         app_secret = #{appSecret,jdbcType=VARCHAR},
       </if>
@@ -575,10 +591,10 @@
     set corp_name = #{corpName,jdbcType=VARCHAR},
       app_key = #{appKey,jdbcType=VARCHAR},
       authorizer_appid = #{authorizerAppid,jdbcType=VARCHAR},
+      wxlite_template_type = #{wxliteTemplateType,jdbcType=INTEGER},
       authorizer_status = #{authorizerStatus,jdbcType=INTEGER},
-      origin_app_id = #{originAppId,jdbcType=VARCHAR},
-      wxlite_template_id = #{wxliteTemplateId,jdbcType=INTEGER},
       wxlite_status = #{wxliteStatus,jdbcType=INTEGER},
+      origin_app_id = #{originAppId,jdbcType=VARCHAR},
       wxlite_version = #{wxliteVersion,jdbcType=VARCHAR},
       logo_path = #{logoPath,jdbcType=VARCHAR},
       legal_entity = #{legalEntity,jdbcType=VARCHAR},
@@ -592,6 +608,7 @@
       business_hours = #{businessHours,jdbcType=VARCHAR},
       master_phone = #{masterPhone,jdbcType=VARCHAR},
       wechat_id = #{wechatId,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
       app_secret = #{appSecret,jdbcType=VARCHAR},
       pay_secret = #{paySecret,jdbcType=VARCHAR},
       mch_id = #{mchId,jdbcType=VARCHAR},
