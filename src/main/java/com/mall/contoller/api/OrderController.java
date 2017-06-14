@@ -143,8 +143,12 @@ public class OrderController extends BaseCorpController {
             public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
                 if (response.isSuccessful()) {
                     WXPayResult payResult = response.body();
+                    if ( "FAIL".equals(payResult.getReturnCode()) ) {
+                        logger.error(payResult.getReturnMsg());
+                        deferredResult.setErrorResult(new Exception(payResult.getReturnMsg()));
+                        return;
+                    }
                     String prePayId = payResult.getPrepayId();
-
                     Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
                     deferredResult.setResult(paySign);
                 }
@@ -176,7 +180,13 @@ public class OrderController extends BaseCorpController {
             body += "...";
         }
 
-        TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
+        TCorp corp;
+
+        if ( sessionData.getCorpId() != null ) {
+            corp = corpsService.selectCorpByCorpId(sessionData.getCorpId());
+        } else {
+            corp = corpsService.selectCorpByMchId(sessionData.getMchid());
+        }
 
         WXPayOrder payOrder = new WXPayOrder();
         payOrder.setAppid(corp.getAuthorizerAppid());

@@ -57,7 +57,7 @@ public class CorpUserController {
             TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
             corpUser.setClientId(clientId);
             corpUserService.updateCorpUser(corpUser);
-            SessionData sessionData = new SessionData("", "", corpUser.getId(), String.valueOf(corpUser.getCorpId()));
+            SessionData sessionData = new SessionData("", "", corpUser.getId(), String.valueOf(corpUser.getCorpId()), corpUser.getCorpId());
             Map<String, Object> corp = corpService.selectCorpForMap(corpUser.getCorpId());
             Map<String, Object> map = new java.util.HashMap<>();
             map.put("sessionData", sessionData);
