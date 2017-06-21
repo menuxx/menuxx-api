@@ -20,7 +20,9 @@ public class DinerPushManager {
 
     public void pushOrderToDinerUser(String userPushKey, Order order) {
         Map<String, String> tokenGroup = pushTokenStore.getTokens(userPushKey);
-        pushOrder(tokenGroup, order);
+        if (tokenGroup != null) {
+            pushOrder(tokenGroup, order);
+        }
     }
 
     public Map<String, String> putToken(String userPushKey, String pushChannelName, String pushToken) {
