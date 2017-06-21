@@ -19,6 +19,8 @@ public class PushConfigProperties {
 
     private String getuiMasterSecret;
 
+    private Integer getuiDefaultTransmissionType;
+
     public Long getXingeAccessId() {
         return xingeAccessId;
     }
@@ -65,5 +67,13 @@ public class PushConfigProperties {
 
     public void setGetuiAppKey(String getuiAppKey) {
         this.getuiAppKey = getuiAppKey;
+    }
+
+    public Integer getGetuiDefaultTransmissionType() {
+        return getuiDefaultTransmissionType;
+    }
+
+    public void setGetuiDefaultTransmissionType(Integer getuiDefaultTransmissionType) {
+        this.getuiDefaultTransmissionType = getuiDefaultTransmissionType;
     }
 }

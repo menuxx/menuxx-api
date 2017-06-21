@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.configure.properties.AppConfigureProperties;
+import com.mall.configure.properties.PushConfigProperties;
 import com.mall.model.*;
 import com.mall.push.DinerPushManager;
 import com.mall.service.*;
@@ -52,7 +53,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     CorpUserService corpUserService;
 
     @Autowired
-    AppConfigureProperties appConfig;
+    PushConfigProperties pushConfig;
 
     @Autowired
     AddressService addressService;
@@ -275,7 +276,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     public void pushOrder(Order order, List<String> clientIdList) {
         try {
             String content = objectMapper.writeValueAsString(order);
-            IPushUtil.sendPushOrder(appConfig, content, clientIdList);
+            IPushUtil.sendPushOrder(pushConfig, content, clientIdList);
         } catch (JsonProcessingException e) {
             logger.error("pushOrder error : ", e);
         } catch (Exception e) {
