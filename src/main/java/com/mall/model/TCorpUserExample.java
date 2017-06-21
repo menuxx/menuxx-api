@@ -225,6 +225,76 @@ public class TCorpUserExample {
             return (Criteria) this;
         }
 
+        public Criteria andPushKeyIsNull() {
+            addCriterion("push_key is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyIsNotNull() {
+            addCriterion("push_key is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyEqualTo(String value) {
+            addCriterion("push_key =", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyNotEqualTo(String value) {
+            addCriterion("push_key <>", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyGreaterThan(String value) {
+            addCriterion("push_key >", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyGreaterThanOrEqualTo(String value) {
+            addCriterion("push_key >=", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyLessThan(String value) {
+            addCriterion("push_key <", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyLessThanOrEqualTo(String value) {
+            addCriterion("push_key <=", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyLike(String value) {
+            addCriterion("push_key like", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyNotLike(String value) {
+            addCriterion("push_key not like", value, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyIn(List<String> values) {
+            addCriterion("push_key in", values, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyNotIn(List<String> values) {
+            addCriterion("push_key not in", values, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyBetween(String value1, String value2) {
+            addCriterion("push_key between", value1, value2, "pushKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushKeyNotBetween(String value1, String value2) {
+            addCriterion("push_key not between", value1, value2, "pushKey");
+            return (Criteria) this;
+        }
+
         public Criteria andMobileIsNull() {
             addCriterion("mobile is null");
             return (Criteria) this;

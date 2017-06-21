@@ -2,6 +2,7 @@ package com.mall.utils;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -135,6 +136,18 @@ public class Util {
 		err.put("errCode", errCode);
 		err.put("errMsg", errMsg);
 		return err;
+	}
+
+	public static ResponseEntity<?> status(Map<String, Object> respBody, HttpStatus status) {
+		return new ResponseEntity<>(respBody, status);
+	}
+
+	public static ResponseEntity<?> status400(String errorMsg) {
+		return status(makeError(400, errorMsg), HttpStatus.BAD_REQUEST);
+	}
+
+	public static ResponseEntity<?> status401(String errorMsg) {
+		return status(makeError(401, errorMsg), HttpStatus.UNAUTHORIZED);
 	}
 
 	public static String genOrderNo() {

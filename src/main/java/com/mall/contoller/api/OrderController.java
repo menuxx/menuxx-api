@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.configure.page.Page;
 import com.mall.model.*;
 import com.mall.service.*;
@@ -42,7 +42,7 @@ public class OrderController extends BaseCorpController {
     private static final Logger logger = Logger.getLogger(OrderController.class);
 
     @Autowired
-    AppConfiguration appConfiguration;
+    AppConfigureProperties appConfig;
 
     @Autowired
     OrderWrapper orderWrapper;
@@ -119,7 +119,7 @@ public class OrderController extends BaseCorpController {
         payOrder.setAppid(corp.getAuthorizerAppid());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(appConfiguration.getRechargeNotifyUrl());
+        payOrder.setNotifyUrl(appConfig.getRechargeNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
         payOrder.setBody(rechargeRecord.getRemark());
@@ -192,7 +192,7 @@ public class OrderController extends BaseCorpController {
         payOrder.setAppid(corp.getAuthorizerAppid());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(appConfiguration.getPayNotifyUrl());
+        payOrder.setNotifyUrl(appConfig.getPayNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(order.getOrderCode());
         payOrder.setBody(body);

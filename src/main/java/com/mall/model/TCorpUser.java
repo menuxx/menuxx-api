@@ -7,6 +7,8 @@ public class TCorpUser {
 
     private Integer corpId;
 
+    private String pushKey;
+
     private String mobile;
 
     private String clientId;
@@ -35,6 +37,14 @@ public class TCorpUser {
 
     public void setCorpId(Integer corpId) {
         this.corpId = corpId;
+    }
+
+    public String getPushKey() {
+        return pushKey;
+    }
+
+    public void setPushKey(String pushKey) {
+        this.pushKey = pushKey == null ? null : pushKey.trim();
     }
 
     public String getMobile() {

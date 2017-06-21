@@ -8,7 +8,7 @@ import com.gexin.rp.sdk.base.impl.ListMessage;
 import com.gexin.rp.sdk.base.impl.Target;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.model.Order;
 
 import java.util.ArrayList;
@@ -25,24 +25,24 @@ public class IPushUtil {
 //    private static String masterSecret = "gK9wqQLNKm6bZe0JNYcAQ7";
 //    private static String url = "http://sdk.open.api.igexin.com/apiex.htm";
 
-    public static void sendPushOrder(AppConfiguration appConfiguration, ObjectMapper objectMapper, Order order, List<String> clientIdList) {
+    public static void sendPushOrder(AppConfigureProperties appConfig, ObjectMapper objectMapper, Order order, List<String> clientIdList) {
         try {
             String content = objectMapper.writeValueAsString(order);
-            sendPushOrder(appConfiguration, content, clientIdList);
+            sendPushOrder(appConfig, content, clientIdList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
 
-    public static void sendPushOrder(AppConfiguration appConfiguration, String content, List<String> clientIdList) {
+    public static void sendPushOrder(AppConfigureProperties appConfig, String content, List<String> clientIdList) {
 
-        IGtPush push = new IGtPush(appConfiguration.getIpushUrl(), appConfiguration.getIpushAppKey(), appConfiguration.getIpushMasterSecret());
+        IGtPush push = new IGtPush(appConfig.getIpushUrl(), appConfig.getIpushAppKey(), appConfig.getIpushMasterSecret());
 
         // 透传模版
         TransmissionTemplate template = new TransmissionTemplate();
-        template.setAppId(appConfiguration.getIpushAppId());
-        template.setAppkey(appConfiguration.getIpushAppKey());
-        template.setTransmissionType(Integer.parseInt(appConfiguration.getTransmissionType())); //收到消息是否立即启动应用，1为立即启动，2则广播等待客户端自启动
+        template.setAppId(appConfig.getIpushAppId());
+        template.setAppkey(appConfig.getIpushAppKey());
+        template.setTransmissionType(Integer.parseInt(appConfig.getTransmissionType())); //收到消息是否立即启动应用，1为立即启动，2则广播等待客户端自启动
         template.setTransmissionContent(content); //content长度：2048中/英字符，不支持转义字符
 
         ListMessage message = new ListMessage();
@@ -54,7 +54,7 @@ public class IPushUtil {
         for (String clientId : clientIdList) {
             // 配置推送目标
             Target target = new Target();
-            target.setAppId(appConfiguration.getIpushAppId());
+            target.setAppId(appConfig.getIpushAppId());
             target.setClientId(clientId);
 
             targetList.add(target);

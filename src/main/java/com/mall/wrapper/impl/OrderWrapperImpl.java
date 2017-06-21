@@ -3,9 +3,8 @@ package com.mall.wrapper.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.model.*;
-import com.mall.push.PushState;
 import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.utils.IPushUtil;
@@ -13,16 +12,12 @@ import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
-import org.aspectj.weaver.ast.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.*;
 
@@ -56,7 +51,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     CorpUserService corpUserService;
 
     @Autowired
-    AppConfiguration appConfiguration;
+    AppConfigureProperties appConfig;
 
     @Autowired
     AddressService addressService;
@@ -75,9 +70,6 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     ObjectMapper objectMapper;
-
-    @Autowired
-    PushService pushService;
 
     @Autowired
     SceneService sceneService;
@@ -279,24 +271,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     public void pushOrder(Order order, List<String> clientIdList) {
         try {
             String content = objectMapper.writeValueAsString(order);
-            IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-            pushService.sendToAliases(content, clientIdList).enqueue(new Callback<PushState>() {
-                @Override
-                public void onResponse(Call<PushState> call, Response<PushState> response) {
-                    if ( response.isSuccessful() ) {
-                        PushState state = response.body();
-                        if ( PushState.SUCCESS == state.getStatus() ) {
-                            logger.info("yunba send ok");
-                        }else {
-                            logger.error("yunba send fail: " + state.getError());
-                        }
-                    }
-                }
-                @Override
-                public void onFailure(Call<PushState> call, Throwable throwable) {
-                    logger.error("yunba send ok", throwable);
-                }
-            });
+            IPushUtil.sendPushOrder(appConfig, content, clientIdList);
         } catch (JsonProcessingException e) {
             logger.error("pushOrder error : ", e);
         } catch (Exception e) {
@@ -424,7 +399,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setId(0);
         order.setUserId(0);
         order.setCorpId(0);
-        order.setOrderCode("88888888");
+        order.setOrderCode(String.valueOf(System.currentTimeMillis()));
         order.setRemark("不要葱，不要蒜，加辣");
         order.setStatus(1);
         order.setOrderType(Order.ORDER_TYPE_CARRY_OUT);

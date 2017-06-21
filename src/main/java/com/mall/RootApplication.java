@@ -1,7 +1,8 @@
 package com.mall;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
+import com.mall.push.DinerPushManager;
 import com.mall.service.WXComponentService;
 import okhttp3.*;
 import org.slf4j.Logger;
@@ -19,7 +20,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 @EnableAutoConfiguration
 @SpringBootApplication
@@ -48,7 +53,7 @@ class WXComponentTokenRunner implements CommandLineRunner {
     WXComponentService componentService;
 
     @Autowired
-    AppConfiguration appConfig;
+    AppConfigureProperties appConfig;
 
     @Override
     public void run(String... args) throws Exception {

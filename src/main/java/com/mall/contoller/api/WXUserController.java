@@ -3,7 +3,7 @@ package com.mall.contoller.api;
 import com.mall.annotation.CurrentDiner;
 import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.model.TCorp;
 import com.mall.model.TUser;
 import com.mall.service.UserService;
@@ -47,7 +47,7 @@ public class WXUserController extends BaseCorpController {
 	WXComponentApiService wxComponentApiService;
 
 	@Autowired
-	AppConfiguration appConfig;
+    AppConfigureProperties appConfig;
 
 	@Autowired
 	WXComponentService componentService;

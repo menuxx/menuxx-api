@@ -66,6 +66,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>1.1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
@@ -222,6 +227,11 @@
             <artifactId>jackson-module-parameter-names</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+        </dependency>
+
         <!--
             mvn install:install-file -Dfile=/Users/yinchangsheng/jwork/mall/tools/lib/CCP_REST_SMS_SDK_JAVA_v2.6.3r.jar -DgroupId=com.cloopen.rest.sdk -DartifactId=ccp-java-sdk -Dversion=2.6.3r -Dpackaging=jar
         -->
@@ -287,6 +297,22 @@
             <version>2.5.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/protobuf-java-2.5.0.jar</systemPath>
+            <type>jar</type>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baidubce</groupId>
+            <artifactId>bce-java-sdk</artifactId>
+            <version>0.10.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tencent.xinge</groupId>
+            <artifactId>xinge</artifactId>
+            <version>1.1.8</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/XG-PushJavaSDK.jar</systemPath>
             <type>jar</type>
             <optional>true</optional>
         </dependency>
