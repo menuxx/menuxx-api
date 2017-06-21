@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.model.*;
+import com.mall.push.DinerPushManager;
 import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.utils.IPushUtil;
@@ -73,6 +74,9 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     SceneService sceneService;
+
+    @Autowired
+    DinerPushManager pushManager;
 
     @Override
     @Transactional
@@ -281,6 +285,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     private Order pushOrder(Order order) {
+
         List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
 
         List<String> clientIdList = new ArrayList<>();
@@ -295,6 +300,11 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         pushOrder(order, clientIdList);
+
+        // 推送给 该店铺 所有的 用户
+        for (TCorpUser corpUser : corpUserList) {
+            pushManager.pushOrderToDinerUser(corpUser.getPushKey(), order);
+        }
 
         return order;
     }
