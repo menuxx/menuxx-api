@@ -1,5 +1,6 @@
-package com.mall.push;
+package com.mall.push.pusher;
 
+import com.mall.push.*;
 import com.tencent.xinge.Message;
 import com.tencent.xinge.XingeApp;
 import org.apache.commons.lang3.StringUtils;
@@ -13,11 +14,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-public class XGPusher implements IPusher {
+/**
+ * doc http://developer.qq.com/wiki/xg/%E6%9C%8D%E5%8A%A1%E7%AB%AFAPI%E6%8E%A5%E5%85%A5/Rest%20API%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97
+ */
+public class XGPusher extends AbstractPusher {
+
+    static final Logger logger = LoggerFactory.getLogger(XGPusher.class);
 
     public static final Map<Integer, String> ErrorMap = new HashMap<>();
+
+    public static final String PUSH_NAME = "xingge-push";
 
     static {
         ErrorMap.put(0, "调用成功");
@@ -39,12 +46,14 @@ public class XGPusher implements IPusher {
         ErrorMap.put(100, "APNS证书错误。请重新提交正确的证书 证书格式是pem的，另外，注意区分生产证书、开发证书的区别");
     }
 
-    static final Logger logger = LoggerFactory.getLogger(XGPusher.class);
-
     // year-mon-day hour:min:sec
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
 
     private XingeApp xingeApp;
+
+    private Long accessId;
+
+    private String secretKey;
 
     public String getErrorFormCode(int errorCode) {
         String errMsg = ErrorMap.get(errorCode);
@@ -55,29 +64,49 @@ public class XGPusher implements IPusher {
     }
 
     public XGPusher(Long accessId, String secretKey) {
+        this.accessId = accessId;
+        this.secretKey = secretKey;
+    }
+
+    @Override
+    public String getName() {
+        return PUSH_NAME;
+    }
+
+    @Override
+    public void initialize() throws ClientInitException {
         this.xingeApp = new XingeApp(accessId, secretKey);
     }
 
     @Override
-    public PushState pushToDevice(String pushToken, String payload, Map<String, Object> opts) {
+    public PushState pushToClient(String clientIdAccount, String payload, Map<String, Object> opts) {
 
         String title = (String) opts.get("title");
         if (StringUtils.isBlank(title)) title = "订单推送";
 
         final Message msg = new Message();
-        Long expireTime = TimeUnit.DAYS.toSeconds(1);
-        msg.setExpireTime(expireTime.intValue());
+        if (getOptBool(opts, PushConst.OPTS_MSG_EXPIRE_ENABLE)) {
+            msg.setExpireTime(Math.round(getOptLong(opts, PushConst.OPTS_MSG_EXPIRE_TIME) / 1000));
+        }
         msg.setTitle(title);
         msg.setContent(payload);
-        msg.setSendTime(dateFormat.format(new Date()));
+        msg.setSendTime(dateFormat.format(new Date())); // 立即发送
         msg.setType(Message.TYPE_MESSAGE);
 
-        JSONObject res = xingeApp.pushSingleDevice(pushToken, msg);
-        int retCode = res.getInt("ret_code");
-        if ( retCode != 0 ) {
-            logger.error("XGPusher", getErrorFormCode(retCode));
-        }
-        return new PushState(true, "");
-    }
+        // push to account
+        JSONObject res = xingeApp.pushSingleAccount(1, clientIdAccount, msg);
 
+        // push to device
+        // JSONObject res = xingeApp.pushSingleDevice(pushToken, msg);
+
+        int retCode = res.getInt("ret_code");
+
+        if ( retCode != 0 ) {
+            String errMsg = getErrorFormCode(retCode);
+            logger.error("XGPusher", errMsg);
+            return new PushState(false, errMsg);
+        }
+
+        return new PushState(true, "ok");
+    }
 }

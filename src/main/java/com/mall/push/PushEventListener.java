@@ -3,6 +3,7 @@ package com.mall.push;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
+import com.mall.model.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,16 +34,26 @@ public class PushEventListener {
     public void onOrderPush(OrderMessage orderMsg) {
         IPusher pusher = pushChannels.get(orderMsg.getChannel());
         try {
-            String payloadStr = objectMapper.writeValueAsString(orderMsg.getContent());
+            Order order = orderMsg.getContent();
+            String payloadStr = objectMapper.writeValueAsString(order);
+            Map<String, Object> opts = orderMsg.getOpts();
+            // 组装一条推送消息的 标题
+            String msgTitle = order.getQueueId() + " " + order.getOrderTypeText() + " " + order.getOrderCode();
+            opts.put(PushConst.OPTS_MSG_EXTRA_TITLE, msgTitle);
+            // 合并所有的选项
+            opts.putAll(pusher.getDefaultOpts(opts));
             threadExecutor.execute(() -> {
-                PushState state = pusher.pushToDevice(orderMsg.getPushToken(), payloadStr, orderMsg.getOpts());
-                if (!state.isOk()) {
-                    logger.error("push error: " + state.getErrorMsg());
+                try {
+                    PushState state = pusher.pushToClient(orderMsg.getPushToken(), payloadStr, opts);
+                    if (!state.isOk()) {
+                        logger.error("push error: " + state.getErrorMsg());
+                    }
+                } catch (PushException e) {
+                    logger.error("push error: " + e.getMessage());
                 }
             });
         } catch (JsonProcessingException e) {
             logger.error("PushEventListener", e);
-            e.printStackTrace();
         }
     }
 

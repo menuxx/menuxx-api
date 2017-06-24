@@ -2,13 +2,18 @@ package com.mall.push;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.EventBus;
+import com.mall.configure.properties.MqttConfigureProperties;
 import com.mall.configure.properties.PushConfigProperties;
+import com.mall.push.pusher.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.ValueOperations;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +25,15 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class PushConfiguration {
 
+    static final Logger logger = LoggerFactory.getLogger(PushConfiguration.class);
+
     @Autowired
     @NotNull
-    PushConfigProperties pushProps;
+    PushConfigProperties pushConfig;
+
+    @Autowired
+    @NotNull
+    MqttConfigureProperties mqttConfig;
 
     Map<String, IPusher> channels = new HashMap<>();
 
@@ -54,18 +65,65 @@ public class PushConfiguration {
 
     @PostConstruct
     public void init() {
-        channels.put(Consts.CAHNNEL_XINGE, initXinGePush());
-        channels.put(Consts.CAHNNEL_GETUI, initGeTuiPush());
+
+        channels.put(PushConst.CAHNNEL_ALIPUSH, initAliPush());
+        channels.put(PushConst.CAHNNEL_XINGE, initXinGePush());
+        channels.put(PushConst.CAHNNEL_GETUI, initGeTuiPush());
+        channels.put(PushConst.CAHNNEL_BAIDUPUSH, initBaiduPusher());
+        channels.put(PushConst.CAHNNEL_BAIDUMQTT, initBaiduMqttPusher());
+
+        for (Map.Entry<String, IPusher> channelPusher : channels.entrySet()) {
+            IPusher pusher = channelPusher.getValue();
+            if ( pusher != null ) {
+                try {
+                    pusher.initialize();
+                } catch (ClientInitException e) {
+                    logger.error(pusher.getName() + " pusher initialize failed .", e);
+                    System.exit(0);
+                }
+            }
+        }
+    }
+
+    @PreDestroy
+    public void destroy() {
+        for (Map.Entry<String, IPusher> channelPusher : channels.entrySet()) {
+            IPusher pusher = channelPusher.getValue();
+            if ( pusher != null ) {
+                pusher.destroy();
+            }
+        }
     }
 
     // 信鸽推送客户端
     private XGPusher initXinGePush() {
-        return new XGPusher(pushProps.getXingeAccessId(), pushProps.getXingeSecretKey());
+        return new XGPusher(pushConfig.getXingeAccessId(), pushConfig.getXingeSecretKey());
     }
 
     // 个推推送客户端
-    private GeTuiPuser initGeTuiPush() {
-        return new GeTuiPuser(pushProps.getGetuiPushUrl(), pushProps.getGetuiAppKey(), pushProps.getGetuiAppId(), pushProps.getGetuiMasterSecret(), false);
+    private GeTuiPusher initGeTuiPush() {
+        return new GeTuiPusher(pushConfig.getGetuiPushUrl(), pushConfig.getGetuiAppKey(), pushConfig.getGetuiAppId(), pushConfig.getGetuiMasterSecret(), false);
+    }
+
+    // 阿里推送
+    private AliPusher initAliPush() {
+        return new AliPusher(pushConfig.getAlipushAccessKeyId(), pushConfig.getAlipushAccessKeySecret(), pushConfig.getAlipushAppkey());
+    }
+
+    // 百度推送
+    private BaiduPusher initBaiduPusher() {
+        return new BaiduPusher(pushConfig.getBaidupushApiKey(), pushConfig.getBaidupushSecretKey());
+    }
+
+    // 百度推送
+    private BaiduMqttPusher initBaiduMqttPusher() {
+        return new BaiduMqttPusher(
+                mqttConfig.getBroker(),
+                "app_server_api_server",
+                mqttConfig.getUsername(), mqttConfig.getPassword(),
+                mqttConfig.getTimeout(),
+                mqttConfig.getKeepalive()
+        );
     }
 
 }

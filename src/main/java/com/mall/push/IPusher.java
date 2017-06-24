@@ -4,6 +4,16 @@ import java.util.Map;
 
 public interface IPusher {
 
-    PushState pushToDevice(String pushToken, String payload, Map<String, Object> opts);
+    String getName();
+
+    void initialize() throws ClientInitException;
+
+    PushState pushToClient(String clientId, String payload, Map<String, Object> opts);
+
+    PushState pushToDevice(String deviceId, String payload, Map<String, Object> opts);
+
+    Map<String, Object> getDefaultOpts(Map<String, Object> commonOpts);
+
+    void destroy();
 
 }

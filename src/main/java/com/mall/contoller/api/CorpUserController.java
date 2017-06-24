@@ -1,6 +1,5 @@
 package com.mall.contoller.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
 import com.mall.configure.properties.AppConfigureProperties;
@@ -37,9 +36,6 @@ public class CorpUserController {
 
     @Autowired
     OrderWrapper orderWrapper;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Autowired
     DinerPushManager dinerPushManager;

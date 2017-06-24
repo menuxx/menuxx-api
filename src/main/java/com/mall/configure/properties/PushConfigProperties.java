@@ -19,7 +19,15 @@ public class PushConfigProperties {
 
     private String getuiMasterSecret;
 
-    private Integer getuiDefaultTransmissionType;
+    private String alipushAccessKeyId;
+
+    private Long alipushAppkey;
+
+    private String alipushAccessKeySecret;
+
+    private String baidupushApiKey;
+
+    private String baidupushSecretKey;
 
     public Long getXingeAccessId() {
         return xingeAccessId;
@@ -69,11 +77,43 @@ public class PushConfigProperties {
         this.getuiAppKey = getuiAppKey;
     }
 
-    public Integer getGetuiDefaultTransmissionType() {
-        return getuiDefaultTransmissionType;
+    public String getAlipushAccessKeyId() {
+        return alipushAccessKeyId;
     }
 
-    public void setGetuiDefaultTransmissionType(Integer getuiDefaultTransmissionType) {
-        this.getuiDefaultTransmissionType = getuiDefaultTransmissionType;
+    public void setAlipushAccessKeyId(String alipushAccessKeyId) {
+        this.alipushAccessKeyId = alipushAccessKeyId;
+    }
+
+    public Long getAlipushAppkey() {
+        return alipushAppkey;
+    }
+
+    public void setAlipushAppkey(Long alipushAppkey) {
+        this.alipushAppkey = alipushAppkey;
+    }
+
+    public String getAlipushAccessKeySecret() {
+        return alipushAccessKeySecret;
+    }
+
+    public void setAlipushAccessKeySecret(String alipushAccessKeySecret) {
+        this.alipushAccessKeySecret = alipushAccessKeySecret;
+    }
+
+    public String getBaidupushApiKey() {
+        return baidupushApiKey;
+    }
+
+    public void setBaidupushApiKey(String baidupushApiKey) {
+        this.baidupushApiKey = baidupushApiKey;
+    }
+
+    public String getBaidupushSecretKey() {
+        return baidupushSecretKey;
+    }
+
+    public void setBaidupushSecretKey(String baidupushSecretKey) {
+        this.baidupushSecretKey = baidupushSecretKey;
     }
 }

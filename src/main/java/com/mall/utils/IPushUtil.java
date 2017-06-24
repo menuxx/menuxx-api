@@ -43,7 +43,7 @@ public class IPushUtil {
         TransmissionTemplate template = new TransmissionTemplate();
         template.setAppId(pushConfig.getGetuiAppId());
         template.setAppkey(pushConfig.getGetuiAppKey());
-        template.setTransmissionType(pushConfig.getGetuiDefaultTransmissionType()); //收到消息是否立即启动应用，1为立即启动，2则广播等待客户端自启动
+        template.setTransmissionType(1); //收到消息是否立即启动应用，1为立即启动，2则广播等待客户端自启动
         template.setTransmissionContent(content); //content长度：2048中/英字符，不支持转义字符
 
         ListMessage message = new ListMessage();
