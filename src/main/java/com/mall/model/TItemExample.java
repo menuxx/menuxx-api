@@ -1174,6 +1174,146 @@ public class TItemExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andThumbnailsIsNull() {
+            addCriterion("thumbnails is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsIsNotNull() {
+            addCriterion("thumbnails is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsEqualTo(String value) {
+            addCriterion("thumbnails =", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsNotEqualTo(String value) {
+            addCriterion("thumbnails <>", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsGreaterThan(String value) {
+            addCriterion("thumbnails >", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsGreaterThanOrEqualTo(String value) {
+            addCriterion("thumbnails >=", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsLessThan(String value) {
+            addCriterion("thumbnails <", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsLessThanOrEqualTo(String value) {
+            addCriterion("thumbnails <=", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsLike(String value) {
+            addCriterion("thumbnails like", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsNotLike(String value) {
+            addCriterion("thumbnails not like", value, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsIn(List<String> values) {
+            addCriterion("thumbnails in", values, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsNotIn(List<String> values) {
+            addCriterion("thumbnails not in", values, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsBetween(String value1, String value2) {
+            addCriterion("thumbnails between", value1, value2, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbnailsNotBetween(String value1, String value2) {
+            addCriterion("thumbnails not between", value1, value2, "thumbnails");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesIsNull() {
+            addCriterion("cover_images is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesIsNotNull() {
+            addCriterion("cover_images is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesEqualTo(String value) {
+            addCriterion("cover_images =", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesNotEqualTo(String value) {
+            addCriterion("cover_images <>", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesGreaterThan(String value) {
+            addCriterion("cover_images >", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesGreaterThanOrEqualTo(String value) {
+            addCriterion("cover_images >=", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesLessThan(String value) {
+            addCriterion("cover_images <", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesLessThanOrEqualTo(String value) {
+            addCriterion("cover_images <=", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesLike(String value) {
+            addCriterion("cover_images like", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesNotLike(String value) {
+            addCriterion("cover_images not like", value, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesIn(List<String> values) {
+            addCriterion("cover_images in", values, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesNotIn(List<String> values) {
+            addCriterion("cover_images not in", values, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesBetween(String value1, String value2) {
+            addCriterion("cover_images between", value1, value2, "coverImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoverImagesNotBetween(String value1, String value2) {
+            addCriterion("cover_images not between", value1, value2, "coverImages");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

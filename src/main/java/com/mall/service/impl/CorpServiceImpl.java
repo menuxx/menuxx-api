@@ -114,7 +114,6 @@ public class CorpServiceImpl implements CorpService {
 			map.put("wxliteTemplateType", corp.getWxliteTemplateType());
 			map.put("wxliteVersion", corp.getWxliteVersion());
 			map.put("wxliteStatus", corp.getWxliteStatus());
-			map.put("originAppId", corp.getOriginAppId());
 		}
 		return map;
 	}

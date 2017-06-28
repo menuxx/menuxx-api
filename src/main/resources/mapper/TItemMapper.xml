@@ -19,6 +19,8 @@
     <result column="suppliers" jdbcType="VARCHAR" property="suppliers" />
     <result column="package_flag" jdbcType="INTEGER" property="packageFlag" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="thumbnails" jdbcType="VARCHAR" property="thumbnails" />
+    <result column="cover_images" jdbcType="VARCHAR" property="coverImages" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -81,7 +83,7 @@
   <sql id="Base_Column_List">
     id, corp_id, item_name, item_desc, category_id, product_price, discount_price, special_price, 
     weekday, soldout, sort_id, format_id, bar_code, item_code, suppliers, package_flag, 
-    create_time
+    create_time, thumbnails, cover_images
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TItemExample" resultMap="BaseResultMap">
     select
@@ -122,13 +124,15 @@
       special_price, weekday, soldout, 
       sort_id, format_id, bar_code, 
       item_code, suppliers, package_flag, 
-      create_time)
+      create_time, thumbnails, cover_images
+      )
     values (#{corpId,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
       #{categoryId,jdbcType=INTEGER}, #{productPrice,jdbcType=INTEGER}, #{discountPrice,jdbcType=INTEGER}, 
       #{specialPrice,jdbcType=INTEGER}, #{weekday,jdbcType=INTEGER}, #{soldout,jdbcType=INTEGER}, 
       #{sortId,jdbcType=INTEGER}, #{formatId,jdbcType=INTEGER}, #{barCode,jdbcType=VARCHAR}, 
       #{itemCode,jdbcType=VARCHAR}, #{suppliers,jdbcType=VARCHAR}, #{packageFlag,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{thumbnails,jdbcType=VARCHAR}, #{coverImages,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -184,6 +188,12 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="thumbnails != null">
+        thumbnails,
+      </if>
+      <if test="coverImages != null">
+        cover_images,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
@@ -233,6 +243,12 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thumbnails != null">
+        #{thumbnails,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImages != null">
+        #{coverImages,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -296,6 +312,12 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.thumbnails != null">
+        thumbnails = #{record.thumbnails,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coverImages != null">
+        cover_images = #{record.coverImages,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -319,7 +341,9 @@
       item_code = #{record.itemCode,jdbcType=VARCHAR},
       suppliers = #{record.suppliers,jdbcType=VARCHAR},
       package_flag = #{record.packageFlag,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      thumbnails = #{record.thumbnails,jdbcType=VARCHAR},
+      cover_images = #{record.coverImages,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -375,6 +399,12 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="thumbnails != null">
+        thumbnails = #{thumbnails,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImages != null">
+        cover_images = #{coverImages,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -395,7 +425,9 @@
       item_code = #{itemCode,jdbcType=VARCHAR},
       suppliers = #{suppliers,jdbcType=VARCHAR},
       package_flag = #{packageFlag,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      thumbnails = #{thumbnails,jdbcType=VARCHAR},
+      cover_images = #{coverImages,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

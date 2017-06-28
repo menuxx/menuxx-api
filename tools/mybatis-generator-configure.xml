@@ -110,6 +110,10 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <!--<table schema="jiujin" tableName="t_item" domainObjectName="TItem" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
         <!--<table schema="jiujin" tableName="t_format" domainObjectName="TFormat" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
