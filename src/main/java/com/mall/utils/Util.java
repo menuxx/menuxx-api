@@ -168,4 +168,12 @@ public class Util {
 		return weekday;
 	}
 
+	public static Integer safeStringToInt(String str) {
+		try {
+			return Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
 }

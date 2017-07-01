@@ -244,52 +244,62 @@ public class TConfigExample {
             return (Criteria) this;
         }
 
-        public Criteria andValueEqualTo(Integer value) {
+        public Criteria andValueEqualTo(String value) {
             addCriterion("value =", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueNotEqualTo(Integer value) {
+        public Criteria andValueNotEqualTo(String value) {
             addCriterion("value <>", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueGreaterThan(Integer value) {
+        public Criteria andValueGreaterThan(String value) {
             addCriterion("value >", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueGreaterThanOrEqualTo(Integer value) {
+        public Criteria andValueGreaterThanOrEqualTo(String value) {
             addCriterion("value >=", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueLessThan(Integer value) {
+        public Criteria andValueLessThan(String value) {
             addCriterion("value <", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueLessThanOrEqualTo(Integer value) {
+        public Criteria andValueLessThanOrEqualTo(String value) {
             addCriterion("value <=", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueIn(List<Integer> values) {
+        public Criteria andValueLike(String value) {
+            addCriterion("value like", value, "value");
+            return (Criteria) this;
+        }
+
+        public Criteria andValueNotLike(String value) {
+            addCriterion("value not like", value, "value");
+            return (Criteria) this;
+        }
+
+        public Criteria andValueIn(List<String> values) {
             addCriterion("value in", values, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueNotIn(List<Integer> values) {
+        public Criteria andValueNotIn(List<String> values) {
             addCriterion("value not in", values, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueBetween(Integer value1, Integer value2) {
+        public Criteria andValueBetween(String value1, String value2) {
             addCriterion("value between", value1, value2, "value");
             return (Criteria) this;
         }
 
-        public Criteria andValueNotBetween(Integer value1, Integer value2) {
+        public Criteria andValueNotBetween(String value1, String value2) {
             addCriterion("value not between", value1, value2, "value");
             return (Criteria) this;
         }

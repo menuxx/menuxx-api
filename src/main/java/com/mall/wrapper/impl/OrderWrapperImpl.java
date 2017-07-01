@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static com.mall.utils.Util.safeStringToInt;
+
 /**
  * Created by Supeng on 14/02/2017.
  */
@@ -95,16 +97,16 @@ public class OrderWrapperImpl implements OrderWrapper {
         int deliveryAmount = 0;
 
         // 获取配置信息
-        Map<String, Integer> configMap = configService.selectMyConfigs4Map(order.getCorpId());
+        Map<String, Object> configMap = configService.selectMyConfigs4Map(order.getCorpId());
 
         // 单个打包盒费用
-        Integer takeoutPackFee = configMap.get(Constants.takeoutPackFee);
+        Integer takeoutPackFee = safeStringToInt((String) configMap.get(Constants.takeoutPackFee));
         // 配送费
-        Integer takeoutFee = configMap.get(Constants.takeoutFee);
+        Integer takeoutFee = safeStringToInt((String) configMap.get(Constants.takeoutFee));
         // 外卖起送费
-        Integer takeoutMinLimit = configMap.get(Constants.takeoutMinLimit);
+        Integer takeoutMinLimit =  safeStringToInt((String) configMap.get(Constants.takeoutMinLimit));
         // 外卖免配送费金额
-        Integer takeoutNofeeLimit = configMap.get(Constants.takeoutNofeeLimit);
+        Integer takeoutNofeeLimit = safeStringToInt((String) configMap.get(Constants.takeoutNofeeLimit));
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();

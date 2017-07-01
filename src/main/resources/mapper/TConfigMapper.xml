@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.mall.model.TConfig">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
     <result column="corp_id" jdbcType="INTEGER" property="corpId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -105,7 +105,7 @@
     </selectKey>
     insert into t_config (name, value, corp_id, 
       remark)
-    values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=INTEGER}, #{corpId,jdbcType=INTEGER}, 
+    values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{corpId,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TConfig">
@@ -132,7 +132,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
-        #{value,jdbcType=INTEGER},
+        #{value,jdbcType=VARCHAR},
       </if>
       <if test="corpId != null">
         #{corpId,jdbcType=INTEGER},
@@ -158,7 +158,7 @@
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.value != null">
-        value = #{record.value,jdbcType=INTEGER},
+        value = #{record.value,jdbcType=VARCHAR},
       </if>
       <if test="record.corpId != null">
         corp_id = #{record.corpId,jdbcType=INTEGER},
@@ -175,7 +175,7 @@
     update t_config
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      value = #{record.value,jdbcType=INTEGER},
+      value = #{record.value,jdbcType=VARCHAR},
       corp_id = #{record.corpId,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -189,7 +189,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
-        value = #{value,jdbcType=INTEGER},
+        value = #{value,jdbcType=VARCHAR},
       </if>
       <if test="corpId != null">
         corp_id = #{corpId,jdbcType=INTEGER},
@@ -203,7 +203,7 @@
   <update id="updateByPrimaryKey" parameterType="com.mall.model.TConfig">
     update t_config
     set name = #{name,jdbcType=VARCHAR},
-      value = #{value,jdbcType=INTEGER},
+      value = #{value,jdbcType=VARCHAR},
       corp_id = #{corpId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

@@ -22,10 +22,10 @@ public class ConfigService {
         return tConfigMapper.selectByExample(ex);
     }
 
-    public Map<String, Integer> selectMyConfigs4Map(Integer corpId) {
+    public Map<String, Object> selectMyConfigs4Map(Integer corpId) {
         List<TConfig> list = selectMyConfigs(corpId);
 
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
         for (TConfig config : list) {
             map.put(config.getName(), config.getValue());

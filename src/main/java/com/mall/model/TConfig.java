@@ -5,7 +5,7 @@ public class TConfig {
 
     private String name;
 
-    private Integer value;
+    private String value;
 
     private Integer corpId;
 
@@ -27,12 +27,12 @@ public class TConfig {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    public void setValue(String value) {
+        this.value = value == null ? null : value.trim();
     }
 
     public Integer getCorpId() {

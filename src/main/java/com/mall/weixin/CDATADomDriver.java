@@ -80,7 +80,7 @@ public class CDATADomDriver extends XppDomDriver {
 				XStreamAlias xStreamAlias = field.getAnnotation(XStreamAlias.class);
 				//2. exists XStreamAlias
 				if(null != xStreamAlias){
-					if(fieldAlias.equals(xStreamAlias.value()))//matched
+					if(fieldAlias.equals(xStreamAlias.value())) // matched
 						return true;
 				}else{// not exists XStreamAlias
 					if(fieldAlias.equals(field.getName()))

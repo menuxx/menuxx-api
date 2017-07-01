@@ -37,7 +37,8 @@ public class ItemServiceImpl implements ItemService {
         TItemExample.Criteria criteria = example.createCriteria();
 
         criteria.andCorpIdEqualTo(corpId);
-        criteria.andSoldoutEqualTo(Item.SELLING);
+        // 下架商品 交给前端处理
+        // criteria.andSoldoutEqualTo(Item.SELLING);
 
         example.setOrderByClause("sort_id asc, id asc");
 
