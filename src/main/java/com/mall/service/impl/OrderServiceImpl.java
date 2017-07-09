@@ -46,19 +46,22 @@ public class OrderServiceImpl implements OrderService {
     // 新订单支付完成
     @Subscribe
     public void onOrderPaid(TOrder order) {
-        int corpId = order.getCorpId();
-        TConfig transportChannelConfigEx = new TConfig();
-        transportChannelConfigEx.setCorpId(corpId);
-        transportChannelConfigEx.setName("transport_channel");
-        transportChannelConfigEx.setValue("0");
-        TConfig config = configService.selectMyConfigs(corpId).stream().filter(tConfig -> "transport_channel".equals(tConfig.getName())).findFirst().orElse(transportChannelConfigEx);
-        Integer transportChannel = Integer.parseInt(config.getValue());
-        // 配送渠道选用达达的时候
-        if ( transportChannel == 1 ) {
-            TTakeawayShopExample ex = new TTakeawayShopExample();
-            ex.createCriteria().andDinerIdEqualTo(corpId);
-            TTakeawayShop shop = onlyOne(takeawayShopMapper.selectByExample(ex));
-            transportService.sendImdadaOrderTransportChannel(order, shop);
+        // 当订单是外卖单，并且存在地址
+        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && order.getAddressId() != null) {
+            int corpId = order.getCorpId();
+            TConfig transportChannelConfigEx = new TConfig();
+            transportChannelConfigEx.setCorpId(corpId);
+            transportChannelConfigEx.setName("transport_channel");
+            transportChannelConfigEx.setValue("0");
+            TConfig config = configService.selectMyConfigs(corpId).stream().filter(tConfig -> "transport_channel".equals(tConfig.getName())).findFirst().orElse(transportChannelConfigEx);
+            Integer transportChannel = Integer.parseInt(config.getValue());
+            // 配送渠道选用达达的时候
+            if ( transportChannel == 1 ) {
+                TTakeawayShopExample ex = new TTakeawayShopExample();
+                ex.createCriteria().andDinerIdEqualTo(corpId);
+                TTakeawayShop shop = onlyOne(takeawayShopMapper.selectByExample(ex));
+                transportService.sendImdadaOrderTransportChannel(order, shop);
+            }
         }
     }
 
