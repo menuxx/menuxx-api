@@ -1,16 +1,21 @@
 package com.mall.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.mall.mapper.TOrderMapper;
-import com.mall.model.Order;
-import com.mall.model.TOrder;
-import com.mall.model.TOrderExample;
+import com.mall.mapper.TTakeawayShopMapper;
+import com.mall.model.*;
+import com.mall.service.ConfigService;
 import com.mall.service.OrderService;
-import com.mall.utils.Util;
+import com.yingtaohuo.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
+
+import static com.mall.utils.Util.onlyOne;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -20,6 +25,42 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     TOrderMapper orderMapper;
+
+    @Autowired
+    TTakeawayShopMapper takeawayShopMapper;
+
+    @Autowired
+    ConfigService configService;
+
+    @Autowired
+    EventBus eventBus;
+
+    @Autowired
+    TransportService transportService;
+
+    @PostConstruct
+    public void onStart() {
+        eventBus.register(this);
+    }
+
+    // 新订单支付完成
+    @Subscribe
+    public void onOrderPaid(TOrder order) {
+        int corpId = order.getCorpId();
+        TConfig transportChannelConfigEx = new TConfig();
+        transportChannelConfigEx.setCorpId(corpId);
+        transportChannelConfigEx.setName("transport_channel");
+        transportChannelConfigEx.setValue("0");
+        TConfig config = configService.selectMyConfigs(corpId).stream().filter(tConfig -> "transport_channel".equals(tConfig.getName())).findFirst().orElse(transportChannelConfigEx);
+        Integer transportChannel = Integer.parseInt(config.getValue());
+        // 配送渠道选用达达的时候
+        if ( transportChannel == 1 ) {
+            TTakeawayShopExample ex = new TTakeawayShopExample();
+            ex.createCriteria().andDinerIdEqualTo(corpId);
+            TTakeawayShop shop = onlyOne(takeawayShopMapper.selectByExample(ex));
+            transportService.sendImdadaOrderTransportChannel(order, shop);
+        }
+    }
 
     @Override
     public void createOrder(Order order) {
@@ -127,7 +168,7 @@ public class OrderServiceImpl implements OrderService {
 
         criteria.andOrderCodeEqualTo(orderCode);
 
-        TOrder order = Util.onlyOne(orderMapper.selectByExample(example));
+        TOrder order = onlyOne(orderMapper.selectByExample(example));
 
         return order;
     }

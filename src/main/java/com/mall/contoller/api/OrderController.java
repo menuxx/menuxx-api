@@ -234,7 +234,6 @@ public class OrderController extends BaseCorpController {
 
         } else {
             order.setTableId(null);
-
         }
 
         List<Integer> itemIdList = new ArrayList<>();
@@ -305,7 +304,7 @@ public class OrderController extends BaseCorpController {
         Order order = orderWrapper.selectOrder(orderId);
 
         if (null == order) {
-            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);

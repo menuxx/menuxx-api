@@ -3,6 +3,7 @@ package com.mall.wrapper.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.eventbus.EventBus;
 import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.configure.properties.PushConfigProperties;
 import com.mall.model.*;
@@ -80,6 +81,9 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     DinerPushManager pushManager;
+
+    @Autowired
+    EventBus eventBus;
 
     @Override
     @Transactional
@@ -329,6 +333,9 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // PUSH
         pushOrder(order.getId());
+
+        eventBus.post(order);
+
     }
 
     @Override

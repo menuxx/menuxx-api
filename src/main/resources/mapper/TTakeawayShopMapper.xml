@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.TTakeawayShopMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TTakeawayShop">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="diner_id" jdbcType="INTEGER" property="dinerId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="shop_type" jdbcType="INTEGER" property="shopType" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="dada_city_code" jdbcType="VARCHAR" property="dadaCityCode" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="shop_address" jdbcType="VARCHAR" property="shopAddress" />
+    <result column="lng" jdbcType="DECIMAL" property="lng" />
+    <result column="lat" jdbcType="DECIMAL" property="lat" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="shop_no" jdbcType="VARCHAR" property="shopNo" />
+    <result column="imdada_username" jdbcType="VARCHAR" property="imdadaUsername" />
+    <result column="imdada_password" jdbcType="VARCHAR" property="imdadaPassword" />
+    <result column="ele_app_id" jdbcType="VARCHAR" property="eleAppId" />
+    <result column="dada_merchant_id" jdbcType="INTEGER" property="dadaMerchantId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, diner_id, shop_name, shop_type, city_name, dada_city_code, area_name, shop_address, 
+    lng, lat, contact_name, contact_phone, shop_no, imdada_username, imdada_password, 
+    ele_app_id, dada_merchant_id
+  </sql>
+  <select id="selectByExample" parameterType="com.mall.model.TTakeawayShopExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_takeaway_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_takeaway_shop
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_takeaway_shop
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mall.model.TTakeawayShopExample">
+    delete from t_takeaway_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mall.model.TTakeawayShop">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_takeaway_shop (diner_id, shop_name, shop_type, 
+      city_name, dada_city_code, area_name, 
+      shop_address, lng, lat, 
+      contact_name, contact_phone, shop_no, 
+      imdada_username, imdada_password, ele_app_id, 
+      dada_merchant_id)
+    values (#{dinerId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{shopType,jdbcType=INTEGER}, 
+      #{cityName,jdbcType=VARCHAR}, #{dadaCityCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{shopAddress,jdbcType=VARCHAR}, #{lng,jdbcType=DECIMAL}, #{lat,jdbcType=DECIMAL}, 
+      #{contactName,jdbcType=VARCHAR}, #{contactPhone,jdbcType=VARCHAR}, #{shopNo,jdbcType=VARCHAR}, 
+      #{imdadaUsername,jdbcType=VARCHAR}, #{imdadaPassword,jdbcType=VARCHAR}, #{eleAppId,jdbcType=VARCHAR}, 
+      #{dadaMerchantId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.model.TTakeawayShop">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_takeaway_shop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dinerId != null">
+        diner_id,
+      </if>
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="shopType != null">
+        shop_type,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="dadaCityCode != null">
+        dada_city_code,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="shopAddress != null">
+        shop_address,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="contactName != null">
+        contact_name,
+      </if>
+      <if test="contactPhone != null">
+        contact_phone,
+      </if>
+      <if test="shopNo != null">
+        shop_no,
+      </if>
+      <if test="imdadaUsername != null">
+        imdada_username,
+      </if>
+      <if test="imdadaPassword != null">
+        imdada_password,
+      </if>
+      <if test="eleAppId != null">
+        ele_app_id,
+      </if>
+      <if test="dadaMerchantId != null">
+        dada_merchant_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dinerId != null">
+        #{dinerId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null">
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        #{shopType,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="dadaCityCode != null">
+        #{dadaCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="contactName != null">
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNo != null">
+        #{shopNo,jdbcType=VARCHAR},
+      </if>
+      <if test="imdadaUsername != null">
+        #{imdadaUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="imdadaPassword != null">
+        #{imdadaPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="eleAppId != null">
+        #{eleAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="dadaMerchantId != null">
+        #{dadaMerchantId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mall.model.TTakeawayShopExample" resultType="java.lang.Integer">
+    select count(*) from t_takeaway_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_takeaway_shop
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dinerId != null">
+        diner_id = #{record.dinerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopName != null">
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopType != null">
+        shop_type = #{record.shopType,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null">
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dadaCityCode != null">
+        dada_city_code = #{record.dadaCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaName != null">
+        area_name = #{record.areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopAddress != null">
+        shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lng != null">
+        lng = #{record.lng,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lat != null">
+        lat = #{record.lat,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contactName != null">
+        contact_name = #{record.contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactPhone != null">
+        contact_phone = #{record.contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopNo != null">
+        shop_no = #{record.shopNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imdadaUsername != null">
+        imdada_username = #{record.imdadaUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imdadaPassword != null">
+        imdada_password = #{record.imdadaPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eleAppId != null">
+        ele_app_id = #{record.eleAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dadaMerchantId != null">
+        dada_merchant_id = #{record.dadaMerchantId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_takeaway_shop
+    set id = #{record.id,jdbcType=INTEGER},
+      diner_id = #{record.dinerId,jdbcType=INTEGER},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      shop_type = #{record.shopType,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      dada_city_code = #{record.dadaCityCode,jdbcType=VARCHAR},
+      area_name = #{record.areaName,jdbcType=VARCHAR},
+      shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      lng = #{record.lng,jdbcType=DECIMAL},
+      lat = #{record.lat,jdbcType=DECIMAL},
+      contact_name = #{record.contactName,jdbcType=VARCHAR},
+      contact_phone = #{record.contactPhone,jdbcType=VARCHAR},
+      shop_no = #{record.shopNo,jdbcType=VARCHAR},
+      imdada_username = #{record.imdadaUsername,jdbcType=VARCHAR},
+      imdada_password = #{record.imdadaPassword,jdbcType=VARCHAR},
+      ele_app_id = #{record.eleAppId,jdbcType=VARCHAR},
+      dada_merchant_id = #{record.dadaMerchantId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TTakeawayShop">
+    update t_takeaway_shop
+    <set>
+      <if test="dinerId != null">
+        diner_id = #{dinerId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null">
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        shop_type = #{shopType,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="dadaCityCode != null">
+        dada_city_code = #{dadaCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        shop_address = #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        lng = #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="contactName != null">
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNo != null">
+        shop_no = #{shopNo,jdbcType=VARCHAR},
+      </if>
+      <if test="imdadaUsername != null">
+        imdada_username = #{imdadaUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="imdadaPassword != null">
+        imdada_password = #{imdadaPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="eleAppId != null">
+        ele_app_id = #{eleAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="dadaMerchantId != null">
+        dada_merchant_id = #{dadaMerchantId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TTakeawayShop">
+    update t_takeaway_shop
+    set diner_id = #{dinerId,jdbcType=INTEGER},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_type = #{shopType,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      dada_city_code = #{dadaCityCode,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      shop_address = #{shopAddress,jdbcType=VARCHAR},
+      lng = #{lng,jdbcType=DECIMAL},
+      lat = #{lat,jdbcType=DECIMAL},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      shop_no = #{shopNo,jdbcType=VARCHAR},
+      imdada_username = #{imdadaUsername,jdbcType=VARCHAR},
+      imdada_password = #{imdadaPassword,jdbcType=VARCHAR},
+      ele_app_id = #{eleAppId,jdbcType=VARCHAR},
+      dada_merchant_id = #{dadaMerchantId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

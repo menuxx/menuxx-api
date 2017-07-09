@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @EnableAutoConfiguration
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.mall.*", "com.yingtaohuo.*"})
 @EnableAsync
 @EnableScheduling
 public class RootApplication extends WebMvcConfigurerAdapter {

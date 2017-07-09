@@ -84,7 +84,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_config
     where id = #{id,jdbcType=INTEGER}
@@ -103,9 +103,9 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_config (name, value, corp_id, 
+    insert into t_config (name, value, corp_id,
       remark)
-    values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{corpId,jdbcType=INTEGER}, 
+    values (#{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{corpId,jdbcType=INTEGER},
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TConfig">

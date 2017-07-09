@@ -1,5 +1,6 @@
 package com.mall.contoller.api;
 
+import com.google.common.eventbus.EventBus;
 import com.mall.model.TChargeApply;
 import com.mall.model.TOrder;
 import com.mall.model.TRechargeRecord;
@@ -41,6 +42,9 @@ public class PayNotifyController {
 
 	@Autowired
 	OrderService orderService;
+
+	@Autowired
+	EventBus eventBus;
 
 //	@PostMapping("weixin/orderpay")
 //	public DeferredResult<Map<String, String>> wxPayment() {
@@ -101,10 +105,10 @@ public class PayNotifyController {
 	 public String onNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] notify start***************************");
 
-		logger.info(event);
+		// logger.info(event);
 
-		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
-		logger.info(xStreamMarshaller.getXStream().toXML(event));
+		// XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
+		// logger.info(xStreamMarshaller.getXStream().toXML(event));
 
 		// 先获取 ChargeApply 是否存在
 		TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
@@ -125,6 +129,7 @@ public class PayNotifyController {
 				return "SUCCESS";
 			}
 		} else {
+			// 第一次支付失败的情况
 			if ("SUCCESS".equals(event.getResultCode()) && !"SUCCESS".equals(chargeApply.getResultCode())) {
 				// 更新状态
 				orderWrapper.setStatusToPaid(chargeApply);
@@ -144,10 +149,10 @@ public class PayNotifyController {
 	@PostMapping(path = "weixin/pay_notify/recharge", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public String onRechargeNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] recharge notify start***************************");
-		logger.info(event);
+		// logger.info(event);
 
-		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
-		logger.info(xStreamMarshaller.getXStream().toXML(event));
+		// XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
+		// logger.info(xStreamMarshaller.getXStream().toXML(event));
 
 		TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
 
