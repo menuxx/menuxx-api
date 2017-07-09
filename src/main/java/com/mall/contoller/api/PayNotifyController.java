@@ -105,10 +105,10 @@ public class PayNotifyController {
 	 public String onNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] notify start***************************");
 
-		// logger.info(event);
+		logger.info(event);
 
-		// XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
-		// logger.info(xStreamMarshaller.getXStream().toXML(event));
+		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
+		logger.info(xStreamMarshaller.getXStream().toXML(event));
 
 		// 先获取 ChargeApply 是否存在
 		TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
@@ -149,10 +149,10 @@ public class PayNotifyController {
 	@PostMapping(path = "weixin/pay_notify/recharge", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public String onRechargeNotify(@RequestBody WXNotifyEvent event) {
 		logger.info("***************************[tenpay] recharge notify start***************************");
-		// logger.info(event);
+		logger.info(event);
 
-		// XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
-		// logger.info(xStreamMarshaller.getXStream().toXML(event));
+		XStreamMarshaller xStreamMarshaller = Constants.getXStreamMarshaller();
+		logger.info(xStreamMarshaller.getXStream().toXML(event));
 
 		TChargeApply chargeApply = chargeApplyService.selectChargeApplyByOutTradeNo(event.getOutTradeNo());
 

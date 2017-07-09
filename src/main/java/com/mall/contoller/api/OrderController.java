@@ -221,6 +221,11 @@ public class OrderController extends BaseCorpController {
         int userId = sessionData.getUserId();
         order.setUserId(userId);
 
+        logger.debug("================================");
+        logger.trace(sessionData);
+        logger.trace(order);
+        logger.debug("================================");
+
         // 订单状态默认为未付款
         order.setStatus(Order.STATUS_CREATED);
         order.setCorpId(dinerId);
