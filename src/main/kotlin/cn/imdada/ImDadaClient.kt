@@ -71,6 +71,8 @@ class ImDadaClientBuilder (val appKey: String, val appSecret: String) {
 
         val baseUrl = protocol + if (workOnProd) API_HOST_PROD else API_HOST_TEST
 
+        println("baseUrl: $baseUrl")
+
         // 初始化客户端
         return builder.target(clazz, baseUrl)
 
@@ -99,7 +101,7 @@ class DDAuthInterceptor(val jsonMapper: ObjectMapper, val appKey: String, val ap
         val body = String(input.body() ?: "".toByteArray())
         val payload = getPayload(body, appKey, appSecret, sourceId)
         val json = jsonMapper.writeValueAsString(payload)
-        println("payload json: $json")
+        println("sourceId: $sourceId, payload json: $json")
         input.body(json)
     }
 
