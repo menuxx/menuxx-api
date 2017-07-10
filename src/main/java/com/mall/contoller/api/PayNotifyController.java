@@ -1,6 +1,5 @@
 package com.mall.contoller.api;
 
-import com.google.common.eventbus.EventBus;
 import com.mall.model.TChargeApply;
 import com.mall.model.TOrder;
 import com.mall.model.TRechargeRecord;
@@ -42,9 +41,6 @@ public class PayNotifyController {
 
 	@Autowired
 	OrderService orderService;
-
-	@Autowired
-	EventBus eventBus;
 
 //	@PostMapping("weixin/orderpay")
 //	public DeferredResult<Map<String, String>> wxPayment() {
