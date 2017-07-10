@@ -1,5 +1,6 @@
 package cn.imdada
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.gson.annotations.SerializedName
 import org.apache.commons.codec.digest.DigestUtils.md5Hex
 import java.util.*
@@ -34,14 +35,14 @@ import java.util.*
  * }
  */
 data class DDPayload(
-        @SerializedName("app_key")
+        @get:JsonProperty("app_key") @SerializedName("app_key")
         val appKey: String,     // 应用Key，对应开发者账号中的app_key
         val signature: String,  // 签名Hash值，参见：接口签名规则
         val timestamp: String,  // 时间戳,单位秒，即unix-timestamp
         val format: String,     // 请求格式，暂时只支持json
-        @SerializedName("v")
+        @get:JsonProperty("v") @SerializedName("v")
         val version: String,    // API版本
-        @SerializedName("source_id")
+        @get:JsonProperty("source_id") @SerializedName("source_id")
         val sourceId: String,   // 商户编号（创建商户账号分配的编号）测试环境默认为：73753
         val body: String        // 业务参数，JSON字符串，详见具体的接口文档
 )

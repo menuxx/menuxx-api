@@ -28,8 +28,15 @@ public class AddressServiceImpl implements AddressService {
         if (temp == null) {
             addressMapper.insert(address);
             return address;
+        } else {
+            TAddressExample ex = new TAddressExample();
+            ex.createCriteria()
+                .andUserIdEqualTo(address.getUserId())
+                .andAddressEqualTo(address.getAddress())
+                .andLinkmanEqualTo(address.getLinkman())
+                .andAddressEqualTo(address.getAddress());
+            addressMapper.updateByExampleSelective(address, ex);
         }
-
         return temp;
     }
 

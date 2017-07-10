@@ -1,5 +1,6 @@
 package com.mall.utils;
 
+import com.mall.model.TConfig;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -174,6 +175,14 @@ public class Util {
 		} catch (NumberFormatException e) {
 			return 0;
 		}
+	}
+
+	public static Map<String, TConfig> getConfigs(List<TConfig> configs) {
+		Map<String, TConfig> configMap = new HashMap<>();
+		for (TConfig conf : configs) {
+			configMap.put(conf.getName(), conf);
+		}
+		return configMap;
 	}
 
 }

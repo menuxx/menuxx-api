@@ -11,6 +11,6 @@ package cn.imdada
  * 4. 测试环境仅供接口对接测试。
  */
 
-const val API_HOST_TEST = "newopen.qa.cn.imdada.cn" // 测试域名
+const val API_HOST_TEST = "newopen.qa.imdada.cn" // 测试域名
 
-const val API_HOST_PROD = "newopen.cn.imdada.cn" // 生产域名
+const val API_HOST_PROD = "newopen.imdada.cn" // 生产域名

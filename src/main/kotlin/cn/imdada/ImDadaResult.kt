@@ -262,10 +262,10 @@ val DDResultCodes = hashMapOf(
 // 达达 请求结果
 data class DDResult(
         val status: String,     // 	响应状态，成功为"success"，失败为"fail"
-        val result: Any,        //  响应结果，JSON对象，详见具体的接口描述
+        val result: Any?,        //  响应结果，JSON对象，详见具体的接口描述
         val code: Int,       //  响应返回吗
         val msg: String,        //  响应描述
-        val errorCode: String   //  错误码
+        val errorCode: String?   //  错误码
 )
 
 // 添加订单结果

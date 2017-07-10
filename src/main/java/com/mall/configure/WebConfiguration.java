@@ -1,5 +1,6 @@
 package com.mall.configure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.bind.CurrentDinerMethodArgumentResolver;
 import com.mall.bind.SessionKeyMethodArgumentResolver;
 import com.mall.interceptor.CorpsInterceptor;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.scheduling.annotation.AsyncConfigurer;

@@ -1,5 +1,7 @@
 package com.mall.model;
 
+import java.math.BigDecimal;
+
 public class TAddress {
     private Integer id;
 
@@ -13,9 +15,9 @@ public class TAddress {
 
     private Integer removed;
 
-    private Double lng;
+    private BigDecimal lng;
 
-    private Double lat;
+    private BigDecimal lat;
 
     public Integer getId() {
         return id;
@@ -65,19 +67,19 @@ public class TAddress {
         this.removed = removed;
     }
 
-    public Double getLng() {
+    public BigDecimal getLng() {
         return lng;
     }
 
-    public void setLng(Double lng) {
+    public void setLng(BigDecimal lng) {
         this.lng = lng;
     }
 
-    public Double getLat() {
+    public BigDecimal getLat() {
         return lat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(BigDecimal lat) {
         this.lat = lat;
     }
 }

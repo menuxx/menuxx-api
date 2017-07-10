@@ -1,6 +1,7 @@
 package com.mall;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.push.DinerPushManager;
 import com.mall.service.WXComponentService;
@@ -13,7 +14,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
@@ -27,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @EnableAutoConfiguration
-@SpringBootApplication(scanBasePackages = {"com.mall.*", "com.yingtaohuo.*"})
+@SpringBootApplication(scanBasePackageClasses = {WXComponentTokenRunner.class}, scanBasePackages = {"com.mall.*", "com.yingtaohuo.*"})
 @EnableAsync
 @EnableScheduling
 public class RootApplication extends WebMvcConfigurerAdapter {
@@ -36,6 +40,11 @@ public class RootApplication extends WebMvcConfigurerAdapter {
         System.out.println("********************** RootApplication start ************************");
         final ApplicationContext applicationContext = SpringApplication.run(RootApplication.class, args);
         System.out.println("********************** RootApplication end ************************");
+    }
+
+    @Bean
+    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
+        return new Jackson2ObjectMapperBuilder().modulesToInstall(new KotlinModule());
     }
 
 }

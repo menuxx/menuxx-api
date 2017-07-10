@@ -26,13 +26,14 @@ open class ImDadaConfigure (
 
     fun getDefaultHttpClient() : OkHttpClient {
 
-        val logging = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { msg -> logger.debug("ImDadaApi", msg) })
+        val logging = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { msg -> println(msg) })
         logging.level = HttpLoggingInterceptor.Level.BASIC
 
         return OkHttpClient.Builder()
+                .writeTimeout(3, TimeUnit.SECONDS)
                 .addInterceptor((logging))
-                .connectTimeout(300, TimeUnit.MILLISECONDS)
-                .readTimeout(500, TimeUnit.MILLISECONDS)
+                .connectTimeout(3, TimeUnit.SECONDS)
+                .readTimeout(3, TimeUnit.SECONDS)
                 .build()
     }
 

@@ -94,7 +94,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         orderService.createOrder(order);
 
         // 总金额
-        int totalAcount = 0;
+        int totalAmount = 0;
         // 打包盒价格
         int packageAmount = 0;
         // 派送费
@@ -104,13 +104,13 @@ public class OrderWrapperImpl implements OrderWrapper {
         Map<String, Object> configMap = configService.selectMyConfigs4Map(order.getCorpId());
 
         // 单个打包盒费用
-        Integer takeoutPackFee = safeStringToInt((String) configMap.get(Constants.takeoutPackFee));
+        Integer takeoutPackFee = safeStringToInt((String) configMap.get(Constants.TakeoutPackFee));
         // 配送费
-        Integer takeoutFee = safeStringToInt((String) configMap.get(Constants.takeoutFee));
+        Integer takeoutFee = safeStringToInt((String) configMap.get(Constants.TakeoutFee));
         // 外卖起送费
         Integer takeoutMinLimit =  safeStringToInt((String) configMap.get(Constants.takeoutMinLimit));
         // 外卖免配送费金额
-        Integer takeoutNofeeLimit = safeStringToInt((String) configMap.get(Constants.takeoutNofeeLimit));
+        Integer takeoutNofeeLimit = safeStringToInt((String) configMap.get(Constants.TakeoutNofeeLimit));
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
@@ -130,7 +130,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
             orderItemService.createOrderItem(orderItem);
 
-            totalAcount = totalAcount + payAmount;
+            totalAmount = totalAmount + payAmount;
 
             // 如果选择打包或者外卖，计入打包盒价格
             if (order.getOrderType() == Order.ORDER_TYPE_CARRY_OUT || order.getOrderType() == Order.ORDER_TYPE_DELIVERED) {
@@ -142,7 +142,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         order.setPackageAmount(packageAmount);
-        totalAcount = totalAcount + packageAmount;
+        totalAmount = totalAmount + packageAmount;
 
         // 如果选择外卖，计入配送费
         if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && takeoutFee > 0) {
@@ -150,19 +150,19 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         // 如果选择外卖，达到免配送金额，免配送费
-        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && totalAcount >= takeoutNofeeLimit) {
+        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && totalAmount >= takeoutNofeeLimit) {
             deliveryAmount = 0;
         }
 
         order.setDeliveryAmount(deliveryAmount);
-        totalAcount = totalAcount + deliveryAmount;
+        totalAmount = totalAmount + deliveryAmount;
 
         // 设置订单号
         order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
 
         // 更新订单号、排序号
-        order.setPayAmount(totalAcount);
-        order.setTotalAmount(totalAcount);
+        order.setPayAmount(totalAmount);
+        order.setTotalAmount(totalAmount);
         orderService.updateOrder(order);
 
     }

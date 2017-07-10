@@ -1,5 +1,6 @@
 package com.mall.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TTakeawayTransport {
@@ -17,9 +18,9 @@ public class TTakeawayTransport {
 
     private String receiverTel;
 
-    private Double receiverLat;
+    private BigDecimal receiverLat;
 
-    private Double receiverLng;
+    private BigDecimal receiverLng;
 
     private Integer status;
 
@@ -39,7 +40,7 @@ public class TTakeawayTransport {
 
     private Integer transportFee;
 
-    private Double transportDistance;
+    private Long transportDistance;
 
     private Date createTime;
 
@@ -113,19 +114,19 @@ public class TTakeawayTransport {
         this.receiverTel = receiverTel == null ? null : receiverTel.trim();
     }
 
-    public Double getReceiverLat() {
+    public BigDecimal getReceiverLat() {
         return receiverLat;
     }
 
-    public void setReceiverLat(Double receiverLat) {
+    public void setReceiverLat(BigDecimal receiverLat) {
         this.receiverLat = receiverLat;
     }
 
-    public Double getReceiverLng() {
+    public BigDecimal getReceiverLng() {
         return receiverLng;
     }
 
-    public void setReceiverLng(Double receiverLng) {
+    public void setReceiverLng(BigDecimal receiverLng) {
         this.receiverLng = receiverLng;
     }
 
@@ -201,11 +202,11 @@ public class TTakeawayTransport {
         this.transportFee = transportFee;
     }
 
-    public Double getTransportDistance() {
+    public Long getTransportDistance() {
         return transportDistance;
     }
 
-    public void setTransportDistance(Double transportDistance) {
+    public void setTransportDistance(Long transportDistance) {
         this.transportDistance = transportDistance;
     }
 

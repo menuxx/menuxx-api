@@ -2,6 +2,7 @@ package com.yingtaohuo.service
 
 import cn.imdada.DDOrder
 import cn.imdada.ImDadaApi
+import cn.imdada.ImDadaException
 import com.mall.service.AddressService
 import com.mall.mapper.TTakeawayTransportMapper
 import com.mall.model.TOrder
@@ -42,7 +43,8 @@ open class TransportService(
     }
 
     // 订单发送到 达达 的 配送渠道
-    fun sendImdadaOrderTransportChannel(order: TOrder, shop: TTakeawayShop) : Int {
+    @Throws(ImDadaException::class)
+    fun sendImdadaOrderTransportChannel(order: TOrder, shop: TTakeawayShop, takeoutFee: Double) : Int {
 
         val receiverAddress = addressService.selectAddress(order.addressId)
 
@@ -62,15 +64,15 @@ open class TransportService(
                 cityCode = shop.dadaCityCode,
                 cargoPrice = (order.totalAmount / 100) * 1.0,                           // 单位分转换成单位元
                 isPrepay = 0,                                                           // 不垫付
-                expectedFetchTime = (System.currentTimeMillis() / 1000) - (5 * 60),     // 5 分钟后接单
+                expectedFetchTime = (System.currentTimeMillis() / 1000) + (5 * 60),     // 5 分钟后接单
                 receiverName = receiverAddress.linkman,
                 receiverAddress = receiverAddress.address,
                 receiverPhone = receiverAddress.phone,
-                receiverLng = receiverAddress.lng,
-                receiverLat = receiverAddress.lat,
-                callback = "https://dev.api.menuxx.com/imdada/callback?event_form=newdada",   // 事件回调地址
+                receiverLng = receiverAddress.lng.toDouble(),
+                receiverLat = receiverAddress.lat.toDouble(),
+                callback = "http://openapi.qurenjia.com/imdada/callback?event_form=newdada",   // 事件回调地址
                 tips = 0.0,
-                payForSupplierFee = 5.0,    // 每单商家铺贴邮费5.0元
+                payForSupplierFee = 5.0,    // 每单商家铺贴配送费
                 fetchFromReceiverFee = 0.0,
                 deliverFee = 0.0,
                 createTime = (System.currentTimeMillis() / 1000),
@@ -83,12 +85,13 @@ open class TransportService(
                 deliverLockerCode = null,
                 pickupLockerCode = null,
                 originMark = "YinTaoHuo",
-                originMarkNo = "YTH${shop.dinerId}"
+                originMarkNo = "${shop.dinerId}"
         )
 
         val addRes = imdadaApi.addOrder(merchant.sourceId, ddOrder)
 
-        return createTransport(order, shop, goodsCount, goodsWeight, requireReceiveTime, (addRes.fee * 100).toInt(), addRes.distance, ChannelTypeOfImDada)
+        return createTransport(order, shop, goodsCount, goodsWeight, requireReceiveTime, (addRes.fee * 100).toInt(), addRes.distance.toLong(), ChannelTypeOfImDada)
+
 
     }
 
@@ -107,7 +110,7 @@ open class TransportService(
             goodsWeight: Double,
             requireReceiveTime: Long,
             transportFee: Int,
-            transportDistance: Double,
+            transportDistance: Long,
             transportChannel: Int) : Int {
 
         val receiverAddress = addressService.selectAddress(order.addressId)
@@ -121,6 +124,11 @@ open class TransportService(
         // 统一使用火星坐标系
         ttt.receiverLat = receiverAddress.lat
         ttt.receiverLng = receiverAddress.lng
+
+        ttt.receiverName = receiverAddress.linkman
+        ttt.receiverAddress = receiverAddress.address
+        ttt.receiverTel = receiverAddress.phone
+
         ttt.goodsCount = 4
         ttt.orderNo = order.orderCode
 

@@ -8,8 +8,8 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="removed" jdbcType="INTEGER" property="removed" />
-    <result column="lng" jdbcType="DOUBLE" property="lng" />
-    <result column="lat" jdbcType="DOUBLE" property="lat" />
+    <result column="lng" jdbcType="DECIMAL" property="lng" />
+    <result column="lat" jdbcType="DECIMAL" property="lat" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -110,8 +110,8 @@
       address, removed, lng, 
       lat)
     values (#{userId,jdbcType=INTEGER}, #{linkman,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{removed,jdbcType=INTEGER}, #{lng,jdbcType=DOUBLE}, 
-      #{lat,jdbcType=DOUBLE})
+      #{address,jdbcType=VARCHAR}, #{removed,jdbcType=INTEGER}, #{lng,jdbcType=DECIMAL}, 
+      #{lat,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TAddress">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -158,10 +158,10 @@
         #{removed,jdbcType=INTEGER},
       </if>
       <if test="lng != null">
-        #{lng,jdbcType=DOUBLE},
+        #{lng,jdbcType=DECIMAL},
       </if>
       <if test="lat != null">
-        #{lat,jdbcType=DOUBLE},
+        #{lat,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -193,10 +193,10 @@
         removed = #{record.removed,jdbcType=INTEGER},
       </if>
       <if test="record.lng != null">
-        lng = #{record.lng,jdbcType=DOUBLE},
+        lng = #{record.lng,jdbcType=DECIMAL},
       </if>
       <if test="record.lat != null">
-        lat = #{record.lat,jdbcType=DOUBLE},
+        lat = #{record.lat,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null">
@@ -211,8 +211,8 @@
       phone = #{record.phone,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       removed = #{record.removed,jdbcType=INTEGER},
-      lng = #{record.lng,jdbcType=DOUBLE},
-      lat = #{record.lat,jdbcType=DOUBLE}
+      lng = #{record.lng,jdbcType=DECIMAL},
+      lat = #{record.lat,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -236,10 +236,10 @@
         removed = #{removed,jdbcType=INTEGER},
       </if>
       <if test="lng != null">
-        lng = #{lng,jdbcType=DOUBLE},
+        lng = #{lng,jdbcType=DECIMAL},
       </if>
       <if test="lat != null">
-        lat = #{lat,jdbcType=DOUBLE},
+        lat = #{lat,jdbcType=DECIMAL},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -251,8 +251,8 @@
       phone = #{phone,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       removed = #{removed,jdbcType=INTEGER},
-      lng = #{lng,jdbcType=DOUBLE},
-      lat = #{lat,jdbcType=DOUBLE}
+      lng = #{lng,jdbcType=DECIMAL},
+      lat = #{lat,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

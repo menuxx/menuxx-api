@@ -134,9 +134,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table tableName="t_takeaway_transport" domainObjectName="TTakeawayTransport">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table tableName="t_takeaway_transport" domainObjectName="TTakeawayTransport">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
         <!--<table schema="jiujin" tableName="t_takeaway_shop" domainObjectName="TTakeawayShop" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->

@@ -1,5 +1,6 @@
 package com.mall.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -575,52 +576,52 @@ public class TTakeawayTransportExample {
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatEqualTo(Double value) {
+        public Criteria andReceiverLatEqualTo(BigDecimal value) {
             addCriterion("receiver_lat =", value, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatNotEqualTo(Double value) {
+        public Criteria andReceiverLatNotEqualTo(BigDecimal value) {
             addCriterion("receiver_lat <>", value, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatGreaterThan(Double value) {
+        public Criteria andReceiverLatGreaterThan(BigDecimal value) {
             addCriterion("receiver_lat >", value, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatGreaterThanOrEqualTo(Double value) {
+        public Criteria andReceiverLatGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("receiver_lat >=", value, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatLessThan(Double value) {
+        public Criteria andReceiverLatLessThan(BigDecimal value) {
             addCriterion("receiver_lat <", value, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatLessThanOrEqualTo(Double value) {
+        public Criteria andReceiverLatLessThanOrEqualTo(BigDecimal value) {
             addCriterion("receiver_lat <=", value, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatIn(List<Double> values) {
+        public Criteria andReceiverLatIn(List<BigDecimal> values) {
             addCriterion("receiver_lat in", values, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatNotIn(List<Double> values) {
+        public Criteria andReceiverLatNotIn(List<BigDecimal> values) {
             addCriterion("receiver_lat not in", values, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatBetween(Double value1, Double value2) {
+        public Criteria andReceiverLatBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("receiver_lat between", value1, value2, "receiverLat");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLatNotBetween(Double value1, Double value2) {
+        public Criteria andReceiverLatNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("receiver_lat not between", value1, value2, "receiverLat");
             return (Criteria) this;
         }
@@ -635,52 +636,52 @@ public class TTakeawayTransportExample {
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngEqualTo(Double value) {
+        public Criteria andReceiverLngEqualTo(BigDecimal value) {
             addCriterion("receiver_lng =", value, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngNotEqualTo(Double value) {
+        public Criteria andReceiverLngNotEqualTo(BigDecimal value) {
             addCriterion("receiver_lng <>", value, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngGreaterThan(Double value) {
+        public Criteria andReceiverLngGreaterThan(BigDecimal value) {
             addCriterion("receiver_lng >", value, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngGreaterThanOrEqualTo(Double value) {
+        public Criteria andReceiverLngGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("receiver_lng >=", value, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngLessThan(Double value) {
+        public Criteria andReceiverLngLessThan(BigDecimal value) {
             addCriterion("receiver_lng <", value, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngLessThanOrEqualTo(Double value) {
+        public Criteria andReceiverLngLessThanOrEqualTo(BigDecimal value) {
             addCriterion("receiver_lng <=", value, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngIn(List<Double> values) {
+        public Criteria andReceiverLngIn(List<BigDecimal> values) {
             addCriterion("receiver_lng in", values, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngNotIn(List<Double> values) {
+        public Criteria andReceiverLngNotIn(List<BigDecimal> values) {
             addCriterion("receiver_lng not in", values, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngBetween(Double value1, Double value2) {
+        public Criteria andReceiverLngBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("receiver_lng between", value1, value2, "receiverLng");
             return (Criteria) this;
         }
 
-        public Criteria andReceiverLngNotBetween(Double value1, Double value2) {
+        public Criteria andReceiverLngNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("receiver_lng not between", value1, value2, "receiverLng");
             return (Criteria) this;
         }
@@ -1255,52 +1256,52 @@ public class TTakeawayTransportExample {
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceEqualTo(Double value) {
+        public Criteria andTransportDistanceEqualTo(Long value) {
             addCriterion("transport_distance =", value, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceNotEqualTo(Double value) {
+        public Criteria andTransportDistanceNotEqualTo(Long value) {
             addCriterion("transport_distance <>", value, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceGreaterThan(Double value) {
+        public Criteria andTransportDistanceGreaterThan(Long value) {
             addCriterion("transport_distance >", value, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceGreaterThanOrEqualTo(Double value) {
+        public Criteria andTransportDistanceGreaterThanOrEqualTo(Long value) {
             addCriterion("transport_distance >=", value, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceLessThan(Double value) {
+        public Criteria andTransportDistanceLessThan(Long value) {
             addCriterion("transport_distance <", value, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceLessThanOrEqualTo(Double value) {
+        public Criteria andTransportDistanceLessThanOrEqualTo(Long value) {
             addCriterion("transport_distance <=", value, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceIn(List<Double> values) {
+        public Criteria andTransportDistanceIn(List<Long> values) {
             addCriterion("transport_distance in", values, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceNotIn(List<Double> values) {
+        public Criteria andTransportDistanceNotIn(List<Long> values) {
             addCriterion("transport_distance not in", values, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceBetween(Double value1, Double value2) {
+        public Criteria andTransportDistanceBetween(Long value1, Long value2) {
             addCriterion("transport_distance between", value1, value2, "transportDistance");
             return (Criteria) this;
         }
 
-        public Criteria andTransportDistanceNotBetween(Double value1, Double value2) {
+        public Criteria andTransportDistanceNotBetween(Long value1, Long value2) {
             addCriterion("transport_distance not between", value1, value2, "transportDistance");
             return (Criteria) this;
         }

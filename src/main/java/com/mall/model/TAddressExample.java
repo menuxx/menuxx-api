@@ -1,5 +1,6 @@
 package com.mall.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -504,52 +505,52 @@ public class TAddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andLngEqualTo(Double value) {
+        public Criteria andLngEqualTo(BigDecimal value) {
             addCriterion("lng =", value, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngNotEqualTo(Double value) {
+        public Criteria andLngNotEqualTo(BigDecimal value) {
             addCriterion("lng <>", value, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngGreaterThan(Double value) {
+        public Criteria andLngGreaterThan(BigDecimal value) {
             addCriterion("lng >", value, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngGreaterThanOrEqualTo(Double value) {
+        public Criteria andLngGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("lng >=", value, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngLessThan(Double value) {
+        public Criteria andLngLessThan(BigDecimal value) {
             addCriterion("lng <", value, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngLessThanOrEqualTo(Double value) {
+        public Criteria andLngLessThanOrEqualTo(BigDecimal value) {
             addCriterion("lng <=", value, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngIn(List<Double> values) {
+        public Criteria andLngIn(List<BigDecimal> values) {
             addCriterion("lng in", values, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngNotIn(List<Double> values) {
+        public Criteria andLngNotIn(List<BigDecimal> values) {
             addCriterion("lng not in", values, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngBetween(Double value1, Double value2) {
+        public Criteria andLngBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("lng between", value1, value2, "lng");
             return (Criteria) this;
         }
 
-        public Criteria andLngNotBetween(Double value1, Double value2) {
+        public Criteria andLngNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("lng not between", value1, value2, "lng");
             return (Criteria) this;
         }
@@ -564,52 +565,52 @@ public class TAddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andLatEqualTo(Double value) {
+        public Criteria andLatEqualTo(BigDecimal value) {
             addCriterion("lat =", value, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatNotEqualTo(Double value) {
+        public Criteria andLatNotEqualTo(BigDecimal value) {
             addCriterion("lat <>", value, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatGreaterThan(Double value) {
+        public Criteria andLatGreaterThan(BigDecimal value) {
             addCriterion("lat >", value, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatGreaterThanOrEqualTo(Double value) {
+        public Criteria andLatGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("lat >=", value, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatLessThan(Double value) {
+        public Criteria andLatLessThan(BigDecimal value) {
             addCriterion("lat <", value, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatLessThanOrEqualTo(Double value) {
+        public Criteria andLatLessThanOrEqualTo(BigDecimal value) {
             addCriterion("lat <=", value, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatIn(List<Double> values) {
+        public Criteria andLatIn(List<BigDecimal> values) {
             addCriterion("lat in", values, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatNotIn(List<Double> values) {
+        public Criteria andLatNotIn(List<BigDecimal> values) {
             addCriterion("lat not in", values, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatBetween(Double value1, Double value2) {
+        public Criteria andLatBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("lat between", value1, value2, "lat");
             return (Criteria) this;
         }
 
-        public Criteria andLatNotBetween(Double value1, Double value2) {
+        public Criteria andLatNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("lat not between", value1, value2, "lat");
             return (Criteria) this;
         }

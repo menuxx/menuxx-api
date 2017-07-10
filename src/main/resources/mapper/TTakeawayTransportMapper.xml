@@ -9,8 +9,8 @@
     <result column="receiver_address" jdbcType="VARCHAR" property="receiverAddress" />
     <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
     <result column="receiver_tel" jdbcType="VARCHAR" property="receiverTel" />
-    <result column="receiver_lat" jdbcType="DOUBLE" property="receiverLat" />
-    <result column="receiver_lng" jdbcType="DOUBLE" property="receiverLng" />
+    <result column="receiver_lat" jdbcType="DECIMAL" property="receiverLat" />
+    <result column="receiver_lng" jdbcType="DECIMAL" property="receiverLng" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="order_total_amount" jdbcType="INTEGER" property="orderTotalAmount" />
     <result column="order_weight" jdbcType="DOUBLE" property="orderWeight" />
@@ -20,7 +20,7 @@
     <result column="invoice" jdbcType="VARCHAR" property="invoice" />
     <result column="require_receive_time" jdbcType="TIMESTAMP" property="requireReceiveTime" />
     <result column="transport_fee" jdbcType="INTEGER" property="transportFee" />
-    <result column="transport_distance" jdbcType="DOUBLE" property="transportDistance" />
+    <result column="transport_distance" jdbcType="BIGINT" property="transportDistance" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="cancel_reason" jdbcType="VARCHAR" property="cancelReason" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -140,10 +140,10 @@
       accept_time, finish_time)
     values (#{shopId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{transportChannel,jdbcType=INTEGER}, 
       #{receiverAddress,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{receiverTel,jdbcType=VARCHAR}, 
-      #{receiverLat,jdbcType=DOUBLE}, #{receiverLng,jdbcType=DOUBLE}, #{status,jdbcType=INTEGER}, 
+      #{receiverLat,jdbcType=DECIMAL}, #{receiverLng,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
       #{orderTotalAmount,jdbcType=INTEGER}, #{orderWeight,jdbcType=DOUBLE}, #{orderRemark,jdbcType=VARCHAR}, 
       #{goodsCount,jdbcType=INTEGER}, #{isInvoiced,jdbcType=TINYINT}, #{invoice,jdbcType=VARCHAR}, 
-      #{requireReceiveTime,jdbcType=TIMESTAMP}, #{transportFee,jdbcType=INTEGER}, #{transportDistance,jdbcType=DOUBLE}, 
+      #{requireReceiveTime,jdbcType=TIMESTAMP}, #{transportFee,jdbcType=INTEGER}, #{transportDistance,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{cancelReason,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{transportName,jdbcType=VARCHAR}, #{transportTel,jdbcType=VARCHAR}, #{transportNo,jdbcType=VARCHAR}, 
       #{acceptTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP})
@@ -253,10 +253,10 @@
         #{receiverTel,jdbcType=VARCHAR},
       </if>
       <if test="receiverLat != null">
-        #{receiverLat,jdbcType=DOUBLE},
+        #{receiverLat,jdbcType=DECIMAL},
       </if>
       <if test="receiverLng != null">
-        #{receiverLng,jdbcType=DOUBLE},
+        #{receiverLng,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -286,7 +286,7 @@
         #{transportFee,jdbcType=INTEGER},
       </if>
       <if test="transportDistance != null">
-        #{transportDistance,jdbcType=DOUBLE},
+        #{transportDistance,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -345,10 +345,10 @@
         receiver_tel = #{record.receiverTel,jdbcType=VARCHAR},
       </if>
       <if test="record.receiverLat != null">
-        receiver_lat = #{record.receiverLat,jdbcType=DOUBLE},
+        receiver_lat = #{record.receiverLat,jdbcType=DECIMAL},
       </if>
       <if test="record.receiverLng != null">
-        receiver_lng = #{record.receiverLng,jdbcType=DOUBLE},
+        receiver_lng = #{record.receiverLng,jdbcType=DECIMAL},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
@@ -378,7 +378,7 @@
         transport_fee = #{record.transportFee,jdbcType=INTEGER},
       </if>
       <if test="record.transportDistance != null">
-        transport_distance = #{record.transportDistance,jdbcType=DOUBLE},
+        transport_distance = #{record.transportDistance,jdbcType=BIGINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -418,8 +418,8 @@
       receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
       receiver_name = #{record.receiverName,jdbcType=VARCHAR},
       receiver_tel = #{record.receiverTel,jdbcType=VARCHAR},
-      receiver_lat = #{record.receiverLat,jdbcType=DOUBLE},
-      receiver_lng = #{record.receiverLng,jdbcType=DOUBLE},
+      receiver_lat = #{record.receiverLat,jdbcType=DECIMAL},
+      receiver_lng = #{record.receiverLng,jdbcType=DECIMAL},
       status = #{record.status,jdbcType=INTEGER},
       order_total_amount = #{record.orderTotalAmount,jdbcType=INTEGER},
       order_weight = #{record.orderWeight,jdbcType=DOUBLE},
@@ -429,7 +429,7 @@
       invoice = #{record.invoice,jdbcType=VARCHAR},
       require_receive_time = #{record.requireReceiveTime,jdbcType=TIMESTAMP},
       transport_fee = #{record.transportFee,jdbcType=INTEGER},
-      transport_distance = #{record.transportDistance,jdbcType=DOUBLE},
+      transport_distance = #{record.transportDistance,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       cancel_reason = #{record.cancelReason,jdbcType=VARCHAR},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -464,10 +464,10 @@
         receiver_tel = #{receiverTel,jdbcType=VARCHAR},
       </if>
       <if test="receiverLat != null">
-        receiver_lat = #{receiverLat,jdbcType=DOUBLE},
+        receiver_lat = #{receiverLat,jdbcType=DECIMAL},
       </if>
       <if test="receiverLng != null">
-        receiver_lng = #{receiverLng,jdbcType=DOUBLE},
+        receiver_lng = #{receiverLng,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -497,7 +497,7 @@
         transport_fee = #{transportFee,jdbcType=INTEGER},
       </if>
       <if test="transportDistance != null">
-        transport_distance = #{transportDistance,jdbcType=DOUBLE},
+        transport_distance = #{transportDistance,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -534,8 +534,8 @@
       receiver_address = #{receiverAddress,jdbcType=VARCHAR},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_tel = #{receiverTel,jdbcType=VARCHAR},
-      receiver_lat = #{receiverLat,jdbcType=DOUBLE},
-      receiver_lng = #{receiverLng,jdbcType=DOUBLE},
+      receiver_lat = #{receiverLat,jdbcType=DECIMAL},
+      receiver_lng = #{receiverLng,jdbcType=DECIMAL},
       status = #{status,jdbcType=INTEGER},
       order_total_amount = #{orderTotalAmount,jdbcType=INTEGER},
       order_weight = #{orderWeight,jdbcType=DOUBLE},
@@ -545,7 +545,7 @@
       invoice = #{invoice,jdbcType=VARCHAR},
       require_receive_time = #{requireReceiveTime,jdbcType=TIMESTAMP},
       transport_fee = #{transportFee,jdbcType=INTEGER},
-      transport_distance = #{transportDistance,jdbcType=DOUBLE},
+      transport_distance = #{transportDistance,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       cancel_reason = #{cancelReason,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

@@ -43,11 +43,13 @@ public class Constants {
     //外卖起送阈值
     public static final String takeoutMinLimit = "takeout_min_limit";
     //外卖免配送费阈值
-    public static final String takeoutNofeeLimit = "takeout_nofee_limit";
+    public static final String TakeoutNofeeLimit = "takeout_nofee_limit";
     //外卖打包盒单价
-    public static final String takeoutPackFee = "takeout_pack_fee";
+    public static final String TakeoutPackFee = "takeout_pack_fee";
     //外卖打包盒单价
-    public static final String takeoutFee = "takeout_fee";
+    public static final String TakeoutFee = "takeout_fee";
+    // 配送渠道
+    public static final String TransportChannel = "transport_channel";
 
 
     public static XStreamMarshaller getXStreamMarshaller() {
