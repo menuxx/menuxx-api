@@ -3,9 +3,11 @@ package com.mall.wrapper.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-import com.mall.configure.AppConfiguration;
+import com.google.common.eventbus.EventBus;
+import com.mall.configure.properties.AppConfigureProperties;
+import com.mall.configure.properties.PushConfigProperties;
 import com.mall.model.*;
-import com.mall.push.PushState;
+import com.mall.push.DinerPushManager;
 import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.utils.IPushUtil;
@@ -13,18 +15,16 @@ import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
-import org.aspectj.weaver.ast.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.*;
+
+import static com.mall.utils.Util.safeStringToInt;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -56,7 +56,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     CorpUserService corpUserService;
 
     @Autowired
-    AppConfiguration appConfiguration;
+    PushConfigProperties pushConfig;
 
     @Autowired
     AddressService addressService;
@@ -77,10 +77,13 @@ public class OrderWrapperImpl implements OrderWrapper {
     ObjectMapper objectMapper;
 
     @Autowired
-    PushService pushService;
+    SceneService sceneService;
 
     @Autowired
-    SceneService sceneService;
+    DinerPushManager pushManager;
+
+    @Autowired
+    EventBus eventBus;
 
     @Override
     @Transactional
@@ -91,23 +94,23 @@ public class OrderWrapperImpl implements OrderWrapper {
         orderService.createOrder(order);
 
         // 总金额
-        int totalAcount = 0;
+        int totalAmount = 0;
         // 打包盒价格
         int packageAmount = 0;
         // 派送费
         int deliveryAmount = 0;
 
         // 获取配置信息
-        Map<String, Integer> configMap = configService.selectMyConfigs4Map(order.getCorpId());
+        Map<String, Object> configMap = configService.selectMyConfigs4Map(order.getCorpId());
 
         // 单个打包盒费用
-        Integer takeoutPackFee = configMap.get(Constants.takeoutPackFee);
+        Integer takeoutPackFee = safeStringToInt((String) configMap.get(Constants.TakeoutPackFee));
         // 配送费
-        Integer takeoutFee = configMap.get(Constants.takeoutFee);
+        Integer takeoutFee = safeStringToInt((String) configMap.get(Constants.TakeoutFee));
         // 外卖起送费
-        Integer takeoutMinLimit = configMap.get(Constants.takeoutMinLimit);
+        Integer takeoutMinLimit =  safeStringToInt((String) configMap.get(Constants.takeoutMinLimit));
         // 外卖免配送费金额
-        Integer takeoutNofeeLimit = configMap.get(Constants.takeoutNofeeLimit);
+        Integer takeoutNofeeLimit = safeStringToInt((String) configMap.get(Constants.TakeoutNofeeLimit));
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
@@ -127,7 +130,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
             orderItemService.createOrderItem(orderItem);
 
-            totalAcount = totalAcount + payAmount;
+            totalAmount = totalAmount + payAmount;
 
             // 如果选择打包或者外卖，计入打包盒价格
             if (order.getOrderType() == Order.ORDER_TYPE_CARRY_OUT || order.getOrderType() == Order.ORDER_TYPE_DELIVERED) {
@@ -139,7 +142,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         order.setPackageAmount(packageAmount);
-        totalAcount = totalAcount + packageAmount;
+        totalAmount = totalAmount + packageAmount;
 
         // 如果选择外卖，计入配送费
         if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && takeoutFee > 0) {
@@ -147,19 +150,19 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         // 如果选择外卖，达到免配送金额，免配送费
-        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && totalAcount >= takeoutNofeeLimit) {
+        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && totalAmount >= takeoutNofeeLimit) {
             deliveryAmount = 0;
         }
 
         order.setDeliveryAmount(deliveryAmount);
-        totalAcount = totalAcount + deliveryAmount;
+        totalAmount = totalAmount + deliveryAmount;
 
         // 设置订单号
         order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
 
         // 更新订单号、排序号
-        order.setPayAmount(totalAcount);
-        order.setTotalAmount(totalAcount);
+        order.setPayAmount(totalAmount);
+        order.setTotalAmount(totalAmount);
         orderService.updateOrder(order);
 
     }
@@ -276,27 +279,10 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
-    public void pushOrder(Order order, List<String> clientIdList, List<String> phoneList) {
+    public void pushOrder(Order order, List<String> clientIdList) {
         try {
             String content = objectMapper.writeValueAsString(order);
-            IPushUtil.sendPushOrder(appConfiguration, content, clientIdList);
-            pushService.sendToAliases(content, phoneList).enqueue(new Callback<PushState>() {
-                @Override
-                public void onResponse(Call<PushState> call, Response<PushState> response) {
-                    if ( response.isSuccessful() ) {
-                        PushState state = response.body();
-                        if ( PushState.SUCCESS == state.getStatus() ) {
-                            logger.info("yunba send ok");
-                        }else {
-                            logger.error("yunba send fail: " + state.getError());
-                        }
-                    }
-                }
-                @Override
-                public void onFailure(Call<PushState> call, Throwable throwable) {
-                    logger.error("yunba send ok", throwable);
-                }
-            });
+            IPushUtil.sendPushOrder(pushConfig, content, clientIdList);
         } catch (JsonProcessingException e) {
             logger.error("pushOrder error : ", e);
         } catch (Exception e) {
@@ -306,6 +292,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     private Order pushOrder(Order order) {
+
         List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
 
         List<String> clientIdList = new ArrayList<>();
@@ -319,7 +306,12 @@ public class OrderWrapperImpl implements OrderWrapper {
             }
         }
 
-        pushOrder(order, clientIdList, phoneList);
+        pushOrder(order, clientIdList);
+
+        // 推送给 该店铺 所有的 用户
+        for (TCorpUser corpUser : corpUserList) {
+            pushManager.pushOrderToDinerUser(corpUser.getPushKey(), order);
+        }
 
         return order;
     }
@@ -341,6 +333,9 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // PUSH
         pushOrder(order.getId());
+
+        eventBus.post(order);
+
     }
 
     @Override
@@ -424,7 +419,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setId(0);
         order.setUserId(0);
         order.setCorpId(0);
-        order.setOrderCode("88888888");
+        order.setOrderCode(String.valueOf(System.currentTimeMillis()));
         order.setRemark("不要葱，不要蒜，加辣");
         order.setStatus(1);
         order.setOrderType(Order.ORDER_TYPE_CARRY_OUT);

@@ -3,7 +3,7 @@ package com.mall.contoller.api;
 import com.mall.annotation.CurrentDiner;
 import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.model.TCorp;
 import com.mall.model.TUser;
 import com.mall.service.UserService;
@@ -47,7 +47,7 @@ public class WXUserController extends BaseCorpController {
 	WXComponentApiService wxComponentApiService;
 
 	@Autowired
-	AppConfiguration appConfig;
+    AppConfigureProperties appConfig;
 
 	@Autowired
 	WXComponentService componentService;
@@ -87,7 +87,7 @@ public class WXUserController extends BaseCorpController {
 	public DeferredResult<Object> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
 		final DeferredResult<Object> deferred = new DeferredResult<>();
 
-		wxMiniService.jscodeToSession(corp.getAppId(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXCodeSession>() {
+		wxMiniService.jscodeToSession(corp.getAuthorizerAppid(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXCodeSession>() {
 			@Override
 			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
 				WXCodeSession session = response.body();
@@ -100,10 +100,10 @@ public class WXUserController extends BaseCorpController {
 
 					int userId = userService.saveUser(user, corp);
 
-					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId());
+					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
 					deferred.setResult(sessionData);
 				} else {
-					deferred.setErrorResult(session);
+					deferred.setErrorResult(new Exception(session.getErrmsg()));
 				}
 			}
 			@Override
@@ -119,7 +119,7 @@ public class WXUserController extends BaseCorpController {
 	public DeferredResult<Object> wxLiteComponentLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
 		final DeferredResult<Object> deferred = new DeferredResult<>();
 		wxComponentApiService.jscodeToSession(
-				corp.getAuthorizerAppId(),
+				corp.getAuthorizerAppid(),
 				loginCode.getCode(),
 				"authorization_code",
 				appConfig.getWxComponent().getAppId(),
@@ -137,10 +137,10 @@ public class WXUserController extends BaseCorpController {
 
 					int userId = userService.saveUser(user, corp);
 
-					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId());
+					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
 					deferred.setResult(sessionData);
 				} else {
-					deferred.setErrorResult(session);
+					deferred.setErrorResult(new Exception(session.getErrmsg()));
 				}
 			}
 			@Override

@@ -28,7 +28,7 @@ public interface OrderWrapper {
 
     Order pushOrder(int orderId);
 
-    void pushOrder(Order order, List<String> clientIdList, List<String> phoneList);
+    void pushOrder(Order order, List<String> clientIdList);
 
     void rechargeCompleted(TChargeApply chargeApply);
 

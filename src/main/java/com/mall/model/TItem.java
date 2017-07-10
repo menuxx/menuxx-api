@@ -37,6 +37,10 @@ public class TItem {
 
     private Date createTime;
 
+    private String thumbnails;
+
+    private String coverImages;
+
     public Integer getId() {
         return id;
     }
@@ -171,5 +175,21 @@ public class TItem {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getThumbnails() {
+        return thumbnails;
+    }
+
+    public void setThumbnails(String thumbnails) {
+        this.thumbnails = thumbnails == null ? null : thumbnails.trim();
+    }
+
+    public String getCoverImages() {
+        return coverImages;
+    }
+
+    public void setCoverImages(String coverImages) {
+        this.coverImages = coverImages == null ? null : coverImages.trim();
     }
 }

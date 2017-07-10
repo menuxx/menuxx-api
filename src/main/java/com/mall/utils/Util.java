@@ -1,7 +1,9 @@
 package com.mall.utils;
 
+import com.mall.model.TConfig;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -137,6 +139,18 @@ public class Util {
 		return err;
 	}
 
+	public static ResponseEntity<?> status(Map<String, Object> respBody, HttpStatus status) {
+		return new ResponseEntity<>(respBody, status);
+	}
+
+	public static ResponseEntity<?> status400(String errorMsg) {
+		return status(makeError(400, errorMsg), HttpStatus.BAD_REQUEST);
+	}
+
+	public static ResponseEntity<?> status401(String errorMsg) {
+		return status(makeError(401, errorMsg), HttpStatus.UNAUTHORIZED);
+	}
+
 	public static String genOrderNo() {
 		return ORDER_NO_FORMAT.format(new Date()) + random(1, 99999);
 	}
@@ -153,6 +167,22 @@ public class Util {
 			weekday = 7;
 		}
 		return weekday;
+	}
+
+	public static Integer safeStringToInt(String str) {
+		try {
+			return Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	public static Map<String, TConfig> getConfigs(List<TConfig> configs) {
+		Map<String, TConfig> configMap = new HashMap<>();
+		for (TConfig conf : configs) {
+			configMap.put(conf.getName(), conf);
+		}
+		return configMap;
 	}
 
 }

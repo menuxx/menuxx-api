@@ -15,6 +15,8 @@ public class SessionData {
 
 	private String mchid;
 
+	private Integer corpId;
+
 	private String openid;
 
 	private String sessionToken;
@@ -22,11 +24,12 @@ public class SessionData {
 	public SessionData() {
 	}
 
-	public SessionData(String openid, String sessionKey, int userId, String mchid) {
+	public SessionData(String openid, String sessionKey, int userId, String mchid, Integer corpId) {
 		this.sessionKey = sessionKey;
 		this.userId = userId;
 		this.mchid = mchid;
 		this.openid = openid;
+		this.corpId = corpId;
 	}
 
 	public static SessionData create(String sessionToken) {
@@ -37,7 +40,12 @@ public class SessionData {
 		}
 
 		String[] strs = sessionToken.split(":");
-		return new SessionData(strs[0], strs[1], Integer.valueOf(strs[2]), strs[3]);
+
+		if (strs.length == 5) {
+			return new SessionData(strs[0], strs[1], Integer.valueOf(strs[2]), strs[3], Integer.valueOf(strs[4]));
+		}
+
+		return new SessionData(strs[0], strs[1], Integer.valueOf(strs[2]), strs[3], null);
 	}
 
 	public String getSessionKey() {
@@ -46,6 +54,14 @@ public class SessionData {
 
 	public void setSessionKey(String sessionKey) {
 		this.sessionKey = sessionKey;
+	}
+
+	public Integer getCorpId() {
+		return corpId;
+	}
+
+	public void setCorpId(Integer corpId) {
+		this.corpId = corpId;
 	}
 
 	public int getUserId() {
@@ -75,7 +91,11 @@ public class SessionData {
 	public String getSessionToken() {
 		//用户端 生成 token: 生成规则 aes(openid:session_key:userId:mchid)
 		//客户端 生成 token: 生成规则 aes("":"":userId:corpId)
-		sessionToken = AESCoder.encrypt(this.getOpenid() + ":" + this.getSessionKey() + ":" + userId + ":" + this.getMchid());
+		String encrptyStr = this.getOpenid() + ":" + this.getSessionKey() + ":" + userId + ":" + this.getMchid();
+		if ( this.getCorpId() != null ) {
+			encrptyStr += ":" + this.getCorpId();
+		}
+		sessionToken = AESCoder.encrypt(encrptyStr);
 		return sessionToken;
 	}
 

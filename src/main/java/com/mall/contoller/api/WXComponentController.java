@@ -14,7 +14,7 @@ public class WXComponentController {
     @Autowired
     WXComponentService componentService;
 
-    @PutMapping("component_cache")
+    @PostMapping("component_cache")
     public void updateComponentCache(@RequestBody HashMap<String, String> cacheData) {
         componentService.updateCache(cacheData);
     }

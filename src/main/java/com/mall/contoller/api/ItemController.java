@@ -77,11 +77,11 @@ public class ItemController extends BaseCorpController {
         List<TTopup> topupList = topupService.selectTopups(dinerId);
         homeMap.put("topupList", topupList);
 
-        Map<String, Integer> configMap = configService.selectMyConfigs4Map(dinerId);
+        Map<String, Object> configMap = configService.selectMyConfigs4Map(dinerId);
 
         homeMap.putAll(configMap);
 
-        return new ResponseEntity<Object>(homeMap, HttpStatus.OK);
+        return new ResponseEntity<>(homeMap, HttpStatus.OK);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ItemController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> getItems(@PathVariable("dinerId") int dinerId) {
         List<Item> itemList = itemWrapper.selectItems(dinerId);
-        return new ResponseEntity<Object>(itemList, HttpStatus.OK);
+        return new ResponseEntity<>(itemList, HttpStatus.OK);
     }
 
     /**
@@ -150,15 +150,15 @@ public class ItemController extends BaseCorpController {
         item.setCorpId(corpId);
 
         if (StringUtils.isBlank(item.getItemName())) {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (item.getProductPrice() == null || item.getProductPrice().doubleValue() == 0.0) {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (item.getCategory() == null) {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (item.getSoldout() == null) {
@@ -170,7 +170,7 @@ public class ItemController extends BaseCorpController {
 
         item = itemWrapper.selectItem(item.getId());
 
-        return new ResponseEntity<Object>(item, HttpStatus.OK);
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
 

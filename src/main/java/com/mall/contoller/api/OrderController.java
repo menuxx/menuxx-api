@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.configure.page.Page;
 import com.mall.model.*;
 import com.mall.service.*;
@@ -42,7 +42,7 @@ public class OrderController extends BaseCorpController {
     private static final Logger logger = Logger.getLogger(OrderController.class);
 
     @Autowired
-    AppConfiguration appConfiguration;
+    AppConfigureProperties appConfig;
 
     @Autowired
     OrderWrapper orderWrapper;
@@ -116,10 +116,10 @@ public class OrderController extends BaseCorpController {
         TCorp corp = corpsService.selectCorpByMchId(mchId);
 
         WXPayOrder payOrder = new WXPayOrder();
-        payOrder.setAppid(corp.getAppId());
+        payOrder.setAppid(corp.getAuthorizerAppid());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(appConfiguration.getRechargeNotifyUrl());
+        payOrder.setNotifyUrl(appConfig.getRechargeNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
         payOrder.setBody(rechargeRecord.getRemark());
@@ -136,15 +136,19 @@ public class OrderController extends BaseCorpController {
     private void unifiedOrderAsync(WXPayOrder payOrder, TCorp corp, DeferredResult<Map<String, String>> deferredResult) {
 
         // 创建微信支付订单，向微信发起请求
-        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAppId(), corp.getPaySecret());
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAuthorizerAppid(), corp.getPaySecret());
 
         wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
             @Override
             public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
                 if (response.isSuccessful()) {
                     WXPayResult payResult = response.body();
+                    if ( "FAIL".equals(payResult.getReturnCode()) ) {
+                        logger.error(payResult.getReturnMsg());
+                        deferredResult.setErrorResult(new Exception(payResult.getReturnMsg()));
+                        return;
+                    }
                     String prePayId = payResult.getPrepayId();
-
                     Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
                     deferredResult.setResult(paySign);
                 }
@@ -176,13 +180,19 @@ public class OrderController extends BaseCorpController {
             body += "...";
         }
 
-        TCorp corp = corpsService.selectCorpByMchId(sessionData.getMchid());
+        TCorp corp;
+
+        if ( sessionData.getCorpId() != null ) {
+            corp = corpsService.selectCorpByCorpId(sessionData.getCorpId());
+        } else {
+            corp = corpsService.selectCorpByMchId(sessionData.getMchid());
+        }
 
         WXPayOrder payOrder = new WXPayOrder();
-        payOrder.setAppid(corp.getAppId());
+        payOrder.setAppid(corp.getAuthorizerAppid());
         payOrder.setMchId(corp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(appConfiguration.getPayNotifyUrl());
+        payOrder.setNotifyUrl(appConfig.getPayNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(order.getOrderCode());
         payOrder.setBody(body);
@@ -211,6 +221,11 @@ public class OrderController extends BaseCorpController {
         int userId = sessionData.getUserId();
         order.setUserId(userId);
 
+        logger.debug("================================");
+        logger.trace(sessionData);
+        logger.trace(order);
+        logger.debug("================================");
+
         // 订单状态默认为未付款
         order.setStatus(Order.STATUS_CREATED);
         order.setCorpId(dinerId);
@@ -224,7 +239,6 @@ public class OrderController extends BaseCorpController {
 
         } else {
             order.setTableId(null);
-
         }
 
         List<Integer> itemIdList = new ArrayList<>();
@@ -295,7 +309,7 @@ public class OrderController extends BaseCorpController {
         Order order = orderWrapper.selectOrder(orderId);
 
         if (null == order) {
-            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Object>(order, HttpStatus.OK);

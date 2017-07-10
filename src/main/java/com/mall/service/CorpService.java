@@ -24,4 +24,15 @@ public interface CorpService {
 	List<Map<String, Object>> selectEnterCorp(int corpId);
 
 	List<TCorp> selectAllCorps();
+
+	Map<String, Object> getByAppkey(String appid);
+
+	Map<String, Object> getByAppid(String appkey);
+
+	List<Map<String, ?>> getAuthorizerDiners();
+
+	void updateByAppid(String appid, TCorp corp);
+
+	void updateByAppkey(String appkey, TCorp corp);
+
 }

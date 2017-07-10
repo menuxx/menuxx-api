@@ -305,73 +305,393 @@ public class TCorpExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdIsNull() {
-            addCriterion("authorizer_app_id is null");
+        public Criteria andAuthorizerAppidIsNull() {
+            addCriterion("authorizer_appid is null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdIsNotNull() {
-            addCriterion("authorizer_app_id is not null");
+        public Criteria andAuthorizerAppidIsNotNull() {
+            addCriterion("authorizer_appid is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdEqualTo(String value) {
-            addCriterion("authorizer_app_id =", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidEqualTo(String value) {
+            addCriterion("authorizer_appid =", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdNotEqualTo(String value) {
-            addCriterion("authorizer_app_id <>", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidNotEqualTo(String value) {
+            addCriterion("authorizer_appid <>", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdGreaterThan(String value) {
-            addCriterion("authorizer_app_id >", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidGreaterThan(String value) {
+            addCriterion("authorizer_appid >", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdGreaterThanOrEqualTo(String value) {
-            addCriterion("authorizer_app_id >=", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidGreaterThanOrEqualTo(String value) {
+            addCriterion("authorizer_appid >=", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdLessThan(String value) {
-            addCriterion("authorizer_app_id <", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidLessThan(String value) {
+            addCriterion("authorizer_appid <", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdLessThanOrEqualTo(String value) {
-            addCriterion("authorizer_app_id <=", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidLessThanOrEqualTo(String value) {
+            addCriterion("authorizer_appid <=", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdLike(String value) {
-            addCriterion("authorizer_app_id like", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidLike(String value) {
+            addCriterion("authorizer_appid like", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdNotLike(String value) {
-            addCriterion("authorizer_app_id not like", value, "authorizerAppId");
+        public Criteria andAuthorizerAppidNotLike(String value) {
+            addCriterion("authorizer_appid not like", value, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdIn(List<String> values) {
-            addCriterion("authorizer_app_id in", values, "authorizerAppId");
+        public Criteria andAuthorizerAppidIn(List<String> values) {
+            addCriterion("authorizer_appid in", values, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdNotIn(List<String> values) {
-            addCriterion("authorizer_app_id not in", values, "authorizerAppId");
+        public Criteria andAuthorizerAppidNotIn(List<String> values) {
+            addCriterion("authorizer_appid not in", values, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdBetween(String value1, String value2) {
-            addCriterion("authorizer_app_id between", value1, value2, "authorizerAppId");
+        public Criteria andAuthorizerAppidBetween(String value1, String value2) {
+            addCriterion("authorizer_appid between", value1, value2, "authorizerAppid");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorizerAppIdNotBetween(String value1, String value2) {
-            addCriterion("authorizer_app_id not between", value1, value2, "authorizerAppId");
+        public Criteria andAuthorizerAppidNotBetween(String value1, String value2) {
+            addCriterion("authorizer_appid not between", value1, value2, "authorizerAppid");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeIsNull() {
+            addCriterion("wxlite_template_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeIsNotNull() {
+            addCriterion("wxlite_template_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeEqualTo(Integer value) {
+            addCriterion("wxlite_template_type =", value, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeNotEqualTo(Integer value) {
+            addCriterion("wxlite_template_type <>", value, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeGreaterThan(Integer value) {
+            addCriterion("wxlite_template_type >", value, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("wxlite_template_type >=", value, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeLessThan(Integer value) {
+            addCriterion("wxlite_template_type <", value, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("wxlite_template_type <=", value, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeIn(List<Integer> values) {
+            addCriterion("wxlite_template_type in", values, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeNotIn(List<Integer> values) {
+            addCriterion("wxlite_template_type not in", values, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeBetween(Integer value1, Integer value2) {
+            addCriterion("wxlite_template_type between", value1, value2, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteTemplateTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("wxlite_template_type not between", value1, value2, "wxliteTemplateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusIsNull() {
+            addCriterion("authorizer_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusIsNotNull() {
+            addCriterion("authorizer_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusEqualTo(Integer value) {
+            addCriterion("authorizer_status =", value, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusNotEqualTo(Integer value) {
+            addCriterion("authorizer_status <>", value, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusGreaterThan(Integer value) {
+            addCriterion("authorizer_status >", value, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("authorizer_status >=", value, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusLessThan(Integer value) {
+            addCriterion("authorizer_status <", value, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("authorizer_status <=", value, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusIn(List<Integer> values) {
+            addCriterion("authorizer_status in", values, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusNotIn(List<Integer> values) {
+            addCriterion("authorizer_status not in", values, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusBetween(Integer value1, Integer value2) {
+            addCriterion("authorizer_status between", value1, value2, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorizerStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("authorizer_status not between", value1, value2, "authorizerStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusIsNull() {
+            addCriterion("wxlite_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusIsNotNull() {
+            addCriterion("wxlite_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusEqualTo(Integer value) {
+            addCriterion("wxlite_status =", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusNotEqualTo(Integer value) {
+            addCriterion("wxlite_status <>", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusGreaterThan(Integer value) {
+            addCriterion("wxlite_status >", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("wxlite_status >=", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusLessThan(Integer value) {
+            addCriterion("wxlite_status <", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("wxlite_status <=", value, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusIn(List<Integer> values) {
+            addCriterion("wxlite_status in", values, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusNotIn(List<Integer> values) {
+            addCriterion("wxlite_status not in", values, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusBetween(Integer value1, Integer value2) {
+            addCriterion("wxlite_status between", value1, value2, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("wxlite_status not between", value1, value2, "wxliteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdIsNull() {
+            addCriterion("origin_app_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdIsNotNull() {
+            addCriterion("origin_app_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdEqualTo(String value) {
+            addCriterion("origin_app_id =", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotEqualTo(String value) {
+            addCriterion("origin_app_id <>", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdGreaterThan(String value) {
+            addCriterion("origin_app_id >", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdGreaterThanOrEqualTo(String value) {
+            addCriterion("origin_app_id >=", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdLessThan(String value) {
+            addCriterion("origin_app_id <", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdLessThanOrEqualTo(String value) {
+            addCriterion("origin_app_id <=", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdLike(String value) {
+            addCriterion("origin_app_id like", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotLike(String value) {
+            addCriterion("origin_app_id not like", value, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdIn(List<String> values) {
+            addCriterion("origin_app_id in", values, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotIn(List<String> values) {
+            addCriterion("origin_app_id not in", values, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdBetween(String value1, String value2) {
+            addCriterion("origin_app_id between", value1, value2, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOriginAppIdNotBetween(String value1, String value2) {
+            addCriterion("origin_app_id not between", value1, value2, "originAppId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionIsNull() {
+            addCriterion("wxlite_version is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionIsNotNull() {
+            addCriterion("wxlite_version is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionEqualTo(String value) {
+            addCriterion("wxlite_version =", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionNotEqualTo(String value) {
+            addCriterion("wxlite_version <>", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionGreaterThan(String value) {
+            addCriterion("wxlite_version >", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionGreaterThanOrEqualTo(String value) {
+            addCriterion("wxlite_version >=", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionLessThan(String value) {
+            addCriterion("wxlite_version <", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionLessThanOrEqualTo(String value) {
+            addCriterion("wxlite_version <=", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionLike(String value) {
+            addCriterion("wxlite_version like", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionNotLike(String value) {
+            addCriterion("wxlite_version not like", value, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionIn(List<String> values) {
+            addCriterion("wxlite_version in", values, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionNotIn(List<String> values) {
+            addCriterion("wxlite_version not in", values, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionBetween(String value1, String value2) {
+            addCriterion("wxlite_version between", value1, value2, "wxliteVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxliteVersionNotBetween(String value1, String value2) {
+            addCriterion("wxlite_version not between", value1, value2, "wxliteVersion");
             return (Criteria) this;
         }
 

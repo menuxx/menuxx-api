@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.mall.model.TCorpUser">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="corp_id" jdbcType="INTEGER" property="corpId" />
+    <result column="push_key" jdbcType="VARCHAR" property="pushKey" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="client_id" jdbcType="VARCHAR" property="clientId" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_id, mobile, client_id, nickname, gender, avatar, email, create_time
+    id, corp_id, push_key, mobile, client_id, nickname, gender, avatar, email, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpUserExample" resultMap="BaseResultMap">
     select
@@ -107,12 +108,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_corp_user (corp_id, mobile, client_id, 
-      nickname, gender, avatar, 
-      email, create_time)
-    values (#{corpId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{clientId,jdbcType=VARCHAR}, 
-      #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT}, #{avatar,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+    insert into t_corp_user (corp_id, push_key, mobile, 
+      client_id, nickname, gender, 
+      avatar, email, create_time
+      )
+    values (#{corpId,jdbcType=INTEGER}, #{pushKey,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{clientId,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT}, 
+      #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorpUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -122,6 +125,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
         corp_id,
+      </if>
+      <if test="pushKey != null">
+        push_key,
       </if>
       <if test="mobile != null">
         mobile,
@@ -148,6 +154,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
         #{corpId,jdbcType=INTEGER},
+      </if>
+      <if test="pushKey != null">
+        #{pushKey,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
@@ -187,6 +196,9 @@
       <if test="record.corpId != null">
         corp_id = #{record.corpId,jdbcType=INTEGER},
       </if>
+      <if test="record.pushKey != null">
+        push_key = #{record.pushKey,jdbcType=VARCHAR},
+      </if>
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
@@ -217,6 +229,7 @@
     update t_corp_user
     set id = #{record.id,jdbcType=INTEGER},
       corp_id = #{record.corpId,jdbcType=INTEGER},
+      push_key = #{record.pushKey,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       client_id = #{record.clientId,jdbcType=VARCHAR},
       nickname = #{record.nickname,jdbcType=VARCHAR},
@@ -233,6 +246,9 @@
     <set>
       <if test="corpId != null">
         corp_id = #{corpId,jdbcType=INTEGER},
+      </if>
+      <if test="pushKey != null">
+        push_key = #{pushKey,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
@@ -261,6 +277,7 @@
   <update id="updateByPrimaryKey" parameterType="com.mall.model.TCorpUser">
     update t_corp_user
     set corp_id = #{corpId,jdbcType=INTEGER},
+      push_key = #{pushKey,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       client_id = #{clientId,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARCHAR},

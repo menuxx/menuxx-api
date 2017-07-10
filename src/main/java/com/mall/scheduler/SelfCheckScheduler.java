@@ -1,11 +1,11 @@
 package com.mall.scheduler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mall.configure.AppConfiguration;
+import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.model.Order;
 import com.mall.model.TCorpUser;
+import com.mall.push.DinerPushManager;
 import com.mall.service.CorpUserService;
-import com.mall.utils.IPushUtil;
 import com.mall.wrapper.OrderWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,13 @@ public class SelfCheckScheduler {
     CorpUserService corpUserService;
 
     @Autowired
-    AppConfiguration appConfiguration;
+    AppConfigureProperties appConfig;
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    DinerPushManager pushManager;
 
     /**
      * 每日早上 9 点发出推送测试流程
@@ -48,20 +51,19 @@ public class SelfCheckScheduler {
 
         List<String> clientIdList = new ArrayList<>();
 
-        List<String> phoneList = new ArrayList<>();
-
         if (userList != null && userList.size() > 0) {
             for (TCorpUser corpUser : userList) {
                 if (StringUtils.isNotBlank(corpUser.getClientId())) {
                     clientIdList.add(corpUser.getClientId());
                 }
-                if (StringUtils.isNoneBlank(corpUser.getMobile())) {
-                    phoneList.add(corpUser.getMobile());
-                }
             }
         }
 
-        orderWrapper.pushOrder(order, clientIdList, phoneList);
+        orderWrapper.pushOrder(order, clientIdList);
+
+        for (TCorpUser corpUser : userList) {
+            pushManager.pushOrderToDinerUser(corpUser.getPushKey(), order);
+        }
 
         System.out.println("************************ doSelfCheck scheduler end *****************************");
     }

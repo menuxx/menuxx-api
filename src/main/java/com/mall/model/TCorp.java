@@ -9,7 +9,17 @@ public class TCorp {
 
     private String appKey;
 
-    private String authorizerAppId;
+    private String authorizerAppid;
+
+    private Integer wxliteTemplateType;
+
+    private Integer authorizerStatus;
+
+    private Integer wxliteStatus;
+
+    private String originAppId;
+
+    private String wxliteVersion;
 
     private String logoPath;
 
@@ -79,12 +89,52 @@ public class TCorp {
         this.appKey = appKey == null ? null : appKey.trim();
     }
 
-    public String getAuthorizerAppId() {
-        return authorizerAppId;
+    public String getAuthorizerAppid() {
+        return authorizerAppid;
     }
 
-    public void setAuthorizerAppId(String authorizerAppId) {
-        this.authorizerAppId = authorizerAppId == null ? null : authorizerAppId.trim();
+    public void setAuthorizerAppid(String authorizerAppid) {
+        this.authorizerAppid = authorizerAppid == null ? null : authorizerAppid.trim();
+    }
+
+    public Integer getWxliteTemplateType() {
+        return wxliteTemplateType;
+    }
+
+    public void setWxliteTemplateType(Integer wxliteTemplateType) {
+        this.wxliteTemplateType = wxliteTemplateType;
+    }
+
+    public Integer getAuthorizerStatus() {
+        return authorizerStatus;
+    }
+
+    public void setAuthorizerStatus(Integer authorizerStatus) {
+        this.authorizerStatus = authorizerStatus;
+    }
+
+    public Integer getWxliteStatus() {
+        return wxliteStatus;
+    }
+
+    public void setWxliteStatus(Integer wxliteStatus) {
+        this.wxliteStatus = wxliteStatus;
+    }
+
+    public String getOriginAppId() {
+        return originAppId;
+    }
+
+    public void setOriginAppId(String originAppId) {
+        this.originAppId = originAppId == null ? null : originAppId.trim();
+    }
+
+    public String getWxliteVersion() {
+        return wxliteVersion;
+    }
+
+    public void setWxliteVersion(String wxliteVersion) {
+        this.wxliteVersion = wxliteVersion == null ? null : wxliteVersion.trim();
     }
 
     public String getLogoPath() {
