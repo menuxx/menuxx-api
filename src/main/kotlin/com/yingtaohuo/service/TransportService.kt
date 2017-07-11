@@ -10,6 +10,7 @@ import com.mall.model.TTakeawayShop
 import com.mall.model.TTakeawayTransport
 import com.mall.model.TTakeawayTransportExample
 import com.mall.service.OrderItemService
+import com.yingtaohuo.props.ImDadaProperties
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
 import java.util.*
@@ -26,7 +27,8 @@ open class TransportService(
         val addressService: AddressService,
         val orderItemService: OrderItemService,
         val imdadaApi: ImDadaApi,
-        val dadaMerchantService: DadaMerchantService
+        val dadaMerchantService: DadaMerchantService,
+        val imDadaProperties: ImDadaProperties
 ) {
 
     companion object {
@@ -70,9 +72,9 @@ open class TransportService(
                 receiverPhone = receiverAddress.phone,
                 receiverLng = receiverAddress.lng.toDouble(),
                 receiverLat = receiverAddress.lat.toDouble(),
-                callback = "http://openapi.qurenjia.com/imdada/callback?event_form=newdada",   // 事件回调地址
+                callback = "${imDadaProperties.callbackUrl}?event_form=newdada",   // 事件回调地址
                 tips = 0.0,
-                payForSupplierFee = 5.0,    // 每单商家铺贴配送费
+                payForSupplierFee = takeoutFee,    // 每单商家铺贴配送费
                 fetchFromReceiverFee = 0.0,
                 deliverFee = 0.0,
                 createTime = (System.currentTimeMillis() / 1000),
