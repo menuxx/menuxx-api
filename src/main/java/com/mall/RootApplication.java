@@ -1,5 +1,6 @@
 package com.mall;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.mall.configure.properties.AppConfigureProperties;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +46,11 @@ public class RootApplication extends WebMvcConfigurerAdapter {
 
     @Bean
     public Jackson2ObjectMapperBuilder objectMapperBuilder() {
-        return new Jackson2ObjectMapperBuilder().modulesToInstall(new KotlinModule());
+        return new Jackson2ObjectMapperBuilder()
+            .dateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
+            .timeZone("GMT+8")
+            .serializationInclusion(JsonInclude.Include.NON_NULL)
+            .modulesToInstall(new KotlinModule());
     }
 
 }
