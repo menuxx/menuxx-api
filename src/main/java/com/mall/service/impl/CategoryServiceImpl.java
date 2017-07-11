@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
         TCategoryExample example = new TCategoryExample();
         TCategoryExample.Criteria criteria = example.createCriteria();
 
-        example.setOrderByClause("id asc");
+        example.setOrderByClause("sort_id asc");
         criteria.andCorpIdEqualTo(corpId);
 
         return categoryMapper.selectByExample(example);
