@@ -119,7 +119,7 @@ public class PushConfiguration {
     private BaiduMqttPusher initBaiduMqttPusher() {
         return new BaiduMqttPusher(
                 mqttConfig.getBroker(),
-                "app_server_api_server",
+                "api_server_" + System.currentTimeMillis(),
                 mqttConfig.getUsername(), mqttConfig.getPassword(),
                 mqttConfig.getTimeout(),
                 mqttConfig.getKeepalive()

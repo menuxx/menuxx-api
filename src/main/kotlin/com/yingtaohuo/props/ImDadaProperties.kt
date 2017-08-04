@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 @ConfigurationProperties("imdada")
 class ImDadaProperties {
-    lateinit var appKey: String
-    lateinit var appSecret: String
-    lateinit var callbackUrl: String
+    var appKey: String = ""
+    var appSecret: String = ""
+    var callbackUrl: String = ""
 }

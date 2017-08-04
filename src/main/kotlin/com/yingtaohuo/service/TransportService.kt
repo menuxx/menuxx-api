@@ -14,6 +14,7 @@ import com.yingtaohuo.props.ImDadaProperties
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
 import java.util.*
+import javax.annotation.PostConstruct
 
 /**
  * 作者: yinchangsheng@gmail.com
