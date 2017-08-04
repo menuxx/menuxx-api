@@ -70,9 +70,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_corp" domainObjectName="TCorp" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
         <!--<table schema="jiujin" tableName="t_corp_collect" domainObjectName="TCorpCollect" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -134,11 +134,11 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table tableName="t_takeaway_transport" domainObjectName="TTakeawayTransport">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table tableName="t_delivery_transport" domainObjectName="TDeliveryTransport">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_takeaway_shop" domainObjectName="TTakeawayShop" >-->
+        <!--<table schema="jiujin" tableName="t_delivery_shop" domainObjectName="TDeliveryShop" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 

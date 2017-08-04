@@ -63,9 +63,7 @@ public class OrderItemWrapperImpl implements OrderItemWrapper {
     @Override
     public List<OrderItem> selectOrderItemByOrderId(int orderId) {
         List<TOrderItem> torderItemList = orderItemService.selectOrderItemByOrderId(orderId);
-
         List<OrderItem> orderItemList = buildOrderItems(torderItemList);
-
         return orderItemList;
     }
 

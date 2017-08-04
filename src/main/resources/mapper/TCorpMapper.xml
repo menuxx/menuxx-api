@@ -33,6 +33,7 @@
     <result column="lon" jdbcType="DOUBLE" property="lon" />
     <result column="lat" jdbcType="DOUBLE" property="lat" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version_type" jdbcType="INTEGER" property="versionType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -97,7 +98,7 @@
     wxlite_status, origin_app_id, wxlite_version, logo_path, legal_entity, business_license, 
     business_license_img, shop_name, master_name, address, corp_phone, email, business_hours, 
     master_phone, wechat_id, app_id, app_secret, pay_secret, mch_id, corp_type, platform_id, 
-    lables, lon, lat, create_time
+    lables, lon, lat, create_time, version_type
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpExample" resultMap="BaseResultMap">
     select
@@ -142,8 +143,8 @@
       master_phone, wechat_id, app_id, 
       app_secret, pay_secret, mch_id, 
       corp_type, platform_id, lables, 
-      lon, lat, create_time
-      )
+      lon, lat, create_time, 
+      version_type)
     values (#{corpName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{authorizerAppid,jdbcType=VARCHAR}, 
       #{wxliteTemplateType,jdbcType=INTEGER}, #{authorizerStatus,jdbcType=INTEGER}, #{wxliteStatus,jdbcType=INTEGER}, 
       #{originAppId,jdbcType=VARCHAR}, #{wxliteVersion,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
@@ -153,8 +154,8 @@
       #{masterPhone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
       #{appSecret,jdbcType=VARCHAR}, #{paySecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
       #{corpType,jdbcType=INTEGER}, #{platformId,jdbcType=INTEGER}, #{lables,jdbcType=VARCHAR}, 
-      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{versionType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorp">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -252,6 +253,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="versionType != null">
+        version_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpName != null">
@@ -343,6 +347,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="versionType != null">
+        #{versionType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -448,6 +455,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.versionType != null">
+        version_type = #{record.versionType,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -485,7 +495,8 @@
       lables = #{record.lables,jdbcType=VARCHAR},
       lon = #{record.lon,jdbcType=DOUBLE},
       lat = #{record.lat,jdbcType=DOUBLE},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      version_type = #{record.versionType,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -583,6 +594,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="versionType != null">
+        version_type = #{versionType,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -617,7 +631,8 @@
       lables = #{lables,jdbcType=VARCHAR},
       lon = #{lon,jdbcType=DOUBLE},
       lat = #{lat,jdbcType=DOUBLE},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      version_type = #{versionType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

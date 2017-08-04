@@ -22,6 +22,8 @@ public interface OrderWrapper {
 
     PageInfo<Order> selectAllPaidOrders(int corpId);
 
+    PageInfo<Order> selectOrdersFilterStatusByCorpId(int corpId, List<Integer> status);
+
     Order selectOrder(int orderId);
 
     void setStatusToPaid(TChargeApply chargeApply);
@@ -35,4 +37,5 @@ public interface OrderWrapper {
     void rechargePay(int userId, int corpId, Order order);
 
     Order buildTestOrder();
+
 }

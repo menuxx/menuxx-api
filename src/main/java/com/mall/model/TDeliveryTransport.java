@@ -3,7 +3,7 @@ package com.mall.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TTakeawayTransport {
+public class TDeliveryTransport {
     private Integer id;
 
     private Integer shopId;
@@ -30,6 +30,8 @@ public class TTakeawayTransport {
 
     private String orderRemark;
 
+    private String goodsRemark;
+
     private Integer goodsCount;
 
     private Byte isInvoiced;
@@ -40,23 +42,35 @@ public class TTakeawayTransport {
 
     private Integer transportFee;
 
+    private Integer transportTips;
+
     private Long transportDistance;
 
     private Date createTime;
 
     private String cancelReason;
 
+    private String errorMsg;
+
     private Date updateTime;
 
-    private String transportName;
+    private String transporterName;
 
-    private String transportTel;
+    private String transporterTel;
 
-    private String transportNo;
+    private String transporterNo;
 
     private Date acceptTime;
 
     private Date finishTime;
+
+    private Date fetchTime;
+
+    private Date cancelTime;
+
+    private Date expireTime;
+
+    private Date resendTime;
 
     public Integer getId() {
         return id;
@@ -162,6 +176,14 @@ public class TTakeawayTransport {
         this.orderRemark = orderRemark == null ? null : orderRemark.trim();
     }
 
+    public String getGoodsRemark() {
+        return goodsRemark;
+    }
+
+    public void setGoodsRemark(String goodsRemark) {
+        this.goodsRemark = goodsRemark == null ? null : goodsRemark.trim();
+    }
+
     public Integer getGoodsCount() {
         return goodsCount;
     }
@@ -202,6 +224,14 @@ public class TTakeawayTransport {
         this.transportFee = transportFee;
     }
 
+    public Integer getTransportTips() {
+        return transportTips;
+    }
+
+    public void setTransportTips(Integer transportTips) {
+        this.transportTips = transportTips;
+    }
+
     public Long getTransportDistance() {
         return transportDistance;
     }
@@ -226,6 +256,14 @@ public class TTakeawayTransport {
         this.cancelReason = cancelReason == null ? null : cancelReason.trim();
     }
 
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg == null ? null : errorMsg.trim();
+    }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -234,28 +272,28 @@ public class TTakeawayTransport {
         this.updateTime = updateTime;
     }
 
-    public String getTransportName() {
-        return transportName;
+    public String getTransporterName() {
+        return transporterName;
     }
 
-    public void setTransportName(String transportName) {
-        this.transportName = transportName == null ? null : transportName.trim();
+    public void setTransporterName(String transporterName) {
+        this.transporterName = transporterName == null ? null : transporterName.trim();
     }
 
-    public String getTransportTel() {
-        return transportTel;
+    public String getTransporterTel() {
+        return transporterTel;
     }
 
-    public void setTransportTel(String transportTel) {
-        this.transportTel = transportTel == null ? null : transportTel.trim();
+    public void setTransporterTel(String transporterTel) {
+        this.transporterTel = transporterTel == null ? null : transporterTel.trim();
     }
 
-    public String getTransportNo() {
-        return transportNo;
+    public String getTransporterNo() {
+        return transporterNo;
     }
 
-    public void setTransportNo(String transportNo) {
-        this.transportNo = transportNo == null ? null : transportNo.trim();
+    public void setTransporterNo(String transporterNo) {
+        this.transporterNo = transporterNo == null ? null : transporterNo.trim();
     }
 
     public Date getAcceptTime() {
@@ -272,5 +310,37 @@ public class TTakeawayTransport {
 
     public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
+    }
+
+    public Date getFetchTime() {
+        return fetchTime;
+    }
+
+    public void setFetchTime(Date fetchTime) {
+        this.fetchTime = fetchTime;
+    }
+
+    public Date getCancelTime() {
+        return cancelTime;
+    }
+
+    public void setCancelTime(Date cancelTime) {
+        this.cancelTime = cancelTime;
+    }
+
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public Date getResendTime() {
+        return resendTime;
+    }
+
+    public void setResendTime(Date resendTime) {
+        this.resendTime = resendTime;
     }
 }

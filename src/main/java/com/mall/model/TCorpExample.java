@@ -2184,6 +2184,66 @@ public class TCorpExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andVersionTypeIsNull() {
+            addCriterion("version_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeIsNotNull() {
+            addCriterion("version_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeEqualTo(Integer value) {
+            addCriterion("version_type =", value, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeNotEqualTo(Integer value) {
+            addCriterion("version_type <>", value, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeGreaterThan(Integer value) {
+            addCriterion("version_type >", value, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("version_type >=", value, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeLessThan(Integer value) {
+            addCriterion("version_type <", value, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("version_type <=", value, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeIn(List<Integer> values) {
+            addCriterion("version_type in", values, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeNotIn(List<Integer> values) {
+            addCriterion("version_type not in", values, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeBetween(Integer value1, Integer value2) {
+            addCriterion("version_type between", value1, value2, "versionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("version_type not between", value1, value2, "versionType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

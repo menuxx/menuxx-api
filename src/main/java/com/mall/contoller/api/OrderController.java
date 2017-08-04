@@ -15,6 +15,7 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import com.yingtaohuo.service.PushService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +75,9 @@ public class OrderController extends BaseCorpController {
 
     @Autowired
     TopupService topupService;
+
+    @Autowired
+    PushService pushService;
 
     /**
      * 2023 发起充值
@@ -170,6 +175,7 @@ public class OrderController extends BaseCorpController {
     @RequestMapping(value = "orders/{orderId}/create", method = RequestMethod.POST)
     @ResponseBody
     public DeferredResult<?> createOrder(@PathVariable int orderId, @SessionKey SessionData sessionData) {
+
         int userId = sessionData.getUserId();
 
         Order order = orderWrapper.selectOrder(orderId);
@@ -217,7 +223,11 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> createOrderNoPay(@PathVariable int dinerId, @RequestBody Order order, @SessionKey SessionData sessionData) {
+    public ResponseEntity<?> createOrderNoPay(
+        @PathVariable int dinerId,
+        @RequestBody Order order,
+        @RequestParam(required = false, defaultValue = "0") Integer confirm,
+        @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
         order.setUserId(userId);
 
@@ -227,7 +237,11 @@ public class OrderController extends BaseCorpController {
         logger.debug("================================");
 
         // 订单状态默认为未付款
-        order.setStatus(Order.STATUS_CREATED);
+        if ( confirm == 1 ) {
+            order.setStatus(Order.STATUS_CONFIRM);
+        } else {
+            order.setStatus(Order.STATUS_CREATED);
+        }
         order.setCorpId(dinerId);
         order.setPayType(Order.PAY_TYPE_WX);
 
@@ -261,6 +275,11 @@ public class OrderController extends BaseCorpController {
             order.setUserBalance(userBalance.getBalance());
         }
 
+        // 如果订单为 确认下单类型 就推送该订单
+        if (order.getStatus() == Order.STATUS_CONFIRM) {
+            pushService.pushConfirmOrder(order.getCorpId(), order);
+        }
+
         return new ResponseEntity<Object>(order, HttpStatus.OK);
     }
 
@@ -288,13 +307,14 @@ public class OrderController extends BaseCorpController {
      * @param pageSize
      * @return
      */
-    @RequestMapping(value = "orders/all", method = RequestMethod.GET)
-    @ResponseBody
     @Page
-    public ResponseEntity<?> getPaidOrdersByCorp(@PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
-                                                 @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
-        PageInfo<Order> pageInfo = orderWrapper.selectAllPaidOrders(dinerId);
-        return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
+    @GetMapping("orders/all")
+    @ResponseBody
+    public PageInfo<Order> getOrdersByCorp(@PathVariable int dinerId,
+                                           @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
+                                           @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
+        // 获取所有确认订单, 已支付，和 已下单 都 拉取出来
+        return orderWrapper.selectOrdersFilterStatusByCorpId(dinerId, Arrays.asList(1, 2));
     }
 
     /**
@@ -307,12 +327,10 @@ public class OrderController extends BaseCorpController {
     @ResponseBody
     public ResponseEntity<?> getOrder(@PathVariable int dinerId, @PathVariable int orderId) {
         Order order = orderWrapper.selectOrder(orderId);
-
         if (null == order) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
@@ -330,7 +348,7 @@ public class OrderController extends BaseCorpController {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     /**
@@ -350,12 +368,12 @@ public class OrderController extends BaseCorpController {
         Order order = orderWrapper.selectOrder(orderId);
 
         if (userBalance.getBalance() < order.getPayAmount()) {
-            return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         orderWrapper.rechargePay(userId, dinerId, order);
 
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @RequestMapping(value = "orders/{orderId}/", method = RequestMethod.PUT)
@@ -368,7 +386,7 @@ public class OrderController extends BaseCorpController {
 
         Order order = orderWrapper.pushOrder(orderId);
 
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
 

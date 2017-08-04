@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.eventbus.EventBus;
-import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.configure.properties.PushConfigProperties;
 import com.mall.model.*;
 import com.mall.push.DinerPushManager;
@@ -273,6 +272,12 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
+    public PageInfo<Order> selectOrdersFilterStatusByCorpId(int corpId, List<Integer> status) {
+        PageInfo<TOrder> tOrderPageInfo = orderService.selectOrdersByStatus(corpId, status);
+        return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
+
+    @Override
     public Order pushOrder(int orderId) {
         Order order = selectOrder(orderId);
         return pushOrder(order);
@@ -291,7 +296,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     }
 
-    private Order pushOrder(Order order) {
+    public Order pushOrder(Order order) {
 
         List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
 
@@ -310,12 +315,11 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // 推送给 该店铺 所有的 用户
         for (TCorpUser corpUser : corpUserList) {
-            pushManager.pushOrderToDinerUser(corpUser.getPushKey(), order);
+            pushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
         }
 
         return order;
     }
-
 
     @Override
     @Transactional

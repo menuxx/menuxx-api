@@ -4,6 +4,7 @@ import com.mall.push.*;
 import com.tencent.xinge.Message;
 import com.tencent.xinge.XingeApp;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +100,12 @@ public class XGPusher extends AbstractPusher {
         // push to device
         // JSONObject res = xingeApp.pushSingleDevice(pushToken, msg);
 
-        int retCode = res.getInt("ret_code");
+        int retCode = 0;
+        try {
+            retCode = res.getInt("ret_code");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         if ( retCode != 0 ) {
             String errMsg = getErrorFormCode(retCode);

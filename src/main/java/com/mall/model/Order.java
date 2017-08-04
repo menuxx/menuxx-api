@@ -20,6 +20,9 @@ public class Order extends TOrder {
     public static final int STATUS_PAID = 1;
     public static final String STATUS_PAID_TEXT = "已付款";
 
+    public static final int STATUS_CONFIRM = 2;
+    public static final String STATUS_CONFIRM_TEXT = "已下单";
+
     // 堂食
     public static final int ORDER_TYPE_EAT_IN = 0;
     public static final String ORDER_TYPE_EAT_IN_TEXT = "堂食";
@@ -74,7 +77,6 @@ public class Order extends TOrder {
         } else if (getOrderType() == ORDER_TYPE_DELIVERED) {
             orderTypeText = ORDER_TYPE_DELIVERED_TEXT;
         }
-
         return orderTypeText;
     }
 
@@ -103,6 +105,8 @@ public class Order extends TOrder {
 
         if (getStatus() == STATUS_PAID) {
             statusText = STATUS_PAID_TEXT;
+        } else if (getOrderType() == STATUS_CONFIRM) {
+            statusText = STATUS_CONFIRM_TEXT;
         }
 
         return statusText;

@@ -65,6 +65,8 @@ public class TCorp {
 
     private Date createTime;
 
+    private Integer versionType;
+
     public Integer getId() {
         return id;
     }
@@ -311,5 +313,13 @@ public class TCorp {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getVersionType() {
+        return versionType;
+    }
+
+    public void setVersionType(Integer versionType) {
+        this.versionType = versionType;
     }
 }

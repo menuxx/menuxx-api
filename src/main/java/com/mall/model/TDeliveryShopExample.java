@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TTakeawayShopExample {
+public class TDeliveryShopExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TTakeawayShopExample() {
+    public TDeliveryShopExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,63 +165,63 @@ public class TTakeawayShopExample {
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdIsNull() {
-            addCriterion("diner_id is null");
+        public Criteria andShopIdIsNull() {
+            addCriterion("shop_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdIsNotNull() {
-            addCriterion("diner_id is not null");
+        public Criteria andShopIdIsNotNull() {
+            addCriterion("shop_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdEqualTo(Integer value) {
-            addCriterion("diner_id =", value, "dinerId");
+        public Criteria andShopIdEqualTo(Integer value) {
+            addCriterion("shop_id =", value, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdNotEqualTo(Integer value) {
-            addCriterion("diner_id <>", value, "dinerId");
+        public Criteria andShopIdNotEqualTo(Integer value) {
+            addCriterion("shop_id <>", value, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdGreaterThan(Integer value) {
-            addCriterion("diner_id >", value, "dinerId");
+        public Criteria andShopIdGreaterThan(Integer value) {
+            addCriterion("shop_id >", value, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("diner_id >=", value, "dinerId");
+        public Criteria andShopIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("shop_id >=", value, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdLessThan(Integer value) {
-            addCriterion("diner_id <", value, "dinerId");
+        public Criteria andShopIdLessThan(Integer value) {
+            addCriterion("shop_id <", value, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdLessThanOrEqualTo(Integer value) {
-            addCriterion("diner_id <=", value, "dinerId");
+        public Criteria andShopIdLessThanOrEqualTo(Integer value) {
+            addCriterion("shop_id <=", value, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdIn(List<Integer> values) {
-            addCriterion("diner_id in", values, "dinerId");
+        public Criteria andShopIdIn(List<Integer> values) {
+            addCriterion("shop_id in", values, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdNotIn(List<Integer> values) {
-            addCriterion("diner_id not in", values, "dinerId");
+        public Criteria andShopIdNotIn(List<Integer> values) {
+            addCriterion("shop_id not in", values, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdBetween(Integer value1, Integer value2) {
-            addCriterion("diner_id between", value1, value2, "dinerId");
+        public Criteria andShopIdBetween(Integer value1, Integer value2) {
+            addCriterion("shop_id between", value1, value2, "shopId");
             return (Criteria) this;
         }
 
-        public Criteria andDinerIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("diner_id not between", value1, value2, "dinerId");
+        public Criteria andShopIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("shop_id not between", value1, value2, "shopId");
             return (Criteria) this;
         }
 

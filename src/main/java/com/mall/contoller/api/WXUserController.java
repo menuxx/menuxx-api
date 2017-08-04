@@ -91,20 +91,7 @@ public class WXUserController extends BaseCorpController {
 			@Override
 			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
 				WXCodeSession session = response.body();
-				if ( session.getErrcode() == null ) {
-					String openid = session.getOpenid();
-
-					// 根据openid和corp 创建或修改用户
-					TUser user = loginCode.getUser();
-					user.setOpenid(openid);
-
-					int userId = userService.saveUser(user, corp);
-
-					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
-					deferred.setResult(sessionData);
-				} else {
-					deferred.setErrorResult(new Exception(session.getErrmsg()));
-				}
+				wxSessionApply(deferred, session, loginCode.getUser(), corp);
 			}
 			@Override
 			public void onFailure(Call<WXCodeSession> call, Throwable throwable) {
@@ -128,20 +115,7 @@ public class WXUserController extends BaseCorpController {
 			@Override
 			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
 				WXCodeSession session = response.body();
-				if ( session.getErrcode() == null ) {
-					String openid = session.getOpenid();
-
-					// 根据openid和corp 创建或修改用户
-					TUser user = loginCode.getUser();
-					user.setOpenid(openid);
-
-					int userId = userService.saveUser(user, corp);
-
-					SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
-					deferred.setResult(sessionData);
-				} else {
-					deferred.setErrorResult(new Exception(session.getErrmsg()));
-				}
+				wxSessionApply(deferred, session, loginCode.getUser(), corp);
 			}
 			@Override
 			public void onFailure(Call<WXCodeSession> call, Throwable throwable) {
@@ -150,6 +124,18 @@ public class WXUserController extends BaseCorpController {
 			}
 		});
 		return deferred;
+	}
+
+	private void wxSessionApply(DeferredResult<Object> deferred, WXCodeSession session, TUser user, TCorp corp) {
+		if ( session.getErrcode() == null ) {
+			// 根据openid和corp 创建或修改用户
+			user.setOpenid(session.getOpenid());
+			int userId = userService.saveUser(user, corp);
+			SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
+			deferred.setResult(sessionData);
+		} else {
+			deferred.setErrorResult(new Exception(session.getErrmsg()));
+		}
 	}
 
 	/**

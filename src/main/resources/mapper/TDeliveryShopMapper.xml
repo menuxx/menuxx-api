@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mall.mapper.TTakeawayShopMapper">
-  <resultMap id="BaseResultMap" type="com.mall.model.TTakeawayShop">
+<mapper namespace="com.mall.mapper.TDeliveryShopMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TDeliveryShop">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="diner_id" jdbcType="INTEGER" property="dinerId" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
     <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
     <result column="shop_type" jdbcType="INTEGER" property="shopType" />
     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
@@ -79,17 +79,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, diner_id, shop_name, shop_type, city_name, dada_city_code, area_name, shop_address, 
+    id, shop_id, shop_name, shop_type, city_name, dada_city_code, area_name, shop_address, 
     lng, lat, contact_name, contact_phone, shop_no, imdada_username, imdada_password, 
     ele_app_id, dada_merchant_id
   </sql>
-  <select id="selectByExample" parameterType="com.mall.model.TTakeawayShopExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.mall.model.TDeliveryShopExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_takeaway_shop
+    from t_delivery_shop
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,44 +100,44 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_takeaway_shop
+    from t_delivery_shop
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_takeaway_shop
+    delete from t_delivery_shop
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mall.model.TTakeawayShopExample">
-    delete from t_takeaway_shop
+  <delete id="deleteByExample" parameterType="com.mall.model.TDeliveryShopExample">
+    delete from t_delivery_shop
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mall.model.TTakeawayShop">
+  <insert id="insert" parameterType="com.mall.model.TDeliveryShop">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_takeaway_shop (diner_id, shop_name, shop_type, 
+    insert into t_delivery_shop (shop_id, shop_name, shop_type, 
       city_name, dada_city_code, area_name, 
       shop_address, lng, lat, 
       contact_name, contact_phone, shop_no, 
       imdada_username, imdada_password, ele_app_id, 
       dada_merchant_id)
-    values (#{dinerId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{shopType,jdbcType=INTEGER}, 
+    values (#{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{shopType,jdbcType=INTEGER}, 
       #{cityName,jdbcType=VARCHAR}, #{dadaCityCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
       #{shopAddress,jdbcType=VARCHAR}, #{lng,jdbcType=DECIMAL}, #{lat,jdbcType=DECIMAL}, 
       #{contactName,jdbcType=VARCHAR}, #{contactPhone,jdbcType=VARCHAR}, #{shopNo,jdbcType=VARCHAR}, 
       #{imdadaUsername,jdbcType=VARCHAR}, #{imdadaPassword,jdbcType=VARCHAR}, #{eleAppId,jdbcType=VARCHAR}, 
       #{dadaMerchantId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.mall.model.TTakeawayShop">
+  <insert id="insertSelective" parameterType="com.mall.model.TDeliveryShop">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_takeaway_shop
+    insert into t_delivery_shop
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="dinerId != null">
-        diner_id,
+      <if test="shopId != null">
+        shop_id,
       </if>
       <if test="shopName != null">
         shop_name,
@@ -186,8 +186,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="dinerId != null">
-        #{dinerId,jdbcType=INTEGER},
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
       </if>
       <if test="shopName != null">
         #{shopName,jdbcType=VARCHAR},
@@ -236,20 +236,20 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.mall.model.TTakeawayShopExample" resultType="java.lang.Integer">
-    select count(*) from t_takeaway_shop
+  <select id="countByExample" parameterType="com.mall.model.TDeliveryShopExample" resultType="java.lang.Integer">
+    select count(*) from t_delivery_shop
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_takeaway_shop
+    update t_delivery_shop
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.dinerId != null">
-        diner_id = #{record.dinerId,jdbcType=INTEGER},
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=INTEGER},
       </if>
       <if test="record.shopName != null">
         shop_name = #{record.shopName,jdbcType=VARCHAR},
@@ -302,9 +302,9 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_takeaway_shop
+    update t_delivery_shop
     set id = #{record.id,jdbcType=INTEGER},
-      diner_id = #{record.dinerId,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
       shop_name = #{record.shopName,jdbcType=VARCHAR},
       shop_type = #{record.shopType,jdbcType=INTEGER},
       city_name = #{record.cityName,jdbcType=VARCHAR},
@@ -324,11 +324,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TTakeawayShop">
-    update t_takeaway_shop
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TDeliveryShop">
+    update t_delivery_shop
     <set>
-      <if test="dinerId != null">
-        diner_id = #{dinerId,jdbcType=INTEGER},
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
       </if>
       <if test="shopName != null">
         shop_name = #{shopName,jdbcType=VARCHAR},
@@ -378,9 +378,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mall.model.TTakeawayShop">
-    update t_takeaway_shop
-    set diner_id = #{dinerId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TDeliveryShop">
+    update t_delivery_shop
+    set shop_id = #{shopId,jdbcType=INTEGER},
       shop_name = #{shopName,jdbcType=VARCHAR},
       shop_type = #{shopType,jdbcType=INTEGER},
       city_name = #{cityName,jdbcType=VARCHAR},

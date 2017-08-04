@@ -84,7 +84,7 @@ public class CorpServiceImpl implements CorpService {
 	}
 
 	private Map<String, Object> buildCorp2Map(TCorp corp) {
-		Map<String, Object> map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 		if (null != corp) {
 			map.put("id", corp.getId());
 			map.put("appKey", corp.getAppKey());
@@ -98,6 +98,7 @@ public class CorpServiceImpl implements CorpService {
 			map.put("lat", corp.getLat());
 			map.put("lon", corp.getLon());
 			map.put("logoPath", corp.getLogoPath());
+			map.put("versionType", corp.getVersionType());
 		}
 		return map;
 	}
