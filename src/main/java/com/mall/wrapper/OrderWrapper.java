@@ -12,7 +12,9 @@ import java.util.List;
  */
 public interface OrderWrapper {
 
-    void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList);
+    void createOrder(Order order);
+
+    Order calcOrder(Order order);
 
     PageInfo<Order> selectPaidOrders(int userId, int corpId);
 

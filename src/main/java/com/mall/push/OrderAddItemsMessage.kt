@@ -14,7 +14,7 @@ class OrderAddItemsMessage(
         internal val _opts: Map<String, Any>? = hashMapOf()
 ) : PushDeviceMessage<OrderAddItems> {
 
-    override fun getTitle() = "title"
+    override fun getTitle() = "订单追加"
     override fun getName() = "OrderAddItemsMessage"
     override fun getPushToken() = _pushToken
     override fun getChannel() = _channel

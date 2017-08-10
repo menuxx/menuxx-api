@@ -44,6 +44,7 @@ public class PushEventListener {
             opts.putAll(pusher.getDefaultOpts(opts));
             threadExecutor.execute(() -> {
                 try {
+                    // PushState state = new PushState(true, "111");
                     PushState state = pusher.pushToClient(pushMsg.getPushToken(), payloadStr, opts);
                     if (!state.isOk()) {
                         logger.error("push error: " + state.getErrorMsg());

@@ -250,20 +250,11 @@ public class OrderController extends BaseCorpController {
             if (order.getTableId() == null) {
                 return new ResponseEntity<Object>("请选择就餐桌号.", HttpStatus.BAD_REQUEST);
             }
-
         } else {
             order.setTableId(null);
         }
 
-        List<Integer> itemIdList = new ArrayList<>();
-
-        if (order.getItemList() != null && order.getItemList().size() > 0) {
-            for (OrderItem orderItem : order.getItemList()) {
-                itemIdList.add(orderItem.getItemId());
-            }
-        }
-
-        orderWrapper.createOrder(sessionData.getOpenid(), sessionData.getMchid(), order, itemIdList);
+        orderWrapper.createOrder(order);
 
         order = orderWrapper.selectOrder(order.getId());
 
@@ -325,11 +316,23 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getOrder(@PathVariable int dinerId, @PathVariable int orderId) {
+    public ResponseEntity<?> getOrder(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
+
         Order order = orderWrapper.selectOrder(orderId);
+
         if (null == order) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        // 获取用户余额
+        TUserBalance userBalance = userBalanceService.selectUserBalance(sessionData.getUserId(), dinerId);
+
+        if (null == userBalance) {
+            order.setUserBalance(0);
+        } else {
+            order.setUserBalance(userBalance.getBalance());
+        }
+
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 

@@ -31,10 +31,16 @@ open class XLOrderController(
 
     data class OrderItems(val remark: String, val items: List<TOrderItem>)
     @PutMapping("orders/{orderId}/items")
-    fun appendItemsToOrder(@PathVariable orderId: Int, orderItems: OrderItems) {
-        val newOrderItem = orderService.insertItems(orderId, orderItems.items)
-        val order = orderMapper.selectByPrimaryKey(orderId)
-        pushService.pushOrderAddItems(order.corpId, OrderAddItems(orderId, orderItems.remark, newOrderItem))
+    fun appendItemsToOrder(@PathVariable dinerId: Int, @PathVariable orderId: Int, @RequestBody orderItems: OrderItems) : ResponseDataWrap {
+        try {
+            val newOrderItem = orderService.insertItems(orderId, orderItems.items)
+            val order = orderWrapper.selectOrder(orderId)
+            order.itemList = newOrderItem
+            pushService.pushConfirmOrder(dinerId, order)
+        } catch (ex: Exception) {
+            return ResponseDataWrap(false, 4003, false)
+        }
+        return ResponseDataWrap(true, 0, false)
     }
 
     /**
@@ -50,6 +56,12 @@ open class XLOrderController(
             return ResponseDataWrap(null, 0, false)
         }
         return ResponseDataWrap(null, 4002, true)
+    }
+
+    @GetMapping("orders/{orderId}/state")
+    fun orderState(@PathVariable orderId: Int) : ResponseDataWrap {
+        val order = orderMapper.selectByPrimaryKey(orderId)
+        return ResponseDataWrap(order.status, 0, false)
     }
 
 }

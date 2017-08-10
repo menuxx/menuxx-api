@@ -5,6 +5,7 @@ import com.mall.model.Order;
 import com.yingtaohuo.eventbus.OrderAddItems;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -44,7 +45,7 @@ public class DinerPushManager {
 
     public void pushOrderAddItems(Map<String, String> pushDevices, OrderAddItems items) {
         for (Map.Entry<String, String> pushDevice : pushDevices.entrySet()) {
-            OrderAddItemsMessage msg = new OrderAddItemsMessage(pushDevice.getValue(), pushDevice.getKey(), items, null);
+            OrderAddItemsMessage msg = new OrderAddItemsMessage(pushDevice.getValue(), pushDevice.getKey(), items, new HashMap<>());
             eventBus.post(msg);
         }
     }

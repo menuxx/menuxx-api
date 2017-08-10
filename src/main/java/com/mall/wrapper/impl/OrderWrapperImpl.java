@@ -3,6 +3,7 @@ package com.mall.wrapper.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.mall.configure.properties.PushConfigProperties;
 import com.mall.model.*;
@@ -85,12 +86,16 @@ public class OrderWrapperImpl implements OrderWrapper {
     EventBus eventBus;
 
     @Override
-    @Transactional
-    public void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList) {
-        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
+    public Order calcOrder(Order order) {
 
-        // 先创建订单
-        orderService.createOrder(order);
+        List<Integer> itemIdList = new ArrayList<>();
+        if (order.getItemList() != null && order.getItemList().size() > 0) {
+            for (OrderItem orderItem : order.getItemList()) {
+                itemIdList.add(orderItem.getItemId());
+            }
+        }
+
+        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
 
         // 总金额
         int totalAmount = 0;
@@ -127,8 +132,6 @@ public class OrderWrapperImpl implements OrderWrapper {
 
             orderItem.setPayAmount(payAmount);
 
-            orderItemService.createOrderItem(orderItem);
-
             totalAmount = totalAmount + payAmount;
 
             // 如果选择打包或者外卖，计入打包盒价格
@@ -156,14 +159,27 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setDeliveryAmount(deliveryAmount);
         totalAmount = totalAmount + deliveryAmount;
 
-        // 设置订单号
-        order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
-
         // 更新订单号、排序号
         order.setPayAmount(totalAmount);
         order.setTotalAmount(totalAmount);
-        orderService.updateOrder(order);
 
+        return order;
+    }
+
+    @Override
+    @Transactional
+    public void createOrder(Order order) {
+        // 先创建订单
+        orderService.createOrder(order);
+        // 设置订单号
+        order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
+        // 订单计算
+        calcOrder(order);
+        // 创建商品记录
+        for ( TOrderItem item : order.getItemList() ) {
+            orderItemService.createOrderItem(item);
+        }
+        orderService.updateOrder(order);
     }
 
     @Override
