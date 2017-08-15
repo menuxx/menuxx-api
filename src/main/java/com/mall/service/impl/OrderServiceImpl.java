@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -156,7 +157,7 @@ public class OrderServiceImpl implements OrderService {
         criteria.andUserIdEqualTo(userId);
         criteria.andCorpIdEqualTo(corpId);
 
-        criteria.andStatusEqualTo(Order.STATUS_PAID);
+        criteria.andStatusIn(Arrays.asList(Order.STATUS_PAID, Order.STATUS_OFFLINE));
         example.setOrderByClause("id desc");
 
         PageInfo<TOrder> pageInfo = new PageInfo<>(orderMapper.selectByExample(example));

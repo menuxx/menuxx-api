@@ -9,6 +9,7 @@ import com.mall.model.TOrderItemExample
 import com.mall.service.ConfigService
 import com.mall.service.ItemService
 import com.mall.wrapper.OrderWrapper
+import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
 
 /**
@@ -76,7 +77,9 @@ class XLOrderService(
         // 下单次数累加
         calcedOrder.orderTimes = order.orderTimes + 1
 
-        calcedOrder.remark = order.remark + ", " + order.remark
+        if ( !StringUtils.isBlank(remark) ) {
+            calcedOrder.remark = remark + ", " + order.remark
+        }
 
         // 更新该订单
         orderMapper.updateByPrimaryKeySelective(calcedOrder)
