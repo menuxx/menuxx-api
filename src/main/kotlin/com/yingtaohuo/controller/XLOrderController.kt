@@ -37,7 +37,7 @@ open class XLOrderController(
             // 捏造一个部分商品的订单，该订单只显追加商品的信息
 
             // 查询出该订单详细信息
-            val newOrderItems = orderService.insertItems(orderId, orderItems.items)
+            val newOrderItems = orderService.insertItems(orderId, orderItems.items, orderItems.remark)
             val order = orderWrapper.selectOrder(orderId)
 
             // 覆盖所有商品，只计算新商品的数据

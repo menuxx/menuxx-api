@@ -47,7 +47,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
         if ( order.status == Order.STATUS_CONFIRM ) {
 
-            var stateText = "已下单"
+            var stateText = "下单"
 
             // 第二次下单
             if (order.orderTimes > 1) {
@@ -98,7 +98,16 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
             content += "合计："
         }
 
-        content += """￥${NumberUtil.fenToYuan2(order.payAmount)}(${order.statusText})
+
+        val payStatusText = when(order.status) {
+            Order.STATUS_OFFLINE -> "过其他方式结算"
+            Order.STATUS_CONFIRM -> "待支付"
+            Order.STATUS_PAID -> "已支付"
+            else -> "未支付"
+        }
+
+
+        content += """￥${NumberUtil.fenToYuan2(order.payAmount)}($payStatusText)
 流水号：${order.queueId}
 订单号：${order.orderCode}
 时间：${DateFormat.format(order.createTime)}<BR>"""

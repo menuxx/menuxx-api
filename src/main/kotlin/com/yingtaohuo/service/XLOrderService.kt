@@ -24,7 +24,7 @@ class XLOrderService(
         internal val orderWrapper: OrderWrapper
 ) {
 
-    fun insertItems(orderId: Int, orderItems: List<TOrderItem>) : List<OrderItem> {
+    fun insertItems(orderId: Int, orderItems: List<TOrderItem>, remark: String) : List<OrderItem> {
         // 获取所有需要参与计算的商品详细信息
         val selectItems = itemService.selectItemsForMap(orderItems.map { it.itemId })
 
@@ -75,6 +75,8 @@ class XLOrderService(
 
         // 下单次数累加
         calcedOrder.orderTimes = order.orderTimes + 1
+
+        calcedOrder.remark = order.remark + ", " + order.remark
 
         // 更新该订单
         orderMapper.updateByPrimaryKeySelective(calcedOrder)
