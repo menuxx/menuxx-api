@@ -49,7 +49,9 @@ class XLOrderService(
             existsItem!!.payAmount += item.payAmount
             existsItem!!.quantity += item.quantity
             orderItemMapper.updateByPrimaryKey(existsItem)
-            existsItem
+            item
+        } .map { item ->
+            OrderItem(item, selectItems[item.itemId])
         }
 
         // 找出新添加的商品， 计算 pay_amount 插入数据库
@@ -84,7 +86,7 @@ class XLOrderService(
         // 更新该订单
         orderMapper.updateByPrimaryKeySelective(calcedOrder)
 
-        return items2
+        return items2 + items1
 
     }
 
