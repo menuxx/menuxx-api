@@ -88,7 +88,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
         content += "================================<BR>"
 
         if (!StringUtils.isBlank(order.remark)) {
-            content += "<W>${order.remark}</W>\n" +
+            content += "<W>备注：${order.remark}</W>\n" +
                     "================================<BR>"
         }
 
@@ -115,7 +115,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
         // 如果是外卖
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
             content += "-------------外卖---------------<BR>\n" +
-                    "配送费                  ${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
+                    "配送费                  ￥${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
         }
 
         content += "================================<BR>"
