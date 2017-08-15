@@ -121,7 +121,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
         content += "================================<BR>"
 
         // 如果是外卖 就显示外卖信息
-        if ( order.orderType == Order.ORDER_TYPE_CARRY_OUT ) {
+        if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
             content += "<L>配送信息: ${order.address.address} ${order.address.linkman} ${order.address.phone}</L>"
         }
 
