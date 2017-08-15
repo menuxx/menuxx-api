@@ -500,6 +500,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setId(0);
         order.setUserId(0);
         order.setCorpId(0);
+        order.setOrderTimes(1);
         order.setOrderCode(String.valueOf(System.currentTimeMillis()));
         order.setRemark("不要葱，不要蒜，加辣");
         order.setStatus(1);
