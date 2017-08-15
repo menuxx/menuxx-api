@@ -80,7 +80,12 @@ class XLOrderService(
         calcedOrder.orderTimes = order.orderTimes + 1
 
         if ( !StringUtils.isBlank(remark) ) {
-            calcedOrder.remark = remark + ", " + order.remark
+            if ( StringUtils.isBlank(order.remark) ) {
+                calcedOrder.remark = remark
+            }
+            else {
+                calcedOrder.remark = remark + ", " +order.remark
+            }
         }
 
         // 更新该订单
