@@ -16,6 +16,7 @@ import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
+import com.yingtaohuo.feieprinter.FeieOrderPrinter;
 import com.yingtaohuo.service.ActivityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,6 +96,12 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     EventBus eventBus;
+
+    @Autowired
+    FeieOrderPrinter feieOrderPrinter;
+
+    @Autowired
+    CorpService corpService;
 
     @Override
     public Order calcOrder(Order order) {
@@ -384,6 +391,9 @@ public class OrderWrapperImpl implements OrderWrapper {
         for (TCorpUser corpUser : corpUserList) {
             pushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
         }
+
+        // 推送 飞蛾 打印
+        feieOrderPrinter.printerOrderToShop(order, corpService.selectCorpByCorpId(order.getCorpId()));
 
         return order;
     }
