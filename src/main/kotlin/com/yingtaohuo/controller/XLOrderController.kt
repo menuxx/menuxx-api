@@ -29,7 +29,7 @@ open class XLOrderController(
         internal val orderMapper: TOrderMapper
 ) {
 
-    data class OrderItems(val remark: String, val items: List<TOrderItem>)
+    data class OrderItems(val remark: String?, val items: List<TOrderItem>)
     @PutMapping("orders/{orderId}/items")
     fun appendItemsToOrder(@PathVariable dinerId: Int, @PathVariable orderId: Int, @RequestBody orderItems: OrderItems) : ResponseDataWrap {
         try {
