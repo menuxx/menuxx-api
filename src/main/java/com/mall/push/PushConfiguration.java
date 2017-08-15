@@ -2,7 +2,8 @@ package com.mall.push;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.EventBus;
-import com.mall.configure.properties.MqttConfigureProperties;
+import com.mall.configure.properties.MqttOrderConfigureProperties;
+import com.mall.configure.properties.MqttWxLiteConfigureProperties;
 import com.mall.configure.properties.PushConfigProperties;
 import com.mall.push.pusher.*;
 import org.slf4j.Logger;
@@ -33,7 +34,11 @@ public class PushConfiguration {
 
     @Autowired
     @NotNull
-    MqttConfigureProperties mqttConfig;
+		MqttOrderConfigureProperties mqttOrderConfig;
+
+    @Autowired
+    @NotNull
+    MqttWxLiteConfigureProperties mqttWxLiteConfig;
 
     Map<String, IPusher> channels = new HashMap<>();
 
@@ -70,7 +75,7 @@ public class PushConfiguration {
         channels.put(PushConst.CAHNNEL_XINGE, initXinGePush());
         channels.put(PushConst.CAHNNEL_GETUI, initGeTuiPush());
         channels.put(PushConst.CAHNNEL_BAIDUPUSH, initBaiduPusher());
-        channels.put(PushConst.CAHNNEL_BAIDUMQTT, initBaiduMqttPusher());
+        channels.put(PushConst.CAHNNEL_BAIDUMQTT, initBaiduMqttOrderPusher());
 
         for (Map.Entry<String, IPusher> channelPusher : channels.entrySet()) {
             IPusher pusher = channelPusher.getValue();
@@ -115,15 +120,28 @@ public class PushConfiguration {
         return new BaiduPusher(pushConfig.getBaidupushApiKey(), pushConfig.getBaidupushSecretKey());
     }
 
-    // 百度推送
-    private BaiduMqttPusher initBaiduMqttPusher() {
+    // 百度mqtt推送
+    private BaiduMqttPusher initBaiduMqttOrderPusher() {
         return new BaiduMqttPusher(
-                mqttConfig.getBroker(),
-                "api_server_" + System.currentTimeMillis(),
-                mqttConfig.getUsername(), mqttConfig.getPassword(),
-                mqttConfig.getTimeout(),
-                mqttConfig.getKeepalive()
+            mqttOrderConfig.getBroker(),
+                "api_server_order" + System.currentTimeMillis(),
+            mqttOrderConfig.getUsername(), mqttOrderConfig.getPassword(),
+            mqttOrderConfig.getTimeout(),
+            mqttOrderConfig.getKeepalive()
         );
+    }
+
+    @Bean("wxLitePusher")
+    public BaiduMqttPusher initBaiduMqttWxLitePusher() {
+        BaiduMqttPusher pusher = new BaiduMqttPusher(
+            mqttWxLiteConfig.getBroker(),
+            "api_server_wxLite" + System.currentTimeMillis(),
+            mqttWxLiteConfig.getUsername(), mqttWxLiteConfig.getPassword(),
+            mqttWxLiteConfig.getTimeout(),
+            mqttWxLiteConfig.getKeepalive()
+        );
+        pusher.initialize();
+        return pusher;
     }
 
 }

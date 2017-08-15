@@ -12,7 +12,11 @@ import java.util.List;
  */
 public interface OrderWrapper {
 
-    void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList);
+    void createOrder(Order order);
+
+    Order calcOrder(Order order);
+
+    Order calcActivity(Order order);
 
     PageInfo<Order> selectPaidOrders(int userId, int corpId);
 
@@ -21,6 +25,8 @@ public interface OrderWrapper {
     PageInfo<Order> selectAllOrders(int corpId);
 
     PageInfo<Order> selectAllPaidOrders(int corpId);
+
+    PageInfo<Order> selectOrdersFilterStatusByCorpId(int corpId, List<Integer> status);
 
     Order selectOrder(int orderId);
 
@@ -35,4 +41,5 @@ public interface OrderWrapper {
     void rechargePay(int userId, int corpId, Order order);
 
     Order buildTestOrder();
+
 }

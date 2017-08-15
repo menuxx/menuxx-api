@@ -9,6 +9,7 @@ import com.mall.service.CorpService;
 import com.mall.service.CorpUserService;
 import com.mall.utils.SMSUtil;
 import com.mall.wrapper.OrderWrapper;
+import com.yingtaohuo.feieprinter.FeieOrderPrinter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,9 @@ public class CorpUserController {
 
     @Autowired
     DinerPushManager dinerPushManager;
+
+    @Autowired
+    FeieOrderPrinter feieOrderPrinter;
 
     /**
      * 2005 手机号登录
@@ -127,7 +131,8 @@ public class CorpUserController {
         int corpUserId = sessionData.getUserId();
         TCorpUser corpUser = corpUserService.selectCorpUser(corpUserId);
         Order order = orderWrapper.buildTestOrder();
-        dinerPushManager.pushOrderToDinerUser(corpUser.getPushKey(), order);
+        dinerPushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
+        feieOrderPrinter.printerOrderToShop(order, corpService.selectCorpByCorpId(sessionData.getCorpId()));
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 

@@ -22,6 +22,16 @@ public class OrderMessage implements PushDeviceMessage<Order> {
     }
 
     @Override
+    public String getTitle() {
+        return "title2";
+    }
+
+    @Override
+    public String getName() {
+        return "NewOrder";
+    }
+
+    @Override
     public String getPushToken() {
         return pushToken;
     }

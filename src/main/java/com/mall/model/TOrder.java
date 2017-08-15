@@ -35,6 +35,10 @@ public class TOrder {
 
     private Date createTime;
 
+    private String applyActivities;
+
+    private Integer orderTimes;
+
     public Integer getId() {
         return id;
     }
@@ -161,5 +165,21 @@ public class TOrder {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getApplyActivities() {
+        return applyActivities;
+    }
+
+    public void setApplyActivities(String applyActivities) {
+        this.applyActivities = applyActivities == null ? null : applyActivities.trim();
+    }
+
+    public Integer getOrderTimes() {
+        return orderTimes;
+    }
+
+    public void setOrderTimes(Integer orderTimes) {
+        this.orderTimes = orderTimes;
     }
 }

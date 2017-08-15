@@ -3,18 +3,23 @@ package com.yingtaohuo.service
 import cn.imdada.DDOrder
 import cn.imdada.ImDadaApi
 import cn.imdada.ImDadaException
+import com.github.pagehelper.PageInfo
+import com.mall.exception.NotFoundException
+import com.mall.mapper.TDeliveryShopMapper
+import com.mall.mapper.TDeliveryTransportMapper
 import com.mall.service.AddressService
-import com.mall.mapper.TTakeawayTransportMapper
-import com.mall.model.TOrder
-import com.mall.model.TTakeawayShop
-import com.mall.model.TTakeawayTransport
-import com.mall.model.TTakeawayTransportExample
+import com.mall.model.*
+import com.mall.service.ItemService
 import com.mall.service.OrderItemService
+import com.mall.service.OrderService
+import com.mall.utils.Util
+import com.yingtaohuo.mode.Delivery
+import com.yingtaohuo.mode.DeliveryTransporter
 import com.yingtaohuo.props.ImDadaProperties
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
 import java.util.*
-import javax.annotation.PostConstruct
 
 /**
  * 作者: yinchangsheng@gmail.com
@@ -24,13 +29,18 @@ import javax.annotation.PostConstruct
 
 @Service
 open class TransportService(
-        val takeawayTransportMapper: TTakeawayTransportMapper,
-        val addressService: AddressService,
-        val orderItemService: OrderItemService,
-        val imdadaApi: ImDadaApi,
-        val dadaMerchantService: DadaMerchantService,
-        val imDadaProperties: ImDadaProperties
+        private val deliveryTransportMapper: TDeliveryTransportMapper,
+        private val deliveryShopMapper: TDeliveryShopMapper,
+        private val addressService: AddressService,
+        private val orderService: OrderService,
+        private val orderItemService: OrderItemService,
+        private val itemService: ItemService,
+        private val imdadaApi: ImDadaApi,
+        private val dadaMerchantService: DadaMerchantService,
+        private val imDadaProperties: ImDadaProperties
 ) {
+
+    val logger = LoggerFactory.getLogger(TransportService::class.java)
 
     companion object {
         const val ChannelTypeOfImDada = 1
@@ -45,23 +55,31 @@ open class TransportService(
         const val StatusExpired = 6       // 订单已过期 = 6
     }
 
-    // 订单发送到 达达 的 配送渠道
-    @Throws(ImDadaException::class)
-    fun sendImdadaOrderTransportChannel(order: TOrder, shop: TTakeawayShop, takeoutFee: Double) : Int {
+    fun getTransportByOrderNo(orderNo: String) : TDeliveryTransport? {
+        val ex = TDeliveryTransportExample()
+        ex.createCriteria().andOrderNoEqualTo(orderNo)
+        return Util.onlyOne(deliveryTransportMapper.selectByExample(ex))
+    }
 
+    fun getDeliveryShopByShopId(shopId: Int) : TDeliveryShop {
+        val ex = TDeliveryShopExample()
+        ex.createCriteria().andShopIdEqualTo(shopId)
+        return Util.onlyOne<TDeliveryShop>(deliveryShopMapper.selectByExample(ex))
+    }
+
+
+    fun getMerchantByShopId(shopId: Int) : TDadaMerchant {
+        val merchantId = deliveryShopMapper.selectByPrimaryKey(shopId).dadaMerchantId
+        return dadaMerchantService.getById(merchantId)
+    }
+
+    private fun getGoodsRemark(orderItems: List<TOrderItem>, itemMap: Map<Int, TItem>) : String {
+        return orderItems.map { item -> "${itemMap[item.itemId]?.itemName}${item.quantity}x份" } .joinToString { "," }
+    }
+
+    fun getImdadaOrder(order: TOrder, shop: TDeliveryShop, takeoutFee: Int, goodsCount: Int, goodsRemark: String, goodsWeight: Double, requireReceiveTime: Long) : DDOrder {
         val receiverAddress = addressService.selectAddress(order.addressId)
-
-        val orderItems = orderItemService.selectOrderItemByOrderId(order.id)
-
-        val merchant = dadaMerchantService.getById(shop.dadaMerchantId)
-
-        val goodsCount = orderItems.size
-
-        val goodsWeight = goodsCount * 0.2  // 按每件 0.2 千克计算
-
-        val requireReceiveTime = (System.currentTimeMillis() / 1000) + (35 * 60)  // 希望35分钟内完成
-
-        val ddOrder = DDOrder(
+        return DDOrder(
                 shopNo = shop.shopNo,
                 originId = order.orderCode,
                 cityCode = shop.dadaCityCode,
@@ -75,7 +93,7 @@ open class TransportService(
                 receiverLat = receiverAddress.lat.toDouble(),
                 callback = "${imDadaProperties.callbackUrl}?event_form=newdada",   // 事件回调地址
                 tips = 0.0,
-                payForSupplierFee = takeoutFee,    // 每单商家铺贴配送费
+                payForSupplierFee = (takeoutFee / 100).toDouble(),    // 每单商家铺贴配送费
                 fetchFromReceiverFee = 0.0,
                 deliverFee = 0.0,
                 createTime = (System.currentTimeMillis() / 1000),
@@ -87,15 +105,34 @@ open class TransportService(
                 invoiceTitle = null,
                 deliverLockerCode = null,
                 pickupLockerCode = null,
-                originMark = "YinTaoHuo",
-                originMarkNo = "${shop.dinerId}"
+                originMark = "YingTaoHuo",
+                originMarkNo = "${shop.shopId}${order.queueId}"
         )
+    }
+
+    // 订单发送到 达达 的 配送渠道
+    @Throws(ImDadaException::class)
+    fun sendImdadaOrderTransportChannel(order: TOrder, shop: TDeliveryShop, takeoutFee: Int) : Int {
+
+        val merchant = dadaMerchantService.getById(shop.dadaMerchantId)
+
+        val orderItems = orderItemService.selectOrderItemByOrderId(order.id)
+
+        val itemMap = itemService.selectItemsForMap(orderItems.map { it.id }.toList())
+
+        val goodsRemark = getGoodsRemark(orderItems, itemMap)
+
+        val goodsCount = orderItems.size
+
+        val requireReceiveTime = (System.currentTimeMillis() / 1000) + (35 * 60)  // 希望35分钟内完成
+
+        val goodsWeight = goodsCount * 0.2  // 按每件 0.2 千克计算
+
+        val ddOrder = getImdadaOrder(order, shop, takeoutFee, goodsCount, goodsRemark, goodsWeight, requireReceiveTime)
 
         val addRes = imdadaApi.addOrder(merchant.sourceId, ddOrder)
 
-        return createTransport(order, shop, goodsCount, goodsWeight, requireReceiveTime, (addRes.fee * 100).toInt(), addRes.distance.toLong(), ChannelTypeOfImDada)
-
-
+        return createTransport(order, shop, goodsCount, goodsRemark, goodsWeight, requireReceiveTime, (addRes.fee * 100).toInt(), addRes.distance.toLong(), ChannelTypeOfImDada)
     }
 
     // 订单发送到 饿了么 的 配送渠道
@@ -103,13 +140,23 @@ open class TransportService(
 
     }
 
+    fun updateTransport(tid: Int, distance: Long, fee: Int) {
+        val ttt = TDeliveryTransport()
+        ttt.id = tid
+        ttt.transportDistance = distance
+        ttt.transportFee = fee
+        ttt.resendTime = Date()
+        deliveryTransportMapper.updateByPrimaryKeySelective(ttt)
+    }
+
     /**
      * 创建一条配送记录
      */
     fun createTransport(
             order: TOrder,
-            shop: TTakeawayShop,
+            shop: TDeliveryShop,
             goodsCount: Int,
+            goodsRemark: String,
             goodsWeight: Double,
             requireReceiveTime: Long,
             transportFee: Int,
@@ -118,11 +165,12 @@ open class TransportService(
 
         val receiverAddress = addressService.selectAddress(order.addressId)
 
-        val ttt = TTakeawayTransport()
+        val ttt = TDeliveryTransport()
 
         ttt.createTime = Date()
         ttt.status = StatusWaitForAccept
         ttt.goodsCount = goodsCount
+        ttt.goodsRemark = goodsRemark
 
         // 统一使用火星坐标系
         ttt.receiverLat = receiverAddress.lat
@@ -152,53 +200,202 @@ open class TransportService(
 
         ttt.shopId = shop.id
 
-        takeawayTransportMapper.insertSelective(ttt)
+        deliveryTransportMapper.insertSelective(ttt)
 
         return ttt.id
     }
 
     // 接单
     fun acceptOrder(orderNo: String, transportTel: String, transportNo: String, transportName: String) : Int {
-        val ex = TTakeawayTransportExample()
+        val ex = TDeliveryTransportExample()
         ex.createCriteria().andOrderNoEqualTo(orderNo)
-        val tt = TTakeawayTransport()
-        tt.transportTel = transportTel
-        tt.transportNo = transportNo
-        tt.transportName = transportName
+        val tt = TDeliveryTransport()
+        tt.transporterTel = transportTel
+        tt.transporterNo = transportNo
+        tt.transporterName = transportName
         tt.acceptTime = Date()  // 接单时间
         tt.status = StatusWaitForFetch
-        return takeawayTransportMapper.updateByExampleSelective(tt, ex)
+        return deliveryTransportMapper.updateByExampleSelective(tt, ex)
     }
 
     // 其他状态更新
     fun transportStatusUpdate(orderNo: String, status: Int): Int {
-        val ex = TTakeawayTransportExample()
+        val ex = TDeliveryTransportExample()
         ex.createCriteria().andOrderNoEqualTo(orderNo)
-        val tt = TTakeawayTransport()
+        val tt = TDeliveryTransport()
         tt.updateTime = Date()  // 接单时间
         tt.status = status
-        return takeawayTransportMapper.updateByExampleSelective(tt, ex)
+        return deliveryTransportMapper.updateByExampleSelective(tt, ex)
     }
 
     // 配送结束
     fun finishTransport(orderNo: String) : Int {
-        val ex = TTakeawayTransportExample()
+        val ex = TDeliveryTransportExample()
         ex.createCriteria().andOrderNoEqualTo(orderNo)
-        val tt = TTakeawayTransport()
+        val tt = TDeliveryTransport()
         tt.finishTime = Date()  // 接单时间
         tt.status = StatusFinish
-        return takeawayTransportMapper.updateByExampleSelective(tt, ex)
+        return deliveryTransportMapper.updateByExampleSelective(tt, ex)
     }
 
     // 配送取消
     fun transportCancel(orderNo: String, reason: String) : Int {
-        val ex = TTakeawayTransportExample()
+        val ex = TDeliveryTransportExample()
         ex.createCriteria().andOrderNoEqualTo(orderNo)
-        val tt = TTakeawayTransport()
+        val tt = TDeliveryTransport()
         tt.finishTime = Date()  // 接单时间
         tt.cancelReason = reason
         tt.status = StatusCancel
-        return takeawayTransportMapper.updateByExampleSelective(tt, ex)
+        return deliveryTransportMapper.updateByExampleSelective(tt, ex)
+    }
+
+    // 获取店铺的配送信息
+    fun getShopTransportsFilterByStatus(shopId: Int, status: ArrayList<Int>) : PageInfo<Delivery> {
+
+        val ttEx = TDeliveryTransportExample()
+        ttEx.createCriteria().andShopIdEqualTo(shopId).andStatusIn(status)
+        ttEx.orderByClause = "create_time desc"
+
+        val dPage = PageInfo(deliveryTransportMapper.selectByExample(ttEx))
+
+        val list = deliveryTransportMapper.selectByExample(ttEx)
+
+        val shop = getDeliveryShopByShopId(shopId)
+
+        val aPage = PageInfo(list.map { transport ->
+
+            Delivery(
+                    transportId = transport.id,
+
+                    orderNo = transport.orderNo,
+                    orderTotalAmount = transport.orderTotalAmount,
+                    transportChannel = transport.transportChannel,
+
+                    receiverAddress = transport.receiverAddress,
+                    receiverName = transport.receiverName,
+                    receiverLat = transport.receiverLat.toDouble(),
+                    receiverLng = transport.receiverLng.toDouble(),
+                    receiverTel = transport.receiverTel,
+
+                    status = transport.status,
+                    requireReceiveTime = transport.requireReceiveTime,
+                    transportFee = transport.transportFee,
+                    transportDistance = transport.transportDistance,
+                    createTime = transport.createTime,
+                    cancelReason = transport.cancelReason,
+                    errorMsg = transport.errorMsg,
+
+                    transportTips = transport.transportTips,
+
+                    transporterName = transport.transporterName,
+                    transporterTel = transport.transporterTel,
+                    transporterLat = null,
+                    transporterLng = null,
+                    transporterNo = transport.transporterNo,
+
+                    shopName = shop.shopName,
+                    shopNo = shop.id,
+                    shopLat = shop.lat.toDouble(),
+                    shopLng = shop.lng.toDouble(),
+
+                    acceptTime = transport.acceptTime,
+                    finishTime = transport.finishTime,
+                    cancelTime = transport.cancelTime,
+                    fetchTime = transport.fetchTime,
+                    expireTime = transport.expireTime
+            )
+        })
+
+        // 拷贝属性
+        aPage.endRow = dPage.endRow
+        aPage.firstPage = dPage.firstPage
+        aPage.prePage = dPage.prePage
+        aPage.isHasNextPage = dPage.isHasNextPage
+        aPage.isHasPreviousPage = dPage.isHasPreviousPage
+        aPage.isIsFirstPage = dPage.isIsFirstPage
+        aPage.isIsLastPage = dPage.isIsLastPage
+        aPage.lastPage = dPage.lastPage
+        aPage.navigatePages = dPage.navigatePages
+        aPage.navigatepageNums = dPage.navigatepageNums
+        aPage.nextPage = dPage.nextPage
+        aPage.orderBy = dPage.orderBy
+        aPage.pageSize = dPage.pageSize
+        aPage.startRow = dPage.startRow
+        aPage.total = dPage.total
+        aPage.pageNum = dPage.pageNum
+        aPage.size = dPage.size
+        aPage.pages = dPage.pages
+
+        return aPage
+
+    }
+
+    @Throws(ImDadaException::class, NotFoundException::class)
+    fun dadaTransportQuery(orderNo: String, shop: TDeliveryShop) : DeliveryTransporter {
+        val dtp = getTransportByOrderNo(orderNo)
+        if (dtp != null) {
+            val merchant = dadaMerchantService.getById(shop.dadaMerchantId)
+            val tp = imdadaApi.queryDetail(merchant.sourceId, orderNo)
+            return DeliveryTransporter(
+                    transporterNo = dtp.transporterNo,
+                    transporterName = tp.transporterName,
+                    transporterTel = tp.transporterPhone,
+                    transporterLat = tp.transporterLat.toDouble(),
+                    transporterLng = tp.transporterLng.toDouble(),
+                    deliveryFee = (tp.deliveryFee * 100).toInt(),
+                    tips = tp.tips.toInt(),
+                    acceptTime = if (tp.acceptTime != null) Timestamp(tp.acceptTime.toLong()) else null,
+                    finishTime = if (tp.finishTime != null) Timestamp(tp.finishTime.toLong()) else null,
+                    fetchTime = if (tp.fetchTime != null) Timestamp(tp.fetchTime.toLong()) else null,
+                    cancelTime = if (tp.cancelTime != null) Timestamp(tp.cancelTime.toLong()) else null,
+                    statusCode = tp.statusCode,
+                    statusMsg = tp.statusMsg
+            )
+        }
+        throw NotFoundException("delivery shop not found, orderNo: $orderNo")
+    }
+
+    @Throws(ImDadaException::class, NotFoundException::class)
+    fun dadaOrderResend(orderNo: String) : Int {
+        val order = orderService.selectOrderByCode(orderNo)
+        val tp = getTransportByOrderNo(orderNo)
+        if (tp != null) {
+            val shop = deliveryShopMapper.selectByPrimaryKey(tp.shopId)
+            val merchant = getMerchantByShopId(tp.shopId)
+            val orderItems = orderItemService.selectOrderItemByOrderId(order.id)
+            val itemMap = itemService.selectItemsForMap(orderItems.map { it.id }.toList())
+            val goodsRemark = getGoodsRemark(orderItems, itemMap)
+            val goodsCount = orderItems.size
+            val requireReceiveTime = (System.currentTimeMillis() / 1000) + (35 * 60)  // 希望35分钟内完成
+            val goodsWeight = goodsCount * 0.2  // 按每件 0.2 千克计算
+            val ddOrder = getImdadaOrder(order, shop, tp.transportFee, goodsCount, goodsRemark, goodsWeight, requireReceiveTime)
+            val resendRes = imdadaApi.reAddOrder(merchant.sourceId, ddOrder)
+            updateTransport(tp.id, resendRes.distance.toLong(), (resendRes.fee * 100).toInt())
+            return (resendRes.fee * 100).toInt()
+        }
+        throw NotFoundException("delivery shop not found, orderNo: $orderNo")
+    }
+
+    @Throws(ImDadaException::class, NotFoundException::class)
+    fun dadaAddTipsToTransport(orderNo: String, shop: TDeliveryShop, tips: Int) : Int {
+        val t1 = getTransportByOrderNo(orderNo)
+        if (t1 != null) {
+            val merchant = dadaMerchantService.getById(shop.dadaMerchantId)
+            try {
+                imdadaApi.addTips(merchant.sourceId, orderNo, (tips * 100).toFloat(), shop.dadaCityCode, "加钱快送")
+                t1.transportTips += tips
+                deliveryTransportMapper.updateByPrimaryKeySelective(t1)
+                return t1.transportTips
+            } catch (ex: ImDadaException) {
+                logger.error("imdada add tips error: ", ex)
+                throw ex
+            }
+        }
+        throw NotFoundException("delivery shop not found, orderNo: $orderNo")
+    }
+
+    fun getDeliveryById(deliveryId: Int) : TDeliveryTransport? {
+        return deliveryTransportMapper.selectByPrimaryKey(deliveryId)
     }
 
 }

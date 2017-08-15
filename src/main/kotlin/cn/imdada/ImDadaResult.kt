@@ -309,14 +309,14 @@ data class DDOrderDetailQueryResult(
         val transporterPhone: String,   // 骑手手机号
         val transporterLng: String,     // 骑手经度
         val transporterLat: String,     // 骑手纬度
-        val deliveryFee: String,        // 	配送费,单位为元
+        val deliveryFee: Double,        // 	配送费,单位为元
         val tips: Double,               // 小费,单位为元
         val distance: Int,              // 配送距离,单位为米
         val createTime: String,         // 	发单时间
-        var acceptTime: String,         // 接单时间,若未接单,则为空
-        var fetchTime: String,          // 取货时间,若未取货,则为空
-        val finishTime: String,         // 送达时间,若未送达,则为空
-        val cancelTime: String          // 	取消时间,若未取消,则为空
+        val acceptTime: String?,         // 接单时间,若未接单,则为空
+        val fetchTime: String?,          // 取货时间,若未取货,则为空
+        val finishTime: String?,         // 送达时间,若未送达,则为空
+        val cancelTime: String?          // 	取消时间,若未取消,则为空
 )
 
 /**

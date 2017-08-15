@@ -16,9 +16,17 @@ public class Order extends TOrder {
     // 待付款
     public static final int STATUS_CREATED = 0;
     public static final String STATUS_CREATED_TEXT = "待付款";
+
+    // 与店主协商结算
+    public static final int STATUS_OFFLINE = 3;
+    public static final String STATUS_OFFLINE_TEXT = "其他方式结算";
+
     // 已付款
     public static final int STATUS_PAID = 1;
     public static final String STATUS_PAID_TEXT = "已付款";
+
+    public static final int STATUS_CONFIRM = 2;
+    public static final String STATUS_CONFIRM_TEXT = "已下单";
 
     // 堂食
     public static final int ORDER_TYPE_EAT_IN = 0;
@@ -35,10 +43,10 @@ public class Order extends TOrder {
     // 微信支付
     public static final int PAY_TYPE_WX = 0;
     public static final String PAY_TYPE_WX_TEXT = "微信支付";
+
     // 充值卡支付
     public static final int PAY_TYPE_RECHARGE = 1;
     public static final String PAY_TYPE_RECHARGE_TEXT = "充值卡支付";
-
 
     // 别名配置
     private Map<Integer, String> tabNameMap;
@@ -74,7 +82,6 @@ public class Order extends TOrder {
         } else if (getOrderType() == ORDER_TYPE_DELIVERED) {
             orderTypeText = ORDER_TYPE_DELIVERED_TEXT;
         }
-
         return orderTypeText;
     }
 
@@ -99,10 +106,15 @@ public class Order extends TOrder {
     }
 
     public String getStatusText() {
+
         statusText = STATUS_CREATED_TEXT;
 
         if (getStatus() == STATUS_PAID) {
             statusText = STATUS_PAID_TEXT;
+        } else if (getStatus() == STATUS_CONFIRM) {
+            statusText = STATUS_CONFIRM_TEXT;
+        } else if (getStatus() == STATUS_OFFLINE) {
+            statusText = STATUS_OFFLINE_TEXT;
         }
 
         return statusText;

@@ -1,7 +1,6 @@
 package com.mall.service;
 
 import com.github.pagehelper.PageInfo;
-import com.mall.model.Item;
 import com.mall.model.Order;
 import com.mall.model.TOrder;
 
@@ -21,6 +20,8 @@ public interface OrderService {
     PageInfo<TOrder> selectPaidOrders(int corpId);
 
     PageInfo<TOrder> selectAllOrders(int corpId);
+
+    PageInfo<TOrder> selectOrdersByStatus(int corpId, List<Integer> status);
 
     PageInfo<TOrder> selectAllPaidOrders(int corpId);
 

@@ -2,10 +2,10 @@ package com.mall.model;
 
 import java.math.BigDecimal;
 
-public class TTakeawayShop {
+public class TDeliveryShop {
     private Integer id;
 
-    private Integer dinerId;
+    private Integer shopId;
 
     private String shopName;
 
@@ -45,12 +45,12 @@ public class TTakeawayShop {
         this.id = id;
     }
 
-    public Integer getDinerId() {
-        return dinerId;
+    public Integer getShopId() {
+        return shopId;
     }
 
-    public void setDinerId(Integer dinerId) {
-        this.dinerId = dinerId;
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
 
     public String getShopName() {

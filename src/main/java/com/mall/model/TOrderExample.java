@@ -1084,6 +1084,136 @@ public class TOrderExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andApplyActivitiesIsNull() {
+            addCriterion("apply_activities is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesIsNotNull() {
+            addCriterion("apply_activities is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesEqualTo(String value) {
+            addCriterion("apply_activities =", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesNotEqualTo(String value) {
+            addCriterion("apply_activities <>", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesGreaterThan(String value) {
+            addCriterion("apply_activities >", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesGreaterThanOrEqualTo(String value) {
+            addCriterion("apply_activities >=", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesLessThan(String value) {
+            addCriterion("apply_activities <", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesLessThanOrEqualTo(String value) {
+            addCriterion("apply_activities <=", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesLike(String value) {
+            addCriterion("apply_activities like", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesNotLike(String value) {
+            addCriterion("apply_activities not like", value, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesIn(List<String> values) {
+            addCriterion("apply_activities in", values, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesNotIn(List<String> values) {
+            addCriterion("apply_activities not in", values, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesBetween(String value1, String value2) {
+            addCriterion("apply_activities between", value1, value2, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyActivitiesNotBetween(String value1, String value2) {
+            addCriterion("apply_activities not between", value1, value2, "applyActivities");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesIsNull() {
+            addCriterion("order_times is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesIsNotNull() {
+            addCriterion("order_times is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesEqualTo(Integer value) {
+            addCriterion("order_times =", value, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesNotEqualTo(Integer value) {
+            addCriterion("order_times <>", value, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesGreaterThan(Integer value) {
+            addCriterion("order_times >", value, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesGreaterThanOrEqualTo(Integer value) {
+            addCriterion("order_times >=", value, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesLessThan(Integer value) {
+            addCriterion("order_times <", value, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesLessThanOrEqualTo(Integer value) {
+            addCriterion("order_times <=", value, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesIn(List<Integer> values) {
+            addCriterion("order_times in", values, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesNotIn(List<Integer> values) {
+            addCriterion("order_times not in", values, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesBetween(Integer value1, Integer value2) {
+            addCriterion("order_times between", value1, value2, "orderTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderTimesNotBetween(Integer value1, Integer value2) {
+            addCriterion("order_times not between", value1, value2, "orderTimes");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

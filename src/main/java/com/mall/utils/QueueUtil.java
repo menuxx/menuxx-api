@@ -2,13 +2,14 @@ package com.mall.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Supeng on 15/02/2017.
  */
 public class QueueUtil {
 
-    public static Map<Integer, Map<String, Integer>> queueMap = new HashMap<>();
+    public static Map<Integer, Map<String, Integer>> queueMap = new ConcurrentHashMap<>();
 
 
     public static Integer getQueueNum(int corpId) {

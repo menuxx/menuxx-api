@@ -27,17 +27,32 @@ interface ImDadaApi {
      * 在调用新增订单后，订单被取消、过期或者投递异常的情况下，调用此接口，可以在达达平台重新发布订单。
      * 接口调用URL地址：/api/order/reAddOrder。
      */
-    @RequestLine("POST /api/order/reAddOrder")
+    @RequestLine("POST /api/order/reAddOrder?source_id={source_id}")
     @Throws(ImDadaException::class)
-    fun reAddOrder()
+    fun reAddOrder(@Param("source_id") sourceId: String, order: DDOrder) : DDAddOrderResult
+
+    /**
+     * 增加小费
+     * 接口调用URL地址：/api/order/addTip
+     * (1) 可以对待接单状态的订单增加小费。需要注意：订单的小费，以最新一次加小费动作的金额为准，故下一次增加小费额必须大于上一次小费额。
+     */
+    @RequestLine("POST /api/order/addTip?source_id={source_id}")
+    @Body("%7B\"order_id\": \"{order_id}\", \"tips\": \"{tips}\", \"city_code\": \"{city_code}\", \"info\": \"{info}\"%7D")
+    @Throws(ImDadaException::class)
+    fun addTips(@Param("source_id") sourceId: String, @Param("order_id") orderId: String, @Param("tips") tips: Float, @Param("city_code") cityCode: String, @Param("info") info: String) : DDResult
+
+    @RequestLine("POST /api/order/status/query?source_id={source_id}")
+    @Body("%7B\"order_id\": \"{order_id}\"%7D")
+    @Throws(ImDadaException::class)
+    fun queryDetail(@Param("source_id") sourceId: String, @Param("order_id") orderId: String) : DDOrderDetailQueryResult
 
     /**
      * 预发布订单的操作流程是：使用【查询订单运费接口】获取平台订单编号，调用【查询运费后发单接口】即可发布订单。
      * 传入订单相关参数可以查询到该时刻订单所需的运费，同时返回一个唯一的平台订单编号，注意：该平台订单编号有效期为3分钟。
      */
-    @RequestLine("POST /api/order/queryDeliverFee")
+    @RequestLine("POST /api/order/queryDeliverFee?source_id={source_id}")
     @Throws(ImDadaException::class)
-    fun queryDeliverFee() : DDQueryDeliverFeeResult
+    fun queryDeliverFee(@Param("source_id") sourceId: String) : DDQueryDeliverFeeResult
 
     /**
      * 查询运费后发单接口

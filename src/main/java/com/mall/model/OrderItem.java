@@ -16,6 +16,11 @@ public class OrderItem extends TOrderItem {
         BeanUtils.copyProperties(orderItem, this);
     }
 
+    public OrderItem(TOrderItem orderItem, TItem item) {
+        this(orderItem);
+        this.item = item;
+    }
+
     public TItem getItem() {
         return item;
     }

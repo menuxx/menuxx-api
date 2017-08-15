@@ -62,7 +62,7 @@ public class SelfCheckScheduler {
         orderWrapper.pushOrder(order, clientIdList);
 
         for (TCorpUser corpUser : userList) {
-            pushManager.pushOrderToDinerUser(corpUser.getPushKey(), order);
+            pushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
         }
 
         System.out.println("************************ doSelfCheck scheduler end *****************************");

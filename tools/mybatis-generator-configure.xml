@@ -134,17 +134,30 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table tableName="t_takeaway_transport" domainObjectName="TTakeawayTransport">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table tableName="t_delivery_transport" domainObjectName="TDeliveryTransport">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_takeaway_shop" domainObjectName="TTakeawayShop" >-->
+        <!--<table schema="jiujin" tableName="t_delivery_shop" domainObjectName="TDeliveryShop" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_dada_merchant" domainObjectName="TDadaMerchant" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
+
+        <!--<table schema="jiujin" tableName="t_activity" domainObjectName="TActivity">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <!--<table schema="jiujin" tableName="t_activity_minus" domainObjectName="TActivityMinus">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+        <!--<table schema="jiujin" tableName="t_feieprinter" domainObjectName="TFeiePrinter">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
 
     </context>
 

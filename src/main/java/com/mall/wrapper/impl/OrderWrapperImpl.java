@@ -4,8 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.eventbus.EventBus;
-import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.configure.properties.PushConfigProperties;
+import com.mall.mapper.TActivityMapper;
+import com.mall.mapper.TActivityMinusMapper;
 import com.mall.model.*;
 import com.mall.push.DinerPushManager;
 import com.mall.service.*;
@@ -15,6 +16,7 @@ import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
+import com.yingtaohuo.service.ActivityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -83,15 +85,28 @@ public class OrderWrapperImpl implements OrderWrapper {
     DinerPushManager pushManager;
 
     @Autowired
+    ActivityService activityService;
+
+    @Autowired
+    OrderWrapper orderWrapper;
+
+    @Autowired
+    TActivityMinusMapper activityMinusMapper;
+
+    @Autowired
     EventBus eventBus;
 
     @Override
-    @Transactional
-    public void createOrder(String appid, String mchid, Order order, List<Integer> itemIdList) {
-        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
+    public Order calcOrder(Order order) {
 
-        // 先创建订单
-        orderService.createOrder(order);
+        List<Integer> itemIdList = new ArrayList<>();
+        if (order.getItemList() != null && order.getItemList().size() > 0) {
+            for (OrderItem orderItem : order.getItemList()) {
+                itemIdList.add(orderItem.getItemId());
+            }
+        }
+
+        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
 
         // 总金额
         int totalAmount = 0;
@@ -128,8 +143,6 @@ public class OrderWrapperImpl implements OrderWrapper {
 
             orderItem.setPayAmount(payAmount);
 
-            orderItemService.createOrderItem(orderItem);
-
             totalAmount = totalAmount + payAmount;
 
             // 如果选择打包或者外卖，计入打包盒价格
@@ -157,14 +170,67 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setDeliveryAmount(deliveryAmount);
         totalAmount = totalAmount + deliveryAmount;
 
-        // 设置订单号
-        order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
-
         // 更新订单号、排序号
         order.setPayAmount(totalAmount);
         order.setTotalAmount(totalAmount);
-        orderService.updateOrder(order);
 
+        return order;
+    }
+
+    // 计算参加活动后的价格
+    public Order calcActivity(Order order) {
+        StringBuilder applyActivities = new StringBuilder();
+        List<TActivity> activities = activityService.selectShopAvailableActivity(order.getCorpId());
+        // 如果该店有活动
+        int i = 0;
+        if ( activities != null && activities.size() > 0 ) {
+            for (TActivity activity : activities) {
+                // 同时参加多个活动 满30减15,满50送菠萝
+                // 追加活动分解符
+                if ( i > 1 ) {
+                    applyActivities.append(",");
+                }
+                switch ( activity.getType() ) {
+                    case 1: // 1 .满减活动
+                        TActivityMinusExample tmex = new TActivityMinusExample();
+                        tmex.createCriteria().andCorpIdEqualTo(order.getCorpId());
+                        List<TActivityMinus> activityMinuses = activityMinusMapper.selectByExample(tmex);
+                        // 查找出一个 最接近的满减标准
+                        Optional<TActivityMinus> tam =  activityMinuses.stream().filter(am -> order.getTotalAmount() - am.getToup() > 0).reduce((a, b) -> b);
+                        if (tam.isPresent()) {
+                            int payAmount1 = order.getPayAmount() - tam.get().getCutback();
+                            order.setPayAmount(payAmount1);
+                            applyActivities.append(tam.get().getDescText());
+                        }
+                        break;
+                }
+                // 如果不支持共享计算
+                // 退出循环
+                if (activity.getShareCalc() == 0) {
+                    break;
+                }
+                i++;
+            }
+            // 该订单参加的活动
+            order.setApplyActivities(applyActivities.toString());
+        }
+        return order;
+    }
+
+    @Override
+    @Transactional
+    public void createOrder(Order order) {
+        // 先创建订单
+        orderService.createOrder(order);
+        // 设置订单号
+        order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
+        // 订单计算
+        Order order1 = orderWrapper.calcActivity(calcOrder(order));
+        // 创建商品记录
+        for ( TOrderItem item : order1.getItemList() ) {
+            orderItemService.createOrderItem(item);
+        }
+        orderService.updateOrder(order1);
     }
 
     @Override
@@ -273,6 +339,12 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
+    public PageInfo<Order> selectOrdersFilterStatusByCorpId(int corpId, List<Integer> status) {
+        PageInfo<TOrder> tOrderPageInfo = orderService.selectOrdersByStatus(corpId, status);
+        return getOrderPageInfo(corpId, tOrderPageInfo);
+    }
+
+    @Override
     public Order pushOrder(int orderId) {
         Order order = selectOrder(orderId);
         return pushOrder(order);
@@ -291,7 +363,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     }
 
-    private Order pushOrder(Order order) {
+    public Order pushOrder(Order order) {
 
         List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
 
@@ -310,12 +382,11 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         // 推送给 该店铺 所有的 用户
         for (TCorpUser corpUser : corpUserList) {
-            pushManager.pushOrderToDinerUser(corpUser.getPushKey(), order);
+            pushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
         }
 
         return order;
     }
-
 
     @Override
     @Transactional

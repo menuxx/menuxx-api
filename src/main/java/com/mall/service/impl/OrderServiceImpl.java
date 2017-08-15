@@ -4,8 +4,8 @@ import cn.imdada.ImDadaException;
 import com.github.pagehelper.PageInfo;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.mall.mapper.TDeliveryShopMapper;
 import com.mall.mapper.TOrderMapper;
-import com.mall.mapper.TTakeawayShopMapper;
 import com.mall.model.*;
 import com.mall.service.ConfigService;
 import com.mall.service.ItemService;
@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     TOrderMapper orderMapper;
 
     @Autowired
-    TTakeawayShopMapper takeawayShopMapper;
+    TDeliveryShopMapper takeawayShopMapper;
 
     @Autowired
     ConfigService configService;
@@ -76,11 +77,11 @@ public class OrderServiceImpl implements OrderService {
     public void onOrderPaid(TOrder order) {
         // 当订单是外卖单，并且存在地址
         if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && order.getAddressId() != null) {
-            int corpId = order.getCorpId();
+            int shopId = order.getCorpId();
 
-            Map<String, TConfig> corpConfig = Util.getConfigs(configService.selectMyConfigs(corpId));
+            Map<String, TConfig> corpConfig = Util.getConfigs(configService.selectMyConfigs(shopId));
 
-            Integer transportChannel = Integer.parseInt(corpConfig.getOrDefault(TransportChannel, getDefaultTransportChannel(corpId)).getValue());
+            Integer transportChannel = Integer.parseInt(corpConfig.getOrDefault(TransportChannel, getDefaultTransportChannel(shopId)).getValue());
 
             // 免配送费阈值
             //Integer takeoutNofeeLimit = Integer.parseInt(corpConfig.getOrDefault(TakeoutNofeeLimit, getDefaultTakeoutNofeeLimit(corpId)).getValue());
@@ -89,15 +90,15 @@ public class OrderServiceImpl implements OrderService {
             //Integer takeoutPackFee = Integer.parseInt(corpConfig.getOrDefault(TakeoutPackFee, getDefaultTakeoutNofeeLimit(corpId)).getValue());
 
             // 商家补贴的配送费
-            Integer takeoutFee = Integer.parseInt(corpConfig.getOrDefault(TakeoutFee, getDefaultTakeoutNofeeLimit(corpId)).getValue());
+            Integer takeoutFee = Integer.parseInt(corpConfig.getOrDefault(TakeoutFee, getDefaultTakeoutNofeeLimit(shopId)).getValue());
 
             // 配送渠道选用达达的时候
             if ( transportChannel == 1 ) {
 
                 // 找到该订单绑定的配送店铺
-                TTakeawayShopExample ex = new TTakeawayShopExample();
-                ex.createCriteria().andDinerIdEqualTo(corpId);
-                TTakeawayShop shop = onlyOne(takeawayShopMapper.selectByExample(ex));
+                TDeliveryShopExample ex = new TDeliveryShopExample();
+                ex.createCriteria().andShopIdEqualTo(shopId);
+                TDeliveryShop shop = onlyOne(takeawayShopMapper.selectByExample(ex));
 
                 try {
                     transportService.sendImdadaOrderTransportChannel(order, shop, takeoutFee / 100);
@@ -193,18 +194,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public PageInfo<TOrder> selectOrdersByStatus(int corpId, List<Integer> status) {
+        TOrderExample example = new TOrderExample();
+        TOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andCorpIdEqualTo(corpId);
+        if (status != null) criteria.andStatusIn(status);
+        example.setOrderByClause("id desc");
+        return new PageInfo<>(orderMapper.selectByExample(example));
+    }
+
+    @Override
     public PageInfo<TOrder> selectAllPaidOrders(int corpId) {
         TOrderExample example = new TOrderExample();
         TOrderExample.Criteria criteria = example.createCriteria();
-
         criteria.andCorpIdEqualTo(corpId);
         criteria.andStatusEqualTo(Order.STATUS_PAID);
-
         example.setOrderByClause("id desc");
-
-        PageInfo<TOrder> pageInfo = new PageInfo<>(orderMapper.selectByExample(example));
-
-        return pageInfo;
+        return new PageInfo<>(orderMapper.selectByExample(example));
     }
 
     @Override
