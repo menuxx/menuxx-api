@@ -68,7 +68,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
         else if ( order.status == Order.STATUS_PAID ) {
 
-            content += "<CB># ${order.queueId} 堂食-支付</CB><BR>"
+            content += "<CB># ${order.queueId} ${order.orderTypeText}</CB><BR>"
 
         }
 
@@ -102,7 +102,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
         val payStatusText = when(order.status) {
             Order.STATUS_OFFLINE -> "过其他方式结算"
             Order.STATUS_CONFIRM -> "待支付"
-            Order.STATUS_PAID -> "已支付"
+            Order.STATUS_PAID -> "已付款"
             else -> "未支付"
         }
 
@@ -114,13 +114,18 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
         // 如果是外卖
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
-            content += "----------------外卖--------------<BR>\n" +
-                    "配送费                ${NumberUtil.fenToYuan2(order.deliveryAmount)}<BR>\n" +
-                    "餐盒费                <BR>"
+            content += "-------------外卖---------------<BR>\n" +
+                    "配送费                  ${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
         }
 
-        content += "================================<BR>\n" +
-                "<C>-----${shop.corpName}-----</C><BR>"
+        content += "================================<BR>"
+
+        // 如果是外卖 就显示外卖信息
+        if ( order.orderType == Order.ORDER_TYPE_CARRY_OUT ) {
+            content += "<L>配送信息: ${order.address.address} ${order.address.linkman} ${order.address.phone}</L>"
+        }
+
+        content + "<C>-----${shop.corpName}-----</C><BR>"
 
         if (!StringUtils.isBlank(shop.masterPhone)) {
             content += "<C>--联系:${shop.masterPhone}--</C>"
