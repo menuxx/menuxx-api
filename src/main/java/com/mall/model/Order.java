@@ -72,6 +72,14 @@ public class Order extends TOrder {
         BeanUtils.copyProperties(order, this);
     }
 
+    public String getOrderItemNames() {
+        StringBuilder names = new StringBuilder();
+        for (OrderItem item : itemList) {
+            names.append(item.getItem().getItemName()).append(" x").append(item.getQuantity()).append(", ");
+        }
+        return names.toString();
+    }
+
     public String getOrderTypeText() {
         if (null != getTabNameMap() && getTabNameMap().size() > 0) {
            orderTypeText = getTabNameMap().get(getOrderType());

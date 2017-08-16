@@ -100,7 +100,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
 
         val payStatusText = when(order.status) {
-            Order.STATUS_OFFLINE -> "过其他方式结算"
+            Order.STATUS_OFFLINE -> "其他方式结算"
             Order.STATUS_CONFIRM -> "待支付"
             Order.STATUS_PAID -> "已付款"
             else -> "未支付"

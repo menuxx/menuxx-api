@@ -1,6 +1,9 @@
 package com.mall.service.impl;
 
 import com.mall.mapper.TOrderItemMapper;
+import com.mall.mapper.TOrderMapper;
+import com.mall.model.TOrder;
+import com.mall.model.TOrderExample;
 import com.mall.model.TOrderItem;
 import com.mall.model.TOrderItemExample;
 import com.mall.service.OrderItemService;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import static com.mall.utils.Util.onlyOne;
+
 /**
  * Created by Supeng on 14/02/2017.
  */
@@ -18,6 +23,9 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Autowired
     TOrderItemMapper orderItemMapper;
+
+    @Autowired
+    TOrderMapper orderMapper;
 
     @Override
     public void createOrderItem(TOrderItem orderItem) {
@@ -42,5 +50,13 @@ public class OrderItemServiceImpl implements OrderItemService {
         criteria.andOrderIdEqualTo(orderId);
 
         return orderItemMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<TOrderItem> selectOrderItemByOrderNo(String orderNo) {
+        TOrderExample orderEx = new TOrderExample();
+        orderEx.createCriteria().andOrderCodeEqualTo(orderNo);
+        TOrder order = onlyOne(orderMapper.selectByExample(orderEx));
+        return selectOrderItemByOrderId(order.getId());
     }
 }

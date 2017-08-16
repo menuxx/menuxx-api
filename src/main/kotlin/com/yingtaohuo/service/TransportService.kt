@@ -13,12 +13,14 @@ import com.mall.service.ItemService
 import com.mall.service.OrderItemService
 import com.mall.service.OrderService
 import com.mall.utils.Util
+import com.mall.wrapper.OrderWrapper
 import com.yingtaohuo.mode.Delivery
 import com.yingtaohuo.mode.DeliveryTransporter
 import com.yingtaohuo.props.ImDadaProperties
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -33,12 +35,15 @@ open class TransportService(
         private val deliveryShopMapper: TDeliveryShopMapper,
         private val addressService: AddressService,
         private val orderService: OrderService,
+        private val orderWrapper: OrderWrapper,
         private val orderItemService: OrderItemService,
         private val itemService: ItemService,
         private val imdadaApi: ImDadaApi,
         private val dadaMerchantService: DadaMerchantService,
         private val imDadaProperties: ImDadaProperties
 ) {
+
+    val dateFormat = SimpleDateFormat.getDateInstance()
 
     val logger = LoggerFactory.getLogger(TransportService::class.java)
 
@@ -89,8 +94,10 @@ open class TransportService(
                 receiverName = receiverAddress.linkman,
                 receiverAddress = receiverAddress.address,
                 receiverPhone = receiverAddress.phone,
-                receiverLng = receiverAddress.lng.toDouble(),
-                receiverLat = receiverAddress.lat.toDouble(),
+                // receiverLng = receiverAddress.lng.toDouble(),
+                // receiverLat = receiverAddress.lat.toDouble(),
+                receiverLng = 120.096124,
+                receiverLat = 30.280788,
                 callback = "${imDadaProperties.callbackUrl}?event_form=newdada",   // 事件回调地址
                 tips = 0.0,
                 payForSupplierFee = (takeoutFee / 100).toDouble(),    // 每单商家铺贴配送费
@@ -105,8 +112,8 @@ open class TransportService(
                 invoiceTitle = null,
                 deliverLockerCode = null,
                 pickupLockerCode = null,
-                originMark = "YingTaoHuo",
-                originMarkNo = "${shop.shopId}${order.queueId}"
+                originMark = "YTH",
+                originMarkNo = "${shop.shopId}${order.orderCode.substring(order.orderCode.length - 4)}"
         )
     }
 
@@ -198,7 +205,7 @@ open class TransportService(
         // 需要送达时间（毫秒)
         ttt.requireReceiveTime = Timestamp(requireReceiveTime)
 
-        ttt.shopId = shop.id
+        ttt.shopId = shop.shopId
 
         deliveryTransportMapper.insertSelective(ttt)
 
@@ -215,6 +222,7 @@ open class TransportService(
         tt.transporterName = transportName
         tt.acceptTime = Date()  // 接单时间
         tt.status = StatusWaitForFetch
+
         return deliveryTransportMapper.updateByExampleSelective(tt, ex)
     }
 
@@ -264,6 +272,8 @@ open class TransportService(
 
         val aPage = PageInfo(list.map { transport ->
 
+            val order = orderWrapper.selectOrder(orderService.selectOrderByCode(transport.orderNo).id)
+
             Delivery(
                     transportId = transport.id,
 
@@ -302,7 +312,9 @@ open class TransportService(
                     finishTime = transport.finishTime,
                     cancelTime = transport.cancelTime,
                     fetchTime = transport.fetchTime,
-                    expireTime = transport.expireTime
+                    expireTime = transport.expireTime,
+                    orderItemNames = order.orderItemNames,
+                    remark = order.remark ?: ""
             )
         })
 
@@ -344,10 +356,10 @@ open class TransportService(
                     transporterLng = tp.transporterLng.toDouble(),
                     deliveryFee = (tp.deliveryFee * 100).toInt(),
                     tips = tp.tips.toInt(),
-                    acceptTime = if (tp.acceptTime != null) Timestamp(tp.acceptTime.toLong()) else null,
-                    finishTime = if (tp.finishTime != null) Timestamp(tp.finishTime.toLong()) else null,
-                    fetchTime = if (tp.fetchTime != null) Timestamp(tp.fetchTime.toLong()) else null,
-                    cancelTime = if (tp.cancelTime != null) Timestamp(tp.cancelTime.toLong()) else null,
+                    acceptTime = if (tp.acceptTime != null) dateFormat.parse(tp.acceptTime) else null,
+                    finishTime = if (tp.finishTime != null) dateFormat.parse(tp.finishTime) else null,
+                    fetchTime = if (tp.fetchTime != null) dateFormat.parse(tp.fetchTime) else null,
+                    cancelTime = if (tp.cancelTime != null) dateFormat.parse(tp.cancelTime) else null,
                     statusCode = tp.statusCode,
                     statusMsg = tp.statusMsg
             )

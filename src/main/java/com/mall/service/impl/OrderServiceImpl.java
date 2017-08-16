@@ -84,17 +84,8 @@ public class OrderServiceImpl implements OrderService {
 
             Integer transportChannel = Integer.parseInt(corpConfig.getOrDefault(TransportChannel, getDefaultTransportChannel(shopId)).getValue());
 
-            // 免配送费阈值
-            //Integer takeoutNofeeLimit = Integer.parseInt(corpConfig.getOrDefault(TakeoutNofeeLimit, getDefaultTakeoutNofeeLimit(corpId)).getValue());
-
-            // 打包费
-            //Integer takeoutPackFee = Integer.parseInt(corpConfig.getOrDefault(TakeoutPackFee, getDefaultTakeoutNofeeLimit(corpId)).getValue());
-
-            // 商家补贴的配送费
-            Integer takeoutFee = Integer.parseInt(corpConfig.getOrDefault(TakeoutFee, getDefaultTakeoutNofeeLimit(shopId)).getValue());
-
             // 配送渠道选用达达的时候
-            if ( transportChannel == 1 ) {
+            if ( transportChannel == TransportService.ChannelTypeOfImDada ) {
 
                 // 找到该订单绑定的配送店铺
                 TDeliveryShopExample ex = new TDeliveryShopExample();
@@ -102,39 +93,12 @@ public class OrderServiceImpl implements OrderService {
                 TDeliveryShop shop = onlyOne(takeawayShopMapper.selectByExample(ex));
 
                 try {
-                    transportService.sendImdadaOrderTransportChannel(order, shop, takeoutFee / 100);
+                    // 目前配送费 统一按照4块来算
+                    transportService.sendImdadaOrderTransportChannel(order, shop, 4);
                 } catch (ImDadaException e) {
                     e.printStackTrace();
                 }
 
-                // 支付在总价 = 商品价格 + 打包费 不加邮费
-//                int totalAmount = takeoutPackFee;
-//
-//                if (shop != null) {
-//
-//                    List<TOrderItem> orderItemList = orderItemService.selectOrderItemByOrderId(order.getId());
-//
-//                    for (TOrderItem orderItem : orderItemList) {
-//                        totalAmount += orderItem.getPayAmount();
-//                    }
-//
-//                    // 满足满减配送费
-//                    if ( totalAmount > takeoutNofeeLimit ) {
-//                        try {
-//                            transportService.sendImdadaOrderTransportChannel(order, shop, takeoutFee / 100);
-//                        } catch (ImDadaException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    else{
-//                        try {
-//                            transportService.sendImdadaOrderTransportChannel(order, shop, 0.0);
-//                        } catch (ImDadaException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                }
             }
         }
     }

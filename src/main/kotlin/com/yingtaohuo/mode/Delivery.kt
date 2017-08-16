@@ -66,5 +66,7 @@ data class Delivery(
         val finishTime: Date?,           // 结束时间
         val fetchTime: Date?,           // 取货时间
         val cancelTime: Date?,           // 取消时间
-        val expireTime: Date?           // 取消时间
+        val expireTime: Date?,           // 取消时间
+        val orderItemNames: String?,      // 订单商品名称
+        val remark: String               // 备注
 )
