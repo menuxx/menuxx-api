@@ -67,7 +67,7 @@ public class BaiduMqttPusher extends AbstractPusher {
 
     @Override
     public PushState pushToClient(String clientIdTopic, String payload, Map<String, Object> opts) {
-        logger.debug("Publishing message: %s to topic: %s", payload, clientIdTopic);
+        logger.debug("clientId: " + mqttClient.getClientId() + ", Publishing message: " + payload + " to topic: " + clientIdTopic);
         MqttMessage msg = new MqttMessage(payload.getBytes());
         msg.setQos(qos);
         msg.setId(randomIntVal());
