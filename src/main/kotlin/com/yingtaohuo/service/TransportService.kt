@@ -31,6 +31,7 @@ import java.util.*
 
 @Service
 open class TransportService(
+        private val deliveryShopService: DeliveryShopService,
         private val deliveryTransportMapper: TDeliveryTransportMapper,
         private val deliveryShopMapper: TDeliveryShopMapper,
         private val addressService: AddressService,
@@ -74,12 +75,14 @@ open class TransportService(
 
 
     fun getMerchantByShopId(shopId: Int) : TDadaMerchant {
-        val merchantId = deliveryShopMapper.selectByPrimaryKey(shopId).dadaMerchantId
-        return dadaMerchantService.getById(merchantId)
+        val ex = TDeliveryShopExample()
+        ex.createCriteria().andShopIdEqualTo(shopId)
+        val shop =  Util.onlyOne(deliveryShopMapper.selectByExample(ex))
+        return dadaMerchantService.getById(shop.dadaMerchantId)
     }
 
     private fun getGoodsRemark(orderItems: List<TOrderItem>, itemMap: Map<Int, TItem>) : String {
-        return orderItems.map { item -> "${itemMap[item.itemId]?.itemName}${item.quantity}x份" } .joinToString { "," }
+        return orderItems.map { item -> "${itemMap[item.itemId]?.itemName}${item.quantity}x份" } .joinToString(",")
     }
 
     fun getImdadaOrder(order: TOrder, shop: TDeliveryShop, takeoutFee: Int, goodsCount: Int, goodsRemark: String, goodsWeight: Double, requireReceiveTime: Long) : DDOrder {
@@ -94,10 +97,10 @@ open class TransportService(
                 receiverName = receiverAddress.linkman,
                 receiverAddress = receiverAddress.address,
                 receiverPhone = receiverAddress.phone,
-                // receiverLng = receiverAddress.lng.toDouble(),
-                // receiverLat = receiverAddress.lat.toDouble(),
-                receiverLng = 120.096124,
-                receiverLat = 30.280788,
+                receiverLng = receiverAddress.lng.toDouble(),
+                receiverLat = receiverAddress.lat.toDouble(),
+                //receiverLng = 120.096124,
+                //receiverLat = 30.280788,
                 callback = "${imDadaProperties.callbackUrl}?event_form=newdada",   // 事件回调地址
                 tips = 0.0,
                 payForSupplierFee = (takeoutFee / 100).toDouble(),    // 每单商家铺贴配送费
@@ -147,12 +150,15 @@ open class TransportService(
 
     }
 
-    fun updateTransport(tid: Int, distance: Long, fee: Int) {
+    fun updateTransport(tid: Int, distance: Long, fee: Int, status: Int=0) {
         val ttt = TDeliveryTransport()
         ttt.id = tid
         ttt.transportDistance = distance
         ttt.transportFee = fee
         ttt.resendTime = Date()
+        if ( status > 0 ) {
+            ttt.status = status
+        }
         deliveryTransportMapper.updateByPrimaryKeySelective(ttt)
     }
 
@@ -372,7 +378,7 @@ open class TransportService(
         val order = orderService.selectOrderByCode(orderNo)
         val tp = getTransportByOrderNo(orderNo)
         if (tp != null) {
-            val shop = deliveryShopMapper.selectByPrimaryKey(tp.shopId)
+            val shop = deliveryShopService.getDeliveyShopByShopId(tp.shopId)
             val merchant = getMerchantByShopId(tp.shopId)
             val orderItems = orderItemService.selectOrderItemByOrderId(order.id)
             val itemMap = itemService.selectItemsForMap(orderItems.map { it.id }.toList())
@@ -382,7 +388,9 @@ open class TransportService(
             val goodsWeight = goodsCount * 0.2  // 按每件 0.2 千克计算
             val ddOrder = getImdadaOrder(order, shop, tp.transportFee, goodsCount, goodsRemark, goodsWeight, requireReceiveTime)
             val resendRes = imdadaApi.reAddOrder(merchant.sourceId, ddOrder)
-            updateTransport(tp.id, resendRes.distance.toLong(), (resendRes.fee * 100).toInt())
+            // 如果计算得到新的配送费 大于0 ，就代表发单成功
+            val status = if (resendRes.fee > 0) 1 else 0
+            updateTransport(tp.id, resendRes.distance.toLong(), (resendRes.fee * 100).toInt(), status)
             return (resendRes.fee * 100).toInt()
         }
         throw NotFoundException("delivery shop not found, orderNo: $orderNo")
