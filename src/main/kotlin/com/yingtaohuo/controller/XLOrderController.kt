@@ -57,13 +57,17 @@ open class XLOrderController(
      */
     @PutMapping("orders/{orderId}/paid")
     fun orderStatusApplyPaid(@PathVariable orderId: Int) : ResponseDataWrap {
-        // 状态修改
-        if ( orderService.applyOrderStatus(orderId, Order.STATUS_OFFLINE) > 0 ) {
-            // 订单推送
-            pushService.pushPaidOrderWithOrderId(orderId)
-            return ResponseDataWrap(null, 0, false)
+        val order = orderMapper.selectByPrimaryKey(orderId)
+        if ( order != null && (order.status != Order.STATUS_PAID &&  order.status != Order.STATUS_OFFLINE) ) {
+            // 状态修改
+            if ( orderService.applyOrderStatus(orderId, Order.STATUS_OFFLINE) > 0 ) {
+                // 订单推送
+                pushService.pushPaidOrderWithOrderId(orderId)
+                return ResponseDataWrap(null, 0, false)
+            }
+            return ResponseDataWrap(null, -1, true)
         }
-        return ResponseDataWrap(null, 4002, true)
+        return ResponseDataWrap(null, -2, true)
     }
 
     @GetMapping("orders/{orderId}/state")
