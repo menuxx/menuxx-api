@@ -393,7 +393,7 @@ public class OrderController extends BaseCorpController {
 
         // 大店版创建定单的时候就已经产生了流水号
         // 所以当流水号已经存在的时候，就不在创建流水号
-        if ( tOrder.getQueueId() != null ) {
+        if ( tOrder.getQueueId() == null ) {
             // 创建排序号
             int queueId = QueueUtil.getQueueNum(dinerId);
             orderService.updateOrderPaid(orderId, Order.PAY_TYPE_RECHARGE, queueId);

@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
                 try {
                     // 目前配送费 统一按照4块来算
-                    transportService.sendImdadaOrderTransportChannel(order, shop, 4);
+                    transportService.sendImdadaOrderTransportChannel(order, shop, 400);
                 } catch (ImDadaException e) {
                     e.printStackTrace();
                 }
