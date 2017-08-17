@@ -42,19 +42,4 @@ public class DinerPushManager {
             eventBus.post(msg);
         }
     }
-
-    public void pushOrderAddItems(Map<String, String> pushDevices, OrderAddItems items) {
-        for (Map.Entry<String, String> pushDevice : pushDevices.entrySet()) {
-            OrderAddItemsMessage msg = new OrderAddItemsMessage(pushDevice.getValue(), pushDevice.getKey(), items, new HashMap<>());
-            eventBus.post(msg);
-        }
-    }
-
-    public void pushOrderAddItemsToShopReceiver(String userPushKey, OrderAddItems items) {
-        Map<String, String> tokenGroup = pushTokenStore.getTokens(userPushKey);
-        if (tokenGroup != null) {
-            pushOrderAddItems(tokenGroup, items);
-        }
-    }
-
 }

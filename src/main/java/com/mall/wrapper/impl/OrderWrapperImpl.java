@@ -408,9 +408,13 @@ public class OrderWrapperImpl implements OrderWrapper {
         chargeApply.setOrderId(order.getId());
         chargeApplyService.updateChargeApply(chargeApply);
 
-        // 创建排序号
-        Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
-        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX, queueId);
+        if ( order.getQueueId() == null || order.getQueueId()  == 0 ) {
+            // 创建排序号
+            Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
+            orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX, queueId);
+        } else {
+            orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX, null);
+        }
 
         // PUSH
         pushOrder(order.getId());

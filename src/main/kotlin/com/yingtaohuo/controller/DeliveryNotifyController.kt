@@ -27,22 +27,21 @@ open class DeliveryNotifyController(val transportService: TransportService,
                         orderNo = event.orderId,
                         transportTel = event.dmMobile!!, transportNo = event.dmId!!, transportName = event.dmName!!
                 )
-                // 如果接单，就开始扣费
-
-                val transport = transportService.getTransportByOrderNo(event.orderId)
-
-                val order = orderService.selectOrderByCode(event.orderId)
-
-                val amount = transport!!.transportFee + (transport.transportTips ?: 0)
-
-                // 记录消费
-                // 某个店铺 达达 消费
-                shopChargeRecordService.recordConsume(order.corpId, 0, -amount, ShopChargeRecordConsumeType_ImdadaTransport, "达达配送费")
-
                 return if (ste > 0) "success" else "fail"
             }
             DDOrderEventStatusFinish -> {
                 val ste = transportService.finishTransport(orderNo = event.orderId)
+
+                if (ste > 0) {
+                    // 如果接单，就开始扣费
+                    val transport = transportService.getTransportByOrderNo(event.orderId)
+                    val order = orderService.selectOrderByCode(event.orderId)
+                    val amount = transport!!.transportFee + (transport.transportTips ?: 0)
+                    // 记录消费
+                    // 某个店铺 达达 消费
+                    shopChargeRecordService.recordConsume(order.corpId, 0, amount, ShopChargeRecordConsumeType_ImdadaTransport, "达达配送费")
+                }
+
                 return if (ste > 0) "success" else "fail"
             }
             DDOrderEventStatusCancel -> {

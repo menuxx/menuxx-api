@@ -116,6 +116,13 @@ data class DDShop (
 )
 
 /**
+ * 取消原因
+ */
+data class DDCancelReason(val id: Int, // 理由编号
+                        val reason: String // 取消理由
+)
+
+/**
  * 每次订单状态发生变化时，会对添加订单接口中callback的URL进行回调。
  * 1. 参数以application/json方式传递。若回调服务器响应失败（响应非200），会每隔1分钟重试一次，最多重试10次。
  * 2. 每次订单状态变化都会发生回调，如果出现订单状态回调顺序不一致，请根据回调参数中的时间戳进行判断。
@@ -155,18 +162,18 @@ data class DDOrderEvent(
         @get:JsonProperty("dm_mobile") @SerializedName("dm_mobile") val dmMobile: String? // 配送员手机号，接单以后会传
 )
 
-/**
- * 取消原因
- */
-data class DDReason(
-        val id: Int,        // 理由编号
-        val reason: String  // 取消理由
-)
+data class DDFormalCancel(
+        // 第三方订单编号
+        @get:JsonProperty("order_id") val orderId: String,
+        // 取消原因ID（取消原因列表）
+        @get:JsonProperty("cancel_reason_id") val cancelReasonId: Int,
+        // 取消原因(当取消原因ID为其他时，此字段必填)
+        @get:JsonProperty("cancel_reason") val cancelReason: String)
 
 /**
  * 城市信息
  */
 data class DDCity(
         val cityName: String, // 城市名称
-        val cityCode: String  // 城市编码
+        val cityCode: String?  // 城市编码
 )

@@ -1,8 +1,6 @@
 package com.yingtaohuo.service
 
-import cn.imdada.DDOrder
-import cn.imdada.ImDadaApi
-import cn.imdada.ImDadaException
+import cn.imdada.*
 import com.github.pagehelper.PageInfo
 import com.mall.exception.NotFoundException
 import com.mall.mapper.TDeliveryShopMapper
@@ -17,6 +15,7 @@ import com.mall.wrapper.OrderWrapper
 import com.yingtaohuo.mode.Delivery
 import com.yingtaohuo.mode.DeliveryTransporter
 import com.yingtaohuo.props.ImDadaProperties
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
@@ -73,7 +72,6 @@ open class TransportService(
         return Util.onlyOne<TDeliveryShop>(deliveryShopMapper.selectByExample(ex))
     }
 
-
     fun getMerchantByShopId(shopId: Int) : TDadaMerchant {
         val ex = TDeliveryShopExample()
         ex.createCriteria().andShopIdEqualTo(shopId)
@@ -82,7 +80,7 @@ open class TransportService(
     }
 
     private fun getGoodsRemark(orderItems: List<TOrderItem>, itemMap: Map<Int, TItem>) : String {
-        return orderItems.map { item -> "${itemMap[item.itemId]?.itemName}${item.quantity}x份" } .joinToString(",")
+        return orderItems.joinToString(",") { item -> "${itemMap[item.itemId]?.itemName}${item.quantity}x份" }
     }
 
     fun getImdadaOrder(order: TOrder, shop: TDeliveryShop, takeoutFee: Int, goodsCount: Int, goodsRemark: String, goodsWeight: Double, requireReceiveTime: Long) : DDOrder {
@@ -143,6 +141,12 @@ open class TransportService(
         val addRes = imdadaApi.addOrder(merchant.sourceId, ddOrder)
 
         return createTransport(order, shop, goodsCount, goodsRemark, goodsWeight, requireReceiveTime, (addRes.fee * 100).toInt(), addRes.distance.toLong(), ChannelTypeOfImDada)
+    }
+
+    fun getCancelReasons(shopId: Int) : List<DDCancelReason> {
+        val shop = deliveryShopService.getDeliveyShopByShopId(shopId)
+        val merchant = dadaMerchantService.getById(shop.dadaMerchantId)
+        return imdadaApi.getCancelReasons(merchant.sourceId)
     }
 
     // 订单发送到 饿了么 的 配送渠道
@@ -228,7 +232,6 @@ open class TransportService(
         tt.transporterName = transportName
         tt.acceptTime = Date()  // 接单时间
         tt.status = StatusWaitForFetch
-
         return deliveryTransportMapper.updateByExampleSelective(tt, ex)
     }
 
@@ -362,10 +365,10 @@ open class TransportService(
                     transporterLng = tp.transporterLng.toDouble(),
                     deliveryFee = (tp.deliveryFee * 100).toInt(),
                     tips = tp.tips.toInt(),
-                    acceptTime = if (tp.acceptTime != null) dateFormat.parse(tp.acceptTime) else null,
-                    finishTime = if (tp.finishTime != null) dateFormat.parse(tp.finishTime) else null,
-                    fetchTime = if (tp.fetchTime != null) dateFormat.parse(tp.fetchTime) else null,
-                    cancelTime = if (tp.cancelTime != null) dateFormat.parse(tp.cancelTime) else null,
+                    acceptTime = if (!StringUtils.isBlank(tp.acceptTime)) dateFormat.parse(tp.acceptTime) else null,
+                    finishTime = if (!StringUtils.isBlank(tp.finishTime)) dateFormat.parse(tp.finishTime) else null,
+                    fetchTime = if (!StringUtils.isBlank(tp.fetchTime)) dateFormat.parse(tp.fetchTime) else null,
+                    cancelTime = if (!StringUtils.isBlank(tp.cancelTime)) dateFormat.parse(tp.cancelTime) else null,
                     statusCode = tp.statusCode,
                     statusMsg = tp.statusMsg
             )
@@ -416,6 +419,17 @@ open class TransportService(
 
     fun getDeliveryById(deliveryId: Int) : TDeliveryTransport? {
         return deliveryTransportMapper.selectByPrimaryKey(deliveryId)
+    }
+
+    fun cancelTransport(shopId: Int, orderId: String, reasonId: Int, reason: String) : Boolean {
+        val merchant = getMerchantByShopId(shopId)
+        val formalCancel = DDFormalCancel(orderId = orderId, cancelReasonId = reasonId, cancelReason = reason)
+        return try {
+            imdadaApi.formalCancel(merchant.sourceId, formalCancel)
+            true
+        } catch (ex: ImDadaException) {
+            false
+        }
     }
 
 }

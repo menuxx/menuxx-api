@@ -39,7 +39,7 @@ open class DeliveryController @Autowired constructor (
     open fun addTips(@CurrentDiner diner: TCorp, @Valid @RequestBody tips: PostTips) : PostResult {
         val corpConfig = Util.getConfigs(configService.selectMyConfigs(diner.id))
         // 如果配送渠道是 dada 1
-        if (corpConfig[Constants.TransportChannel]?.equals(1) ?: false) {
+        if (corpConfig[Constants.TransportChannel]?.equals(1) == true) {
             val shop = transportService.getDeliveryShopByShopId(diner.id)
             val totalTips = transportService.dadaAddTipsToTransport(tips.orderNo, shop, tips.tips)
             return PostResult(ret = totalTips, orderNo = tips.orderNo, errorCode = 0, errorMsg = "ok")
@@ -65,11 +65,11 @@ open class DeliveryController @Autowired constructor (
     data class PostDelivery(val orderNo: String)
     @PostMapping("/deliveries")
     open fun resendTransport(@PathVariable dinerId: Int, @Valid @RequestBody delivery: PostDelivery) : PostResult {
-        try {
+        return try {
             val fee = transportService.dadaOrderResend(delivery.orderNo)
-            return PostResult(ret = fee, orderNo = delivery.orderNo, errorCode = 0, errorMsg = "ok")
+            PostResult(ret = fee, orderNo = delivery.orderNo, errorCode = 0, errorMsg = "ok")
         } catch (ex: ImDadaException) {
-            return PostResult(ret = 0, orderNo = delivery.orderNo, errorCode = 1501, errorMsg = ex.message)
+            PostResult(ret = 0, orderNo = delivery.orderNo, errorCode = 1501, errorMsg = ex.message)
         }
     }
 
@@ -87,6 +87,20 @@ open class DeliveryController @Autowired constructor (
             }
         } else {
             throw NotSupportException("未选择或选择了未知的配送渠道")
+        }
+    }
+
+    @GetMapping("/deliveries/cancel/reasons")
+    open fun getCancelReasons(@PathVariable dinerId: Int) = transportService.getCancelReasons(dinerId)
+
+    @PutMapping("/deliveries/{did}/cancel")
+    open fun cancelTransport(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int, @RequestBody reason: DDCancelReason) : PostResult {
+        val transport = transportService.getDeliveryById(deliveryId)
+        val isOk = transportService.cancelTransport(dinerId, transport!!.orderNo, reason.id, reason.reason)
+        return if ( isOk ) {
+            PostResult(ret = 0, orderNo = transport.orderNo, errorCode = 0, errorMsg = "ok")
+        } else {
+            PostResult(ret = 0, orderNo = transport.orderNo, errorCode = 1503, errorMsg = "取消订单错误")
         }
     }
 

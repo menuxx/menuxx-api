@@ -19,6 +19,8 @@ public class TShopChargeRecord {
 
     private Integer consumeType;
 
+    private Integer type;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class TShopChargeRecord {
 
     public void setConsumeType(Integer consumeType) {
         this.consumeType = consumeType;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

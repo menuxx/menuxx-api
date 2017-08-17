@@ -158,7 +158,7 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_shop_charge_record" domainObjectName="TShopChargeRecord" >
+        <table schema="jiujin" tableName="t_shop_charge_record_balance" domainObjectName="TShopChargeRecordBalance">
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
 

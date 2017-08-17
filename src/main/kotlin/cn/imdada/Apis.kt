@@ -103,6 +103,22 @@ interface ImDadaApi {
     @Throws(ImDadaException::class)
     fun getShop(originShopId: String) : DDShop
 
+    /**
+     * 订单区取消原型查询接口
+     * 查询门店详情接口,接口URL地址：/api/order/cancel/reasons
+     */
+    @RequestLine("POST /api/order/cancel/reasons?source_id={source_id}")
+    @Throws(ImDadaException::class)
+    fun getCancelReasons(@Param("source_id") sourceId: String) : List<DDCancelReason>
+
+    /**
+     * 订单区取消接口
+     * 查询门店详情接口,接口URL地址：/api/order/formalCancel
+     */
+    @RequestLine("POST /api/order/formalCancel?source_id={source_id}")
+    @Throws(ImDadaException::class)
+    fun formalCancel(@Param("source_id") sourceId: String, cancel: DDFormalCancel) : DDCancelReason
+
 }
 
 /**
@@ -114,7 +130,7 @@ interface ImDadaApi {
  * 模拟取消订单
  * 模拟订单过期
  */
-@Headers(*arrayOf("Accept: application/json", "Content-Type: application/json"))
+@Headers("Accept: application/json", "Content-Type: application/json")
 interface MockImDadaApi {
 
     /**
