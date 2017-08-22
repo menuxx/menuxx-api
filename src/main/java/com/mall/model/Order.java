@@ -51,6 +51,8 @@ public class Order extends TOrder {
     // 别名配置
     private Map<Integer, String> tabNameMap;
 
+    private Integer activityAmount;
+
     private String orderTypeText;
 
     private String statusText;
@@ -152,6 +154,14 @@ public class Order extends TOrder {
         }
 
         return payTypeText;
+    }
+
+    public Integer getActivityAmount() {
+        return activityAmount;
+    }
+
+    public void setActivityAmount(Integer activityAmount) {
+        this.activityAmount = activityAmount;
     }
 
     public int getUserBalance() {

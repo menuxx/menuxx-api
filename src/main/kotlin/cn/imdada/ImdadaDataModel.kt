@@ -122,6 +122,9 @@ data class DDCancelReason(val id: Int, // 理由编号
                         val reason: String // 取消理由
 )
 
+
+data class DDCancelResult(@get:JsonProperty("deduct_fee") val deductFee: Int)
+
 /**
  * 每次订单状态发生变化时，会对添加订单接口中callback的URL进行回调。
  * 1. 参数以application/json方式传递。若回调服务器响应失败（响应非200），会每隔1分钟重试一次，最多重试10次。

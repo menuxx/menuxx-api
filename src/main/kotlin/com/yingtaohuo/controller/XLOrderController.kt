@@ -3,6 +3,7 @@ package com.yingtaohuo.controller
 import com.mall.mapper.TOrderMapper
 import com.mall.model.Order
 import com.mall.model.TOrderItem
+import com.mall.service.ItemService
 import com.mall.wrapper.OrderWrapper
 import com.yingtaohuo.mode.ResponseDataWrap
 import com.yingtaohuo.service.PushService
@@ -20,16 +21,19 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/diners/{dinerId}")
 open class XLOrderController(
-        internal val orderService: XLOrderService,
-        internal val pushService: PushService,
-        internal val orderWrapper: OrderWrapper,
-        internal val orderMapper: TOrderMapper
+        private val orderService: XLOrderService,
+        private val pushService: PushService,
+        private val orderWrapper: OrderWrapper,
+        private val orderMapper: TOrderMapper,
+        private val itemService: ItemService
 ) {
 
     data class OrderItems(val remark: String?, val items: List<TOrderItem>)
     @PutMapping("orders/{orderId}/items")
     fun appendItemsToOrder(@PathVariable dinerId: Int, @PathVariable orderId: Int, @RequestBody orderItems: OrderItems) : ResponseDataWrap {
         try {
+
+            val itemMap = itemService.selectItemsForMap(orderItems.items.map { item->item.itemId })
 
             // 捏造一个部分商品的订单，该订单只显追加商品的信息
 
@@ -40,7 +44,7 @@ open class XLOrderController(
             // 覆盖所有商品，只计算新商品的数据
             order.itemList = newOrderItems
 
-            orderWrapper.calcOrder(order)
+            orderWrapper.calcOrder(order, itemMap)
 
             pushService.pushConfirmOrder(dinerId, order)
 

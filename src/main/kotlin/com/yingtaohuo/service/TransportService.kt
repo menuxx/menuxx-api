@@ -14,6 +14,7 @@ import com.mall.utils.Util
 import com.mall.wrapper.OrderWrapper
 import com.yingtaohuo.mode.Delivery
 import com.yingtaohuo.mode.DeliveryTransporter
+import com.yingtaohuo.mode.Result
 import com.yingtaohuo.props.ImDadaProperties
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
@@ -33,6 +34,7 @@ open class TransportService(
         private val deliveryShopService: DeliveryShopService,
         private val deliveryTransportMapper: TDeliveryTransportMapper,
         private val deliveryShopMapper: TDeliveryShopMapper,
+        private val shopChargeRecordService: ShopChargeRecordService,
         private val addressService: AddressService,
         private val orderService: OrderService,
         private val orderWrapper: OrderWrapper,
@@ -144,7 +146,7 @@ open class TransportService(
     }
 
     fun getCancelReasons(shopId: Int) : List<DDCancelReason> {
-        val shop = deliveryShopService.getDeliveyShopByShopId(shopId)
+        val shop = deliveryShopService.getDeliveryShopByShopId(shopId)
         val merchant = dadaMerchantService.getById(shop.dadaMerchantId)
         return imdadaApi.getCancelReasons(merchant.sourceId)
     }
@@ -381,7 +383,7 @@ open class TransportService(
         val order = orderService.selectOrderByCode(orderNo)
         val tp = getTransportByOrderNo(orderNo)
         if (tp != null) {
-            val shop = deliveryShopService.getDeliveyShopByShopId(tp.shopId)
+            val shop = deliveryShopService.getDeliveryShopByShopId(tp.shopId)
             val merchant = getMerchantByShopId(tp.shopId)
             val orderItems = orderItemService.selectOrderItemByOrderId(order.id)
             val itemMap = itemService.selectItemsForMap(orderItems.map { it.id }.toList())
@@ -421,15 +423,40 @@ open class TransportService(
         return deliveryTransportMapper.selectByPrimaryKey(deliveryId)
     }
 
-    fun cancelTransport(shopId: Int, orderId: String, reasonId: Int, reason: String) : Boolean {
+
+    fun cancelTransport(shopId: Int, orderId: String, reasonId: Int, reason: String) : Result {
         val merchant = getMerchantByShopId(shopId)
         val formalCancel = DDFormalCancel(orderId = orderId, cancelReasonId = reasonId, cancelReason = reason)
         return try {
-            imdadaApi.formalCancel(merchant.sourceId, formalCancel)
-            true
+            val (deductFee) = imdadaApi.formalCancel(merchant.sourceId, formalCancel)
+            // 记录违约金消耗
+            shopChargeRecordService.recordConsume(shopId, 0, deductFee * 100, 3, "reasonId: $reasonId, reason: $reason")
+            Result(deductFee,true, "正在取消")
         } catch (ex: ImDadaException) {
-            false
+            Result(null, false, ex.message)
         }
+    }
+
+    fun transportOrderToChannel(order: TOrder, transportChannel: Int) : Int {
+        // 当订单是外卖单，并且存在地址
+        if (order.orderType == Order.ORDER_TYPE_DELIVERED && order.addressId != null)
+        {
+            // 配送渠道选用达达的时候
+            if (transportChannel == TransportService.ChannelTypeOfImDada) {
+                // 找到该订单绑定的配送店铺
+                val shop = getDeliveryShopByShopId(order.corpId)
+                return try {
+                    // 目前配送费 统一按照4块来算
+                    sendImdadaOrderTransportChannel(order, shop, 400)
+                } catch (e: ImDadaException) {
+                    e.printStackTrace()
+                    logger.error(e.message)
+                    0
+                }
+
+            }
+        }
+        return 0
     }
 
 }

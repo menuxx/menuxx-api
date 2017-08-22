@@ -2,12 +2,9 @@ package com.yingtaohuo.service
 
 import com.mall.mapper.TOrderItemMapper
 import com.mall.mapper.TOrderMapper
-import com.mall.model.OrderItem
-import com.mall.model.TOrder
-import com.mall.model.TOrderItem
-import com.mall.model.TOrderItemExample
-import com.mall.service.ConfigService
+import com.mall.model.*
 import com.mall.service.ItemService
+import com.mall.utils.Util
 import com.mall.wrapper.OrderWrapper
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
@@ -19,11 +16,21 @@ import org.springframework.stereotype.Service
  */
 @Service
 class XLOrderService(
-        internal val orderMapper: TOrderMapper,
-        internal val orderItemMapper: TOrderItemMapper,
-        internal val itemService: ItemService,
-        internal val orderWrapper: OrderWrapper
+        private val orderMapper: TOrderMapper,
+        private val orderItemMapper: TOrderItemMapper,
+        private val itemService: ItemService,
+        private val orderWrapper: OrderWrapper,
+        private val activityOrderService: ActivityOrderService
 ) {
+
+    private fun getDeaPrice(tItem: TItem): Int {
+        // 今日特价
+        return if (Util.getWeekday() == tItem.weekday) {
+            tItem.specialPrice
+        } else {
+            tItem.discountPrice
+        }
+    }
 
     fun insertItems(orderId: Int, orderItems: List<TOrderItem>, remark: String?) : List<OrderItem> {
         // 获取所有需要参与计算的商品详细信息
@@ -45,9 +52,10 @@ class XLOrderService(
             // 取得之前 商品的 quantity
             // 取的之前 商品的 payAmount
             val existsItem =  oldItems.findLast { old -> old.itemId == item.itemId }
-            item.payAmount = selectItems[item.itemId]!!.discountPrice * item.quantity
-            existsItem!!.payAmount += item.payAmount
-            existsItem!!.quantity += item.quantity
+            existsItem!!.dealPrice = getDeaPrice(selectItems[item.itemId]!!)
+            item.payAmount = existsItem.dealPrice * item.quantity
+            existsItem.payAmount += item.payAmount
+            existsItem.quantity += item.quantity
             orderItemMapper.updateByPrimaryKey(existsItem)
             item
         } .map { item ->
@@ -62,7 +70,8 @@ class XLOrderService(
             }
         } .map { item ->
             item.orderId = orderId
-            item.payAmount = selectItems[item.itemId]!!.discountPrice * item.quantity
+            item.dealPrice = getDeaPrice(selectItems[item.itemId]!!)
+            item.payAmount = item.dealPrice * item.quantity
             orderItemMapper.insertSelective(item)
             item
         } .map { item ->
@@ -73,8 +82,8 @@ class XLOrderService(
         val order = orderWrapper.selectOrder(orderId)
 
         // 重新计算后的订单
-        // 计算活动后的价格
-        val calcedOrder = orderWrapper.calcActivity(orderWrapper.calcOrder(order))
+        // 计算满减活动后的价格
+        val calcedOrder = activityOrderService.calcActivityMinusOrder(order, orderItems)
 
         // 下单次数累加
         calcedOrder.orderTimes = order.orderTimes + 1

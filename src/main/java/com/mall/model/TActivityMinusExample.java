@@ -165,6 +165,66 @@ public class TActivityMinusExample {
             return (Criteria) this;
         }
 
+        public Criteria andActivityIdIsNull() {
+            addCriterion("activity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdIsNotNull() {
+            addCriterion("activity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdEqualTo(Integer value) {
+            addCriterion("activity_id =", value, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdNotEqualTo(Integer value) {
+            addCriterion("activity_id <>", value, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdGreaterThan(Integer value) {
+            addCriterion("activity_id >", value, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("activity_id >=", value, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdLessThan(Integer value) {
+            addCriterion("activity_id <", value, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("activity_id <=", value, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdIn(List<Integer> values) {
+            addCriterion("activity_id in", values, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdNotIn(List<Integer> values) {
+            addCriterion("activity_id not in", values, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdBetween(Integer value1, Integer value2) {
+            addCriterion("activity_id between", value1, value2, "activityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("activity_id not between", value1, value2, "activityId");
+            return (Criteria) this;
+        }
+
         public Criteria andDescTextIsNull() {
             addCriterion("desc_text is null");
             return (Criteria) this;
@@ -355,66 +415,6 @@ public class TActivityMinusExample {
             return (Criteria) this;
         }
 
-        public Criteria andCorpIdIsNull() {
-            addCriterion("corp_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdIsNotNull() {
-            addCriterion("corp_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdEqualTo(Integer value) {
-            addCriterion("corp_id =", value, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdNotEqualTo(Integer value) {
-            addCriterion("corp_id <>", value, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdGreaterThan(Integer value) {
-            addCriterion("corp_id >", value, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("corp_id >=", value, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdLessThan(Integer value) {
-            addCriterion("corp_id <", value, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdLessThanOrEqualTo(Integer value) {
-            addCriterion("corp_id <=", value, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdIn(List<Integer> values) {
-            addCriterion("corp_id in", values, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdNotIn(List<Integer> values) {
-            addCriterion("corp_id not in", values, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdBetween(Integer value1, Integer value2) {
-            addCriterion("corp_id between", value1, value2, "corpId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("corp_id not between", value1, value2, "corpId");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -472,6 +472,66 @@ public class TActivityMinusExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableIsNull() {
+            addCriterion("enable is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableIsNotNull() {
+            addCriterion("enable is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableEqualTo(Integer value) {
+            addCriterion("enable =", value, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableNotEqualTo(Integer value) {
+            addCriterion("enable <>", value, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableGreaterThan(Integer value) {
+            addCriterion("enable >", value, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableGreaterThanOrEqualTo(Integer value) {
+            addCriterion("enable >=", value, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableLessThan(Integer value) {
+            addCriterion("enable <", value, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableLessThanOrEqualTo(Integer value) {
+            addCriterion("enable <=", value, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableIn(List<Integer> values) {
+            addCriterion("enable in", values, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableNotIn(List<Integer> values) {
+            addCriterion("enable not in", values, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableBetween(Integer value1, Integer value2) {
+            addCriterion("enable between", value1, value2, "enable");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnableNotBetween(Integer value1, Integer value2) {
+            addCriterion("enable not between", value1, value2, "enable");
             return (Criteria) this;
         }
     }

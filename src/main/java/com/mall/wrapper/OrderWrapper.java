@@ -2,21 +2,21 @@ package com.mall.wrapper;
 
 import com.github.pagehelper.PageInfo;
 import com.mall.model.Order;
+import com.mall.model.OrderItem;
 import com.mall.model.TChargeApply;
-import com.mall.model.TCorpUser;
+import com.mall.model.TItem;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
  */
 public interface OrderWrapper {
 
-    void createOrder(Order order);
+    void createOrder(Order order, List<Integer> itemIdList);
 
-    Order calcOrder(Order order);
-
-    Order calcActivity(Order order);
+    Order calcOrder(Order order, Map<Integer, TItem> itemMap);
 
     PageInfo<Order> selectPaidOrders(int userId, int corpId);
 

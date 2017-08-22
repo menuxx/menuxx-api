@@ -2,9 +2,11 @@ package com.mall.service;
 
 import com.github.pagehelper.PageInfo;
 import com.mall.model.Order;
+import com.mall.model.TItem;
 import com.mall.model.TOrder;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -32,6 +34,8 @@ public interface OrderService {
     TOrder selectOrderByCode(String orderCode);
 
     void updateOrderRemark(int orderId, String remark);
+
+    void updateOrderTransportStatus(int orderId, int status);
 
 
 }

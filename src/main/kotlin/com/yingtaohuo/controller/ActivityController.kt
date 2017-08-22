@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/diners/{shopId}")
 open class ActivityController (
-        internal val activityService: ActivityService
+        private val activityService: ActivityService
 ) {
 
     @GetMapping("/activities")

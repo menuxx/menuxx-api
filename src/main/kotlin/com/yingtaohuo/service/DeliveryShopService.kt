@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service
 open class DeliveryShopService(val deliveryShopMapper: TDeliveryShopMapper) {
 
-    fun getDeliveyShopByShopId(shopId: Int) : TDeliveryShop {
+    fun getDeliveryShopByShopId(shopId: Int) : TDeliveryShop {
         val ex = TDeliveryShopExample()
         ex.createCriteria().andShopIdEqualTo(shopId)
         return Util.onlyOne(deliveryShopMapper.selectByExample(ex))

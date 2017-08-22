@@ -464,6 +464,66 @@ public class TOrderItemExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andDealPriceIsNull() {
+            addCriterion("deal_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceIsNotNull() {
+            addCriterion("deal_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceEqualTo(Integer value) {
+            addCriterion("deal_price =", value, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceNotEqualTo(Integer value) {
+            addCriterion("deal_price <>", value, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceGreaterThan(Integer value) {
+            addCriterion("deal_price >", value, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("deal_price >=", value, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceLessThan(Integer value) {
+            addCriterion("deal_price <", value, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceLessThanOrEqualTo(Integer value) {
+            addCriterion("deal_price <=", value, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceIn(List<Integer> values) {
+            addCriterion("deal_price in", values, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceNotIn(List<Integer> values) {
+            addCriterion("deal_price not in", values, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceBetween(Integer value1, Integer value2) {
+            addCriterion("deal_price between", value1, value2, "dealPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDealPriceNotBetween(Integer value1, Integer value2) {
+            addCriterion("deal_price not between", value1, value2, "dealPrice");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

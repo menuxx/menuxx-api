@@ -41,6 +41,8 @@ public class TItem {
 
     private String coverImages;
 
+    private Integer joinActMinus;
+
     public Integer getId() {
         return id;
     }
@@ -191,5 +193,13 @@ public class TItem {
 
     public void setCoverImages(String coverImages) {
         this.coverImages = coverImages == null ? null : coverImages.trim();
+    }
+
+    public Integer getJoinActMinus() {
+        return joinActMinus;
+    }
+
+    public void setJoinActMinus(Integer joinActMinus) {
+        this.joinActMinus = joinActMinus;
     }
 }

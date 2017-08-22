@@ -1314,6 +1314,66 @@ public class TItemExample {
             addCriterion("cover_images not between", value1, value2, "coverImages");
             return (Criteria) this;
         }
+
+        public Criteria andJoinActMinusIsNull() {
+            addCriterion("join_act_minus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusIsNotNull() {
+            addCriterion("join_act_minus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusEqualTo(Integer value) {
+            addCriterion("join_act_minus =", value, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusNotEqualTo(Integer value) {
+            addCriterion("join_act_minus <>", value, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusGreaterThan(Integer value) {
+            addCriterion("join_act_minus >", value, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("join_act_minus >=", value, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusLessThan(Integer value) {
+            addCriterion("join_act_minus <", value, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusLessThanOrEqualTo(Integer value) {
+            addCriterion("join_act_minus <=", value, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusIn(List<Integer> values) {
+            addCriterion("join_act_minus in", values, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusNotIn(List<Integer> values) {
+            addCriterion("join_act_minus not in", values, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusBetween(Integer value1, Integer value2) {
+            addCriterion("join_act_minus between", value1, value2, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinActMinusNotBetween(Integer value1, Integer value2) {
+            addCriterion("join_act_minus not between", value1, value2, "joinActMinus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

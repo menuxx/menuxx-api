@@ -1,6 +1,5 @@
 package com.mall.service.impl;
 
-import cn.imdada.ImDadaException;
 import com.github.pagehelper.PageInfo;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -11,16 +10,15 @@ import com.mall.service.ConfigService;
 import com.mall.service.ItemService;
 import com.mall.service.OrderItemService;
 import com.mall.service.OrderService;
-import com.mall.utils.Util;
+import com.yingtaohuo.mode.ShopConfig;
+import com.yingtaohuo.service.ShopConfigService;
 import com.yingtaohuo.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static com.mall.utils.Constants.*;
 import static com.mall.utils.Util.onlyOne;
@@ -30,22 +28,6 @@ import static com.mall.utils.Util.onlyOne;
  */
 @Service
 public class OrderServiceImpl implements OrderService {
-
-    public static TConfig getDefaultTransportChannel(Integer corpId) {
-        TConfig config = new TConfig();
-        config.setCorpId(corpId);
-        config.setName(TransportChannel);
-        config.setValue("0");
-        return config;
-    }
-
-    public static TConfig getDefaultTakeoutNofeeLimit(Integer corpId) {
-        TConfig config = new TConfig();
-        config.setCorpId(corpId);
-        config.setName(TakeoutNofeeLimit);
-        config.setValue("8000");
-        return config;
-    }
 
     @Autowired
     TOrderMapper orderMapper;
@@ -68,6 +50,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    ShopConfigService shopConfigService;
+
     @PostConstruct
     public void onStart() {
         eventBus.register(this);
@@ -76,30 +61,11 @@ public class OrderServiceImpl implements OrderService {
     // 新订单支付完成
     @Subscribe
     public void onOrderPaid(TOrder order) {
-        // 当订单是外卖单，并且存在地址
-        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && order.getAddressId() != null) {
-            int shopId = order.getCorpId();
-
-            Map<String, TConfig> corpConfig = Util.getConfigs(configService.selectMyConfigs(shopId));
-
-            Integer transportChannel = Integer.parseInt(corpConfig.getOrDefault(TransportChannel, getDefaultTransportChannel(shopId)).getValue());
-
-            // 配送渠道选用达达的时候
-            if ( transportChannel == TransportService.ChannelTypeOfImDada ) {
-
-                // 找到该订单绑定的配送店铺
-                TDeliveryShopExample ex = new TDeliveryShopExample();
-                ex.createCriteria().andShopIdEqualTo(shopId);
-                TDeliveryShop shop = onlyOne(takeawayShopMapper.selectByExample(ex));
-
-                try {
-                    // 目前配送费 统一按照4块来算
-                    transportService.sendImdadaOrderTransportChannel(order, shop, 400);
-                } catch (ImDadaException e) {
-                    e.printStackTrace();
-                }
-
-            }
+        // 获取订单对应的 店铺 配置
+        // 是否自动发送第三方配送
+        ShopConfig shopConfig =  shopConfigService.getShopConfig(order.getId());
+        if ( shopConfig.getTransportAuto3rd() == 1 ) {
+            transportService.transportOrderToChannel(order, shopConfig.getTransportChannel());
         }
     }
 
@@ -228,5 +194,12 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateByPrimaryKeySelective(order);
     }
 
+    @Override
+    public void updateOrderTransportStatus(int orderId, int status) {
+        TOrder order = new TOrder();
+        order.setId(orderId);
+        order.setTransportStatus(status);
+        orderMapper.updateByPrimaryKeySelective(order);
+    }
 
 }

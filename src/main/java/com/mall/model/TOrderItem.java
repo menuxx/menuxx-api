@@ -3,7 +3,6 @@ package com.mall.model;
 import java.util.Date;
 
 public class TOrderItem {
-
     private Integer id;
 
     private Integer orderId;
@@ -15,6 +14,8 @@ public class TOrderItem {
     private Integer payAmount;
 
     private Date createTime;
+
+    private Integer dealPrice;
 
     public Integer getId() {
         return id;
@@ -62,5 +63,13 @@ public class TOrderItem {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getDealPrice() {
+        return dealPrice;
+    }
+
+    public void setDealPrice(Integer dealPrice) {
+        this.dealPrice = dealPrice;
     }
 }

@@ -21,6 +21,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="thumbnails" jdbcType="VARCHAR" property="thumbnails" />
     <result column="cover_images" jdbcType="VARCHAR" property="coverImages" />
+    <result column="join_act_minus" jdbcType="INTEGER" property="joinActMinus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,7 +84,7 @@
   <sql id="Base_Column_List">
     id, corp_id, item_name, item_desc, category_id, product_price, discount_price, special_price, 
     weekday, soldout, sort_id, format_id, bar_code, item_code, suppliers, package_flag, 
-    create_time, thumbnails, cover_images
+    create_time, thumbnails, cover_images, join_act_minus
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TItemExample" resultMap="BaseResultMap">
     select
@@ -124,15 +125,15 @@
       special_price, weekday, soldout, 
       sort_id, format_id, bar_code, 
       item_code, suppliers, package_flag, 
-      create_time, thumbnails, cover_images
-      )
+      create_time, thumbnails, cover_images, 
+      join_act_minus)
     values (#{corpId,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
       #{categoryId,jdbcType=INTEGER}, #{productPrice,jdbcType=INTEGER}, #{discountPrice,jdbcType=INTEGER}, 
       #{specialPrice,jdbcType=INTEGER}, #{weekday,jdbcType=INTEGER}, #{soldout,jdbcType=INTEGER}, 
       #{sortId,jdbcType=INTEGER}, #{formatId,jdbcType=INTEGER}, #{barCode,jdbcType=VARCHAR}, 
       #{itemCode,jdbcType=VARCHAR}, #{suppliers,jdbcType=VARCHAR}, #{packageFlag,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{thumbnails,jdbcType=VARCHAR}, #{coverImages,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{thumbnails,jdbcType=VARCHAR}, #{coverImages,jdbcType=VARCHAR}, 
+      #{joinActMinus,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -194,6 +195,9 @@
       <if test="coverImages != null">
         cover_images,
       </if>
+      <if test="joinActMinus != null">
+        join_act_minus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
@@ -249,6 +253,9 @@
       </if>
       <if test="coverImages != null">
         #{coverImages,jdbcType=VARCHAR},
+      </if>
+      <if test="joinActMinus != null">
+        #{joinActMinus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -318,6 +325,9 @@
       <if test="record.coverImages != null">
         cover_images = #{record.coverImages,jdbcType=VARCHAR},
       </if>
+      <if test="record.joinActMinus != null">
+        join_act_minus = #{record.joinActMinus,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -343,7 +353,8 @@
       package_flag = #{record.packageFlag,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       thumbnails = #{record.thumbnails,jdbcType=VARCHAR},
-      cover_images = #{record.coverImages,jdbcType=VARCHAR}
+      cover_images = #{record.coverImages,jdbcType=VARCHAR},
+      join_act_minus = #{record.joinActMinus,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -405,6 +416,9 @@
       <if test="coverImages != null">
         cover_images = #{coverImages,jdbcType=VARCHAR},
       </if>
+      <if test="joinActMinus != null">
+        join_act_minus = #{joinActMinus,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -427,7 +441,8 @@
       package_flag = #{packageFlag,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       thumbnails = #{thumbnails,jdbcType=VARCHAR},
-      cover_images = #{coverImages,jdbcType=VARCHAR}
+      cover_images = #{coverImages,jdbcType=VARCHAR},
+      join_act_minus = #{joinActMinus,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -8,11 +8,13 @@ import com.mall.exception.NotFoundException
 import com.mall.exception.NotSupportException
 import com.mall.model.TCorp
 import com.mall.service.ConfigService
+import com.mall.service.OrderService
 import com.mall.utils.Constants
 import com.mall.utils.Util
 import com.yingtaohuo.mode.Delivery
 import com.yingtaohuo.mode.DeliveryTransporter
 import com.yingtaohuo.mode.PostResult
+import com.yingtaohuo.service.ShopConfigService
 import com.yingtaohuo.service.TransportService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -30,7 +32,9 @@ import javax.validation.constraints.NotNull
 @RequestMapping("/diners/{dinerId}")
 open class DeliveryController @Autowired constructor (
         var transportService: TransportService,
-        var configService: ConfigService
+        var configService: ConfigService,
+        var orderService: OrderService,
+        var shopConfigService: ShopConfigService
 ) {
 
     // 给某个订单追加小费
@@ -93,14 +97,35 @@ open class DeliveryController @Autowired constructor (
     @GetMapping("/deliveries/cancel/reasons")
     open fun getCancelReasons(@PathVariable dinerId: Int) = transportService.getCancelReasons(dinerId)
 
+    data class OrderToChannel(val orderId: Int, val channelType: Int)
+    // 配送订单到达大
+    @PostMapping("/deliveries/transport_order")
+    open fun transportToChannel(@PathVariable dinerId: Int, @RequestBody channel: OrderToChannel) : PostResult {
+        return try {
+            val order = orderService.selectOrder(channel.orderId)
+            // 未来判断是否开通该渠道
+            // val config = shopConfigService.getShopConfig(dinerId)
+            // 更新订单配送状态
+            orderService.updateOrderTransportStatus(channel.orderId, 1)
+            val isOk = transportService.transportOrderToChannel(order, channel.channelType)
+            return if (isOk > 0) {
+                PostResult(ret = isOk, orderNo = order.orderCode, errorCode = 0, errorMsg = "ok")
+            } else {
+                PostResult(ret = -1, orderNo = order.orderCode, errorCode = 1505, errorMsg = "订单传送失败")
+            }
+        } catch (ex: Exception) {
+            PostResult(ret = -1, orderNo = "", errorCode = 1505, errorMsg = "订单传送失败")
+        }
+    }
+
     @PutMapping("/deliveries/{did}/cancel")
     open fun cancelTransport(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int, @RequestBody reason: DDCancelReason) : PostResult {
         val transport = transportService.getDeliveryById(deliveryId)
-        val isOk = transportService.cancelTransport(dinerId, transport!!.orderNo, reason.id, reason.reason)
-        return if ( isOk ) {
+        val (_, isOk, message) = transportService.cancelTransport(dinerId, transport!!.orderNo, reason.id, reason.reason)
+        return if ( isOk!! ) {
             PostResult(ret = 0, orderNo = transport.orderNo, errorCode = 0, errorMsg = "ok")
         } else {
-            PostResult(ret = 0, orderNo = transport.orderNo, errorCode = 1503, errorMsg = "取消订单错误")
+            PostResult(ret = 0, orderNo = transport.orderNo, errorCode = 1503, errorMsg = message)
         }
     }
 

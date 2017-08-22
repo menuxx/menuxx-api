@@ -260,7 +260,14 @@ public class OrderController extends BaseCorpController {
             order.setTableId(null);
         }
 
-        orderWrapper.createOrder(order);
+        List<Integer> itemIdList = new ArrayList<>();
+        if (order.getItemList() != null && order.getItemList().size() > 0) {
+            for (OrderItem orderItem : order.getItemList()) {
+                itemIdList.add(orderItem.getItemId());
+            }
+        }
+
+        orderWrapper.createOrder(order, itemIdList);
 
         order = orderWrapper.selectOrder(order.getId());
 

@@ -5,15 +5,17 @@ import java.util.Date;
 public class TActivityMinus {
     private Integer id;
 
+    private Integer activityId;
+
     private String descText;
 
     private Integer toup;
 
     private Integer cutback;
 
-    private Integer corpId;
-
     private Date createTime;
+
+    private Integer enable;
 
     public Integer getId() {
         return id;
@@ -21,6 +23,14 @@ public class TActivityMinus {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Integer activityId) {
+        this.activityId = activityId;
     }
 
     public String getDescText() {
@@ -47,19 +57,19 @@ public class TActivityMinus {
         this.cutback = cutback;
     }
 
-    public Integer getCorpId() {
-        return corpId;
-    }
-
-    public void setCorpId(Integer corpId) {
-        this.corpId = corpId;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Integer enable) {
+        this.enable = enable;
     }
 }

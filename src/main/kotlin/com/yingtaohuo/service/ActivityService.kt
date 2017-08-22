@@ -4,6 +4,7 @@ import com.mall.mapper.TActivityMapper
 import com.mall.mapper.TActivityMinusMapper
 import com.mall.model.TActivity
 import com.mall.model.TActivityExample
+import com.mall.model.TActivityMinus
 import com.mall.model.TActivityMinusExample
 import com.yingtaohuo.mode.Activity
 import org.springframework.beans.BeanUtils
@@ -17,10 +18,13 @@ import java.util.*
  */
 @Service
 open class ActivityService(
-        internal val activityMapper: TActivityMapper,
-        internal val activityMinusMapper: TActivityMinusMapper
+        private val activityMapper: TActivityMapper,
+        private val activityMinusMapper: TActivityMinusMapper
 ) {
 
+    /**
+     * 找出该店铺当前能支持的活动
+     */
     fun selectShopAvailableActivity(shopId: Int) : List<TActivity>? {
         val tex = TActivityExample()
         val now = Date()
@@ -33,6 +37,13 @@ open class ActivityService(
         return activityMapper.selectByExample(tex)
     }
 
+    fun selectAvailableActivityMinus(activityId: Int) : List<TActivityMinus> {
+        val tex = TActivityMinusExample()
+        tex.createCriteria().andActivityIdEqualTo(activityId)
+                .andEnableEqualTo(1)
+        return activityMinusMapper.selectByExample(tex)
+    }
+
     fun selectShopActivity(shopId: Int) : List<TActivity>? {
         val tex = TActivityExample()
         tex.createCriteria().andCorpIdEqualTo(shopId)
@@ -41,11 +52,13 @@ open class ActivityService(
 
     fun getActivity(activity: TActivity) : Activity {
         val tame = TActivityMinusExample()
-        tame.createCriteria().andCorpIdEqualTo(activity.corpId)
+        tame.createCriteria().andActivityIdEqualTo(activity.id).andEnableEqualTo(1)
         val minus = activityMinusMapper.selectByExample(tame)
         val act = Activity(minus)
         BeanUtils.copyProperties(activity, act)
         return act
     }
+
+
 
 }

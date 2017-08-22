@@ -117,7 +117,7 @@ interface ImDadaApi {
      */
     @RequestLine("POST /api/order/formalCancel?source_id={source_id}")
     @Throws(ImDadaException::class)
-    fun formalCancel(@Param("source_id") sourceId: String, cancel: DDFormalCancel) : DDCancelReason
+    fun formalCancel(@Param("source_id") sourceId: String, cancel: DDFormalCancel) : DDCancelResult
 
 }
 

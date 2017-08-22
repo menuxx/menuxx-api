@@ -33,11 +33,13 @@ public class TOrder {
 
     private String remark;
 
-    private Date createTime;
-
     private String applyActivities;
 
     private Integer orderTimes;
+
+    private Integer transportStatus;
+
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -159,14 +161,6 @@ public class TOrder {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
     public String getApplyActivities() {
         return applyActivities;
     }
@@ -181,5 +175,21 @@ public class TOrder {
 
     public void setOrderTimes(Integer orderTimes) {
         this.orderTimes = orderTimes;
+    }
+
+    public Integer getTransportStatus() {
+        return transportStatus;
+    }
+
+    public void setTransportStatus(Integer transportStatus) {
+        this.transportStatus = transportStatus;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

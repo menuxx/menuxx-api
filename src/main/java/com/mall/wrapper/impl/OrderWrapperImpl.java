@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.eventbus.EventBus;
 import com.mall.configure.properties.PushConfigProperties;
-import com.mall.mapper.TActivityMapper;
-import com.mall.mapper.TActivityMinusMapper;
 import com.mall.model.*;
 import com.mall.push.DinerPushManager;
 import com.mall.service.*;
@@ -17,7 +15,10 @@ import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
 import com.yingtaohuo.feieprinter.FeieOrderPrinter;
+import com.yingtaohuo.mode.ShopConfig;
+import com.yingtaohuo.service.ActivityOrderService;
 import com.yingtaohuo.service.ActivityService;
+import com.yingtaohuo.service.ShopConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,8 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-
-import static com.mall.utils.Util.safeStringToInt;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -89,10 +88,13 @@ public class OrderWrapperImpl implements OrderWrapper {
     ActivityService activityService;
 
     @Autowired
-    OrderWrapper orderWrapper;
+    ActivityOrderService activityOrderService;
 
     @Autowired
-    TActivityMinusMapper activityMinusMapper;
+    ShopConfigService shopConfigService;
+
+    @Autowired
+    OrderWrapper orderWrapper;
 
     @Autowired
     EventBus eventBus;
@@ -104,140 +106,69 @@ public class OrderWrapperImpl implements OrderWrapper {
     CorpService corpService;
 
     @Override
-    public Order calcOrder(Order order) {
-
-        List<Integer> itemIdList = new ArrayList<>();
-        if (order.getItemList() != null && order.getItemList().size() > 0) {
-            for (OrderItem orderItem : order.getItemList()) {
-                itemIdList.add(orderItem.getItemId());
-            }
-        }
-
-        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
-
-        // 总金额
-        int totalAmount = 0;
-        // 打包盒价格
-        int packageAmount = 0;
-        // 派送费
-        int deliveryAmount = 0;
-
-        // 获取配置信息
-        Map<String, Object> configMap = configService.selectMyConfigs4Map(order.getCorpId());
-
-        // 单个打包盒费用
-        Integer takeoutPackFee = safeStringToInt((String) configMap.get(Constants.TakeoutPackFee));
-        // 配送费
-        Integer takeoutFee = safeStringToInt((String) configMap.get(Constants.TakeoutFee));
-        // 外卖起送费
-        Integer takeoutMinLimit =  safeStringToInt((String) configMap.get(Constants.takeoutMinLimit));
-        // 外卖免配送费金额
-        Integer takeoutNofeeLimit = safeStringToInt((String) configMap.get(Constants.TakeoutNofeeLimit));
+    public Order calcOrder(Order order, Map<Integer, TItem> itemMap) {
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
-        for (OrderItem orderItem : orderItemList) {
-            TItem item = itemMap.get(orderItem.getItemId());
 
-            // 每日特价商品按特价处理
-            if (Util.getWeekday() == item.getWeekday()) {
-                item.setDiscountPrice(item.getSpecialPrice());
-            }
 
-            int payAmount = item.getDiscountPrice() * orderItem.getQuantity();
+        ShopConfig config = shopConfigService.getShopConfig(order.getCorpId());
 
-            orderItem.setOrderId(order.getId());
+        Integer orderItemsAmount = activityOrderService.calcOrderItemsAmount(order.getId(), orderItemList, itemMap);
 
-            orderItem.setPayAmount(payAmount);
+        Integer packFee = activityOrderService.calcPackageFee(order, orderItemList, itemMap, config);
 
-            totalAmount = totalAmount + payAmount;
+        // 总金额
+        Integer totalAmount = orderItemsAmount + packFee;
 
-            // 如果选择打包或者外卖，计入打包盒价格
-            if (order.getOrderType() == Order.ORDER_TYPE_CARRY_OUT || order.getOrderType() == Order.ORDER_TYPE_DELIVERED) {
-                if (item.getPackageFlag() == Constants.ONE && takeoutPackFee > 0) {
-                    packageAmount = packageAmount + (orderItem.getQuantity() * takeoutPackFee);
-                }
-            }
+        Integer deliveryFee = activityOrderService.calcDeliveryFee(orderItemsAmount, order, config);
 
-        }
+        totalAmount += deliveryFee;
 
-        order.setPackageAmount(packageAmount);
-        totalAmount = totalAmount + packageAmount;
-
-        // 如果选择外卖，计入配送费
-        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && takeoutFee > 0) {
-            deliveryAmount = takeoutFee;
-        }
-
-        // 如果选择外卖，达到免配送金额，免配送费
-        if (order.getOrderType() == Order.ORDER_TYPE_DELIVERED && totalAmount >= takeoutNofeeLimit) {
-            deliveryAmount = 0;
-        }
-
-        order.setDeliveryAmount(deliveryAmount);
-        totalAmount = totalAmount + deliveryAmount;
-
-        // 更新订单号、排序号
+        order.setDeliveryAmount(deliveryFee);
         order.setPayAmount(totalAmount);
         order.setTotalAmount(totalAmount);
+        order.setPackageAmount(packFee);
 
-        return order;
-    }
+        // 计算活动价格
+        TOrder calcedOrder = activityOrderService.calcActivityMinusOrder(order, orderItemList);
 
-    // 计算参加活动后的价格
-    public Order calcActivity(Order order) {
-        StringBuilder applyActivities = new StringBuilder();
-        List<TActivity> activities = activityService.selectShopAvailableActivity(order.getCorpId());
-        // 如果该店有活动
-        int i = 0;
-        if ( activities != null && activities.size() > 0 ) {
-            for (TActivity activity : activities) {
-                // 同时参加多个活动 满30减15,满50送菠萝
-                // 追加活动分解符
-                if ( i > 1 ) {
-                    applyActivities.append(",");
-                }
-                switch ( activity.getType() ) {
-                    case 1: // 1 .满减活动
-                        TActivityMinusExample tmex = new TActivityMinusExample();
-                        tmex.createCriteria().andCorpIdEqualTo(order.getCorpId());
-                        List<TActivityMinus> activityMinuses = activityMinusMapper.selectByExample(tmex);
-                        // 查找出一个 最接近的满减标准
-                        Optional<TActivityMinus> tam =  activityMinuses.stream().filter(am -> order.getTotalAmount() - am.getToup() > 0).reduce((a, b) -> b);
-                        if (tam.isPresent()) {
-                            int payAmount1 = order.getPayAmount() - tam.get().getCutback();
-                            order.setPayAmount(payAmount1);
-                            applyActivities.append(tam.get().getDescText());
-                        }
-                        break;
-                }
-                // 如果不支持共享计算
-                // 退出循环
-                if (activity.getShareCalc() == 0) {
-                    break;
-                }
-                i++;
-            }
-            // 该订单参加的活动
-            order.setApplyActivities(applyActivities.toString());
-        }
+        // 更新活动后的价格，和文案
+        order.setPayAmount(calcedOrder.getPayAmount());
+        order.setApplyActivities(calcedOrder.getApplyActivities());
+
         return order;
     }
 
     @Override
     @Transactional
-    public void createOrder(Order order) {
-        // 先创建订单
+    public void createOrder(Order order, List<Integer> itemIdList) {
+
+        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
+
+        // 创建订单
         orderService.createOrder(order);
+
         // 设置订单号
         order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
-        // 订单计算
-        Order order1 = orderWrapper.calcActivity(calcOrder(order));
+
+        order = calcOrder(order, itemMap);
+
         // 创建商品记录
-        for ( TOrderItem item : order1.getItemList() ) {
+        for ( TOrderItem item : order.getItemList() ) {
+            TItem tItem = itemMap.get(item.getItemId());
+            // 设置 成交价格
+            if ( Util.getWeekday() == tItem.getWeekday() ) {
+                item.setDealPrice(tItem.getSpecialPrice());
+            } else {
+                item.setDealPrice(tItem.getDiscountPrice());
+            }
+            item.setOrderId(order.getId());
             orderItemService.createOrderItem(item);
         }
-        orderService.updateOrder(order1);
+
+        // 更新订单
+        orderService.updateOrder(order);
     }
 
     @Override

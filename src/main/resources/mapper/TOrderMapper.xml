@@ -17,9 +17,10 @@
     <result column="package_amount" jdbcType="INTEGER" property="packageAmount" />
     <result column="delivery_amount" jdbcType="INTEGER" property="deliveryAmount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="apply_activities" jdbcType="VARCHAR" property="applyActivities" />
     <result column="order_times" jdbcType="INTEGER" property="orderTimes" />
+    <result column="transport_status" jdbcType="INTEGER" property="transportStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -81,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, corp_id, order_code, status, order_type, pay_type, table_id, address_id, 
-    queue_id, total_amount, pay_amount, package_amount, delivery_amount, remark, create_time, 
-    apply_activities, order_times
+    queue_id, total_amount, pay_amount, package_amount, delivery_amount, remark, apply_activities, 
+    order_times, transport_status, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TOrderExample" resultMap="BaseResultMap">
     select
@@ -122,14 +123,16 @@
       status, order_type, pay_type, 
       table_id, address_id, queue_id, 
       total_amount, pay_amount, package_amount, 
-      delivery_amount, remark, create_time, 
-      apply_activities, order_times)
+      delivery_amount, remark, apply_activities, 
+      order_times, transport_status, create_time
+      )
     values (#{userId,jdbcType=INTEGER}, #{corpId,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, 
       #{tableId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{queueId,jdbcType=INTEGER}, 
       #{totalAmount,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{packageAmount,jdbcType=INTEGER}, 
-      #{deliveryAmount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{applyActivities,jdbcType=VARCHAR}, #{orderTimes,jdbcType=INTEGER})
+      #{deliveryAmount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{applyActivities,jdbcType=VARCHAR}, 
+      #{orderTimes,jdbcType=INTEGER}, #{transportStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -179,14 +182,17 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
       <if test="applyActivities != null">
         apply_activities,
       </if>
       <if test="orderTimes != null">
         order_times,
+      </if>
+      <if test="transportStatus != null">
+        transport_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -232,14 +238,17 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="applyActivities != null">
         #{applyActivities,jdbcType=VARCHAR},
       </if>
       <if test="orderTimes != null">
         #{orderTimes,jdbcType=INTEGER},
+      </if>
+      <if test="transportStatus != null">
+        #{transportStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -297,14 +306,17 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.applyActivities != null">
         apply_activities = #{record.applyActivities,jdbcType=VARCHAR},
       </if>
       <if test="record.orderTimes != null">
         order_times = #{record.orderTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.transportStatus != null">
+        transport_status = #{record.transportStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -328,9 +340,10 @@
       package_amount = #{record.packageAmount,jdbcType=INTEGER},
       delivery_amount = #{record.deliveryAmount,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       apply_activities = #{record.applyActivities,jdbcType=VARCHAR},
-      order_times = #{record.orderTimes,jdbcType=INTEGER}
+      order_times = #{record.orderTimes,jdbcType=INTEGER},
+      transport_status = #{record.transportStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -380,14 +393,17 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="applyActivities != null">
         apply_activities = #{applyActivities,jdbcType=VARCHAR},
       </if>
       <if test="orderTimes != null">
         order_times = #{orderTimes,jdbcType=INTEGER},
+      </if>
+      <if test="transportStatus != null">
+        transport_status = #{transportStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -408,9 +424,10 @@
       package_amount = #{packageAmount,jdbcType=INTEGER},
       delivery_amount = #{deliveryAmount,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       apply_activities = #{applyActivities,jdbcType=VARCHAR},
-      order_times = #{orderTimes,jdbcType=INTEGER}
+      order_times = #{orderTimes,jdbcType=INTEGER},
+      transport_status = #{transportStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
