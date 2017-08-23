@@ -39,6 +39,8 @@ public class ItemServiceImpl implements ItemService {
         criteria.andCorpIdEqualTo(corpId);
         // 下架商品 交给前端处理
         // criteria.andSoldoutEqualTo(Item.SELLING);
+        // 下架商品不显示
+        criteria.andOfflineEqualTo(Item.ONLINE);
 
         example.setOrderByClause("sort_id asc, id asc");
 

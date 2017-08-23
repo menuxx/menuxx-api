@@ -35,13 +35,15 @@ public class TItem {
 
     private Integer packageFlag;
 
-    private Date createTime;
-
     private String thumbnails;
 
     private String coverImages;
 
     private Integer joinActMinus;
+
+    private Integer offline;
+
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -171,14 +173,6 @@ public class TItem {
         this.packageFlag = packageFlag;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
     public String getThumbnails() {
         return thumbnails;
     }
@@ -201,5 +195,21 @@ public class TItem {
 
     public void setJoinActMinus(Integer joinActMinus) {
         this.joinActMinus = joinActMinus;
+    }
+
+    public Integer getOffline() {
+        return offline;
+    }
+
+    public void setOffline(Integer offline) {
+        this.offline = offline;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

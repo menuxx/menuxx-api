@@ -1115,66 +1115,6 @@ public class TItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andCreateTimeIsNull() {
-            addCriterion("create_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIsNotNull() {
-            addCriterion("create_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeEqualTo(Date value) {
-            addCriterion("create_time =", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotEqualTo(Date value) {
-            addCriterion("create_time <>", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThan(Date value) {
-            addCriterion("create_time >", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("create_time >=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThan(Date value) {
-            addCriterion("create_time <", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("create_time <=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIn(List<Date> values) {
-            addCriterion("create_time in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotIn(List<Date> values) {
-            addCriterion("create_time not in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeBetween(Date value1, Date value2) {
-            addCriterion("create_time between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("create_time not between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
         public Criteria andThumbnailsIsNull() {
             addCriterion("thumbnails is null");
             return (Criteria) this;
@@ -1372,6 +1312,126 @@ public class TItemExample {
 
         public Criteria andJoinActMinusNotBetween(Integer value1, Integer value2) {
             addCriterion("join_act_minus not between", value1, value2, "joinActMinus");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineIsNull() {
+            addCriterion("offline is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineIsNotNull() {
+            addCriterion("offline is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineEqualTo(Integer value) {
+            addCriterion("offline =", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineNotEqualTo(Integer value) {
+            addCriterion("offline <>", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineGreaterThan(Integer value) {
+            addCriterion("offline >", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineGreaterThanOrEqualTo(Integer value) {
+            addCriterion("offline >=", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineLessThan(Integer value) {
+            addCriterion("offline <", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineLessThanOrEqualTo(Integer value) {
+            addCriterion("offline <=", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineIn(List<Integer> values) {
+            addCriterion("offline in", values, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineNotIn(List<Integer> values) {
+            addCriterion("offline not in", values, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineBetween(Integer value1, Integer value2) {
+            addCriterion("offline between", value1, value2, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineNotBetween(Integer value1, Integer value2) {
+            addCriterion("offline not between", value1, value2, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("create_time =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("create_time <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("create_time >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("create_time >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("create_time <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("create_time <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("create_time in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("create_time not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("create_time between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
     }

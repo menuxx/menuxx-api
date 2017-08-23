@@ -13,6 +13,10 @@ public class Item extends TItem {
     // 销售中
     public static final Integer SELLING = 0;
 
+    public static final Integer OFFLINE = 1;
+
+    public static final Integer ONLINE = 0;
+
     // 不要打包盒
     public static final Integer PACKAGE_FLAG_NO = 0;
 
