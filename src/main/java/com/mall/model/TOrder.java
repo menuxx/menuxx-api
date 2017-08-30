@@ -3,6 +3,7 @@ package com.mall.model;
 import java.util.Date;
 
 public class TOrder {
+
     private Integer id;
 
     private Integer userId;

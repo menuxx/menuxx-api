@@ -23,6 +23,14 @@ public class TCorpUser {
 
     private Date createTime;
 
+    private String secret;
+
+    private Integer enabled;
+
+    private String captcha;
+
+    private Date lastLoginTime;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +109,37 @@ public class TCorpUser {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret == null ? null : secret.trim();
+    }
+
+    public Integer getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha == null ? null : captcha.trim();
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }

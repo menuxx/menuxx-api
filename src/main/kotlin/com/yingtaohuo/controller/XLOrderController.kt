@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.google.common.eventbus.EventBus
 import com.mall.mapper.TOrderMapper
 import com.mall.model.Order
 import com.mall.model.TOrderItem
@@ -25,7 +26,8 @@ open class XLOrderController(
         private val pushService: PushService,
         private val orderWrapper: OrderWrapper,
         private val orderMapper: TOrderMapper,
-        private val itemService: ItemService
+        private val itemService: ItemService,
+        private val eventBus: EventBus
 ) {
 
     data class OrderItems(val remark: String?, val items: List<TOrderItem>)
@@ -67,6 +69,11 @@ open class XLOrderController(
             if ( orderService.applyOrderStatus(orderId, Order.STATUS_OFFLINE) > 0 ) {
                 // 订单推送
                 pushService.pushPaidOrderWithOrderId(orderId)
+
+                // 发布支付事件
+                order.status = Order.STATUS_OFFLINE
+                eventBus.post(order)
+
                 return ResponseDataWrap(null, 0, false)
             }
             return ResponseDataWrap(null, -1, true)

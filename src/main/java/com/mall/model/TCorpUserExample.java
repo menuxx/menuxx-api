@@ -764,6 +764,266 @@ public class TCorpUserExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andSecretIsNull() {
+            addCriterion("secret is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretIsNotNull() {
+            addCriterion("secret is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretEqualTo(String value) {
+            addCriterion("secret =", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretNotEqualTo(String value) {
+            addCriterion("secret <>", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretGreaterThan(String value) {
+            addCriterion("secret >", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretGreaterThanOrEqualTo(String value) {
+            addCriterion("secret >=", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretLessThan(String value) {
+            addCriterion("secret <", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretLessThanOrEqualTo(String value) {
+            addCriterion("secret <=", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretLike(String value) {
+            addCriterion("secret like", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretNotLike(String value) {
+            addCriterion("secret not like", value, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretIn(List<String> values) {
+            addCriterion("secret in", values, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretNotIn(List<String> values) {
+            addCriterion("secret not in", values, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretBetween(String value1, String value2) {
+            addCriterion("secret between", value1, value2, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecretNotBetween(String value1, String value2) {
+            addCriterion("secret not between", value1, value2, "secret");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledIsNull() {
+            addCriterion("enabled is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledIsNotNull() {
+            addCriterion("enabled is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledEqualTo(Integer value) {
+            addCriterion("enabled =", value, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledNotEqualTo(Integer value) {
+            addCriterion("enabled <>", value, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledGreaterThan(Integer value) {
+            addCriterion("enabled >", value, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledGreaterThanOrEqualTo(Integer value) {
+            addCriterion("enabled >=", value, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledLessThan(Integer value) {
+            addCriterion("enabled <", value, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledLessThanOrEqualTo(Integer value) {
+            addCriterion("enabled <=", value, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledIn(List<Integer> values) {
+            addCriterion("enabled in", values, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledNotIn(List<Integer> values) {
+            addCriterion("enabled not in", values, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledBetween(Integer value1, Integer value2) {
+            addCriterion("enabled between", value1, value2, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnabledNotBetween(Integer value1, Integer value2) {
+            addCriterion("enabled not between", value1, value2, "enabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaIsNull() {
+            addCriterion("captcha is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaIsNotNull() {
+            addCriterion("captcha is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaEqualTo(String value) {
+            addCriterion("captcha =", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaNotEqualTo(String value) {
+            addCriterion("captcha <>", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaGreaterThan(String value) {
+            addCriterion("captcha >", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaGreaterThanOrEqualTo(String value) {
+            addCriterion("captcha >=", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaLessThan(String value) {
+            addCriterion("captcha <", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaLessThanOrEqualTo(String value) {
+            addCriterion("captcha <=", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaLike(String value) {
+            addCriterion("captcha like", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaNotLike(String value) {
+            addCriterion("captcha not like", value, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaIn(List<String> values) {
+            addCriterion("captcha in", values, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaNotIn(List<String> values) {
+            addCriterion("captcha not in", values, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaBetween(String value1, String value2) {
+            addCriterion("captcha between", value1, value2, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaptchaNotBetween(String value1, String value2) {
+            addCriterion("captcha not between", value1, value2, "captcha");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeIsNull() {
+            addCriterion("last_login_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeIsNotNull() {
+            addCriterion("last_login_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeEqualTo(Date value) {
+            addCriterion("last_login_time =", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeNotEqualTo(Date value) {
+            addCriterion("last_login_time <>", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeGreaterThan(Date value) {
+            addCriterion("last_login_time >", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("last_login_time >=", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeLessThan(Date value) {
+            addCriterion("last_login_time <", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeLessThanOrEqualTo(Date value) {
+            addCriterion("last_login_time <=", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeIn(List<Date> values) {
+            addCriterion("last_login_time in", values, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeNotIn(List<Date> values) {
+            addCriterion("last_login_time not in", values, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeBetween(Date value1, Date value2) {
+            addCriterion("last_login_time between", value1, value2, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeNotBetween(Date value1, Date value2) {
+            addCriterion("last_login_time not between", value1, value2, "lastLoginTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

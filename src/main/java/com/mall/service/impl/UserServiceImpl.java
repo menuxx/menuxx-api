@@ -46,6 +46,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public int updateUserToConsume(int userId) {
+		TUser user = new TUser();
+		user.setConsumed(1);
+		user.setId(userId);
+		return tUserMapper.updateByPrimaryKeySelective(user);
+	}
+
+	@Override
 	public TUser selectUser(int userId) {
 		return tUserMapper.selectByPrimaryKey(userId);
 	}

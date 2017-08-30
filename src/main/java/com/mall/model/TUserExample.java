@@ -705,6 +705,66 @@ public class TUserExample {
             return (Criteria) this;
         }
 
+        public Criteria andBalanceIsNull() {
+            addCriterion("balance is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceIsNotNull() {
+            addCriterion("balance is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceEqualTo(Integer value) {
+            addCriterion("balance =", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceNotEqualTo(Integer value) {
+            addCriterion("balance <>", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceGreaterThan(Integer value) {
+            addCriterion("balance >", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("balance >=", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceLessThan(Integer value) {
+            addCriterion("balance <", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceLessThanOrEqualTo(Integer value) {
+            addCriterion("balance <=", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceIn(List<Integer> values) {
+            addCriterion("balance in", values, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceNotIn(List<Integer> values) {
+            addCriterion("balance not in", values, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceBetween(Integer value1, Integer value2) {
+            addCriterion("balance between", value1, value2, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceNotBetween(Integer value1, Integer value2) {
+            addCriterion("balance not between", value1, value2, "balance");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -765,63 +825,63 @@ public class TUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andBalanceIsNull() {
-            addCriterion("balance is null");
+        public Criteria andConsumedIsNull() {
+            addCriterion("consumed is null");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceIsNotNull() {
-            addCriterion("balance is not null");
+        public Criteria andConsumedIsNotNull() {
+            addCriterion("consumed is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceEqualTo(Integer value) {
-            addCriterion("balance =", value, "balance");
+        public Criteria andConsumedEqualTo(Integer value) {
+            addCriterion("consumed =", value, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceNotEqualTo(Integer value) {
-            addCriterion("balance <>", value, "balance");
+        public Criteria andConsumedNotEqualTo(Integer value) {
+            addCriterion("consumed <>", value, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceGreaterThan(Integer value) {
-            addCriterion("balance >", value, "balance");
+        public Criteria andConsumedGreaterThan(Integer value) {
+            addCriterion("consumed >", value, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceGreaterThanOrEqualTo(Integer value) {
-            addCriterion("balance >=", value, "balance");
+        public Criteria andConsumedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("consumed >=", value, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceLessThan(Integer value) {
-            addCriterion("balance <", value, "balance");
+        public Criteria andConsumedLessThan(Integer value) {
+            addCriterion("consumed <", value, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceLessThanOrEqualTo(Integer value) {
-            addCriterion("balance <=", value, "balance");
+        public Criteria andConsumedLessThanOrEqualTo(Integer value) {
+            addCriterion("consumed <=", value, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceIn(List<Integer> values) {
-            addCriterion("balance in", values, "balance");
+        public Criteria andConsumedIn(List<Integer> values) {
+            addCriterion("consumed in", values, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceNotIn(List<Integer> values) {
-            addCriterion("balance not in", values, "balance");
+        public Criteria andConsumedNotIn(List<Integer> values) {
+            addCriterion("consumed not in", values, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceBetween(Integer value1, Integer value2) {
-            addCriterion("balance between", value1, value2, "balance");
+        public Criteria andConsumedBetween(Integer value1, Integer value2) {
+            addCriterion("consumed between", value1, value2, "consumed");
             return (Criteria) this;
         }
 
-        public Criteria andBalanceNotBetween(Integer value1, Integer value2) {
-            addCriterion("balance not between", value1, value2, "balance");
+        public Criteria andConsumedNotBetween(Integer value1, Integer value2) {
+            addCriterion("consumed not between", value1, value2, "consumed");
             return (Criteria) this;
         }
     }

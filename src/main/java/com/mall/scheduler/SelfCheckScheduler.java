@@ -45,7 +45,7 @@ public class SelfCheckScheduler {
         System.out.println("************************ doSelfCheck scheduler start ***************************");
         System.out.println("************************ " + new Date() + " ***************************");
 
-        Order order = orderWrapper.buildTestOrder();
+        Order order = orderWrapper.buildTestOrder(2);
 
         List<TCorpUser> userList = corpUserService.selectAllCorpUsers();
 

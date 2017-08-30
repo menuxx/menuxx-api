@@ -162,6 +162,11 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <!--<table schema="jiujin" tableName="t_activity_newuser" domainObjectName="TActivityNewUser">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
+
+
 
     </context>
 

@@ -12,6 +12,8 @@ public interface UserService {
 
 	int saveUser(TUser user, TCorp corp);
 
+	int updateUserToConsume(int userId);
+
 	TUser selectUser(int userId);
 
 }

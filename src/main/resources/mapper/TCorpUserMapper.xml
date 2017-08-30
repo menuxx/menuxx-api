@@ -12,6 +12,10 @@
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="secret" jdbcType="VARCHAR" property="secret" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    <result column="captcha" jdbcType="VARCHAR" property="captcha" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_id, push_key, mobile, client_id, nickname, gender, avatar, email, create_time
+    id, corp_id, push_key, mobile, client_id, nickname, gender, avatar, email, create_time, 
+    secret, enabled, captcha, last_login_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCorpUserExample" resultMap="BaseResultMap">
     select
@@ -110,12 +115,14 @@
     </selectKey>
     insert into t_corp_user (corp_id, push_key, mobile, 
       client_id, nickname, gender, 
-      avatar, email, create_time
-      )
+      avatar, email, create_time, 
+      secret, enabled, captcha, 
+      last_login_time)
     values (#{corpId,jdbcType=INTEGER}, #{pushKey,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{clientId,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT}, 
-      #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{secret,jdbcType=VARCHAR}, #{enabled,jdbcType=INTEGER}, #{captcha,jdbcType=VARCHAR}, 
+      #{lastLoginTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCorpUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -150,6 +157,18 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="secret != null">
+        secret,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="captcha != null">
+        captcha,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
@@ -178,6 +197,18 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="secret != null">
+        #{secret,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=INTEGER},
+      </if>
+      <if test="captcha != null">
+        #{captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -220,6 +251,18 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.secret != null">
+        secret = #{record.secret,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enabled != null">
+        enabled = #{record.enabled,jdbcType=INTEGER},
+      </if>
+      <if test="record.captcha != null">
+        captcha = #{record.captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null">
+        last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -236,7 +279,11 @@
       gender = #{record.gender,jdbcType=SMALLINT},
       avatar = #{record.avatar,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      secret = #{record.secret,jdbcType=VARCHAR},
+      enabled = #{record.enabled,jdbcType=INTEGER},
+      captcha = #{record.captcha,jdbcType=VARCHAR},
+      last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -271,6 +318,18 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="secret != null">
+        secret = #{secret,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=INTEGER},
+      </if>
+      <if test="captcha != null">
+        captcha = #{captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -284,7 +343,11 @@
       gender = #{gender,jdbcType=SMALLINT},
       avatar = #{avatar,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      secret = #{secret,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=INTEGER},
+      captcha = #{captcha,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

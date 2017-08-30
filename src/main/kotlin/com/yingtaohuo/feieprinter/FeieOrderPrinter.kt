@@ -26,6 +26,8 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 <L>名称            数量      金额<L><BR>
 --------------------------------<BR>
 <L>经典欧式培根披萨</L><BR>
+156213645231747
+3213123123
 <L>                 2份    ￥32.0</L><BR>
 --------------------------------<BR>
 <L>匈牙利烤肉披萨</L><BR>
@@ -80,9 +82,17 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
                 "<L>名称            数量       金额<L><BR>"
 
         for (item in order.itemList) {
-            content += "--------------------------------\n" +
-                    "<L>${item.item.itemName}</L>\n" +
-                    "<L>                 ${item.quantity}份    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
+            content += if (item.item.barCode != null && item.item.itemCode != null) {
+                "--------------------------------\n" +
+                        "<L>${item.item.itemName}</L>\n" +
+                        "${item.item.barCode}\n" +
+                        "${item.item.itemCode}\n" +
+                        "<L>                 ${item.quantity}份    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
+            } else {
+                "--------------------------------\n" +
+                        "<L>${item.item.itemName}</L>\n" +
+                        "<L>                 ${item.quantity}份    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
+            }
         }
 
         content += "================================<BR>"

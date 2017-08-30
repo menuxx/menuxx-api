@@ -1,12 +1,10 @@
 package com.mall.model;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class TUser {
     private Integer id;
 
-    @NotNull
     private String openid;
 
     private Integer corpId;
@@ -23,9 +21,11 @@ public class TUser {
 
     private String country;
 
+    private Integer balance;
+
     private Date createTime;
 
-    private Integer balance;
+    private Integer consumed;
 
     public Integer getId() {
         return id;
@@ -99,6 +99,14 @@ public class TUser {
         this.country = country == null ? null : country.trim();
     }
 
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -107,11 +115,11 @@ public class TUser {
         this.createTime = createTime;
     }
 
-    public Integer getBalance() {
-        return balance;
+    public Integer getConsumed() {
+        return consumed;
     }
 
-    public void setBalance(Integer balance) {
-        this.balance = balance;
+    public void setConsumed(Integer consumed) {
+        this.consumed = consumed;
     }
 }

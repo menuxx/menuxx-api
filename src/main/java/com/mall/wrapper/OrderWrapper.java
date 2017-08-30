@@ -40,6 +40,6 @@ public interface OrderWrapper {
 
     void rechargePay(int userId, int corpId, Order order);
 
-    Order buildTestOrder();
+    Order buildTestOrder(Integer type);
 
 }

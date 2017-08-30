@@ -2,10 +2,8 @@ package com.yingtaohuo.service
 
 import com.mall.mapper.TActivityMapper
 import com.mall.mapper.TActivityMinusMapper
-import com.mall.model.TActivity
-import com.mall.model.TActivityExample
-import com.mall.model.TActivityMinus
-import com.mall.model.TActivityMinusExample
+import com.mall.mapper.TActivityNewUserMapper
+import com.mall.model.*
 import com.yingtaohuo.mode.Activity
 import org.springframework.beans.BeanUtils
 import org.springframework.stereotype.Service
@@ -19,7 +17,8 @@ import java.util.*
 @Service
 open class ActivityService(
         private val activityMapper: TActivityMapper,
-        private val activityMinusMapper: TActivityMinusMapper
+        private val activityMinusMapper: TActivityMinusMapper,
+        private val activityNewUserMapper: TActivityNewUserMapper
 ) {
 
     /**
@@ -34,6 +33,7 @@ open class ActivityService(
                 .andEndTimeGreaterThan(now)
                 .andCorpIdEqualTo(shopId)
                 .andStatusEqualTo(1)   // 状态激活的就参与计算
+        tex.orderByClause = "weight desc"
         return activityMapper.selectByExample(tex)
     }
 
@@ -42,6 +42,13 @@ open class ActivityService(
         tex.createCriteria().andActivityIdEqualTo(activityId)
                 .andEnableEqualTo(1)
         return activityMinusMapper.selectByExample(tex)
+    }
+
+    fun selectAvailableActivityNewUser(activityId: Int) : List<TActivityNewUser> {
+        val tex = TActivityNewUserExample()
+        tex.createCriteria().andActivityIdEqualTo(activityId)
+                .andEnableEqualTo(1)
+        return activityNewUserMapper.selectByExample(tex)
     }
 
     fun selectShopActivity(shopId: Int) : List<TActivity>? {

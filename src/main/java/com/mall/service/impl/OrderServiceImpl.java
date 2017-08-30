@@ -6,10 +6,7 @@ import com.google.common.eventbus.Subscribe;
 import com.mall.mapper.TDeliveryShopMapper;
 import com.mall.mapper.TOrderMapper;
 import com.mall.model.*;
-import com.mall.service.ConfigService;
-import com.mall.service.ItemService;
-import com.mall.service.OrderItemService;
-import com.mall.service.OrderService;
+import com.mall.service.*;
 import com.yingtaohuo.mode.ShopConfig;
 import com.yingtaohuo.service.ShopConfigService;
 import com.yingtaohuo.service.TransportService;
@@ -53,6 +50,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ShopConfigService shopConfigService;
 
+    @Autowired
+    UserService userService;
+
     @PostConstruct
     public void onStart() {
         eventBus.register(this);
@@ -63,10 +63,12 @@ public class OrderServiceImpl implements OrderService {
     public void onOrderPaid(TOrder order) {
         // 获取订单对应的 店铺 配置
         // 是否自动发送第三方配送
-        ShopConfig shopConfig =  shopConfigService.getShopConfig(order.getId());
-        if ( shopConfig.getTransportAuto3rd() == 1 ) {
+        ShopConfig shopConfig = shopConfigService.getShopConfig(order.getId());
+        if ( order.getOrderType() == Order.ORDER_TYPE_DELIVERED && shopConfig.getTransportAuto3rd() == 1 ) {
             transportService.transportOrderToChannel(order, shopConfig.getTransportChannel());
         }
+        // 更新用户为消费用户
+        userService.updateUserToConsume(order.getUserId());
     }
 
     @Override

@@ -11,16 +11,17 @@ import java.util.Map;
 public class SMSUtil {
 
     // 验证码模板
-    private static final String TEMPLATE_ID_CAPTCHA = "163605";
+    private static final String TEMPLATE_ID_CAPTCHA = "198719";
 
-    // 用户收集膜拜
-    private static final String TEMPLATE_ID_NOTIFY = "179820";
+    // 用户收集模板
+    private static final String TEMPLATE_ID_NOTIFY = "198864";
 
     private static Map<String, String> captchaMap = new HashMap<>();
 
     static {
         captchaMap.put("13575762817", "1234");
         captchaMap.put("15158898469", "1234");
+        captchaMap.put("18866669999", "1234");
     }
 
     public static boolean checkCaptcha(String phone, String captcha) {
@@ -28,7 +29,6 @@ public class SMSUtil {
         if (captcha.equals(value)) {
             return true;
         }
-
         return false;
     }
 
@@ -37,6 +37,11 @@ public class SMSUtil {
     }
 
     public static void sendCaptcha(String phone, String captcha) {
+
+        if ( "18866669999".equals(phone) ) {
+            return;
+        }
+
         HashMap<String, Object> result = sendSMS(phone, TEMPLATE_ID_CAPTCHA, new String[]{captcha});
 
         System.out.println("SDKTestGetSubAccounts result=" + result);
@@ -78,7 +83,7 @@ public class SMSUtil {
         //*测试开发可使用“测试Demo”的APP ID，正式上线需要使用自己创建的应用的App ID     *
         //*应用ID的获取：登陆官网，在“应用-应用列表”，点击应用名称，看应用详情获取APP ID*
         //*******************************************************************************
-        restAPI.setAppId("8aaf07085aabcbbd015ad084f0fd0bef");
+        restAPI.setAppId("8a216da85da6adf7015de9addca8199f");
 
         //******************************注释****************************************************************
         //*调用发送模板短信的接口发送短信                                                                  *

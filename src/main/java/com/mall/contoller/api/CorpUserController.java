@@ -114,7 +114,7 @@ public class CorpUserController {
         List<String> clientIdList = new ArrayList<>();
         clientIdList.add(corpUser.getClientId());
 
-        Order order = orderWrapper.buildTestOrder();
+        Order order = orderWrapper.buildTestOrder(1);
 
         orderWrapper.pushOrder(order, clientIdList);
 
@@ -127,12 +127,14 @@ public class CorpUserController {
      */
     @PutMapping(value = "/diner_user/self_check")
     @ResponseBody
-    public ResponseEntity<?> selfCheckPushDevice(@SessionKey SessionData sessionData) {
+    public ResponseEntity<?> selfCheckPushDevice(@SessionKey SessionData sessionData, @RequestParam(required = false, defaultValue = "0") Integer withFeie) {
         int corpUserId = sessionData.getUserId();
         TCorpUser corpUser = corpUserService.selectCorpUser(corpUserId);
-        Order order = orderWrapper.buildTestOrder();
+        Order order = orderWrapper.buildTestOrder(1);
         dinerPushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
-        feieOrderPrinter.printerOrderToShop(order, corpService.selectCorpByCorpId(sessionData.getCorpId()));
+        if ( withFeie == 1 ) {
+            feieOrderPrinter.printerOrderToShop(order, corpService.selectCorpByCorpId(sessionData.getCorpId()));
+        }
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 

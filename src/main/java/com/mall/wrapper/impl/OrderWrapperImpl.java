@@ -430,14 +430,18 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
-    public Order buildTestOrder() {
+    public Order buildTestOrder(Integer type) {
         Order order = new Order();
         order.setId(0);
         order.setUserId(0);
         order.setCorpId(0);
         order.setOrderTimes(1);
         order.setOrderCode(String.valueOf(System.currentTimeMillis()));
-        order.setRemark("不要葱，不要蒜，加辣");
+
+        if ( type == 1 ) {
+            order.setRemark("不要葱，不要蒜，加辣");
+        }
+
         order.setStatus(1);
         order.setOrderType(Order.ORDER_TYPE_CARRY_OUT);
         order.setQueueId(0);
@@ -448,7 +452,19 @@ public class OrderWrapperImpl implements OrderWrapper {
         Item item = new Item();
         item.setId(0);
         item.setCorpId(0);
-        item.setItemName("测试订单");
+
+        // 随机出现 barcode 和 itemcode
+        if (Math.random() * 2 > 1) {
+            item.setBarCode("019283746501");
+            item.setItemCode("019283");
+        }
+
+        if ( type == 1 ) {
+            item.setItemName("测试订单");
+        } else if (type == 2) {
+            item.setItemName("恭喜发财，开工大吉");
+        }
+
         item.setCategoryId(0);
         item.setProductPrice(1);
         item.setCreateTime(new Date());

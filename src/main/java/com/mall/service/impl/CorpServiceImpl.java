@@ -99,6 +99,7 @@ public class CorpServiceImpl implements CorpService {
 			map.put("lon", corp.getLon());
 			map.put("logoPath", corp.getLogoPath());
 			map.put("versionType", corp.getVersionType());
+			map.put("createTime", corp.getCreateTime());
 		}
 		return map;
 	}

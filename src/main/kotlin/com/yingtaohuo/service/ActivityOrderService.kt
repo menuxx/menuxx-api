@@ -2,6 +2,7 @@ package com.yingtaohuo.service
 
 import com.mall.model.*
 import com.mall.service.ItemService
+import com.mall.service.UserService
 import com.mall.utils.Util
 import com.yingtaohuo.mode.ShopConfig
 import org.springframework.stereotype.Service
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service
  */
 @Service
 open class ActivityOrderService(
+        private val userService: UserService,
         private val configService: ShopConfigService,
         private val itemService: ItemService,
         private val activityService: ActivityService
@@ -104,7 +106,7 @@ open class ActivityOrderService(
         // 如果该店有活动
         var i = 0
         if (activities?.isNotEmpty() == true) {
-            for (activity in activities) {
+            loop@ for (activity in activities) {
                 // 同时参加多个活动 满30减15,满50送菠萝
                 // 追加活动分解符
                 if (i > 1) {
@@ -121,13 +123,36 @@ open class ActivityOrderService(
                             val payAmount1 = order.payAmount - find.cutback
                             order.payAmount = payAmount1
                             applyActivities.append(find.descText)
+                            // 如果不支持共享计算
+                            // 退出循环
+                            if (activity.shareCalc == 0) {
+                                break@loop
+                            }
                         }
                     }
-                }
-                // 如果不支持共享计算
-                // 退出循环
-                if (activity.shareCalc == 0) {
-                    break
+                    2
+                    -> {
+                        val user = userService.selectUser(order.userId)
+                        // 未消费过
+                        if ( user.consumed < 1 ) {
+                            val newUserActivities = activityService.selectAvailableActivityNewUser(activity.id)
+                            if (newUserActivities.isNotEmpty()) {
+                                val firstAct = newUserActivities[0]
+                                // 计算折扣
+                                if ( firstAct.discount != null ) {
+                                    order.payAmount = (order.payAmount * firstAct.discount).toInt()
+                                    applyActivities.append(firstAct.descText)
+                                    // 计算满减
+                                } else if ( firstAct.cutback != null && firstAct.toup != null ) {
+                                    order.payAmount = order.payAmount - firstAct.cutback
+                                    applyActivities.append(firstAct.descText)
+                                }
+                            }
+                            if (activity.shareCalc == 0) {
+                                break@loop
+                            }
+                        }
+                    }
                 }
                 i++
             }
