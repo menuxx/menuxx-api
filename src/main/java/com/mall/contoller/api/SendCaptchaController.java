@@ -50,7 +50,7 @@ public class SendCaptchaController {
         data.put("phone", phone);
         data.put("captcha", captcha);
 
-        return new ResponseEntity<>(data, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
 }
