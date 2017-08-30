@@ -17,6 +17,8 @@ public class TItem {
 
     private Integer discountPrice;
 
+    private String unit;
+
     private Integer specialPrice;
 
     private Integer weekday;
@@ -99,6 +101,14 @@ public class TItem {
 
     public void setDiscountPrice(Integer discountPrice) {
         this.discountPrice = discountPrice;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public Integer getSpecialPrice() {
