@@ -10,6 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.mall.utils.Util.makeError;
+
 /**
  * Created by Supeng on 29/09/2016.
  */
@@ -28,20 +33,24 @@ public class SendCaptchaController {
      */
     @RequestMapping(value = "/captcha/{phone}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> sendCaptcha(@PathVariable String phone) {
+    public ResponseEntity<Map<String, ?>> sendCaptcha(@PathVariable String phone) {
         // 先判断手机号是否已录入，未录入手机号不得发送短信
         TCorpUser corpUser = corpUserService.selectCorpUserByMobile(phone);
 
         if (corpUser == null) {
-            return new ResponseEntity<Object>("你的手机暂未授权", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(makeError(-1, "你的手机暂未授权"), HttpStatus.FORBIDDEN);
         }
 
         String captcha = Util.generateCaptcha();
 
         SMSUtil.sendCaptcha(phone, captcha);
 
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+        HashMap<String, String> data = new HashMap<>();
 
+        data.put("phone", phone);
+        data.put("captcha", captcha);
+
+        return new ResponseEntity<>(data, HttpStatus.FORBIDDEN);
+    }
 
 }
