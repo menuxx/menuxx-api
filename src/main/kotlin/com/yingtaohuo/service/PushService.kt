@@ -31,7 +31,7 @@ open class PushService(
             pushManager.pushOrderToShopReceiver(corpUser.pushKey, order)
         }
         // 推送到飞蛾打印机
-        feieOrderPrinter.printerOrderToShop(order, corp)
+        feieOrderPrinter.printOrderToShop(order, corp)
     }
 
     // 推送已经完成支付的订单
@@ -42,7 +42,7 @@ open class PushService(
             pushManager.pushOrderToShopReceiver(corpUser.pushKey, order)
         }
         // 推送到飞蛾打印机
-        feieOrderPrinter.printerOrderToShop(order, corp)
+        feieOrderPrinter.printOrderToShop(order, corp)
         wxlitePush.orderPaid(order.userId, order.id)
     }
 

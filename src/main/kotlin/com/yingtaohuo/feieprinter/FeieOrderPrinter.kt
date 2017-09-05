@@ -87,11 +87,11 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
                         "<L>${item.item.itemName}</L>\n" +
                         "${item.item.barCode}\n" +
                         "${item.item.itemCode}\n" +
-                        "<L>                 ${item.quantity}份    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
+                        "<L>                 ${item.quantity}${item.item.unit ?: "份"}    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
             } else {
                 "--------------------------------\n" +
                         "<L>${item.item.itemName}</L>\n" +
-                        "<L>                 ${item.quantity}份    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
+                        "<L>                 ${item.quantity}${item.item.unit ?: "份"}    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
             }
         }
 
@@ -145,13 +145,18 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
     }
 
-    fun printerOrderToShop(order: Order, shop: TCorp) {
+    fun printOrderToShop(order: Order, shop: TCorp) : Boolean {
 
         val content = makeOrderTicketContent(order, shop)
 
         val corpPrinters = feiePrinterService.selectShopPrinter(shop.id)
 
-        for (printer in corpPrinters) {
+        // 成功打印次数
+        var successPrintCount = 0
+
+        var allSuccess = false
+
+        for ( printer in corpPrinters) {
 
             val resp = printerClient.print(printer.printerSn, content, 0)
 
@@ -160,7 +165,17 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
                 logger.error("shopName: ${shop.corpName}, shopId: ${shop.id}, ret: ${resp.ret}, msg: ${resp.msg}")
             }
 
+            // 绑定的所有打印机都成功打印
+            if ( resp.ret == 0 ) {
+                successPrintCount++
+                if ( successPrintCount == corpPrinters.size ) {
+                    allSuccess = true
+                }
+            }
+
         }
+
+        return allSuccess
 
     }
 

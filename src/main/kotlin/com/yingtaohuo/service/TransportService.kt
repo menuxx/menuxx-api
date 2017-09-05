@@ -272,7 +272,12 @@ open class TransportService(
     fun getShopTransportsFilterByStatus(shopId: Int, status: ArrayList<Int>) : PageInfo<Delivery> {
 
         val ttEx = TDeliveryTransportExample()
-        ttEx.createCriteria().andShopIdEqualTo(shopId).andStatusIn(status)
+        ttEx.createCriteria()
+                .andShopIdEqualTo(shopId)
+                .andStatusIn(status)
+                // 当前时间的过去 24 小时 的数据才显示
+                .andUpdateTimeGreaterThan( Date(Date().time - (3600 * 24 * 1000)) )
+
         ttEx.orderByClause = "create_time desc"
 
         val dPage = PageInfo(deliveryTransportMapper.selectByExample(ttEx))

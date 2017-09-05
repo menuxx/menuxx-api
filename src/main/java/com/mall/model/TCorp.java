@@ -3,6 +3,7 @@ package com.mall.model;
 import java.util.Date;
 
 public class TCorp {
+
     private Integer id;
 
     private String corpName;

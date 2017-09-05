@@ -324,7 +324,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         // 推送 飞蛾 打印
-        feieOrderPrinter.printerOrderToShop(order, corpService.selectCorpByCorpId(order.getCorpId()));
+        feieOrderPrinter.printOrderToShop(order, corpService.selectCorpByCorpId(order.getCorpId()));
 
         return order;
     }
