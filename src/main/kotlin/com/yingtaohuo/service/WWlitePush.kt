@@ -18,9 +18,9 @@ data class WxLiteEventPayLoad(val orderId: Int)
 data class WxliteEvent(val type: Int, val status: Int, val data: Any)
 
 @Service
-open class WxlitePush(val wxlitePush: BaiduMqttPusher,
-                      val userService: UserService,
-                      val objectMapper: ObjectMapper) {
+open class WxlitePush(private val wxlitePush: BaiduMqttPusher,
+                      private val userService: UserService,
+                      private val objectMapper: ObjectMapper) {
 
     @PreDestroy
     fun destroy() {
