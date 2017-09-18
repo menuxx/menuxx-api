@@ -32,10 +32,10 @@
         </triggeringPolicy>
     </appender>
 
-    <logger name="com.mall.contoller" level="DEBUG" />
-    <logger name="com.mall.mapper" level="DEBUG" />
-    <logger name="com.mall.service" level="DEBUG" />
-    <logger name="com.mall.weixin" level="DEBUG" />
+    <!--<logger name="com.mall.contoller" level="DEBUG" />-->
+    <!--<logger name="com.mall.mapper" level="DEBUG" />-->
+    <!--<logger name="com.mall.service" level="DEBUG" />-->
+    <!--<logger name="com.mall.weixin" level="DEBUG" />-->
 
     <!-- 日志输出级别 -->
     <root level="INFO">

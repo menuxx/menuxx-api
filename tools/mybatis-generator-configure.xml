@@ -162,11 +162,17 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_activity_newuser" domainObjectName="TActivityNewUser">-->
+        <!--<table schema="jiujin" tableName="t_wx_msg" domainObjectName="TWXMsg">-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <!--<table schema="jiujin" tableName="t_coupon" domainObjectName="TCoupon">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
+        <!--<table schema="jiujin" tableName="t_coupon_config" domainObjectName="TCouponConfig">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
     </context>
 

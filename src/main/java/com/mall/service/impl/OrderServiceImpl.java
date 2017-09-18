@@ -10,6 +10,7 @@ import com.mall.service.*;
 import com.yingtaohuo.mode.ShopConfig;
 import com.yingtaohuo.service.ShopConfigService;
 import com.yingtaohuo.service.TransportService;
+import com.yingtaohuo.service.WXMsgPush;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    WXMsgPush wxMsgPush;
+
     @PostConstruct
     public void onStart() {
         eventBus.register(this);
@@ -60,7 +64,12 @@ public class OrderServiceImpl implements OrderService {
 
     // 新订单支付完成
     @Subscribe
-    public void onOrderPaid(TOrder order) {
+    public void onOrderPaid(Order order) {
+        try {
+            wxMsgPush.pushOrderPaid(order);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         // 获取订单对应的 店铺 配置
         // 是否自动发送第三方配送
         ShopConfig shopConfig = shopConfigService.getShopConfig(order.getId());
@@ -159,6 +168,14 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return null;
+    }
+
+    @Override
+    public void updatePrepayId(Integer orderId, String prepayId) {
+        TOrder order = new TOrder();
+        order.setId(orderId);
+        order.setPrepayId(prepayId);
+        orderMapper.updateByPrimaryKeySelective(order);
     }
 
     @Override

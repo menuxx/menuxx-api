@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.service.WXComponentService;
+import com.yingtaohuo.wxmsg.WXAuthorizerAccessTokenClient;
+import com.yingtaohuo.wxmsg.WXMsgClient;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,8 +70,13 @@ class WXComponentTokenRunner implements CommandLineRunner {
     @Autowired
     AppConfigureProperties appConfig;
 
+    @Autowired
+    WXAuthorizerAccessTokenClient tokenClient;
+
     @Override
     public void run(String... args) throws Exception {
+
+        tokenClient.getToken("wx4bdb056009894b85");
 
         OkHttpClient client = new OkHttpClient.Builder().build();
 

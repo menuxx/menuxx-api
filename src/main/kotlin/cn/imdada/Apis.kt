@@ -10,7 +10,7 @@ import feign.RequestLine
  * 创建于: 2017/7/6
  * 微信: yin80871901
  */
-@Headers(*arrayOf("Accept: application/json", "Content-Type: application/json"))
+@Headers("Accept: application/json", "Content-Type: application/json")
 interface ImDadaApi {
 
     /**

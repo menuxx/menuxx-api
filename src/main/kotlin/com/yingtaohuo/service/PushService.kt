@@ -19,7 +19,7 @@ open class PushService(
         val pushManager: DinerPushManager, val orderWrapper: OrderWrapper,
         val corpService: CorpService,
         val corpUserService: CorpUserService,
-        val wxlitePush: WxlitePush
+        val wxlitePush: WXLiteMQTTPush
 ) {
 
     // 推送确认订单

@@ -137,8 +137,8 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
         content + "<C>-----${shop.corpName}-----</C><BR>"
 
-        if (!StringUtils.isBlank(shop.masterPhone)) {
-            content += "<C>--联系:${shop.masterPhone}--</C>"
+        if (!StringUtils.isBlank(shop.corpPhone)) {
+            content += "<C>--联系:${shop.corpPhone}--</C>"
         }
 
         return content

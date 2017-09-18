@@ -46,7 +46,7 @@ open class XLOrderController(
             // 覆盖所有商品，只计算新商品的数据
             order.itemList = newOrderItems
 
-            orderWrapper.calcOrder(order, itemMap)
+            orderWrapper.calcOrder(order, itemMap, false)
 
             pushService.pushConfirmOrder(dinerId, order)
 

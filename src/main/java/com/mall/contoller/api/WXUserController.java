@@ -131,6 +131,7 @@ public class WXUserController extends BaseCorpController {
 			// 根据openid和corp 创建或修改用户
 			user.setOpenid(session.getOpenid());
 			int userId = userService.saveUser(user, corp);
+
 			SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
 			deferred.setResult(sessionData);
 		} else {

@@ -9,8 +9,10 @@ import com.mall.push.pusher.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import javax.annotation.PostConstruct;
@@ -43,8 +45,8 @@ public class PushConfiguration {
     Map<String, IPusher> channels = new HashMap<>();
 
     @Bean
-    public IPushTokenStore pushTokenStore(ValueOperations<String, Object> objOpts) {
-        return new RedisPushTokenStore(objOpts);
+    public IPushTokenStore pushTokenStore(@Autowired @Qualifier("objRedisTemplate") RedisTemplate<String, Object> objRedisTemplate) {
+        return new RedisPushTokenStore(objRedisTemplate);
     }
 
     private ThreadPoolExecutor ioExecutor() {

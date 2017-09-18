@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.TCouponConfigMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TCouponConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="toup" jdbcType="INTEGER" property="toup" />
+    <result column="cutback" jdbcType="INTEGER" property="cutback" />
+    <result column="discount" jdbcType="REAL" property="discount" />
+    <result column="permanent" jdbcType="INTEGER" property="permanent" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="desc_text" jdbcType="VARCHAR" property="descText" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="expiration_day" jdbcType="INTEGER" property="expirationDay" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="enable" jdbcType="INTEGER" property="enable" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, toup, cutback, discount, permanent, category_id, desc_text, name, expiration_day, 
+    type, shop_id, enable
+  </sql>
+  <select id="selectByExample" parameterType="com.mall.model.TCouponConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_coupon_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_coupon_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_coupon_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mall.model.TCouponConfigExample">
+    delete from t_coupon_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mall.model.TCouponConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_coupon_config (toup, cutback, discount, 
+      permanent, category_id, desc_text, 
+      name, expiration_day, type, 
+      shop_id, enable)
+    values (#{toup,jdbcType=INTEGER}, #{cutback,jdbcType=INTEGER}, #{discount,jdbcType=REAL}, 
+      #{permanent,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{descText,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{expirationDay,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{shopId,jdbcType=INTEGER}, #{enable,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.model.TCouponConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_coupon_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="toup != null">
+        toup,
+      </if>
+      <if test="cutback != null">
+        cutback,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="permanent != null">
+        permanent,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="descText != null">
+        desc_text,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="expirationDay != null">
+        expiration_day,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="toup != null">
+        #{toup,jdbcType=INTEGER},
+      </if>
+      <if test="cutback != null">
+        #{cutback,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="permanent != null">
+        #{permanent,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="descText != null">
+        #{descText,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDay != null">
+        #{expirationDay,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mall.model.TCouponConfigExample" resultType="java.lang.Integer">
+    select count(*) from t_coupon_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_coupon_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.toup != null">
+        toup = #{record.toup,jdbcType=INTEGER},
+      </if>
+      <if test="record.cutback != null">
+        cutback = #{record.cutback,jdbcType=INTEGER},
+      </if>
+      <if test="record.discount != null">
+        discount = #{record.discount,jdbcType=REAL},
+      </if>
+      <if test="record.permanent != null">
+        permanent = #{record.permanent,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.descText != null">
+        desc_text = #{record.descText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expirationDay != null">
+        expiration_day = #{record.expirationDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.enable != null">
+        enable = #{record.enable,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_coupon_config
+    set id = #{record.id,jdbcType=INTEGER},
+      toup = #{record.toup,jdbcType=INTEGER},
+      cutback = #{record.cutback,jdbcType=INTEGER},
+      discount = #{record.discount,jdbcType=REAL},
+      permanent = #{record.permanent,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      desc_text = #{record.descText,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      expiration_day = #{record.expirationDay,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      enable = #{record.enable,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TCouponConfig">
+    update t_coupon_config
+    <set>
+      <if test="toup != null">
+        toup = #{toup,jdbcType=INTEGER},
+      </if>
+      <if test="cutback != null">
+        cutback = #{cutback,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="permanent != null">
+        permanent = #{permanent,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="descText != null">
+        desc_text = #{descText,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDay != null">
+        expiration_day = #{expirationDay,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TCouponConfig">
+    update t_coupon_config
+    set toup = #{toup,jdbcType=INTEGER},
+      cutback = #{cutback,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=REAL},
+      permanent = #{permanent,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      desc_text = #{descText,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      expiration_day = #{expirationDay,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      enable = #{enable,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

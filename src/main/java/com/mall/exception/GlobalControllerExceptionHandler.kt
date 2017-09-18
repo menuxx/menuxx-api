@@ -1,6 +1,7 @@
 package com.mall.exception
 
 import cn.imdada.ImDadaException
+import com.qq.weixin.wx3rd.WXException
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -40,7 +41,7 @@ class GlobalControllerExceptionHandler {
 
     // 数据库错误
     @ResponseStatus(value=HttpStatus.SERVICE_UNAVAILABLE, reason="数据库访问错误")
-    @ExceptionHandler(*arrayOf(SQLException::class, DataAccessException::class))
+    @ExceptionHandler(SQLException::class, DataAccessException::class)
     @ResponseBody
     fun databaseError(ex: Exception) : Error {
         ex.printStackTrace()
@@ -52,6 +53,14 @@ class GlobalControllerExceptionHandler {
     @ExceptionHandler(ImDadaException::class)
     @ResponseBody
     fun imdadaError(ex: ImDadaException) : Error {
+        ex.printStackTrace()
+        return Error(500, ex.message)
+    }
+
+    // 微信错误
+    @ResponseStatus(value=HttpStatus.SERVICE_UNAVAILABLE, reason="微信支付错误")
+    @ExceptionHandler(WXPayException::class)
+    fun wxError(ex: WXException) : Error {
         ex.printStackTrace()
         return Error(500, ex.message)
     }

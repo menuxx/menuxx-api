@@ -16,7 +16,7 @@ public interface OrderWrapper {
 
     void createOrder(Order order, List<Integer> itemIdList);
 
-    Order calcOrder(Order order, Map<Integer, TItem> itemMap);
+    Order calcOrder(Order order, Map<Integer, TItem> itemMap, boolean calcCoupons);
 
     PageInfo<Order> selectPaidOrders(int userId, int corpId);
 
@@ -32,7 +32,7 @@ public interface OrderWrapper {
 
     void setStatusToPaid(TChargeApply chargeApply);
 
-    Order pushOrder(int orderId);
+    Order pushOrder(Order order);
 
     void pushOrder(Order order, List<String> clientIdList);
 

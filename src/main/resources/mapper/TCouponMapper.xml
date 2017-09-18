@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.TCouponMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TCoupon">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="push_key" jdbcType="VARCHAR" property="pushKey" />
+    <result column="push_times" jdbcType="INTEGER" property="pushTimes" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+    <result column="active_time" jdbcType="TIMESTAMP" property="activeTime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="used" jdbcType="INTEGER" property="used" />
+    <result column="desc_text" jdbcType="VARCHAR" property="descText" />
+    <result column="cutback" jdbcType="INTEGER" property="cutback" />
+    <result column="toup" jdbcType="INTEGER" property="toup" />
+    <result column="discount" jdbcType="REAL" property="discount" />
+    <result column="enable" jdbcType="INTEGER" property="enable" />
+    <result column="permanent" jdbcType="INTEGER" property="permanent" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, type, user_id, shop_id, push_key, push_times, create_time, expiration_time, active_time, 
+    name, used, desc_text, cutback, toup, discount, enable, permanent, category_id
+  </sql>
+  <select id="selectByExample" parameterType="com.mall.model.TCouponExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_coupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mall.model.TCouponExample">
+    delete from t_coupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mall.model.TCoupon">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_coupon (type, user_id, shop_id, 
+      push_key, push_times, create_time, 
+      expiration_time, active_time, name, 
+      used, desc_text, cutback, 
+      toup, discount, enable, 
+      permanent, category_id)
+    values (#{type,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, 
+      #{pushKey,jdbcType=VARCHAR}, #{pushTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{expirationTime,jdbcType=TIMESTAMP}, #{activeTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
+      #{used,jdbcType=INTEGER}, #{descText,jdbcType=VARCHAR}, #{cutback,jdbcType=INTEGER}, 
+      #{toup,jdbcType=INTEGER}, #{discount,jdbcType=REAL}, #{enable,jdbcType=INTEGER}, 
+      #{permanent,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.model.TCoupon">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="type != null">
+        type,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="pushKey != null">
+        push_key,
+      </if>
+      <if test="pushTimes != null">
+        push_times,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="expirationTime != null">
+        expiration_time,
+      </if>
+      <if test="activeTime != null">
+        active_time,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="used != null">
+        used,
+      </if>
+      <if test="descText != null">
+        desc_text,
+      </if>
+      <if test="cutback != null">
+        cutback,
+      </if>
+      <if test="toup != null">
+        toup,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+      <if test="permanent != null">
+        permanent,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="pushKey != null">
+        #{pushKey,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTimes != null">
+        #{pushTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationTime != null">
+        #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeTime != null">
+        #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="used != null">
+        #{used,jdbcType=INTEGER},
+      </if>
+      <if test="descText != null">
+        #{descText,jdbcType=VARCHAR},
+      </if>
+      <if test="cutback != null">
+        #{cutback,jdbcType=INTEGER},
+      </if>
+      <if test="toup != null">
+        #{toup,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="permanent != null">
+        #{permanent,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mall.model.TCouponExample" resultType="java.lang.Integer">
+    select count(*) from t_coupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_coupon
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pushKey != null">
+        push_key = #{record.pushKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pushTimes != null">
+        push_times = #{record.pushTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expirationTime != null">
+        expiration_time = #{record.expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.activeTime != null">
+        active_time = #{record.activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.used != null">
+        used = #{record.used,jdbcType=INTEGER},
+      </if>
+      <if test="record.descText != null">
+        desc_text = #{record.descText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cutback != null">
+        cutback = #{record.cutback,jdbcType=INTEGER},
+      </if>
+      <if test="record.toup != null">
+        toup = #{record.toup,jdbcType=INTEGER},
+      </if>
+      <if test="record.discount != null">
+        discount = #{record.discount,jdbcType=REAL},
+      </if>
+      <if test="record.enable != null">
+        enable = #{record.enable,jdbcType=INTEGER},
+      </if>
+      <if test="record.permanent != null">
+        permanent = #{record.permanent,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_coupon
+    set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      push_key = #{record.pushKey,jdbcType=VARCHAR},
+      push_times = #{record.pushTimes,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      expiration_time = #{record.expirationTime,jdbcType=TIMESTAMP},
+      active_time = #{record.activeTime,jdbcType=TIMESTAMP},
+      name = #{record.name,jdbcType=VARCHAR},
+      used = #{record.used,jdbcType=INTEGER},
+      desc_text = #{record.descText,jdbcType=VARCHAR},
+      cutback = #{record.cutback,jdbcType=INTEGER},
+      toup = #{record.toup,jdbcType=INTEGER},
+      discount = #{record.discount,jdbcType=REAL},
+      enable = #{record.enable,jdbcType=INTEGER},
+      permanent = #{record.permanent,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TCoupon">
+    update t_coupon
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="pushKey != null">
+        push_key = #{pushKey,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTimes != null">
+        push_times = #{pushTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationTime != null">
+        expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeTime != null">
+        active_time = #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="used != null">
+        used = #{used,jdbcType=INTEGER},
+      </if>
+      <if test="descText != null">
+        desc_text = #{descText,jdbcType=VARCHAR},
+      </if>
+      <if test="cutback != null">
+        cutback = #{cutback,jdbcType=INTEGER},
+      </if>
+      <if test="toup != null">
+        toup = #{toup,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="permanent != null">
+        permanent = #{permanent,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TCoupon">
+    update t_coupon
+    set type = #{type,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      push_key = #{pushKey,jdbcType=VARCHAR},
+      push_times = #{pushTimes,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      active_time = #{activeTime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      used = #{used,jdbcType=INTEGER},
+      desc_text = #{descText,jdbcType=VARCHAR},
+      cutback = #{cutback,jdbcType=INTEGER},
+      toup = #{toup,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=REAL},
+      enable = #{enable,jdbcType=INTEGER},
+      permanent = #{permanent,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

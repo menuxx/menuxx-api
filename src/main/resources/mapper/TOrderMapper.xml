@@ -14,13 +14,16 @@
     <result column="queue_id" jdbcType="INTEGER" property="queueId" />
     <result column="total_amount" jdbcType="INTEGER" property="totalAmount" />
     <result column="pay_amount" jdbcType="INTEGER" property="payAmount" />
+    <result column="pre_pay_amount" jdbcType="INTEGER" property="prePayAmount" />
     <result column="package_amount" jdbcType="INTEGER" property="packageAmount" />
     <result column="delivery_amount" jdbcType="INTEGER" property="deliveryAmount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="apply_activities" jdbcType="VARCHAR" property="applyActivities" />
+    <result column="coupon_id" jdbcType="INTEGER" property="couponId" />
     <result column="order_times" jdbcType="INTEGER" property="orderTimes" />
     <result column="transport_status" jdbcType="INTEGER" property="transportStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="prepay_id" jdbcType="VARCHAR" property="prepayId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,8 +85,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, corp_id, order_code, status, order_type, pay_type, table_id, address_id, 
-    queue_id, total_amount, pay_amount, package_amount, delivery_amount, remark, apply_activities, 
-    order_times, transport_status, create_time
+    queue_id, total_amount, pay_amount, pre_pay_amount, package_amount, delivery_amount, 
+    remark, apply_activities, coupon_id, order_times, transport_status, create_time, 
+    prepay_id
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TOrderExample" resultMap="BaseResultMap">
     select
@@ -122,16 +126,18 @@
     insert into t_order (user_id, corp_id, order_code, 
       status, order_type, pay_type, 
       table_id, address_id, queue_id, 
-      total_amount, pay_amount, package_amount, 
-      delivery_amount, remark, apply_activities, 
-      order_times, transport_status, create_time
+      total_amount, pay_amount, pre_pay_amount, 
+      package_amount, delivery_amount, remark, 
+      apply_activities, coupon_id, order_times, 
+      transport_status, create_time, prepay_id
       )
     values (#{userId,jdbcType=INTEGER}, #{corpId,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, 
       #{tableId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{queueId,jdbcType=INTEGER}, 
-      #{totalAmount,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{packageAmount,jdbcType=INTEGER}, 
-      #{deliveryAmount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{applyActivities,jdbcType=VARCHAR}, 
-      #{orderTimes,jdbcType=INTEGER}, #{transportStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      #{totalAmount,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{prePayAmount,jdbcType=INTEGER}, 
+      #{packageAmount,jdbcType=INTEGER}, #{deliveryAmount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{applyActivities,jdbcType=VARCHAR}, #{couponId,jdbcType=INTEGER}, #{orderTimes,jdbcType=INTEGER}, 
+      #{transportStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{prepayId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TOrder">
@@ -173,6 +179,9 @@
       <if test="payAmount != null">
         pay_amount,
       </if>
+      <if test="prePayAmount != null">
+        pre_pay_amount,
+      </if>
       <if test="packageAmount != null">
         package_amount,
       </if>
@@ -185,6 +194,9 @@
       <if test="applyActivities != null">
         apply_activities,
       </if>
+      <if test="couponId != null">
+        coupon_id,
+      </if>
       <if test="orderTimes != null">
         order_times,
       </if>
@@ -193,6 +205,9 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="prepayId != null">
+        prepay_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -229,6 +244,9 @@
       <if test="payAmount != null">
         #{payAmount,jdbcType=INTEGER},
       </if>
+      <if test="prePayAmount != null">
+        #{prePayAmount,jdbcType=INTEGER},
+      </if>
       <if test="packageAmount != null">
         #{packageAmount,jdbcType=INTEGER},
       </if>
@@ -241,6 +259,9 @@
       <if test="applyActivities != null">
         #{applyActivities,jdbcType=VARCHAR},
       </if>
+      <if test="couponId != null">
+        #{couponId,jdbcType=INTEGER},
+      </if>
       <if test="orderTimes != null">
         #{orderTimes,jdbcType=INTEGER},
       </if>
@@ -249,6 +270,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prepayId != null">
+        #{prepayId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -297,6 +321,9 @@
       <if test="record.payAmount != null">
         pay_amount = #{record.payAmount,jdbcType=INTEGER},
       </if>
+      <if test="record.prePayAmount != null">
+        pre_pay_amount = #{record.prePayAmount,jdbcType=INTEGER},
+      </if>
       <if test="record.packageAmount != null">
         package_amount = #{record.packageAmount,jdbcType=INTEGER},
       </if>
@@ -309,6 +336,9 @@
       <if test="record.applyActivities != null">
         apply_activities = #{record.applyActivities,jdbcType=VARCHAR},
       </if>
+      <if test="record.couponId != null">
+        coupon_id = #{record.couponId,jdbcType=INTEGER},
+      </if>
       <if test="record.orderTimes != null">
         order_times = #{record.orderTimes,jdbcType=INTEGER},
       </if>
@@ -317,6 +347,9 @@
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.prepayId != null">
+        prepay_id = #{record.prepayId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -337,13 +370,16 @@
       queue_id = #{record.queueId,jdbcType=INTEGER},
       total_amount = #{record.totalAmount,jdbcType=INTEGER},
       pay_amount = #{record.payAmount,jdbcType=INTEGER},
+      pre_pay_amount = #{record.prePayAmount,jdbcType=INTEGER},
       package_amount = #{record.packageAmount,jdbcType=INTEGER},
       delivery_amount = #{record.deliveryAmount,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       apply_activities = #{record.applyActivities,jdbcType=VARCHAR},
+      coupon_id = #{record.couponId,jdbcType=INTEGER},
       order_times = #{record.orderTimes,jdbcType=INTEGER},
       transport_status = #{record.transportStatus,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      prepay_id = #{record.prepayId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -384,6 +420,9 @@
       <if test="payAmount != null">
         pay_amount = #{payAmount,jdbcType=INTEGER},
       </if>
+      <if test="prePayAmount != null">
+        pre_pay_amount = #{prePayAmount,jdbcType=INTEGER},
+      </if>
       <if test="packageAmount != null">
         package_amount = #{packageAmount,jdbcType=INTEGER},
       </if>
@@ -396,6 +435,9 @@
       <if test="applyActivities != null">
         apply_activities = #{applyActivities,jdbcType=VARCHAR},
       </if>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
       <if test="orderTimes != null">
         order_times = #{orderTimes,jdbcType=INTEGER},
       </if>
@@ -404,6 +446,9 @@
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prepayId != null">
+        prepay_id = #{prepayId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -421,13 +466,16 @@
       queue_id = #{queueId,jdbcType=INTEGER},
       total_amount = #{totalAmount,jdbcType=INTEGER},
       pay_amount = #{payAmount,jdbcType=INTEGER},
+      pre_pay_amount = #{prePayAmount,jdbcType=INTEGER},
       package_amount = #{packageAmount,jdbcType=INTEGER},
       delivery_amount = #{deliveryAmount,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       apply_activities = #{applyActivities,jdbcType=VARCHAR},
+      coupon_id = #{couponId,jdbcType=INTEGER},
       order_times = #{orderTimes,jdbcType=INTEGER},
       transport_status = #{transportStatus,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      prepay_id = #{prepayId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -835,6 +835,66 @@ public class TOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andPrePayAmountIsNull() {
+            addCriterion("pre_pay_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountIsNotNull() {
+            addCriterion("pre_pay_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountEqualTo(Integer value) {
+            addCriterion("pre_pay_amount =", value, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountNotEqualTo(Integer value) {
+            addCriterion("pre_pay_amount <>", value, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountGreaterThan(Integer value) {
+            addCriterion("pre_pay_amount >", value, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pre_pay_amount >=", value, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountLessThan(Integer value) {
+            addCriterion("pre_pay_amount <", value, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("pre_pay_amount <=", value, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountIn(List<Integer> values) {
+            addCriterion("pre_pay_amount in", values, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountNotIn(List<Integer> values) {
+            addCriterion("pre_pay_amount not in", values, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountBetween(Integer value1, Integer value2) {
+            addCriterion("pre_pay_amount between", value1, value2, "prePayAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePayAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("pre_pay_amount not between", value1, value2, "prePayAmount");
+            return (Criteria) this;
+        }
+
         public Criteria andPackageAmountIsNull() {
             addCriterion("package_amount is null");
             return (Criteria) this;
@@ -1095,6 +1155,66 @@ public class TOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andCouponIdIsNull() {
+            addCriterion("coupon_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdIsNotNull() {
+            addCriterion("coupon_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdEqualTo(Integer value) {
+            addCriterion("coupon_id =", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdNotEqualTo(Integer value) {
+            addCriterion("coupon_id <>", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdGreaterThan(Integer value) {
+            addCriterion("coupon_id >", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_id >=", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdLessThan(Integer value) {
+            addCriterion("coupon_id <", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdLessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_id <=", value, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdIn(List<Integer> values) {
+            addCriterion("coupon_id in", values, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdNotIn(List<Integer> values) {
+            addCriterion("coupon_id not in", values, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_id between", value1, value2, "couponId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_id not between", value1, value2, "couponId");
+            return (Criteria) this;
+        }
+
         public Criteria andOrderTimesIsNull() {
             addCriterion("order_times is null");
             return (Criteria) this;
@@ -1272,6 +1392,76 @@ public class TOrderExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdIsNull() {
+            addCriterion("prepay_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdIsNotNull() {
+            addCriterion("prepay_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdEqualTo(String value) {
+            addCriterion("prepay_id =", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdNotEqualTo(String value) {
+            addCriterion("prepay_id <>", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdGreaterThan(String value) {
+            addCriterion("prepay_id >", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdGreaterThanOrEqualTo(String value) {
+            addCriterion("prepay_id >=", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdLessThan(String value) {
+            addCriterion("prepay_id <", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdLessThanOrEqualTo(String value) {
+            addCriterion("prepay_id <=", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdLike(String value) {
+            addCriterion("prepay_id like", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdNotLike(String value) {
+            addCriterion("prepay_id not like", value, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdIn(List<String> values) {
+            addCriterion("prepay_id in", values, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdNotIn(List<String> values) {
+            addCriterion("prepay_id not in", values, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdBetween(String value1, String value2) {
+            addCriterion("prepay_id between", value1, value2, "prepayId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepayIdNotBetween(String value1, String value2) {
+            addCriterion("prepay_id not between", value1, value2, "prepayId");
             return (Criteria) this;
         }
     }

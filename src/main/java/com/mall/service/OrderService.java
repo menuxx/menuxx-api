@@ -31,6 +31,8 @@ public interface OrderService {
 
     void updateOrderPaid(int orderId, int payType, Integer queueId);
 
+    void updatePrepayId(Integer orderId, String prepayId);
+
     TOrder selectOrderByCode(String orderCode);
 
     void updateOrderRemark(int orderId, String remark);

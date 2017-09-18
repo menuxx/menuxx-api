@@ -28,7 +28,7 @@ class ShopUserController(
         if (!SMSUtil.checkCaptcha(phone, captcha)) {
             return Util.status401("手机号和验证码不匹配")
         }
-        val corpUser = corpUserService.selectCorpUserByMobile(phone)
+        val corpUser = corpUserService.selectCorpUserByMobile(phone) ?: return Util.status401("该手机号未绑定店铺，请联系工作人员 0571-28181820")
         val corp = corpService.selectCorpForMap(corpUser.corpId!!)
         val sessionData = SessionData("", "", corpUser.id!!, corpUser.corpId.toString(), corpUser.corpId)
         val map = mapOf("account" to corpUser, "shop" to corp, "sessionToken" to sessionData.sessionToken)

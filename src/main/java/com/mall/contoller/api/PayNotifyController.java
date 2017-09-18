@@ -111,6 +111,7 @@ public class PayNotifyController {
 
 		// 如果为空，先创建 ChargeApply
 		if (null == chargeApply) {
+
 			String outTradeNo = event.getOutTradeNo();
 
 			TOrder order = orderService.selectOrderByCode(outTradeNo);

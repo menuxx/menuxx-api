@@ -74,6 +74,11 @@ open class ActivityOrderService(
         }
         // 达到免配送金额，免配送费
         if ( orderItemsAmount >= config.deliveryNoFeeLimit ) deliveryFee = 0
+        // 如果没有见面配送费的要求 任何情况都不减免配送费
+        // 配送费就等于配置好的配送费
+        if ( config.deliveryNoFeeLimit == 0 ) {
+            deliveryFee = config.deliveryFee
+        }
         return deliveryFee
     }
 
@@ -97,6 +102,41 @@ open class ActivityOrderService(
         payAmountOfMinus += deliveryFee
 
         return calcActivity(order, orderItemsAmountOfMinus)
+    }
+
+    // 卡券参与价格计算
+    fun calcCoupons(order: TOrder, currentUserCoupons: List<TCoupon>) : TOrder {
+        // 让新授权排在最先计算的位置，如果存在
+        for (coupon in currentUserCoupons.sortedBy { coupon -> coupon.type }) {
+            if (coupon.type == 1 || coupon.type == 3 || coupon.type == 5) {
+                if ( order.payAmount >= coupon.toup ) {
+                    order.payAmount -= coupon.cutback
+                    order.couponId = coupon.id
+                    break
+                }
+                //
+            } else {
+                order.payAmount = (order.payAmount * coupon.discount).toInt()
+                order.couponId = coupon.id
+                break
+            }
+        }
+        return order
+    }
+
+    fun calcCoupon(order: TOrder, coupon: TCoupon) : TOrder {
+        // 当卡券类型是 1，新人券 2 ，满减券 5，代金券 就启动满减计算方式
+        if (coupon.type == 1 || coupon.type == 3 || coupon.type == 5) {
+            if ( order.payAmount >= coupon.toup ) {
+                order.payAmount -= coupon.cutback
+                order.couponId = coupon.id
+            }
+            //
+        } else {
+            order.payAmount = (order.payAmount * coupon.discount).toInt()
+            order.couponId = coupon.id
+        }
+        return order
     }
 
     // 计算参加活动后的价格

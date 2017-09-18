@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/diners/{dinerId}")
-open class TableController(internal val tableMapper: TTableMapper){
+open class TableController(internal val tableMapper: TTableMapper) {
 
     @GetMapping("/tables/{tableId}")
     fun getTable(@PathVariable tableId: Int) = tableMapper.selectByPrimaryKey(tableId)!!

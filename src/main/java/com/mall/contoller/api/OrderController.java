@@ -7,6 +7,8 @@ import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
 import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.configure.page.Page;
+import com.mall.exception.NotFoundException;
+import com.mall.exception.WXPayException;
 import com.mall.model.*;
 import com.mall.service.*;
 import com.mall.utils.Constants;
@@ -15,6 +17,8 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
+import com.yingtaohuo.service.ActivityOrderService;
+import com.yingtaohuo.service.CouponService;
 import com.yingtaohuo.service.PushService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,6 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +84,15 @@ public class OrderController extends BaseCorpController {
     @Autowired
     PushService pushService;
 
+    @Autowired
+    ActivityOrderService activityOrderService;
+
+    @Autowired
+    CouponService couponService;
+
+    @Autowired
+    ItemService itemService;
+
     /**
      * 2023 发起充值
      * @param dinerId
@@ -89,17 +103,15 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders/{orderId}/recharge/{topupId}", method = RequestMethod.POST)
     @ResponseBody
-    public DeferredResult<?> createRecharge(@PathVariable int dinerId, @PathVariable int topupId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
+    public Map<String, String> createRecharge(@PathVariable int dinerId, @PathVariable int topupId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
+
         int userId = sessionData.getUserId();
 
         // 获取充值配置
         TTopup topup = topupService.selectTopup(dinerId, topupId);
 
-        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
-
         if (null == topup) {
-            deferredResult.setErrorResult(new Exception("充值配置不匹配。"));
-            return deferredResult;
+            throw new RuntimeException("充值配置不匹配。");
         }
 
         // 创建充值记录
@@ -133,38 +145,65 @@ public class OrderController extends BaseCorpController {
         WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
 
-        unifiedOrderAsync(payOrder, corp, deferredResult);
+        return unifiedOrderWithPaySign(payOrder, corp);
 
-        return deferredResult;
     }
 
-    private void unifiedOrderAsync(WXPayOrder payOrder, TCorp corp, DeferredResult<Map<String, String>> deferredResult) {
+    private WXPayResult unifiedOrder(WXPayOrder payOrder) throws WXPayException {
+        try {
+            Response<WXPayResult> resp = wxPayService.unifiedorder(payOrder).execute();
+            if (resp.isSuccessful()) {
+                WXPayResult payResult = resp.body();
+                if ( "FAIL".equals(payResult.getReturnCode()) ) {
+                    logger.error(payResult.getReturnMsg());
+                    throw new WXPayException(payResult.getReturnMsg());
+                }
+                return payResult;
+            }
+            throw new WXPayException(resp.message());
+        } catch (IOException e) {
+            throw new WXPayException(e.getMessage());
+        }
+    }
 
+    private Map<String, String> unifiedOrderWithPaySign(WXPayOrder payOrder, TCorp corp) {
         // 创建微信支付订单，向微信发起请求
         WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAuthorizerAppid(), corp.getPaySecret());
+        WXPayResult payResult = unifiedOrder(payOrder);
+        String prePayId = payResult.getPrepayId();
+        return paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
+    }
 
-        wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
-            @Override
-            public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
-                if (response.isSuccessful()) {
-                    WXPayResult payResult = response.body();
-                    if ( "FAIL".equals(payResult.getReturnCode()) ) {
-                        logger.error(payResult.getReturnMsg());
-                        deferredResult.setErrorResult(new Exception(payResult.getReturnMsg()));
-                        return;
-                    }
-                    String prePayId = payResult.getPrepayId();
-                    Map<String, String> paySign = paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
-                    deferredResult.setResult(paySign);
-                }
+    /**
+     *  使用优惠券, 一般是
+     */
+    @PutMapping("orders/{orderId}/coupons")
+    @ResponseBody
+    public TOrder applyCoupon(@SessionKey SessionData sessionData, @PathVariable int orderId, @RequestBody Map<String, Object> map) {
+
+        Integer couponId = (Integer) map.get("couponId");
+
+        int userId = sessionData.getUserId();
+        Order order = orderWrapper.selectOrder(orderId);
+        order.setUserId(userId);
+        // 让 订单计算计算新的 优惠券
+        order.setCouponId(couponId);
+        List<Integer> itemIdList = new ArrayList<>();
+        if (order.getItemList() != null && order.getItemList().size() > 0) {
+            for (OrderItem orderItem : order.getItemList()) {
+                itemIdList.add(orderItem.getItemId());
             }
-
-            @Override
-            public void onFailure(Call<WXPayResult> call, Throwable throwable) {
-                deferredResult.setErrorResult(throwable);
-            }
-        });
-
+        }
+        Map<Integer, TItem> itemMap = itemService.selectItemsForMap(itemIdList);
+        if ( couponId == null ) {
+            // 当更换 卡券的时候 传 空，就不计算卡券
+            order.setCouponId(null);
+            return orderWrapper.calcOrder(order, itemMap, false);
+        }
+        orderWrapper.calcOrder(order, itemMap, true);
+        // 将新计算的结果更新到数据库
+        orderService.updateOrder(order);
+        return order;
     }
 
     /**
@@ -174,7 +213,7 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders/{orderId}/create", method = RequestMethod.POST)
     @ResponseBody
-    public DeferredResult<?> createOrder(@PathVariable int orderId, @SessionKey SessionData sessionData) {
+    public Map<String, String> createOrder(@PathVariable int orderId, @SessionKey SessionData sessionData) {
 
         int userId = sessionData.getUserId();
 
@@ -207,11 +246,17 @@ public class OrderController extends BaseCorpController {
         WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
 
-        DeferredResult<Map<String, String>> deferredResult = new DeferredResult<>();
+        WXPayResult payResult = unifiedOrder(payOrder);
 
-        unifiedOrderAsync(payOrder, corp, deferredResult);
+        // 创建微信支付订单，向微信发起请求
+        WXPaymentSignature paymentSignature = new WXPaymentSignature(corp.getAuthorizerAppid(), corp.getPaySecret());
 
-        return deferredResult;
+        String prePayId = payResult.getPrepayId();
+
+        // 更新 prepayId
+        orderService.updatePrepayId(orderId, prePayId);
+
+        return paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
     }
 
     /**
@@ -406,7 +451,7 @@ public class OrderController extends BaseCorpController {
             orderService.updateOrderPaid(orderId, Order.PAY_TYPE_RECHARGE, queueId);
         }
 
-        Order order = orderWrapper.pushOrder(orderId);
+        Order order = orderWrapper.pushOrder(orderWrapper.selectOrder(orderId));
 
         return new ResponseEntity<>(order, HttpStatus.OK);
     }

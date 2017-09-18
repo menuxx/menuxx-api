@@ -3,7 +3,6 @@ package com.mall.model;
 import java.util.Date;
 
 public class TOrder {
-
     private Integer id;
 
     private Integer userId;
@@ -28,6 +27,8 @@ public class TOrder {
 
     private Integer payAmount;
 
+    private Integer prePayAmount;
+
     private Integer packageAmount;
 
     private Integer deliveryAmount;
@@ -36,11 +37,15 @@ public class TOrder {
 
     private String applyActivities;
 
+    private Integer couponId;
+
     private Integer orderTimes;
 
     private Integer transportStatus;
 
     private Date createTime;
+
+    private String prepayId;
 
     public Integer getId() {
         return id;
@@ -138,6 +143,14 @@ public class TOrder {
         this.payAmount = payAmount;
     }
 
+    public Integer getPrePayAmount() {
+        return prePayAmount;
+    }
+
+    public void setPrePayAmount(Integer prePayAmount) {
+        this.prePayAmount = prePayAmount;
+    }
+
     public Integer getPackageAmount() {
         return packageAmount;
     }
@@ -170,6 +183,14 @@ public class TOrder {
         this.applyActivities = applyActivities == null ? null : applyActivities.trim();
     }
 
+    public Integer getCouponId() {
+        return couponId;
+    }
+
+    public void setCouponId(Integer couponId) {
+        this.couponId = couponId;
+    }
+
     public Integer getOrderTimes() {
         return orderTimes;
     }
@@ -192,5 +213,13 @@ public class TOrder {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getPrepayId() {
+        return prepayId;
+    }
+
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId == null ? null : prepayId.trim();
     }
 }

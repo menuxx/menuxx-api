@@ -15,9 +15,11 @@ import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
 import com.yingtaohuo.feieprinter.FeieOrderPrinter;
+import com.yingtaohuo.mode.Coupon;
 import com.yingtaohuo.mode.ShopConfig;
 import com.yingtaohuo.service.ActivityOrderService;
 import com.yingtaohuo.service.ActivityService;
+import com.yingtaohuo.service.CouponService;
 import com.yingtaohuo.service.ShopConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,12 +107,22 @@ public class OrderWrapperImpl implements OrderWrapper {
     @Autowired
     CorpService corpService;
 
+    @Autowired
+    CouponService couponService;
+
+    private Integer safeAmount(Integer amount) {
+        if ( amount < 0 ) {
+            return 1;
+        } else {
+            return amount;
+        }
+    }
+
     @Override
-    public Order calcOrder(Order order, Map<Integer, TItem> itemMap) {
+    public Order calcOrder(Order order, Map<Integer, TItem> itemMap, boolean calcCoupons) {
 
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
-
 
         ShopConfig config = shopConfigService.getShopConfig(order.getCorpId());
 
@@ -130,12 +142,24 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setTotalAmount(totalAmount);
         order.setPackageAmount(packFee);
 
-        // 计算活动价格
-        TOrder calcedOrder = activityOrderService.calcActivityMinusOrder(order, orderItemList);
+        activityOrderService.calcActivityMinusOrder(order, orderItemList);
 
-        // 更新活动后的价格，和文案
-        order.setPayAmount(calcedOrder.getPayAmount());
-        order.setApplyActivities(calcedOrder.getApplyActivities());
+        order.setPrePayAmount(order.getPayAmount());
+
+        // 活动与卡券不能同时进行
+        if ( order.getCouponId() == null && calcCoupons ) {
+            List<Coupon> userCoupons = couponService.getMyCoupons(order.getUserId());
+            activityOrderService.calcCoupons(order, userCoupons);
+            // 计算活动价格
+            // 更新活动后的价格，和文案
+        } else if ( order.getCouponId() != null)  {
+            TCoupon coupon = couponService.getMyCoupon(order.getUserId(), order.getCouponId());
+            activityOrderService.calcCoupon(order, coupon);
+        }
+
+        order.setTotalAmount(order.getTotalAmount());
+        order.setPayAmount(safeAmount(order.getPayAmount()));
+        order.setApplyActivities(order.getApplyActivities());
 
         return order;
     }
@@ -152,7 +176,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 设置订单号
         order.setOrderCode(Util.getYearMonthDay() + (100000000 + order.getId()));
 
-        order = calcOrder(order, itemMap);
+        order = calcOrder(order, itemMap, true);
 
         // 创建商品记录
         for ( TOrderItem item : order.getItemList() ) {
@@ -283,12 +307,6 @@ public class OrderWrapperImpl implements OrderWrapper {
     }
 
     @Override
-    public Order pushOrder(int orderId) {
-        Order order = selectOrder(orderId);
-        return pushOrder(order);
-    }
-
-    @Override
     public void pushOrder(Order order, List<String> clientIdList) {
         try {
             String content = objectMapper.writeValueAsString(order);
@@ -301,6 +319,7 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     }
 
+    @Override
     public Order pushOrder(Order order) {
 
         List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
@@ -347,10 +366,12 @@ public class OrderWrapperImpl implements OrderWrapper {
             orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_WX, null);
         }
 
-        // PUSH
-        pushOrder(order.getId());
+        Order fullOrder = selectOrder(order.getId());
 
-        eventBus.post(order);
+        // PUSH
+        pushOrder(fullOrder);
+
+        eventBus.post(fullOrder);
 
     }
 
