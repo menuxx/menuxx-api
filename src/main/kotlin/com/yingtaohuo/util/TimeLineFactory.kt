@@ -68,7 +68,7 @@ class TimeUnit(node: String) {
         var str = ""
         val start = startTime.toString().split(".")
         str += if (start.size > 1) {
-            val _start = (start[1].toFloat() * 60).toInt()
+            val _start = (start[1].toFloat() * 6).toInt()
             if (_start == 0) {
                 "${start[0]}点"
             } else {
