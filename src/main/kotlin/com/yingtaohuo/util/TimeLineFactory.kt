@@ -80,7 +80,7 @@ class TimeUnit(node: String) {
         str += "至"
         val end = endTime.toString().split(".")
         str += if (start.size > 1) {
-            val _end = (end[1].toFloat() * 60).toInt()
+            val _end = (end[1].toFloat() * 6).toInt()
             if (_end == 0) {
                 "${end[0]}点营业"
             } else {
