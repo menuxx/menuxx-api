@@ -432,22 +432,28 @@ public class OrderWrapperImpl implements OrderWrapper {
         order.setQueueId(queueId);
 
         // 更新订单状态
-        orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE, order.getQueueId());
+        int isOk = orderService.updateOrderPaid(order.getId(), Order.PAY_TYPE_RECHARGE, order.getQueueId());
 
-        // 创建消费记录
-        TRechargeRecord recharge = new TRechargeRecord();
-        recharge.setCorpId(corpId);
-        recharge.setUserId(userId);
-        recharge.setOrderId(order.getId());
-        recharge.setRechargeCode(UUID.randomUUID().toString());
-        recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
-        recharge.setStatus(Constants.ONE);
-        recharge.setAmount(order.getPayAmount());
+        if ( isOk > 0 ) {
 
-        rechargeRecordService.createRechargeRecord(recharge);
+            // 创建消费记录
+            TRechargeRecord recharge = new TRechargeRecord();
+            recharge.setCorpId(corpId);
+            recharge.setUserId(userId);
+            recharge.setOrderId(order.getId());
+            recharge.setRechargeCode(UUID.randomUUID().toString());
+            recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
+            recharge.setStatus(Constants.ONE);
+            recharge.setAmount(order.getPayAmount());
 
-        // PUSH
-        pushOrder(order);
+            rechargeRecordService.createRechargeRecord(recharge);
+
+            order = orderWrapper.selectOrder(order.getId());
+
+            // PUSH
+            pushOrder(order);
+
+        }
     }
 
     @Override

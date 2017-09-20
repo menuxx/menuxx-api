@@ -29,7 +29,7 @@ public interface OrderService {
 
     TOrder selectOrder(int orderId);
 
-    void updateOrderPaid(int orderId, int payType, Integer queueId);
+    int updateOrderPaid(int orderId, int payType, Integer queueId);
 
     void updatePrepayId(Integer orderId, String prepayId);
 

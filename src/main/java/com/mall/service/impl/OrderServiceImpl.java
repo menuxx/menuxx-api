@@ -179,7 +179,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderPaid(int orderId, int payType, Integer queueId) {
+    public int updateOrderPaid(int orderId, int payType, Integer queueId) {
         TOrder order = new TOrder();
         order.setId(orderId);
         order.setStatus(Order.STATUS_PAID);
@@ -189,7 +189,7 @@ public class OrderServiceImpl implements OrderService {
             order.setQueueId(queueId);
         }
 
-        orderMapper.updateByPrimaryKeySelective(order);
+        return orderMapper.updateByPrimaryKeySelective(order);
     }
 
     @Override

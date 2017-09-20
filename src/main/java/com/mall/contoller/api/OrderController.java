@@ -429,7 +429,7 @@ public class OrderController extends BaseCorpController {
         Order order = orderWrapper.selectOrder(orderId);
 
         if (userBalance.getBalance() < order.getPayAmount()) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         orderWrapper.rechargePay(userId, dinerId, order);
