@@ -16,6 +16,7 @@ import com.yingtaohuo.mode.DeliveryTransporter
 import com.yingtaohuo.mode.PostResult
 import com.yingtaohuo.service.ShopConfigService
 import com.yingtaohuo.service.TransportService
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -36,6 +37,8 @@ open class DeliveryController @Autowired constructor (
         var orderService: OrderService,
         var shopConfigService: ShopConfigService
 ) {
+
+    private val logger = LoggerFactory.getLogger(DeliveryController::class.java)
 
     // 给某个订单追加小费
     data class PostTips(@NotNull val orderNo: String, @NotNull val tips: Int)
@@ -114,6 +117,7 @@ open class DeliveryController @Autowired constructor (
                 PostResult(ret = -1, orderNo = order.orderCode, errorCode = 1505, errorMsg = "订单传送失败")
             }
         } catch (ex: Exception) {
+            ex.printStackTrace()
             PostResult(ret = -1, orderNo = "", errorCode = 1505, errorMsg = "订单传送失败")
         }
     }

@@ -2,10 +2,8 @@ package com.mall.push;
 
 import com.google.common.eventbus.EventBus;
 import com.mall.model.Order;
-import com.yingtaohuo.eventbus.OrderAddItems;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Component

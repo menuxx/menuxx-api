@@ -103,7 +103,7 @@ public class OrderController extends BaseCorpController {
      */
     @RequestMapping(value = "orders/{orderId}/recharge/{topupId}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> createRecharge(@PathVariable int dinerId, @PathVariable int topupId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
+    public Map<String, String> createRechargeWithOrderPay(@PathVariable int dinerId, @PathVariable int topupId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
 
         int userId = sessionData.getUserId();
 
@@ -119,6 +119,53 @@ public class OrderController extends BaseCorpController {
         rechargeRecord.setCorpId(dinerId);
         rechargeRecord.setUserId(userId);
         rechargeRecord.setOrderId(orderId);
+        rechargeRecord.setRechargeCode(genOrderNo());
+        rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
+        rechargeRecord.setAmount(topup.getRechargeAmount() + topup.getGiftAmount());
+        rechargeRecord.setRemark(topup.getContent());
+        rechargeRecord.setStatus(Constants.ZERO);
+
+        rechargeRecordService.createRechargeRecord(rechargeRecord);
+
+        String mchId = sessionData.getMchid();
+
+        // 查询 个体店 和 平台店 的通用方案
+        TCorp corp = corpsService.selectCorpByMchId(mchId);
+
+        WXPayOrder payOrder = new WXPayOrder();
+        payOrder.setAppid(corp.getAuthorizerAppid());
+        payOrder.setMchId(corp.getMchId());
+        payOrder.setNonceStr(Util.genNonce());
+        payOrder.setNotifyUrl(appConfig.getRechargeNotifyUrl() + "?orderId" + orderId);
+        payOrder.setOpenid(sessionData.getOpenid());
+        payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
+        payOrder.setBody(rechargeRecord.getRemark());
+        payOrder.setTotalFee(topup.getRechargeAmount());
+
+        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
+        orderDigest.digest(SignEncryptorImpl.MD5());
+
+        return unifiedOrderWithPaySign(payOrder, corp);
+
+    }
+
+    @RequestMapping(value = "recharge_topup/{topupId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> createRecharge(@PathVariable int dinerId, @PathVariable int topupId, @SessionKey SessionData sessionData) {
+
+        int userId = sessionData.getUserId();
+
+        // 获取充值配置
+        TTopup topup = topupService.selectTopup(dinerId, topupId);
+
+        if (null == topup) {
+            throw new RuntimeException("充值配置不匹配。");
+        }
+
+        // 创建充值记录
+        TRechargeRecord rechargeRecord = new TRechargeRecord();
+        rechargeRecord.setCorpId(dinerId);
+        rechargeRecord.setUserId(userId);
         rechargeRecord.setRechargeCode(genOrderNo());
         rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
         rechargeRecord.setAmount(topup.getRechargeAmount() + topup.getGiftAmount());

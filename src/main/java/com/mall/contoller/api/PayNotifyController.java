@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -41,56 +42,6 @@ public class PayNotifyController {
 
 	@Autowired
 	OrderService orderService;
-
-//	@PostMapping("weixin/orderpay")
-//	public DeferredResult<Map<String, String>> wxPayment() {
-//
-//		DeferredResult<Map<String, String>> deferred = new DeferredResult<>();
-//
-//		String appSecret = "9982433695BB9D0CCA3416EF16755CFC";
-//
-//		String appId = "wx833943b167b4012a";
-//
-//		WXPaymentSignature wxPaymentSign = new WXPaymentSignature(appId, appSecret);
-//
-//		WXPayOrder payOrder = new WXPayOrder();
-//
-//		payOrder.setAppid(appId);
-//		payOrder.setMchId("1444573602");
-//		payOrder.setNonceStr(Util.genNonce());
-//		payOrder.setNotifyUrl("https://dev.api.menuxx.com/weixin/pay_notify");
-//		payOrder.setOpenid("oqdoZ0ZAdri71Wzu0A2RAQ1swghM");
-//		payOrder.setOutTradeNo("612612647621462187348623857324");
-//		payOrder.setBody("芝根芝底-美洲火鸡披萨");
-//		payOrder.setSpbillCreateIp("127.0.0.1");
-//		payOrder.setTotalFee(1);
-//
-//		WXPayOrderDigest payDigest = new WXPayOrderDigest(payOrder, appSecret);
-//		payDigest.digest(SignEncryptorImpl.MD5());
-//
-//		wxPayService.unifiedorder(payOrder).enqueue(new Callback<WXPayResult>() {
-//			@Override
-//			public void onResponse(Call<WXPayResult> call, Response<WXPayResult> response) {
-//				if ( response.isSuccessful() ) {
-//					WXPayResult payResult = response.body();
-//					String prePayId = payResult.getPrepayId();
-//
-//					Map<String, String> paySign = wxPaymentSign.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
-//
-//					deferred.setResult(paySign);
-//
-//				}
-//			}
-//
-//			@Override
-//			public void onFailure(Call<WXPayResult> call, Throwable throwable) {
-//				deferred.setErrorResult(throwable);
-//			}
-//		});
-//
-//		return deferred;
-//
-//	}
 
 	/**
 	 * 微信支付回调频率：15/15/30/180/1800/1800/1800/1800/3600（秒）
@@ -163,6 +114,7 @@ public class PayNotifyController {
 
 			// 如果状态码为 SUCCESS，更新付款状态
 			if ("SUCCESS".equals(event.getResultCode())) {
+				// 订单充值
 				orderWrapper.rechargeCompleted(chargeApply);
 				return "SUCCESS";
 			}
@@ -170,6 +122,7 @@ public class PayNotifyController {
 		} else {
 			if ("SUCCESS".equals(event.getResultCode()) && !"SUCCESS".equals(chargeApply.getResultCode())) {
 				// 更新状态
+				// 订单充值
 				orderWrapper.rechargeCompleted(chargeApply);
 				return "SUCCESS";
 			}
@@ -178,7 +131,7 @@ public class PayNotifyController {
 		return "FAIL";
 	}
 
-	private TChargeApply buildChargeApply(WXNotifyEvent event, int userId, int orderId) {
+	private TChargeApply buildChargeApply(WXNotifyEvent event, int userId, Integer orderId) {
 		TChargeApply chargeApply = new TChargeApply();
 
 		chargeApply.setUserId(userId);

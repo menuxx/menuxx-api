@@ -388,36 +388,40 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 更新余额
         int balance = userBalanceService.increaseBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), rechargeRecord.getAmount());
 
-        // 获取订单
-        Order order = selectOrder(rechargeRecord.getOrderId());
+        // 订单不存在
+        if ( rechargeRecord.getOrderId() != null ) {
 
-        // 如果充值后余额 不够支付当前订单，则不更新订单状态
-        if (balance >= order.getPayAmount()) {
-            // 创建排序号
-            Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
+            // 获取订单
+            Order order = selectOrder(rechargeRecord.getOrderId());
 
-            // 订单支付
-            orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE, queueId);
+            // 如果充值后余额 不够支付当前订单，则不更新订单状态
+            if (balance >= order.getPayAmount()) {
+                // 创建排序号
+                Integer queueId = QueueUtil.getQueueNum(order.getCorpId());
 
-            // 创建消费记录
-            TRechargeRecord recharge = new TRechargeRecord();
-            recharge.setCorpId(rechargeRecord.getCorpId());
-            recharge.setUserId(rechargeRecord.getUserId());
-            recharge.setOrderId(rechargeRecord.getOrderId());
-            recharge.setRechargeCode(UUID.randomUUID().toString());
-            recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
-            recharge.setStatus(Constants.ONE);
+                // 订单支付
+                orderService.updateOrderPaid(rechargeRecord.getOrderId(), Order.PAY_TYPE_RECHARGE, queueId);
+
+                // 创建消费记录
+                TRechargeRecord recharge = new TRechargeRecord();
+                recharge.setCorpId(rechargeRecord.getCorpId());
+                recharge.setUserId(rechargeRecord.getUserId());
+                recharge.setOrderId(rechargeRecord.getOrderId());
+                recharge.setRechargeCode(UUID.randomUUID().toString());
+                recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
+                recharge.setStatus(Constants.ONE);
 
 
-            recharge.setAmount(order.getPayAmount());
+                recharge.setAmount(order.getPayAmount());
 
-            rechargeRecordService.createRechargeRecord(recharge);
+                rechargeRecordService.createRechargeRecord(recharge);
 
-            // 更新余额
-            userBalanceService.reduceBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), order.getPayAmount());
+                // 更新余额
+                userBalanceService.reduceBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), order.getPayAmount());
 
-            // PUSH
-            pushOrder(order);
+                // PUSH
+                pushOrder(order);
+            }
         }
 
     }
