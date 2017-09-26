@@ -69,15 +69,18 @@ open class ActivityOrderService(
     fun calcDeliveryFee(orderItemsAmount: Int, order: TOrder, config: ShopConfig) : Int {
         // 如果选择外卖，计入配送费
         var deliveryFee = 0
-        if ( order.orderType == Order.ORDER_TYPE_DELIVERED && orderItemsAmount < config.deliveryNoFeeLimit ) {
-            deliveryFee = config.deliveryFee
-        }
-        // 达到免配送金额，免配送费
-        if ( orderItemsAmount >= config.deliveryNoFeeLimit ) deliveryFee = 0
-        // 如果没有见面配送费的要求 任何情况都不减免配送费
-        // 配送费就等于配置好的配送费
-        if ( config.deliveryNoFeeLimit == 0 ) {
-            deliveryFee = config.deliveryFee
+        if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
+            // 达到免配送金额，免配送费
+            if (orderItemsAmount < config.deliveryNoFeeLimit) {
+                deliveryFee = config.deliveryFee
+            } else {
+                deliveryFee = 0
+            }
+            // 如果没有见面配送费的要求 任何情况都不减免配送费
+            // 配送费就等于配置好的配送费
+            if ( config.deliveryNoFeeLimit == 0 ) {
+                deliveryFee = config.deliveryFee
+            }
         }
         return deliveryFee
     }
