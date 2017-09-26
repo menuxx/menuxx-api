@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service
 @Service
 class WXMsgClient(
         private val wxMsgApi: WXMessageApi,
-        private val tokenClient: WXAuthorizerAccessTokenClient
+        private val cachedClient: WXTokenCachedClient
 ) {
     fun sendMsg(appId: String, msg: TemplateMsg) {
-        val accessToken = tokenClient.getToken(appId)
+        val accessToken = cachedClient.getAuthorizerToken(appId)
         if ( accessToken != null ) {
             wxMsgApi.sendMessage(accessToken, msg)
         }
@@ -26,15 +26,21 @@ class WXMsgClient(
 }
 
 @Service
-open class WXAuthorizerAccessTokenClient(
+open class WXTokenCachedClient(
         @Qualifier("commonRedisTemplate")
         private val redisTemplate: RedisTemplate<String, Any>
 ) {
 
     @SuppressWarnings("unchecked")
-    open fun getToken(appId: String) : String? {
+    open fun getAuthorizerToken(appId: String) : String? {
         val tokens = redisTemplate.opsForValue().get("authorizer_token:$appId") as Map<String, String>
         return tokens["authorizer_access_token"]
+    }
+
+    @SuppressWarnings("unchecked")
+    open fun getComponentToken(appId: String) : String? {
+        val tokens = redisTemplate.opsForValue().get("component_token:$appId") as Map<String, String>
+        return tokens["component_access_token"]
     }
 
 }

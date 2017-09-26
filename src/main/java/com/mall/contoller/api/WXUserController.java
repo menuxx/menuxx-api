@@ -110,7 +110,7 @@ public class WXUserController extends BaseCorpController {
 				loginCode.getCode(),
 				"authorization_code",
 				appConfig.getWxComponent().getAppId(),
-				componentService.getComponentAccessToken()
+				componentService.getAccessToken()
 				).enqueue(new Callback<WXCodeSession>() {
 			@Override
 			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {

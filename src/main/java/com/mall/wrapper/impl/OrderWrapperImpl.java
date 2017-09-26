@@ -419,6 +419,8 @@ public class OrderWrapperImpl implements OrderWrapper {
                 // 更新余额
                 userBalanceService.reduceBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), order.getPayAmount());
 
+                order = orderWrapper.selectOrder(order.getId());
+
                 // PUSH
                 pushOrder(order);
             }

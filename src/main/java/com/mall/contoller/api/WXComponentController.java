@@ -14,12 +14,12 @@ public class WXComponentController {
     @Autowired
     WXComponentService componentService;
 
-    @PostMapping("component_cache")
+    @PostMapping("component_token")
     public void updateComponentCache(@RequestBody HashMap<String, String> cacheData) {
         componentService.updateCache(cacheData);
     }
 
-    @GetMapping("component_cache")
+    @GetMapping("component_token")
     public Map<String, String> getComponentCache() {
         return componentService.getCache();
     }

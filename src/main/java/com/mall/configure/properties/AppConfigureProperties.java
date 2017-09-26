@@ -9,7 +9,23 @@ import org.springframework.stereotype.Component;
 public class AppConfigureProperties {
 
     @NestedConfigurationProperty
+    private Message message;
+
+    @NestedConfigurationProperty
     private WXComponent wxComponent;
+
+    public static class Message {
+
+        private String updateComponentTokenQueue;
+
+        public String getUpdateComponentTokenQueue() {
+            return updateComponentTokenQueue;
+        }
+
+        public void setUpdateComponentTokenQueue(String updateComponentTokenQueue) {
+            this.updateComponentTokenQueue = updateComponentTokenQueue;
+        }
+    }
 
     public static class WXComponent {
 
@@ -18,12 +34,6 @@ public class AppConfigureProperties {
         private String appSecret;
 
         private String appKey;
-
-        private String token;
-
-        private String encodingAESKey;
-
-        private String wx3rdApi;
 
         public String getAppId() {
             return appId;
@@ -49,29 +59,14 @@ public class AppConfigureProperties {
             this.appKey = appKey;
         }
 
-        public String getToken() {
-            return token;
-        }
+    }
 
-        public void setToken(String token) {
-            this.token = token;
-        }
+    public Message getMessage() {
+        return message;
+    }
 
-        public String getEncodingAESKey() {
-            return encodingAESKey;
-        }
-
-        public void setEncodingAESKey(String encodingAESKey) {
-            this.encodingAESKey = encodingAESKey;
-        }
-
-        public String getWx3rdApi() {
-            return wx3rdApi;
-        }
-
-        public void setWx3rdApi(String wx3rdApi) {
-            this.wx3rdApi = wx3rdApi;
-        }
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     public WXComponent getWxComponent() {
