@@ -107,6 +107,7 @@ public class CorpServiceImpl implements CorpService {
 	private Map<String, Object> buildCorp23rdMap(TCorp corp) {
 		Map<String, Object> map = new HashMap<>();
 		if (null != corp) {
+			map.put("shopId", corp.getId());
 			map.put("shopName", corp.getShopName());
 			map.put("masterName", corp.getMasterName());
 			map.put("masterPhone", corp.getMasterPhone());

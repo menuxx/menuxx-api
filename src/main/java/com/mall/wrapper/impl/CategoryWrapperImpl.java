@@ -44,12 +44,16 @@ public class CategoryWrapperImpl implements CategoryWrapper {
             }
 
             for (TCategory tcategory : categoryList) {
+
                 Category category = new Category(tcategory);
 
                 List<TItem> itemList = itemMap.get(category.getId());
-                category.setItemList(itemList);
 
-                returnList.add(category);
+                if ( itemList.size() > 0 ) {
+                    category.setItemList(itemList);
+                    returnList.add(category);
+                }
+
             }
 
             return returnList;
