@@ -49,7 +49,7 @@ public class CategoryWrapperImpl implements CategoryWrapper {
 
                 List<TItem> itemList = itemMap.get(category.getId());
 
-                if ( itemList.size() > 0 ) {
+                if ( itemList != null && itemList.size() > 0 ) {
                     category.setItemList(itemList);
                     returnList.add(category);
                 }
