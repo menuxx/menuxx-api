@@ -31,6 +31,11 @@ import java.io.IOException
                         value = Queue(value = "sys_order", durable = "true"),
                         exchange = Exchange(value = "wxtoken", type = ExchangeTypes.FANOUT, durable = "true"),
                         key = "component_token"
+                ),
+                QueueBinding(
+                        value = Queue(value = "sys_order_test", durable = "true"),
+                        exchange = Exchange(value = "wxtoken", type = ExchangeTypes.FANOUT, durable = "true"),
+                        key = "component_token"
                 )
         )
 )
