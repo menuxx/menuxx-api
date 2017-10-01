@@ -111,7 +111,7 @@ public class OrderWrapperImpl implements OrderWrapper {
     CouponService couponService;
 
     private Integer safeAmount(Integer amount) {
-        if ( amount < 0 ) {
+        if ( amount <= 0 ) {
             return 1;
         } else {
             return amount;

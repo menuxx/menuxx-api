@@ -64,7 +64,7 @@ class CouponService(
         val date3 = now.plusDays(6).withHour(11)
 
         // 6 天后 的下午 1点30 再推送一次
-        // publisher.sendDelay(exchangeName, routingKey, coupon, Duration.between(now, date3).seconds.toInt())
+        publisher.sendDelay(exchangeName, routingKey, coupon, Duration.between(now, date3).seconds.toInt())
 
         publisher.sendDelay(exchangeName, routingKey, coupon, 30)
 

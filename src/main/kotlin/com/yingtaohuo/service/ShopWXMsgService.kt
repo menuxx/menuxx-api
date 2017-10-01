@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service
 val TplMessageTypeOfBuyNotify = 1
 val TplMessageTypeOfBuyNotifyWithDelivery = 2
 val TplMessageTypeOfCoupon = 3
+val TplMessageTypeOfRefunds = 4
+val TplMessageTypeOfSendDelivery = 5
 
 @Service
 class ShopWXMsgService(private val twxMsgMapper: TWXMsgMapper) {
