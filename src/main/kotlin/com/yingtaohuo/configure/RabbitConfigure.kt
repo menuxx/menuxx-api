@@ -46,9 +46,9 @@ open class RabbitConfigure(val objectMapper: ObjectMapper) : RabbitListenerConfi
     open fun rabbitListenerContainerFactory(connectionFactory: ConnectionFactory): SimpleRabbitListenerContainerFactory {
         val factory = SimpleRabbitListenerContainerFactory()
         factory.setConnectionFactory(connectionFactory)
-        factory.setDefaultRequeueRejected(true)
         factory.setMaxConcurrentConsumers(10)
         factory.setMessageConverter(Jackson2JsonMessageConverter(objectMapper))
+        factory.setDefaultRequeueRejected(false)
         return factory
     }
 
