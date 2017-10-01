@@ -23,7 +23,6 @@
     <result column="order_times" jdbcType="INTEGER" property="orderTimes" />
     <result column="transport_status" jdbcType="INTEGER" property="transportStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="prepay_id" jdbcType="VARCHAR" property="prepayId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -86,8 +85,7 @@
   <sql id="Base_Column_List">
     id, user_id, corp_id, order_code, status, order_type, pay_type, table_id, address_id, 
     queue_id, total_amount, pay_amount, pre_pay_amount, package_amount, delivery_amount, 
-    remark, apply_activities, coupon_id, order_times, transport_status, create_time, 
-    prepay_id
+    remark, apply_activities, coupon_id, order_times, transport_status, create_time
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TOrderExample" resultMap="BaseResultMap">
     select
@@ -129,16 +127,14 @@
       total_amount, pay_amount, pre_pay_amount, 
       package_amount, delivery_amount, remark, 
       apply_activities, coupon_id, order_times, 
-      transport_status, create_time, prepay_id
-      )
+      transport_status, create_time)
     values (#{userId,jdbcType=INTEGER}, #{corpId,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, 
       #{tableId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{queueId,jdbcType=INTEGER}, 
       #{totalAmount,jdbcType=INTEGER}, #{payAmount,jdbcType=INTEGER}, #{prePayAmount,jdbcType=INTEGER}, 
       #{packageAmount,jdbcType=INTEGER}, #{deliveryAmount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
       #{applyActivities,jdbcType=VARCHAR}, #{couponId,jdbcType=INTEGER}, #{orderTimes,jdbcType=INTEGER}, 
-      #{transportStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{prepayId,jdbcType=VARCHAR}
-      )
+      #{transportStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -206,9 +202,6 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="prepayId != null">
-        prepay_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -270,9 +263,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="prepayId != null">
-        #{prepayId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -348,9 +338,6 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.prepayId != null">
-        prepay_id = #{record.prepayId,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -378,8 +365,7 @@
       coupon_id = #{record.couponId,jdbcType=INTEGER},
       order_times = #{record.orderTimes,jdbcType=INTEGER},
       transport_status = #{record.transportStatus,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      prepay_id = #{record.prepayId,jdbcType=VARCHAR}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -447,9 +433,6 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="prepayId != null">
-        prepay_id = #{prepayId,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -474,8 +457,7 @@
       coupon_id = #{couponId,jdbcType=INTEGER},
       order_times = #{orderTimes,jdbcType=INTEGER},
       transport_status = #{transportStatus,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      prepay_id = #{prepayId,jdbcType=VARCHAR}
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

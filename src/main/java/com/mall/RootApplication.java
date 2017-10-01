@@ -3,10 +3,17 @@ package com.mall;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.mall.configure.properties.AppConfigureProperties;
+import com.mall.model.TCoupon;
 import com.mall.service.WXComponentService;
+import com.yingtaohuo.configure.Publisher;
+import com.yingtaohuo.configure.WXComponentToken;
+import com.yingtaohuo.mode.Coupon;
+import com.yingtaohuo.service.PushKeyService;
 import com.yingtaohuo.wxmsg.WXTokenCachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,10 +29,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @EnableAutoConfiguration
 @SpringBootApplication(scanBasePackageClasses = {WXComponentTokenRunner.class}, scanBasePackages = {"com.mall.*", "com.yingtaohuo.*"})
 @EnableAsync
+@EnableRabbit
 @EnableScheduling
 public class RootApplication extends WebMvcConfigurerAdapter {
 
@@ -60,6 +70,15 @@ class WXComponentTokenRunner implements CommandLineRunner {
 
     @Autowired
     AppConfigureProperties appConfig;
+
+    @Autowired
+    PushKeyService pushKeyService;
+
+    @Autowired
+    Publisher publisher;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Override
     public void run(String... args) throws Exception {

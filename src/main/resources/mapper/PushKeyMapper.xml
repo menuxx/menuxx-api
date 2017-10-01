@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.PushKeyMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TPushKey">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="push_key" jdbcType="VARCHAR" property="pushKey" />
+    <result column="key_type" jdbcType="INTEGER" property="keyType" />
+    <result column="times" jdbcType="INTEGER" property="times" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, shop_id, push_key, key_type, times, create_time, update_time
+  </sql>
+  <select id="selectAvailableKeysByUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+      from t_push_key WHERE
+    ( user_id = #{userId} and create_time >= #{now,jdbcType=TIMESTAMP} )
+    and ( (key_type = 1 and times &lt; 1) or (key_type = 2 and times &lt; 3) )
+  </select>
+</mapper>

@@ -9,23 +9,7 @@ import org.springframework.stereotype.Component;
 public class AppConfigureProperties {
 
     @NestedConfigurationProperty
-    private Message message;
-
-    @NestedConfigurationProperty
     private WXComponent wxComponent;
-
-    public static class Message {
-
-        private String updateComponentTokenQueue;
-
-        public String getUpdateComponentTokenQueue() {
-            return updateComponentTokenQueue;
-        }
-
-        public void setUpdateComponentTokenQueue(String updateComponentTokenQueue) {
-            this.updateComponentTokenQueue = updateComponentTokenQueue;
-        }
-    }
 
     public static class WXComponent {
 
@@ -59,14 +43,6 @@ public class AppConfigureProperties {
             this.appKey = appKey;
         }
 
-    }
-
-    public Message getMessage() {
-        return message;
-    }
-
-    public void setMessage(Message message) {
-        this.message = message;
     }
 
     public WXComponent getWxComponent() {

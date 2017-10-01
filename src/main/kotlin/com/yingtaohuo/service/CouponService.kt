@@ -7,9 +7,13 @@ import com.mall.model.TCouponConfig
 import com.mall.model.TCouponConfigExample
 import com.mall.model.TCouponExample
 import com.mall.utils.Util
+import com.yingtaohuo.configure.Publisher
 import com.yingtaohuo.mode.Coupon
-import com.yingtaohuo.mode.ResponseDataWrap
+import com.yingtaohuo.mode.CouponTypeOfNewUser
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.Duration
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -18,8 +22,6 @@ import java.util.*
  * 微信: yin80871901
  */
 
-val CouponTypeOfNewUser = 1
-
 // 未使用
 val CouponNotUsed = 0
 val CouponUsed = 1
@@ -27,8 +29,48 @@ val CouponUsed = 1
 @Service
 class CouponService(
         private val tCouponMapper: TCouponMapper,
-        private val tCouponConfigMapper: TCouponConfigMapper
+        private val tCouponConfigMapper: TCouponConfigMapper,
+        private val publisher: Publisher
 ) {
+
+    private val logger = LoggerFactory.getLogger(CouponService::class.java)
+
+    /**
+     * 进行卡券推送计划
+     * 自卡券产生之日起
+     * 2 天后 的中午 1点30 推送一次
+     * 4 天后 的中午 1点30 推送一次
+     * 6 天后 的下午 1点30 再推送一次
+     */
+    fun doCouponPushPlan(coupon : Coupon) {
+
+        val exchangeName = "yth.delay"
+        val routingKey = "coupon_alert.delay"
+
+        val now = LocalDateTime.now()
+
+        // val date1 = now.plusDays(2).withHour(13).withMinute(30)
+
+        // 2 天后 的中午 1点30 推送一次
+        //publisher.sendDelay(exchangeName, routingKey, coupon, Duration.between(now, date1).seconds.toInt())
+
+        // publisher.sendDelay(exchangeName, routingKey, coupon, 10)
+
+        // val date2 = now.plusDays(4).withHour(13).withMinute(30)
+
+        // 4 天后 的中午 1点30 推送一次
+        // publisher.sendDelay(exchangeName, routingKey, coupon, 20)
+
+        val date3 = now.plusDays(6).withHour(11)
+
+        // 6 天后 的下午 1点30 再推送一次
+        // publisher.sendDelay(exchangeName, routingKey, coupon, Duration.between(now, date3).seconds.toInt())
+
+        publisher.sendDelay(exchangeName, routingKey, coupon, 30)
+
+        logger.debug("coupon plan done!")
+
+    }
 
     fun getMyCoupons(userId: Int) : List<Coupon> {
         val now = Date()
@@ -50,12 +92,18 @@ class CouponService(
         return tCouponMapper.selectByExample(ex).map(::Coupon)
     }
 
-    fun activeCoupon(couponId: Int, userId: Int, formId: String) : Int {
+    fun usedCoupon(couponId: Int) : Int {
+        val coupon = TCoupon()
+        coupon.id = couponId
+        coupon.used = 1
+        return tCouponMapper.updateByPrimaryKeySelective(coupon)
+    }
+
+    fun activeCoupon(couponId: Int, userId: Int) : Int {
         val coupon = TCoupon()
         coupon.userId = userId
         coupon.id = couponId
         coupon.activeTime = Date()
-        coupon.pushKey = formId
         coupon.enable = 1
         return tCouponMapper.updateByPrimaryKeySelective(coupon)
     }
@@ -104,7 +152,6 @@ class CouponService(
                     // 可永久不过期
                             .andPermanentEqualTo(1)
                 }
-
                 // 指定用户
                 b.andUserIdEqualTo(userId)
                 // 卡券类型 -》 新手卡

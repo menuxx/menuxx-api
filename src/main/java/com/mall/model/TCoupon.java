@@ -3,7 +3,6 @@ package com.mall.model;
 import java.util.Date;
 
 public class TCoupon {
-
     private Integer id;
 
     private Integer type;
@@ -12,7 +11,7 @@ public class TCoupon {
 
     private Integer shopId;
 
-    private String pushKey;
+    private Integer couponCode;
 
     private Integer pushTimes;
 
@@ -72,12 +71,12 @@ public class TCoupon {
         this.shopId = shopId;
     }
 
-    public String getPushKey() {
-        return pushKey;
+    public Integer getCouponCode() {
+        return couponCode;
     }
 
-    public void setPushKey(String pushKey) {
-        this.pushKey = pushKey == null ? null : pushKey.trim();
+    public void setCouponCode(Integer couponCode) {
+        this.couponCode = couponCode;
     }
 
     public Integer getPushTimes() {

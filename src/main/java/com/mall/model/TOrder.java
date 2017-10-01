@@ -45,8 +45,6 @@ public class TOrder {
 
     private Date createTime;
 
-    private String prepayId;
-
     public Integer getId() {
         return id;
     }
@@ -213,13 +211,5 @@ public class TOrder {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public String getPrepayId() {
-        return prepayId;
-    }
-
-    public void setPrepayId(String prepayId) {
-        this.prepayId = prepayId == null ? null : prepayId.trim();
     }
 }

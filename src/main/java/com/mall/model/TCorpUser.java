@@ -23,8 +23,6 @@ public class TCorpUser {
 
     private Date createTime;
 
-    private String secret;
-
     private Integer enabled;
 
     private String captcha;
@@ -109,14 +107,6 @@ public class TCorpUser {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret == null ? null : secret.trim();
     }
 
     public Integer getEnabled() {

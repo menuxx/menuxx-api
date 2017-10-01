@@ -7,19 +7,22 @@ import com.mall.mapper.TDeliveryShopMapper;
 import com.mall.mapper.TOrderMapper;
 import com.mall.model.*;
 import com.mall.service.*;
+import com.yingtaohuo.mode.Coupon;
 import com.yingtaohuo.mode.ShopConfig;
-import com.yingtaohuo.service.ShopConfigService;
-import com.yingtaohuo.service.TransportService;
-import com.yingtaohuo.service.WXMsgPush;
+import com.yingtaohuo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import static com.mall.utils.Constants.*;
 import static com.mall.utils.Util.onlyOne;
+import static com.yingtaohuo.mode.CouponKt.CouponTypeOfCutback;
+import static com.yingtaohuo.mode.CouponKt.CouponTypeOfNewUser;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -57,6 +60,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     WXMsgPush wxMsgPush;
 
+    @Autowired
+    PushKeyService pushKeyService;
+
+    @Autowired
+    CouponService couponService;
+
     @PostConstruct
     public void onStart() {
         eventBus.register(this);
@@ -65,16 +74,63 @@ public class OrderServiceImpl implements OrderService {
     // 新订单支付完成
     @Subscribe
     public void onOrderPaid(Order order) {
+        // 给该用户推送下单成功通知
         try {
-            wxMsgPush.pushOrderPaid(order);
+            TPushKey pushKey =  pushKeyService.getUserAvailableKey(order.getUserId());
+            TUser tUser = userService.selectUser(order.getUserId());
+            wxMsgPush.pushOrderPaid(pushKey.getPushKey(), tUser.getOpenid(), order);
+            pushKeyService.timesIncrementByKeyId(pushKey.getId());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        // 获取订单对应的 店铺 配置
-        // 是否自动发送第三方配送
-        ShopConfig shopConfig = shopConfigService.getShopConfig(order.getId());
-        if ( order.getOrderType() == Order.ORDER_TYPE_DELIVERED && shopConfig.getTransportAuto3rd() == 1 ) {
-            transportService.transportOrderToChannel(order, shopConfig.getTransportChannel());
+        try {
+            // 标记为以消费
+            if ( order.getCouponId() != null ) {
+                couponService.usedCoupon(order.getCouponId());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            // 当订单使用的券是新手券的时候
+            if ( order.getCouponId() != null ) {
+                TCoupon coupon = couponService.getMyCoupon(order.getUserId(), order.getCouponId());
+                if ( coupon.getType() == CouponTypeOfNewUser ) {
+                    TCouponConfig config = couponService.getCouponConfigOfShop(order.getCorpId(), CouponTypeOfCutback);
+                    if ( config != null ) {
+                        // 发放满减券
+                        TCoupon newCoupon = new TCoupon();
+                        newCoupon.setDescText(config.getDescText());
+                        // 几天后
+                        newCoupon.setExpirationTime(Date.from(LocalDateTime.now().plusDays(config.getExpirationDay()).toInstant(ZoneOffset.UTC)) );
+                        newCoupon.setType(CouponTypeOfCutback);
+                        newCoupon.setCutback(config.getCutback());
+                        newCoupon.setToup(config.getToup());
+                        newCoupon.setActiveTime(new Date());
+                        newCoupon.setUserId(order.getUserId());
+                        newCoupon.setEnable(1);
+                        newCoupon.setShopId(order.getCorpId());
+                        newCoupon.setName(config.getName());
+                        newCoupon.setPermanent(config.getPermanent());
+                        newCoupon.setUsed(0);
+                        newCoupon.setName(config.getName());
+                        couponService.insertCouponToUser(newCoupon);
+                        couponService.doCouponPushPlan(new Coupon(newCoupon));
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            // 获取订单对应的 店铺 配置
+            // 是否自动发送第三方配送
+            ShopConfig shopConfig = shopConfigService.getShopConfig(order.getId());
+            if ( order.getOrderType() == Order.ORDER_TYPE_DELIVERED && shopConfig.getTransportAuto3rd() == 1 ) {
+                transportService.transportOrderToChannel(order, shopConfig.getTransportChannel());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         // 更新用户为消费用户
         userService.updateUserToConsume(order.getUserId());
@@ -168,14 +224,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return null;
-    }
-
-    @Override
-    public void updatePrepayId(Integer orderId, String prepayId) {
-        TOrder order = new TOrder();
-        order.setId(orderId);
-        order.setPrepayId(prepayId);
-        orderMapper.updateByPrimaryKeySelective(order);
     }
 
     @Override

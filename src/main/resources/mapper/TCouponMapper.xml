@@ -6,7 +6,7 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="shop_id" jdbcType="INTEGER" property="shopId" />
-    <result column="push_key" jdbcType="VARCHAR" property="pushKey" />
+    <result column="coupon_code" jdbcType="INTEGER" property="couponCode" />
     <result column="push_times" jdbcType="INTEGER" property="pushTimes" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
@@ -80,8 +80,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, user_id, shop_id, push_key, push_times, create_time, expiration_time, active_time, 
-    name, used, desc_text, cutback, toup, discount, enable, permanent, category_id
+    id, type, user_id, shop_id, coupon_code, push_times, create_time, expiration_time, 
+    active_time, name, used, desc_text, cutback, toup, discount, enable, permanent, category_id
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCouponExample" resultMap="BaseResultMap">
     select
@@ -118,13 +118,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_coupon (type, user_id, shop_id, 
-      push_key, push_times, create_time, 
+      coupon_code, push_times, create_time, 
       expiration_time, active_time, name, 
       used, desc_text, cutback, 
       toup, discount, enable, 
       permanent, category_id)
     values (#{type,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, 
-      #{pushKey,jdbcType=VARCHAR}, #{pushTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{couponCode,jdbcType=INTEGER}, #{pushTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{expirationTime,jdbcType=TIMESTAMP}, #{activeTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
       #{used,jdbcType=INTEGER}, #{descText,jdbcType=VARCHAR}, #{cutback,jdbcType=INTEGER}, 
       #{toup,jdbcType=INTEGER}, #{discount,jdbcType=REAL}, #{enable,jdbcType=INTEGER}, 
@@ -145,8 +145,8 @@
       <if test="shopId != null">
         shop_id,
       </if>
-      <if test="pushKey != null">
-        push_key,
+      <if test="couponCode != null">
+        coupon_code,
       </if>
       <if test="pushTimes != null">
         push_times,
@@ -198,8 +198,8 @@
       <if test="shopId != null">
         #{shopId,jdbcType=INTEGER},
       </if>
-      <if test="pushKey != null">
-        #{pushKey,jdbcType=VARCHAR},
+      <if test="couponCode != null">
+        #{couponCode,jdbcType=INTEGER},
       </if>
       <if test="pushTimes != null">
         #{pushTimes,jdbcType=INTEGER},
@@ -263,8 +263,8 @@
       <if test="record.shopId != null">
         shop_id = #{record.shopId,jdbcType=INTEGER},
       </if>
-      <if test="record.pushKey != null">
-        push_key = #{record.pushKey,jdbcType=VARCHAR},
+      <if test="record.couponCode != null">
+        coupon_code = #{record.couponCode,jdbcType=INTEGER},
       </if>
       <if test="record.pushTimes != null">
         push_times = #{record.pushTimes,jdbcType=INTEGER},
@@ -316,7 +316,7 @@
       type = #{record.type,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       shop_id = #{record.shopId,jdbcType=INTEGER},
-      push_key = #{record.pushKey,jdbcType=VARCHAR},
+      coupon_code = #{record.couponCode,jdbcType=INTEGER},
       push_times = #{record.pushTimes,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       expiration_time = #{record.expirationTime,jdbcType=TIMESTAMP},
@@ -346,8 +346,8 @@
       <if test="shopId != null">
         shop_id = #{shopId,jdbcType=INTEGER},
       </if>
-      <if test="pushKey != null">
-        push_key = #{pushKey,jdbcType=VARCHAR},
+      <if test="couponCode != null">
+        coupon_code = #{couponCode,jdbcType=INTEGER},
       </if>
       <if test="pushTimes != null">
         push_times = #{pushTimes,jdbcType=INTEGER},
@@ -396,7 +396,7 @@
     set type = #{type,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       shop_id = #{shopId,jdbcType=INTEGER},
-      push_key = #{pushKey,jdbcType=VARCHAR},
+      coupon_code = #{couponCode,jdbcType=INTEGER},
       push_times = #{pushTimes,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       expiration_time = #{expirationTime,jdbcType=TIMESTAMP},

@@ -5,9 +5,9 @@ import com.mall.annotation.SessionKey
 import com.mall.model.TCoupon
 import com.mall.service.UserService
 import com.yingtaohuo.mode.Coupon
+import com.yingtaohuo.mode.CouponTypeOfNewUser
 import com.yingtaohuo.mode.ResponseDataWrap
 import com.yingtaohuo.service.CouponService
-import com.yingtaohuo.service.CouponTypeOfNewUser
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -75,10 +75,12 @@ class CouponController(
     /**
      * 优惠券激活
      */
-    data class ConfirmCoupon(val formId: String)
     @PutMapping("/coupons/{couponId}/active")
-    fun activeCoupon(@PathVariable("couponId") couponId: Int, @SessionKey session: SessionData, @RequestBody confirm: ConfirmCoupon) : ResponseDataWrap {
-        val arow = couponService.activeCoupon(couponId, session.userId, confirm.formId)
+    fun activeCoupon(@PathVariable("couponId") couponId: Int, @SessionKey session: SessionData) : ResponseDataWrap {
+        val arow = couponService.activeCoupon(couponId, session.userId)
+        val coupon = couponService.getMyCoupon(session.userId, couponId)
+        // 完成卡券推送计划
+        couponService.doCouponPushPlan(Coupon(coupon))
         return if (arow > 0) {
             ResponseDataWrap(couponId, 0, false)
         } else {

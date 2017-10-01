@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit
  */
 @Configuration
 open class ImDadaConfigure (
-        val imdadaProps: ImDadaProperties,
-        val jsonMapper: ObjectMapper
+        private val imdadaProps: ImDadaProperties,
+        private val jsonMapper: ObjectMapper
 ) {
 
     val logger = LoggerFactory.getLogger(ImDadaConfigure::class.java)!!

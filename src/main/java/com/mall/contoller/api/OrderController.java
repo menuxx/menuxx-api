@@ -17,9 +17,8 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
-import com.yingtaohuo.service.ActivityOrderService;
-import com.yingtaohuo.service.CouponService;
-import com.yingtaohuo.service.PushService;
+import com.yingtaohuo.mode.PushKey;
+import com.yingtaohuo.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.mall.utils.Util.genOrderNo;
+import static com.yingtaohuo.service.PushKeyServiceKt.PushKeyTypeOfPrepayId;
 
 /**
  * Created by Supeng on 14/02/2017.
@@ -92,6 +92,10 @@ public class OrderController extends BaseCorpController {
 
     @Autowired
     ItemService itemService;
+
+
+    @Autowired
+    PushKeyService pushKeyService;
 
     /**
      * 2023 发起充值
@@ -300,8 +304,15 @@ public class OrderController extends BaseCorpController {
 
         String prePayId = payResult.getPrepayId();
 
-        // 更新 prepayId
-        orderService.updatePrepayId(orderId, prePayId);
+        TPushKey pushKey = new TPushKey();
+
+        pushKey.setKeyType(PushKeyTypeOfPrepayId);
+        pushKey.setPushKey(prePayId);
+        pushKey.setUserId(userId);
+        pushKey.setTimes(0);
+        pushKey.setShopId(corp.getId());
+
+        pushKeyService.insertKey(pushKey);
 
         return paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
     }

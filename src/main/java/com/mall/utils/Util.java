@@ -58,6 +58,18 @@ public class Util {
 		return format.format(date);
 	}
 
+	public static String getFriendlytime(Date date) {
+		Long delta = (new Date().getTime() - date.getTime()) / 1000;
+		// if (delta <= 0) return date.toLocaleString()
+		if (delta / (60 * 60 * 24 * 365) > 0) return "" + (delta / (60 * 60 * 24 * 365)) + "年前";
+		if (delta / (60 * 60 * 24 * 30) > 0) return "" + (delta / (60 * 60 * 24 * 30)) + "个月前";
+		if (delta / (60 * 60 * 24 * 7) > 0) return "" + (delta / (60 * 60 * 24 * 7)) + "周前";
+		if (delta / (60 * 60 * 24) > 0) return "" + (delta / (60 * 60 * 24)) + "天前";
+		if (delta / (60 * 60) > 0) return "" + (delta / (60 * 60)) + "小时前";
+		if (delta / 60 > 0) return "" + (delta / 60) + "分钟前";
+		return "刚刚";
+	}
+
 
 	public static String dateFormatNow() {
 		Date date = new Date();

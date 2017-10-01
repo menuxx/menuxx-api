@@ -345,73 +345,63 @@ public class TCouponExample {
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyIsNull() {
-            addCriterion("push_key is null");
+        public Criteria andCouponCodeIsNull() {
+            addCriterion("coupon_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyIsNotNull() {
-            addCriterion("push_key is not null");
+        public Criteria andCouponCodeIsNotNull() {
+            addCriterion("coupon_code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyEqualTo(String value) {
-            addCriterion("push_key =", value, "pushKey");
+        public Criteria andCouponCodeEqualTo(Integer value) {
+            addCriterion("coupon_code =", value, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyNotEqualTo(String value) {
-            addCriterion("push_key <>", value, "pushKey");
+        public Criteria andCouponCodeNotEqualTo(Integer value) {
+            addCriterion("coupon_code <>", value, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyGreaterThan(String value) {
-            addCriterion("push_key >", value, "pushKey");
+        public Criteria andCouponCodeGreaterThan(Integer value) {
+            addCriterion("coupon_code >", value, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyGreaterThanOrEqualTo(String value) {
-            addCriterion("push_key >=", value, "pushKey");
+        public Criteria andCouponCodeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_code >=", value, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyLessThan(String value) {
-            addCriterion("push_key <", value, "pushKey");
+        public Criteria andCouponCodeLessThan(Integer value) {
+            addCriterion("coupon_code <", value, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyLessThanOrEqualTo(String value) {
-            addCriterion("push_key <=", value, "pushKey");
+        public Criteria andCouponCodeLessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_code <=", value, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyLike(String value) {
-            addCriterion("push_key like", value, "pushKey");
+        public Criteria andCouponCodeIn(List<Integer> values) {
+            addCriterion("coupon_code in", values, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyNotLike(String value) {
-            addCriterion("push_key not like", value, "pushKey");
+        public Criteria andCouponCodeNotIn(List<Integer> values) {
+            addCriterion("coupon_code not in", values, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyIn(List<String> values) {
-            addCriterion("push_key in", values, "pushKey");
+        public Criteria andCouponCodeBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_code between", value1, value2, "couponCode");
             return (Criteria) this;
         }
 
-        public Criteria andPushKeyNotIn(List<String> values) {
-            addCriterion("push_key not in", values, "pushKey");
-            return (Criteria) this;
-        }
-
-        public Criteria andPushKeyBetween(String value1, String value2) {
-            addCriterion("push_key between", value1, value2, "pushKey");
-            return (Criteria) this;
-        }
-
-        public Criteria andPushKeyNotBetween(String value1, String value2) {
-            addCriterion("push_key not between", value1, value2, "pushKey");
+        public Criteria andCouponCodeNotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_code not between", value1, value2, "couponCode");
             return (Criteria) this;
         }
 
