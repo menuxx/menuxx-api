@@ -24,7 +24,7 @@ public class CorpCollectController extends BaseCorpController {
         corpCollect.setFormCorpId(dinerId);
         corpCollectService.createCorpCollect(corpCollect);
 
-        SMSUtil.sendNotify("13738142344", new String[] {corpCollect.getPhone(), corpCollect.getLinkman(), corpCollect.getCorpName()});
+        SMSUtil.sendNotify("15558132823", new String[] {corpCollect.getPhone(), corpCollect.getLinkman(), corpCollect.getCorpName()});
 
         return new ResponseEntity<Object>(HttpStatus.OK);
     }

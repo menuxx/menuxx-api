@@ -25,7 +25,7 @@ public class CorpDiscoverController extends BaseCorpController {
 
         corpDiscoverService.createCorpDiscover(corpDiscover);
 
-        SMSUtil.sendNotify("13738142344", new String[] {corpDiscover.getPhone(), corpDiscover.getLinkman(), corpDiscover.getCorpName()});
+        SMSUtil.sendNotify("15558132823", new String[] {corpDiscover.getPhone(), corpDiscover.getLinkman(), corpDiscover.getCorpName()});
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
