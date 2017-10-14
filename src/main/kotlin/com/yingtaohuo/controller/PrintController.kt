@@ -24,8 +24,9 @@ class PrintController(
     @PostMapping("/printer/feie")
     fun feiePrintOrder(@PathVariable shopId: Int, @RequestBody print: OrderPrint) : ResponseDataWrap {
         val shop = corpService.selectCorpByCorpId(shopId)
+        val config = corpService.selectShopConfig(shopId)
         val order = print.order ?: orderWrapper.selectOrder(print.orderId)
-        val allSuccessPrinted = feieOrderPrinter.printOrderToShop(order, shop)
+        val allSuccessPrinted = feieOrderPrinter.printOrderToShop(order, shop, config)
         return ResponseDataWrap(allSuccessPrinted, 0, fireError = !allSuccessPrinted)
     }
 

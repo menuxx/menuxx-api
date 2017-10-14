@@ -131,9 +131,10 @@ public class CorpUserController {
         int corpUserId = sessionData.getUserId();
         TCorpUser corpUser = corpUserService.selectCorpUser(corpUserId);
         Order order = orderWrapper.buildTestOrder(1);
+        TShopConfig config = corpService.selectShopConfig(corpUser.getCorpId());
         dinerPushManager.pushOrderToShopReceiver(corpUser.getPushKey(), order);
         if ( withFeie == 1 ) {
-            feieOrderPrinter.printOrderToShop(order, corpService.selectCorpByCorpId(sessionData.getCorpId()));
+            feieOrderPrinter.printOrderToShop(order, corpService.selectCorpByCorpId(sessionData.getCorpId()), config);
         }
         return new ResponseEntity<>(order, HttpStatus.OK);
     }

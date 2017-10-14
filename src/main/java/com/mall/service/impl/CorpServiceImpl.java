@@ -1,10 +1,11 @@
 package com.mall.service.impl;
 
 import com.mall.mapper.TCorpMapper;
-import com.mall.model.TCorp;
-import com.mall.model.TCorpExample;
+import com.mall.mapper.TShopConfigMapper;
+import com.mall.model.*;
 import com.mall.service.CorpService;
 import com.mall.utils.Constants;
+import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,19 @@ public class CorpServiceImpl implements CorpService {
 	@Autowired
 	TCorpMapper tCorpMapper;
 
+	@Autowired
+	TShopConfigMapper tShopConfigMapper;
+
 	@Override
 	public TCorp selectCorpByCorpId(int corpId) {
 		return tCorpMapper.selectByPrimaryKey(corpId);
+	}
+
+	@Override
+	public TShopConfig selectShopConfig(int shopId) {
+		TShopConfigExample ex = new TShopConfigExample();
+		ex.createCriteria().andShopIdEqualTo(shopId);
+		return Util.onlyOne(tShopConfigMapper.selectByExample(ex));
 	}
 
 	@Override

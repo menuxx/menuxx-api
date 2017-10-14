@@ -1,6 +1,7 @@
 package com.mall.service;
 
 import com.mall.model.TCorp;
+import com.mall.model.TShopConfig;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import java.util.Map;
  */
 
 public interface CorpService {
+
+	TShopConfig selectShopConfig(int shopId);
 
 	TCorp selectCorpByCorpId(int corpId);
 

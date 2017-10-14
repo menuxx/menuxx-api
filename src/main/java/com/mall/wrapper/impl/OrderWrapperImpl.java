@@ -324,6 +324,8 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         List<TCorpUser> corpUserList = corpUserService.selectCorpUsersByCorpId(order.getCorpId());
 
+        TShopConfig config =  corpService.selectShopConfig(order.getCorpId());
+
         List<String> clientIdList = new ArrayList<>();
 
         List<String> phoneList = new ArrayList<>();
@@ -343,7 +345,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         }
 
         // 推送 飞蛾 打印
-        feieOrderPrinter.printOrderToShop(order, corpService.selectCorpByCorpId(order.getCorpId()));
+        feieOrderPrinter.printOrderToShop(order, corpService.selectCorpByCorpId(order.getCorpId()), config);
 
         return order;
     }

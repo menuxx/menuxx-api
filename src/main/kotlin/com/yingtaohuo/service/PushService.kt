@@ -26,23 +26,25 @@ open class PushService(
     // 大店版，点单后不需要支付，直接打单
     fun pushConfirmOrder(shopId: Int, order: Order) {
         val corp = corpService.selectCorpByCorpId(order.corpId)
+        val config = corpService.selectShopConfig(order.corpId)
         val corpUserList = corpUserService.selectCorpUsersByCorpId(shopId)
         for (corpUser in corpUserList) {
             pushManager.pushOrderToShopReceiver(corpUser.pushKey, order)
         }
         // 推送到飞蛾打印机
-        feieOrderPrinter.printOrderToShop(order, corp)
+        feieOrderPrinter.printOrderToShop(order, corp, config)
     }
 
     // 推送已经完成支付的订单
     fun pushPaidOrder(order: Order) {
         val corp = corpService.selectCorpByCorpId(order.corpId)
+        val config = corpService.selectShopConfig(order.corpId)
         val corpUserList = corpUserService.selectCorpUsersByCorpId(order.corpId)
         for (corpUser in corpUserList) {
             pushManager.pushOrderToShopReceiver(corpUser.pushKey, order)
         }
         // 推送到飞蛾打印机
-        feieOrderPrinter.printOrderToShop(order, corp)
+        feieOrderPrinter.printOrderToShop(order, corp, config)
         wxlitePush.orderPaid(order.userId, order.id)
     }
 

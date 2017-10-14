@@ -3,11 +3,8 @@ package com.mall;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.mall.configure.properties.AppConfigureProperties;
-import com.mall.model.TCoupon;
 import com.mall.service.WXComponentService;
 import com.yingtaohuo.configure.Publisher;
-import com.yingtaohuo.configure.WXComponentToken;
-import com.yingtaohuo.mode.Coupon;
 import com.yingtaohuo.service.PushKeyService;
 import com.yingtaohuo.wxmsg.WXTokenCachedClient;
 import org.slf4j.Logger;
@@ -29,8 +26,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 @EnableAutoConfiguration
 @SpringBootApplication(scanBasePackageClasses = {WXComponentTokenRunner.class}, scanBasePackages = {"com.mall.*", "com.yingtaohuo.*"})

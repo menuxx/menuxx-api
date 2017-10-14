@@ -5,6 +5,7 @@ import feign.*
 import feign.jackson.JacksonDecoder
 import feign.jackson.JacksonEncoder
 import okhttp3.OkHttpClient
+import org.slf4j.LoggerFactory
 import java.lang.reflect.Type
 
 /**
@@ -14,17 +15,19 @@ import java.lang.reflect.Type
  */
 class ImDadaClientBuilder (val appKey: String, val appSecret: String) {
 
+    private val logger = LoggerFactory.getLogger(ImDadaClientBuilder::class.java)
+
     val protocol: String = "http://"
     /**
      * 设置是否是 工作在生产环境
      */
     private var workOnProd: Boolean = true
     private var loggerLevel: Logger.Level = Logger.Level.BASIC
-    lateinit private var okHttp: OkHttpClient
-    lateinit private var jsonMapper: ObjectMapper
+    private var okHttp: OkHttpClient? = null
+    private var jsonMapper: ObjectMapper? = null
     private var builder: Feign.Builder = Feign.builder()
 
-    fun okHttp(okHttp: OkHttpClient) : ImDadaClientBuilder {
+    fun okHttp(okHttp: OkHttpClient?) : ImDadaClientBuilder {
         this.okHttp = okHttp
         return this
     }
@@ -35,7 +38,7 @@ class ImDadaClientBuilder (val appKey: String, val appSecret: String) {
     }
 
 
-    fun jsonMapper(mapper: ObjectMapper): ImDadaClientBuilder {
+    fun jsonMapper(mapper: ObjectMapper?): ImDadaClientBuilder {
         this.jsonMapper = mapper
         return this
     }
@@ -55,14 +58,13 @@ class ImDadaClientBuilder (val appKey: String, val appSecret: String) {
 
         builder.logLevel(loggerLevel)
 
-        // 达达签名认证处理器
-        builder.requestInterceptor(DDAuthInterceptor(jsonMapper, appKey, appSecret))
-
         if (jsonMapper != null) {
+            // 达达签名认证处理器
+            builder.requestInterceptor(DDAuthInterceptor(jsonMapper!!, appKey, appSecret))
             val decoder = JacksonDecoder(jsonMapper)
             builder.decoder(decoder)
             builder.encoder(JacksonEncoder(jsonMapper))
-            builder.mapAndDecode(RPM(jsonMapper), decoder)
+            builder.mapAndDecode(RPM(jsonMapper!!), decoder)
         }
 
         if (okHttp != null) {
@@ -71,7 +73,7 @@ class ImDadaClientBuilder (val appKey: String, val appSecret: String) {
 
         val baseUrl = protocol + if (workOnProd) API_HOST_PROD else API_HOST_TEST
 
-        println("baseUrl: $baseUrl")
+        logger.debug("baseUrl: $baseUrl")
 
         // 初始化客户端
         return builder.target(clazz, baseUrl)

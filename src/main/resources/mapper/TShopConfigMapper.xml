@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.TShopConfigMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TShopConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="vip_recharge" jdbcType="INTEGER" property="vipRecharge" />
+    <result column="delivery_min_limit" jdbcType="INTEGER" property="deliveryMinLimit" />
+    <result column="delivery_nofee_limit" jdbcType="INTEGER" property="deliveryNofeeLimit" />
+    <result column="pack_fee" jdbcType="INTEGER" property="packFee" />
+    <result column="delivery_fee" jdbcType="INTEGER" property="deliveryFee" />
+    <result column="alter_order_text" jdbcType="VARCHAR" property="alterOrderText" />
+    <result column="delivery_channel" jdbcType="INTEGER" property="deliveryChannel" />
+    <result column="business_timeline" jdbcType="VARCHAR" property="businessTimeline" />
+    <result column="transport_auto_3rd" jdbcType="INTEGER" property="transportAuto3rd" />
+    <result column="activity_notice_text" jdbcType="VARCHAR" property="activityNoticeText" />
+    <result column="ticket_style" jdbcType="INTEGER" property="ticketStyle" />
+    <result column="ticket_wxlite_qrcode" jdbcType="VARCHAR" property="ticketWxliteQrcode" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, shop_id, vip_recharge, delivery_min_limit, delivery_nofee_limit, pack_fee, delivery_fee, 
+    alter_order_text, delivery_channel, business_timeline, transport_auto_3rd, activity_notice_text, 
+    ticket_style, ticket_wxlite_qrcode, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.mall.model.TShopConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_shop_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_shop_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_shop_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mall.model.TShopConfigExample">
+    delete from t_shop_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mall.model.TShopConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_shop_config (shop_id, vip_recharge, delivery_min_limit, 
+      delivery_nofee_limit, pack_fee, delivery_fee, 
+      alter_order_text, delivery_channel, business_timeline, 
+      transport_auto_3rd, activity_notice_text, ticket_style, 
+      ticket_wxlite_qrcode, update_time)
+    values (#{shopId,jdbcType=INTEGER}, #{vipRecharge,jdbcType=INTEGER}, #{deliveryMinLimit,jdbcType=INTEGER}, 
+      #{deliveryNofeeLimit,jdbcType=INTEGER}, #{packFee,jdbcType=INTEGER}, #{deliveryFee,jdbcType=INTEGER}, 
+      #{alterOrderText,jdbcType=VARCHAR}, #{deliveryChannel,jdbcType=INTEGER}, #{businessTimeline,jdbcType=VARCHAR}, 
+      #{transportAuto3rd,jdbcType=INTEGER}, #{activityNoticeText,jdbcType=VARCHAR}, #{ticketStyle,jdbcType=INTEGER}, 
+      #{ticketWxliteQrcode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.model.TShopConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_shop_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="vipRecharge != null">
+        vip_recharge,
+      </if>
+      <if test="deliveryMinLimit != null">
+        delivery_min_limit,
+      </if>
+      <if test="deliveryNofeeLimit != null">
+        delivery_nofee_limit,
+      </if>
+      <if test="packFee != null">
+        pack_fee,
+      </if>
+      <if test="deliveryFee != null">
+        delivery_fee,
+      </if>
+      <if test="alterOrderText != null">
+        alter_order_text,
+      </if>
+      <if test="deliveryChannel != null">
+        delivery_channel,
+      </if>
+      <if test="businessTimeline != null">
+        business_timeline,
+      </if>
+      <if test="transportAuto3rd != null">
+        transport_auto_3rd,
+      </if>
+      <if test="activityNoticeText != null">
+        activity_notice_text,
+      </if>
+      <if test="ticketStyle != null">
+        ticket_style,
+      </if>
+      <if test="ticketWxliteQrcode != null">
+        ticket_wxlite_qrcode,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="vipRecharge != null">
+        #{vipRecharge,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryMinLimit != null">
+        #{deliveryMinLimit,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryNofeeLimit != null">
+        #{deliveryNofeeLimit,jdbcType=INTEGER},
+      </if>
+      <if test="packFee != null">
+        #{packFee,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryFee != null">
+        #{deliveryFee,jdbcType=INTEGER},
+      </if>
+      <if test="alterOrderText != null">
+        #{alterOrderText,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryChannel != null">
+        #{deliveryChannel,jdbcType=INTEGER},
+      </if>
+      <if test="businessTimeline != null">
+        #{businessTimeline,jdbcType=VARCHAR},
+      </if>
+      <if test="transportAuto3rd != null">
+        #{transportAuto3rd,jdbcType=INTEGER},
+      </if>
+      <if test="activityNoticeText != null">
+        #{activityNoticeText,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketStyle != null">
+        #{ticketStyle,jdbcType=INTEGER},
+      </if>
+      <if test="ticketWxliteQrcode != null">
+        #{ticketWxliteQrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mall.model.TShopConfigExample" resultType="java.lang.Integer">
+    select count(*) from t_shop_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_shop_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vipRecharge != null">
+        vip_recharge = #{record.vipRecharge,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryMinLimit != null">
+        delivery_min_limit = #{record.deliveryMinLimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryNofeeLimit != null">
+        delivery_nofee_limit = #{record.deliveryNofeeLimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.packFee != null">
+        pack_fee = #{record.packFee,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryFee != null">
+        delivery_fee = #{record.deliveryFee,jdbcType=INTEGER},
+      </if>
+      <if test="record.alterOrderText != null">
+        alter_order_text = #{record.alterOrderText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryChannel != null">
+        delivery_channel = #{record.deliveryChannel,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessTimeline != null">
+        business_timeline = #{record.businessTimeline,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transportAuto3rd != null">
+        transport_auto_3rd = #{record.transportAuto3rd,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityNoticeText != null">
+        activity_notice_text = #{record.activityNoticeText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ticketStyle != null">
+        ticket_style = #{record.ticketStyle,jdbcType=INTEGER},
+      </if>
+      <if test="record.ticketWxliteQrcode != null">
+        ticket_wxlite_qrcode = #{record.ticketWxliteQrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_shop_config
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      vip_recharge = #{record.vipRecharge,jdbcType=INTEGER},
+      delivery_min_limit = #{record.deliveryMinLimit,jdbcType=INTEGER},
+      delivery_nofee_limit = #{record.deliveryNofeeLimit,jdbcType=INTEGER},
+      pack_fee = #{record.packFee,jdbcType=INTEGER},
+      delivery_fee = #{record.deliveryFee,jdbcType=INTEGER},
+      alter_order_text = #{record.alterOrderText,jdbcType=VARCHAR},
+      delivery_channel = #{record.deliveryChannel,jdbcType=INTEGER},
+      business_timeline = #{record.businessTimeline,jdbcType=VARCHAR},
+      transport_auto_3rd = #{record.transportAuto3rd,jdbcType=INTEGER},
+      activity_notice_text = #{record.activityNoticeText,jdbcType=VARCHAR},
+      ticket_style = #{record.ticketStyle,jdbcType=INTEGER},
+      ticket_wxlite_qrcode = #{record.ticketWxliteQrcode,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TShopConfig">
+    update t_shop_config
+    <set>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="vipRecharge != null">
+        vip_recharge = #{vipRecharge,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryMinLimit != null">
+        delivery_min_limit = #{deliveryMinLimit,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryNofeeLimit != null">
+        delivery_nofee_limit = #{deliveryNofeeLimit,jdbcType=INTEGER},
+      </if>
+      <if test="packFee != null">
+        pack_fee = #{packFee,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryFee != null">
+        delivery_fee = #{deliveryFee,jdbcType=INTEGER},
+      </if>
+      <if test="alterOrderText != null">
+        alter_order_text = #{alterOrderText,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryChannel != null">
+        delivery_channel = #{deliveryChannel,jdbcType=INTEGER},
+      </if>
+      <if test="businessTimeline != null">
+        business_timeline = #{businessTimeline,jdbcType=VARCHAR},
+      </if>
+      <if test="transportAuto3rd != null">
+        transport_auto_3rd = #{transportAuto3rd,jdbcType=INTEGER},
+      </if>
+      <if test="activityNoticeText != null">
+        activity_notice_text = #{activityNoticeText,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketStyle != null">
+        ticket_style = #{ticketStyle,jdbcType=INTEGER},
+      </if>
+      <if test="ticketWxliteQrcode != null">
+        ticket_wxlite_qrcode = #{ticketWxliteQrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TShopConfig">
+    update t_shop_config
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      vip_recharge = #{vipRecharge,jdbcType=INTEGER},
+      delivery_min_limit = #{deliveryMinLimit,jdbcType=INTEGER},
+      delivery_nofee_limit = #{deliveryNofeeLimit,jdbcType=INTEGER},
+      pack_fee = #{packFee,jdbcType=INTEGER},
+      delivery_fee = #{deliveryFee,jdbcType=INTEGER},
+      alter_order_text = #{alterOrderText,jdbcType=VARCHAR},
+      delivery_channel = #{deliveryChannel,jdbcType=INTEGER},
+      business_timeline = #{businessTimeline,jdbcType=VARCHAR},
+      transport_auto_3rd = #{transportAuto3rd,jdbcType=INTEGER},
+      activity_notice_text = #{activityNoticeText,jdbcType=VARCHAR},
+      ticket_style = #{ticketStyle,jdbcType=INTEGER},
+      ticket_wxlite_qrcode = #{ticketWxliteQrcode,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -128,7 +128,7 @@ open class TransportService(
 
         val orderItems = orderItemService.selectOrderItemByOrderId(order.id)
 
-        val itemMap = itemService.selectItemsForMap(orderItems.map { it.id }.toList())
+        val itemMap = itemService.selectItemsForMap(orderItems.map { it.itemId }.toList())
 
         val goodsRemark = getGoodsRemark(orderItems, itemMap)
 

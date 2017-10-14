@@ -2,7 +2,9 @@ package com.yingtaohuo.feieprinter
 
 import com.mall.model.Order
 import com.mall.model.TCorp
+import com.mall.model.TShopConfig
 import com.mall.utils.NumberUtil
+import com.yingtaohuo.mode.ShopConfig
 import com.yingtaohuo.service.FeiePrinterService
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
@@ -41,9 +43,10 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 订单号：{orderNo}
 时间：{createTime}
 ================================<BR>
+<QR>https://mp.weixin.qq.com/a/~~Cs0YJfyPeXI~IXuXRRYnN-A72hMJg3QzoA~~</QR>
 <C>-----{shopName}-----</C>"""
 
-    fun makeOrderTicketContent(order: Order, shop: TCorp) : String {
+    fun makeOrderTicketContent(order: Order, shop: TCorp, shopConfig: TShopConfig?) : String {
 
         var content = ""
 
@@ -135,6 +138,10 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
             content += "<L>配送信息: ${order.address.address} ${order.address.linkman} ${order.address.phone}</L>"
         }
 
+        if ( shopConfig != null && !StringUtils.isBlank(shopConfig.ticketWxliteQrcode) ) {
+            content += "<QR>"+ shopConfig.ticketWxliteQrcode +"</QR>"
+        }
+
         content + "<C>-----${shop.corpName}-----</C><BR>"
 
         if (!StringUtils.isBlank(shop.corpPhone)) {
@@ -145,9 +152,9 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
     }
 
-    fun printOrderToShop(order: Order, shop: TCorp) : Boolean {
+    fun printOrderToShop(order: Order, shop: TCorp, shopConfig: TShopConfig?) : Boolean {
 
-        val content = makeOrderTicketContent(order, shop)
+        val content = makeOrderTicketContent(order, shop, shopConfig)
 
         val corpPrinters = feiePrinterService.selectShopPrinter(shop.id)
 

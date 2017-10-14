@@ -178,6 +178,10 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <table schema="jiujin" tableName="t_shop_config" domainObjectName="TShopConfig">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
     </context>
 
 </generatorConfiguration>
