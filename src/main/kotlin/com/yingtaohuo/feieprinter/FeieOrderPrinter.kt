@@ -139,7 +139,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
         }
 
         if ( shopConfig != null && !StringUtils.isBlank(shopConfig.ticketWxliteQrcode) ) {
-            content += "<BR><QR>"+ shopConfig.ticketWxliteQrcode +"</QR>"
+            content += "<BR><QR>"+ shopConfig.ticketWxliteQrcode +"</QR><BR>"
         }
 
         content + "<C>-----${shop.corpName}-----</C><BR>"
