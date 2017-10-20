@@ -7,6 +7,10 @@
     <result column="table_name" jdbcType="VARCHAR" property="tableName" />
     <result column="sort_id" jdbcType="INTEGER" property="sortId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="wx_qrcode_url" jdbcType="VARCHAR" property="wxQrcodeUrl" />
+    <result column="wx_qrcode_data" jdbcType="VARCHAR" property="wxQrcodeData" />
+    <result column="wx_qrcode_path" jdbcType="VARCHAR" property="wxQrcodePath" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_id, table_name, sort_id, create_time
+    id, corp_id, table_name, sort_id, create_time, status, wx_qrcode_url, wx_qrcode_data, 
+    wx_qrcode_path
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TTableExample" resultMap="BaseResultMap">
     select
@@ -104,9 +109,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_table (corp_id, table_name, sort_id, 
-      create_time)
+      create_time, status, wx_qrcode_url, 
+      wx_qrcode_data, wx_qrcode_path)
     values (#{corpId,jdbcType=INTEGER}, #{tableName,jdbcType=VARCHAR}, #{sortId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{wxQrcodeUrl,jdbcType=VARCHAR}, 
+      #{wxQrcodeData,jdbcType=VARCHAR}, #{wxQrcodePath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TTable">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -126,6 +133,18 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="wxQrcodeUrl != null">
+        wx_qrcode_url,
+      </if>
+      <if test="wxQrcodeData != null">
+        wx_qrcode_data,
+      </if>
+      <if test="wxQrcodePath != null">
+        wx_qrcode_path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
@@ -139,6 +158,18 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="wxQrcodeUrl != null">
+        #{wxQrcodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxQrcodeData != null">
+        #{wxQrcodeData,jdbcType=VARCHAR},
+      </if>
+      <if test="wxQrcodePath != null">
+        #{wxQrcodePath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +197,18 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.wxQrcodeUrl != null">
+        wx_qrcode_url = #{record.wxQrcodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxQrcodeData != null">
+        wx_qrcode_data = #{record.wxQrcodeData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxQrcodePath != null">
+        wx_qrcode_path = #{record.wxQrcodePath,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +220,11 @@
       corp_id = #{record.corpId,jdbcType=INTEGER},
       table_name = #{record.tableName,jdbcType=VARCHAR},
       sort_id = #{record.sortId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      wx_qrcode_url = #{record.wxQrcodeUrl,jdbcType=VARCHAR},
+      wx_qrcode_data = #{record.wxQrcodeData,jdbcType=VARCHAR},
+      wx_qrcode_path = #{record.wxQrcodePath,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +244,18 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="wxQrcodeUrl != null">
+        wx_qrcode_url = #{wxQrcodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxQrcodeData != null">
+        wx_qrcode_data = #{wxQrcodeData,jdbcType=VARCHAR},
+      </if>
+      <if test="wxQrcodePath != null">
+        wx_qrcode_path = #{wxQrcodePath,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +264,11 @@
     set corp_id = #{corpId,jdbcType=INTEGER},
       table_name = #{tableName,jdbcType=VARCHAR},
       sort_id = #{sortId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      wx_qrcode_url = #{wxQrcodeUrl,jdbcType=VARCHAR},
+      wx_qrcode_data = #{wxQrcodeData,jdbcType=VARCHAR},
+      wx_qrcode_path = #{wxQrcodePath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

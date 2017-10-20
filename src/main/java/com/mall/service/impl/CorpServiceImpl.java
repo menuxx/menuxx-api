@@ -35,6 +35,57 @@ public class CorpServiceImpl implements CorpService {
 	}
 
 	@Override
+	public TCorp resolveCouponShop(int shopId) {
+		TCorp shop =  tCorpMapper.selectByPrimaryKey(shopId);
+		if ( shop != null ) {
+			// 0, 单店版 1: 平台单店版
+			if ( shop.getCorpType() == 1 ) {
+				TShopConfigExample ex = new TShopConfigExample();
+				ex.createCriteria().andShopIdEqualTo(shopId);
+				TShopConfig config =  Util.onlyOne(tShopConfigMapper.selectByExample(ex));
+				// 1. 单店版充值 2。平台充值
+				if ( config.getCouponPolicy() == 2 ) {
+					return tCorpMapper.selectByPrimaryKey(shop.getPlatformId());
+				}
+			}
+			return shop;
+		}
+		return null;
+	}
+
+	@Override
+	public TCorp resolveRechargeShop(int shopId) {
+		TCorp shop =  tCorpMapper.selectByPrimaryKey(shopId);
+		if ( shop != null ) {
+			// 0, 单店版 1: 平台单店版
+			if ( shop.getCorpType() == 1 ) {
+				TShopConfigExample ex = new TShopConfigExample();
+				ex.createCriteria().andShopIdEqualTo(shopId);
+				TShopConfig config =  Util.onlyOne(tShopConfigMapper.selectByExample(ex));
+				// 1. 单店版充值 2。平台充值
+				if ( config.getVipRecharge() == 2 ) {
+					return tCorpMapper.selectByPrimaryKey(shop.getPlatformId());
+				}
+			}
+			return shop;
+		}
+		return null;
+	}
+
+	@Override
+	public TCorp resolveWxMsgShop(int shopId) {
+		TCorp shop =  tCorpMapper.selectByPrimaryKey(shopId);
+		if ( shop != null ) {
+			// 0, 单店版 1: 平台单店版
+			if ( shop.getCorpType() == 1 ) {
+					return tCorpMapper.selectByPrimaryKey(shop.getPlatformId());
+			}
+			return shop;
+		}
+		return null;
+	}
+
+	@Override
 	public TShopConfig selectShopConfig(int shopId) {
 		TShopConfigExample ex = new TShopConfigExample();
 		ex.createCriteria().andShopIdEqualTo(shopId);

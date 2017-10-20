@@ -39,6 +39,10 @@ public class TCoupon {
 
     private Integer categoryId;
 
+    private Integer scope;
+
+    private String pagePath;
+
     public Integer getId() {
         return id;
     }
@@ -181,5 +185,21 @@ public class TCoupon {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Integer getScope() {
+        return scope;
+    }
+
+    public void setScope(Integer scope) {
+        this.scope = scope;
+    }
+
+    public String getPagePath() {
+        return pagePath;
+    }
+
+    public void setPagePath(String pagePath) {
+        this.pagePath = pagePath == null ? null : pagePath.trim();
     }
 }

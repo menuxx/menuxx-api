@@ -14,6 +14,7 @@ import com.mall.utils.QueueUtil;
 import com.mall.utils.Util;
 import com.mall.wrapper.OrderItemWrapper;
 import com.mall.wrapper.OrderWrapper;
+import com.yingtaohuo.configure.Publisher;
 import com.yingtaohuo.feieprinter.FeieOrderPrinter;
 import com.yingtaohuo.mode.Coupon;
 import com.yingtaohuo.mode.ShopConfig;
@@ -21,6 +22,7 @@ import com.yingtaohuo.service.ActivityOrderService;
 import com.yingtaohuo.service.ActivityService;
 import com.yingtaohuo.service.CouponService;
 import com.yingtaohuo.service.ShopConfigService;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 /**
@@ -109,6 +114,12 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     @Autowired
     CouponService couponService;
+
+    @Autowired
+    TopupService topupService;
+
+    @Autowired
+    Publisher publisher;
 
     private Integer safeAmount(Integer amount) {
         if ( amount <= 0 ) {
@@ -377,9 +388,21 @@ public class OrderWrapperImpl implements OrderWrapper {
 
     }
 
+    public String getValueFromQuery(@NotNull String query, @NotNull String queryName) {
+        String[] entryStr = query.split("&");
+        for (int i=0; i<entryStr.length; i++) {
+            String[] keyVal = entryStr[i].split("=");
+            if ( queryName.equals(keyVal[0]) ) {
+                return keyVal[1];
+            }
+        }
+        return null;
+    }
+
     @Override
     @Transactional
-    public void rechargeCompleted(TChargeApply chargeApply) {
+    public void rechargeCompleted(TChargeApply chargeApply, String attach) {
+
         chargeApplyService.updateChargeApply(chargeApply);
         // 充值完成：更新记录状态
         String rechargeCode = chargeApply.getOutTradeNo();
@@ -387,14 +410,24 @@ public class OrderWrapperImpl implements OrderWrapper {
         rechargeRecord.setStatus(Constants.ONE);
         rechargeRecordService.updateRechargeRecordStatus2Completed(rechargeRecord.getId());
 
-        // 更新余额
-        int balance = userBalanceService.increaseBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), rechargeRecord.getAmount());
+        // 找到发券商店id, 支持平台板和单店版
+        TCorp couponShop = corpService.resolveCouponShop(rechargeRecord.getCorpId());
+
+        // 获取 充值 信息
+        TTopup tTopup = topupService.selectTopup(couponShop.getId(), Integer.valueOf(getValueFromQuery(attach, "topupId")));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // 充值策略(1. 充送, 2. 充送卡券)
 
         // 订单不存在
         if ( rechargeRecord.getOrderId() != null ) {
 
             // 获取订单
             Order order = selectOrder(rechargeRecord.getOrderId());
+
+            // 更新余额
+            int balance = userBalanceService.increaseBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), rechargeRecord.getAmount());
 
             // 如果充值后余额 不够支付当前订单，则不更新订单状态
             if (balance >= order.getPayAmount()) {
@@ -413,7 +446,6 @@ public class OrderWrapperImpl implements OrderWrapper {
                 recharge.setChargeType(Constants.CHARGE_TYPE_PAY);
                 recharge.setStatus(Constants.ONE);
 
-
                 recharge.setAmount(order.getPayAmount());
 
                 rechargeRecordService.createRechargeRecord(recharge);
@@ -421,10 +453,67 @@ public class OrderWrapperImpl implements OrderWrapper {
                 // 更新余额
                 userBalanceService.reduceBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), order.getPayAmount());
 
-                order = orderWrapper.selectOrder(order.getId());
+            }
 
-                // PUSH
-                pushOrder(order);
+            order = orderWrapper.selectOrder(order.getId());
+
+            // PUSH
+            pushOrder(order);
+
+        } else {
+
+            userBalanceService.increaseBalance(rechargeRecord.getUserId(), rechargeRecord.getCorpId(), rechargeRecord.getAmount());
+
+        }
+
+
+        if ( tTopup.getPolicyType() == 2 ) {
+            // 给该用户发放卡券
+            // 获取该支付的 卡券 配置
+            TCouponConfig config = couponService.getCouponConfig(tTopup.getCouponConfigId());
+            // 生成卡券
+            for ( int i = 0; i < tTopup.getCouponCount(); i++ ) {
+                TCoupon coupon = new TCoupon();
+                coupon.setName(config.getName());
+                coupon.setUsed(0);
+                coupon.setPermanent(config.getPermanent());
+                coupon.setShopId(couponShop.getId());
+                coupon.setEnable(1);
+                coupon.setType(config.getType());
+                coupon.setActiveTime(new Date());
+                coupon.setUserId(rechargeRecord.getUserId());
+                coupon.setDescText(config.getDescText());
+                coupon.setScope(config.getScope());
+                coupon.setPagePath(config.getPagePath());
+                // 计算过期时间
+                LocalDateTime date3 = now.plusDays(config.getExpirationDay());
+                coupon.setExpirationTime(Date.from(date3.toInstant(ZoneOffset.UTC)));
+
+                switch (config.getType()) {
+                    // 折扣券
+                    case 2:
+                        coupon.setDiscount(config.getDiscount());
+                        break;
+                    case 3:
+                    case 5:
+                        coupon.setCutback(config.getCutback());
+                        coupon.setToup(config.getToup());
+                        break;
+                    case 4:
+                        coupon.setCategoryId(config.getCategoryId());
+                        break;
+                }
+
+                LocalDateTime date4 = now.plusDays(config.getExpirationDay() - 1).withHour(11);
+
+                couponService.insertCouponToUser(coupon);
+
+                String exchangeName = "yth.delay";
+                String routingKey = "coupon_alert.delay";
+
+                // 6 天后 的下午 1点30 再推送一次
+                publisher.sendDelay(exchangeName, routingKey, coupon, (int) Duration.between(now, date4).getSeconds());
+                // publisher.sendDelay(exchangeName, routingKey, new Coupon(coupon), 5);
             }
         }
 

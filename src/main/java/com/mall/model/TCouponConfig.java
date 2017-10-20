@@ -1,5 +1,7 @@
 package com.mall.model;
 
+import java.util.Date;
+
 public class TCouponConfig {
     private Integer id;
 
@@ -24,6 +26,12 @@ public class TCouponConfig {
     private Integer shopId;
 
     private Integer enable;
+
+    private Date endTime;
+
+    private Integer scope;
+
+    private String pagePath;
 
     public Integer getId() {
         return id;
@@ -119,5 +127,29 @@ public class TCouponConfig {
 
     public void setEnable(Integer enable) {
         this.enable = enable;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Integer getScope() {
+        return scope;
+    }
+
+    public void setScope(Integer scope) {
+        this.scope = scope;
+    }
+
+    public String getPagePath() {
+        return pagePath;
+    }
+
+    public void setPagePath(String pagePath) {
+        this.pagePath = pagePath == null ? null : pagePath.trim();
     }
 }

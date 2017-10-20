@@ -108,6 +108,10 @@ class CouponService(
         return tCouponMapper.updateByPrimaryKeySelective(coupon)
     }
 
+    fun getCouponConfig(configId: Int) : TCouponConfig? {
+        return tCouponConfigMapper.selectByPrimaryKey(configId)
+    }
+
     fun getCouponConfigOfShop(shopId: Int, type: Int) : TCouponConfig? {
         val ex = TCouponConfigExample()
         ex.createCriteria()

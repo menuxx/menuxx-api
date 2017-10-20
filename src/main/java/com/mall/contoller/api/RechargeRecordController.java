@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
 import com.mall.configure.page.Page;
+import com.mall.model.TCorp;
 import com.mall.model.TRechargeRecord;
+import com.mall.service.CorpService;
 import com.mall.service.RechargeRecordService;
 import com.mall.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class RechargeRecordController extends BaseCorpController {
     @Autowired
     RechargeRecordService rechargeRecordService;
 
+    @Autowired
+    CorpService corpService;
+
     /**
      *
      * @param dinerId
@@ -34,7 +39,9 @@ public class RechargeRecordController extends BaseCorpController {
     @Page
     public ResponseEntity<?> getRechargeRecord(@SessionKey SessionData sessionData, @PathVariable int dinerId, @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) int pageNum,
                                                @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) int pageSize) {
-        PageInfo<TRechargeRecord> pageInfo = rechargeRecordService.selectRechargeRecordByUser(sessionData.getUserId(), dinerId);
+
+        TCorp rechargeShop = corpService.resolveRechargeShop(dinerId);
+        PageInfo<TRechargeRecord> pageInfo = rechargeRecordService.selectRechargeRecordByUser(sessionData.getUserId(), rechargeShop.getId());
         return new ResponseEntity<Object>(pageInfo, HttpStatus.OK);
     }
 

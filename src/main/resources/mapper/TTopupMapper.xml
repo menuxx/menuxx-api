@@ -7,6 +7,9 @@
     <result column="recharge_amount" jdbcType="INTEGER" property="rechargeAmount" />
     <result column="gift_amount" jdbcType="INTEGER" property="giftAmount" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="policy_type" jdbcType="INTEGER" property="policyType" />
+    <result column="coupon_config_id" jdbcType="INTEGER" property="couponConfigId" />
+    <result column="coupon_count" jdbcType="INTEGER" property="couponCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, corp_id, recharge_amount, gift_amount, content
+    id, corp_id, recharge_amount, gift_amount, content, policy_type, coupon_config_id, 
+    coupon_count
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TTopupExample" resultMap="BaseResultMap">
     select
@@ -104,9 +108,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_topup (corp_id, recharge_amount, gift_amount, 
-      content)
+      content, policy_type, coupon_config_id, 
+      coupon_count)
     values (#{corpId,jdbcType=INTEGER}, #{rechargeAmount,jdbcType=INTEGER}, #{giftAmount,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR})
+      #{content,jdbcType=VARCHAR}, #{policyType,jdbcType=INTEGER}, #{couponConfigId,jdbcType=INTEGER}, 
+      #{couponCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TTopup">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -126,6 +132,15 @@
       <if test="content != null">
         content,
       </if>
+      <if test="policyType != null">
+        policy_type,
+      </if>
+      <if test="couponConfigId != null">
+        coupon_config_id,
+      </if>
+      <if test="couponCount != null">
+        coupon_count,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
@@ -139,6 +154,15 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="policyType != null">
+        #{policyType,jdbcType=INTEGER},
+      </if>
+      <if test="couponConfigId != null">
+        #{couponConfigId,jdbcType=INTEGER},
+      </if>
+      <if test="couponCount != null">
+        #{couponCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -166,6 +190,15 @@
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
+      <if test="record.policyType != null">
+        policy_type = #{record.policyType,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponConfigId != null">
+        coupon_config_id = #{record.couponConfigId,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponCount != null">
+        coupon_count = #{record.couponCount,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +210,10 @@
       corp_id = #{record.corpId,jdbcType=INTEGER},
       recharge_amount = #{record.rechargeAmount,jdbcType=INTEGER},
       gift_amount = #{record.giftAmount,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=VARCHAR}
+      content = #{record.content,jdbcType=VARCHAR},
+      policy_type = #{record.policyType,jdbcType=INTEGER},
+      coupon_config_id = #{record.couponConfigId,jdbcType=INTEGER},
+      coupon_count = #{record.couponCount,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +233,15 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
+      <if test="policyType != null">
+        policy_type = #{policyType,jdbcType=INTEGER},
+      </if>
+      <if test="couponConfigId != null">
+        coupon_config_id = #{couponConfigId,jdbcType=INTEGER},
+      </if>
+      <if test="couponCount != null">
+        coupon_count = #{couponCount,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +250,10 @@
     set corp_id = #{corpId,jdbcType=INTEGER},
       recharge_amount = #{rechargeAmount,jdbcType=INTEGER},
       gift_amount = #{giftAmount,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR}
+      content = #{content,jdbcType=VARCHAR},
+      policy_type = #{policyType,jdbcType=INTEGER},
+      coupon_config_id = #{couponConfigId,jdbcType=INTEGER},
+      coupon_count = #{couponCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -115,7 +115,7 @@ public class PayNotifyController {
 			// 如果状态码为 SUCCESS，更新付款状态
 			if ("SUCCESS".equals(event.getResultCode())) {
 				// 订单充值
-				orderWrapper.rechargeCompleted(chargeApply);
+				orderWrapper.rechargeCompleted(chargeApply, event.getAttach());
 				return "SUCCESS";
 			}
 
@@ -123,7 +123,7 @@ public class PayNotifyController {
 			if ("SUCCESS".equals(event.getResultCode()) && !"SUCCESS".equals(chargeApply.getResultCode())) {
 				// 更新状态
 				// 订单充值
-				orderWrapper.rechargeCompleted(chargeApply);
+				orderWrapper.rechargeCompleted(chargeApply, event.getAttach());
 				return "SUCCESS";
 			}
 		}

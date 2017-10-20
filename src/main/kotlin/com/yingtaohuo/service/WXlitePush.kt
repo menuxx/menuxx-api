@@ -14,8 +14,6 @@ import com.yingtaohuo.wxmsg.WXMsgClient
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.annotation.PreDestroy
 
 /**
@@ -69,12 +67,12 @@ open class WXMsgPush(private val wxMsgClient: WXMsgClient, private val corpServi
      */
     fun pushOrderPaid(pushKey: String, target: String, order: Order) {
 
-        val shop = corpService.selectCorpByCorpId(order.corpId)
+        val shop = corpService.resolveWxMsgShop(order.corpId)
 
         val tplMsg = shopWXMsgService.getTplMsgTypeByRangeOfShop(when (order.orderType) {
             Order.ORDER_TYPE_DELIVERED -> TplMessageTypeOfBuyNotifyWithDelivery
             else -> TplMessageTypeOfBuyNotify
-        }, order.corpId)
+        }, shop.id)
 
 
         val appid = shop.authorizerAppid

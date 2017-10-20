@@ -413,6 +413,186 @@ public class TTopupExample {
             addCriterion("content not between", value1, value2, "content");
             return (Criteria) this;
         }
+
+        public Criteria andPolicyTypeIsNull() {
+            addCriterion("policy_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeIsNotNull() {
+            addCriterion("policy_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeEqualTo(Integer value) {
+            addCriterion("policy_type =", value, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeNotEqualTo(Integer value) {
+            addCriterion("policy_type <>", value, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeGreaterThan(Integer value) {
+            addCriterion("policy_type >", value, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("policy_type >=", value, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeLessThan(Integer value) {
+            addCriterion("policy_type <", value, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("policy_type <=", value, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeIn(List<Integer> values) {
+            addCriterion("policy_type in", values, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeNotIn(List<Integer> values) {
+            addCriterion("policy_type not in", values, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeBetween(Integer value1, Integer value2) {
+            addCriterion("policy_type between", value1, value2, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPolicyTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("policy_type not between", value1, value2, "policyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdIsNull() {
+            addCriterion("coupon_config_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdIsNotNull() {
+            addCriterion("coupon_config_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdEqualTo(Integer value) {
+            addCriterion("coupon_config_id =", value, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdNotEqualTo(Integer value) {
+            addCriterion("coupon_config_id <>", value, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdGreaterThan(Integer value) {
+            addCriterion("coupon_config_id >", value, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_config_id >=", value, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdLessThan(Integer value) {
+            addCriterion("coupon_config_id <", value, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdLessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_config_id <=", value, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdIn(List<Integer> values) {
+            addCriterion("coupon_config_id in", values, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdNotIn(List<Integer> values) {
+            addCriterion("coupon_config_id not in", values, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_config_id between", value1, value2, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponConfigIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_config_id not between", value1, value2, "couponConfigId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountIsNull() {
+            addCriterion("coupon_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountIsNotNull() {
+            addCriterion("coupon_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountEqualTo(Integer value) {
+            addCriterion("coupon_count =", value, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountNotEqualTo(Integer value) {
+            addCriterion("coupon_count <>", value, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountGreaterThan(Integer value) {
+            addCriterion("coupon_count >", value, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_count >=", value, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountLessThan(Integer value) {
+            addCriterion("coupon_count <", value, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountLessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_count <=", value, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountIn(List<Integer> values) {
+            addCriterion("coupon_count in", values, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountNotIn(List<Integer> values) {
+            addCriterion("coupon_count not in", values, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_count between", value1, value2, "couponCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_count not between", value1, value2, "couponCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

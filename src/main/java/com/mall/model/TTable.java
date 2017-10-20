@@ -13,6 +13,14 @@ public class TTable {
 
     private Date createTime;
 
+    private Integer status;
+
+    private String wxQrcodeUrl;
+
+    private String wxQrcodeData;
+
+    private String wxQrcodePath;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +59,37 @@ public class TTable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getWxQrcodeUrl() {
+        return wxQrcodeUrl;
+    }
+
+    public void setWxQrcodeUrl(String wxQrcodeUrl) {
+        this.wxQrcodeUrl = wxQrcodeUrl == null ? null : wxQrcodeUrl.trim();
+    }
+
+    public String getWxQrcodeData() {
+        return wxQrcodeData;
+    }
+
+    public void setWxQrcodeData(String wxQrcodeData) {
+        this.wxQrcodeData = wxQrcodeData == null ? null : wxQrcodeData.trim();
+    }
+
+    public String getWxQrcodePath() {
+        return wxQrcodePath;
+    }
+
+    public void setWxQrcodePath(String wxQrcodePath) {
+        this.wxQrcodePath = wxQrcodePath == null ? null : wxQrcodePath.trim();
     }
 }

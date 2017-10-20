@@ -1044,6 +1044,66 @@ public class TShopConfigExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andCouponPolicyIsNull() {
+            addCriterion("coupon_policy is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyIsNotNull() {
+            addCriterion("coupon_policy is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyEqualTo(Integer value) {
+            addCriterion("coupon_policy =", value, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyNotEqualTo(Integer value) {
+            addCriterion("coupon_policy <>", value, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyGreaterThan(Integer value) {
+            addCriterion("coupon_policy >", value, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_policy >=", value, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyLessThan(Integer value) {
+            addCriterion("coupon_policy <", value, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyLessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_policy <=", value, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyIn(List<Integer> values) {
+            addCriterion("coupon_policy in", values, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyNotIn(List<Integer> values) {
+            addCriterion("coupon_policy not in", values, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_policy between", value1, value2, "couponPolicy");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponPolicyNotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_policy not between", value1, value2, "couponPolicy");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

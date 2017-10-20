@@ -48,6 +48,10 @@ public class Order extends TOrder {
     public static final int PAY_TYPE_RECHARGE = 1;
     public static final String PAY_TYPE_RECHARGE_TEXT = "充值卡支付";
 
+    // 卡券支付
+    public static final int PAY_TYPE_COUPON = 2;
+    public static final String PAY_TYPE_COUPON_TEXT = "充值卡支付";
+
     // 别名配置
     private Map<Integer, String> tabNameMap;
 
@@ -151,6 +155,10 @@ public class Order extends TOrder {
 
         if (null != getPayType() && getPayType() == PAY_TYPE_RECHARGE) {
             payTypeText = PAY_TYPE_RECHARGE_TEXT;
+        }
+
+        if ( getPayType() == PAY_TYPE_COUPON ) {
+            payTypeText = PAY_TYPE_COUPON_TEXT;
         }
 
         return payTypeText;

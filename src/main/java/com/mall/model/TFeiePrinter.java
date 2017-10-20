@@ -19,6 +19,8 @@ public class TFeiePrinter {
 
     private Integer scope;
 
+    private Integer times;
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +91,13 @@ public class TFeiePrinter {
 
     public void setScope(Integer scope) {
         this.scope = scope;
+    }
+
+    public Integer getTimes() {
+        return times;
+    }
+
+    public void setTimes(Integer times) {
+        this.times = times;
     }
 }

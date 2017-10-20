@@ -51,6 +51,9 @@ public class ItemController extends BaseCorpController {
     @Autowired
     ConfigService configService;
 
+    @Autowired
+    CorpService corpService;
+
     /**
      * 1001 加载首页
      * @param dinerId
@@ -76,7 +79,9 @@ public class ItemController extends BaseCorpController {
         List<TScene> tScene = sceneService.getCorpSceneTabsWithEnable(dinerId);
         homeMap.put("sceneTabs", tScene);
 
-        List<TTopup> topupList = topupService.selectTopups(dinerId);
+        // 查找到充值的举办方
+        TCorp corp = corpService.resolveRechargeShop(dinerId);
+        List<TTopup> topupList = topupService.selectTopups(corp.getId());
         homeMap.put("topupList", topupList);
 
         Map<String, Object> configMap = configService.selectMyConfigs4Map(dinerId);

@@ -17,6 +17,7 @@
     <result column="ticket_style" jdbcType="INTEGER" property="ticketStyle" />
     <result column="ticket_wxlite_qrcode" jdbcType="VARCHAR" property="ticketWxliteQrcode" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="coupon_policy" jdbcType="INTEGER" property="couponPolicy" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +80,7 @@
   <sql id="Base_Column_List">
     id, shop_id, vip_recharge, delivery_min_limit, delivery_nofee_limit, pack_fee, delivery_fee, 
     alter_order_text, delivery_channel, business_timeline, transport_auto_3rd, activity_notice_text, 
-    ticket_style, ticket_wxlite_qrcode, update_time
+    ticket_style, ticket_wxlite_qrcode, update_time, coupon_policy
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TShopConfigExample" resultMap="BaseResultMap">
     select
@@ -119,12 +120,14 @@
       delivery_nofee_limit, pack_fee, delivery_fee, 
       alter_order_text, delivery_channel, business_timeline, 
       transport_auto_3rd, activity_notice_text, ticket_style, 
-      ticket_wxlite_qrcode, update_time)
+      ticket_wxlite_qrcode, update_time, coupon_policy
+      )
     values (#{shopId,jdbcType=INTEGER}, #{vipRecharge,jdbcType=INTEGER}, #{deliveryMinLimit,jdbcType=INTEGER}, 
       #{deliveryNofeeLimit,jdbcType=INTEGER}, #{packFee,jdbcType=INTEGER}, #{deliveryFee,jdbcType=INTEGER}, 
       #{alterOrderText,jdbcType=VARCHAR}, #{deliveryChannel,jdbcType=INTEGER}, #{businessTimeline,jdbcType=VARCHAR}, 
       #{transportAuto3rd,jdbcType=INTEGER}, #{activityNoticeText,jdbcType=VARCHAR}, #{ticketStyle,jdbcType=INTEGER}, 
-      #{ticketWxliteQrcode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+      #{ticketWxliteQrcode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{couponPolicy,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TShopConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -174,6 +177,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="couponPolicy != null">
+        coupon_policy,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="shopId != null">
@@ -217,6 +223,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponPolicy != null">
+        #{couponPolicy,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -274,6 +283,9 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.couponPolicy != null">
+        coupon_policy = #{record.couponPolicy,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -295,7 +307,8 @@
       activity_notice_text = #{record.activityNoticeText,jdbcType=VARCHAR},
       ticket_style = #{record.ticketStyle,jdbcType=INTEGER},
       ticket_wxlite_qrcode = #{record.ticketWxliteQrcode,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      coupon_policy = #{record.couponPolicy,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -345,6 +358,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="couponPolicy != null">
+        coupon_policy = #{couponPolicy,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -363,7 +379,8 @@
       activity_notice_text = #{activityNoticeText,jdbcType=VARCHAR},
       ticket_style = #{ticketStyle,jdbcType=INTEGER},
       ticket_wxlite_qrcode = #{ticketWxliteQrcode,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      coupon_policy = #{couponPolicy,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -20,6 +20,8 @@
     <result column="enable" jdbcType="INTEGER" property="enable" />
     <result column="permanent" jdbcType="INTEGER" property="permanent" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="scope" jdbcType="INTEGER" property="scope" />
+    <result column="page_path" jdbcType="VARCHAR" property="pagePath" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -81,7 +83,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, type, user_id, shop_id, coupon_code, push_times, create_time, expiration_time, 
-    active_time, name, used, desc_text, cutback, toup, discount, enable, permanent, category_id
+    active_time, name, used, desc_text, cutback, toup, discount, enable, permanent, category_id, 
+    scope, page_path
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCouponExample" resultMap="BaseResultMap">
     select
@@ -122,13 +125,15 @@
       expiration_time, active_time, name, 
       used, desc_text, cutback, 
       toup, discount, enable, 
-      permanent, category_id)
+      permanent, category_id, scope, 
+      page_path)
     values (#{type,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, 
       #{couponCode,jdbcType=INTEGER}, #{pushTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{expirationTime,jdbcType=TIMESTAMP}, #{activeTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
       #{used,jdbcType=INTEGER}, #{descText,jdbcType=VARCHAR}, #{cutback,jdbcType=INTEGER}, 
       #{toup,jdbcType=INTEGER}, #{discount,jdbcType=REAL}, #{enable,jdbcType=INTEGER}, 
-      #{permanent,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER})
+      #{permanent,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{scope,jdbcType=INTEGER}, 
+      #{pagePath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCoupon">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -187,6 +192,12 @@
       <if test="categoryId != null">
         category_id,
       </if>
+      <if test="scope != null">
+        scope,
+      </if>
+      <if test="pagePath != null">
+        page_path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="type != null">
@@ -239,6 +250,12 @@
       </if>
       <if test="categoryId != null">
         #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="scope != null">
+        #{scope,jdbcType=INTEGER},
+      </if>
+      <if test="pagePath != null">
+        #{pagePath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -305,6 +322,12 @@
       <if test="record.categoryId != null">
         category_id = #{record.categoryId,jdbcType=INTEGER},
       </if>
+      <if test="record.scope != null">
+        scope = #{record.scope,jdbcType=INTEGER},
+      </if>
+      <if test="record.pagePath != null">
+        page_path = #{record.pagePath,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -329,7 +352,9 @@
       discount = #{record.discount,jdbcType=REAL},
       enable = #{record.enable,jdbcType=INTEGER},
       permanent = #{record.permanent,jdbcType=INTEGER},
-      category_id = #{record.categoryId,jdbcType=INTEGER}
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      scope = #{record.scope,jdbcType=INTEGER},
+      page_path = #{record.pagePath,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -388,6 +413,12 @@
       <if test="categoryId != null">
         category_id = #{categoryId,jdbcType=INTEGER},
       </if>
+      <if test="scope != null">
+        scope = #{scope,jdbcType=INTEGER},
+      </if>
+      <if test="pagePath != null">
+        page_path = #{pagePath,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -409,7 +440,9 @@
       discount = #{discount,jdbcType=REAL},
       enable = #{enable,jdbcType=INTEGER},
       permanent = #{permanent,jdbcType=INTEGER},
-      category_id = #{categoryId,jdbcType=INTEGER}
+      category_id = #{categoryId,jdbcType=INTEGER},
+      scope = #{scope,jdbcType=INTEGER},
+      page_path = #{pagePath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -14,6 +14,12 @@ import java.util.Map;
 
 public interface CorpService {
 
+	TCorp resolveCouponShop(int corpId);
+
+	TCorp resolveRechargeShop(int shopId);
+
+	TCorp resolveWxMsgShop(int shopId);
+
 	TShopConfig selectShopConfig(int shopId);
 
 	TCorp selectCorpByCorpId(int corpId);

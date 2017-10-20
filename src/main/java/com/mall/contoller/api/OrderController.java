@@ -1,13 +1,11 @@
 package com.mall.contoller.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
 import com.mall.configure.properties.AppConfigureProperties;
 import com.mall.configure.page.Page;
-import com.mall.exception.NotFoundException;
 import com.mall.exception.WXPayException;
 import com.mall.model.*;
 import com.mall.service.*;
@@ -17,7 +15,6 @@ import com.mall.utils.Util;
 import com.mall.weixin.*;
 import com.mall.weixin.encrypt.SignEncryptorImpl;
 import com.mall.wrapper.OrderWrapper;
-import com.yingtaohuo.mode.PushKey;
 import com.yingtaohuo.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -26,9 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -93,6 +87,9 @@ public class OrderController extends BaseCorpController {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    CorpService corpService;
+
 
     @Autowired
     PushKeyService pushKeyService;
@@ -111,8 +108,10 @@ public class OrderController extends BaseCorpController {
 
         int userId = sessionData.getUserId();
 
+        TCorp corp = corpService.resolveRechargeShop(dinerId);
+
         // 获取充值配置
-        TTopup topup = topupService.selectTopup(dinerId, topupId);
+        TTopup topup = topupService.selectTopup(corp.getId(), topupId);
 
         if (null == topup) {
             throw new RuntimeException("充值配置不匹配。");
@@ -120,36 +119,48 @@ public class OrderController extends BaseCorpController {
 
         // 创建充值记录
         TRechargeRecord rechargeRecord = new TRechargeRecord();
-        rechargeRecord.setCorpId(dinerId);
+        rechargeRecord.setCorpId(corp.getId());
         rechargeRecord.setUserId(userId);
         rechargeRecord.setOrderId(orderId);
         rechargeRecord.setRechargeCode(genOrderNo());
         rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
-        rechargeRecord.setAmount(topup.getRechargeAmount() + topup.getGiftAmount());
+
         rechargeRecord.setRemark(topup.getContent());
         rechargeRecord.setStatus(Constants.ZERO);
+
+        switch (topup.getPolicyType()) {
+            case 1:
+                // 充送
+                rechargeRecord.setAmount(topup.getRechargeAmount() + topup.getGiftAmount());
+                break;
+            case 2:
+                // 充送卡券
+                rechargeRecord.setAmount(topup.getRechargeAmount());
+                break;
+        }
 
         rechargeRecordService.createRechargeRecord(rechargeRecord);
 
         String mchId = sessionData.getMchid();
 
         // 查询 个体店 和 平台店 的通用方案
-        TCorp corp = corpsService.selectCorpByMchId(mchId);
+        TCorp payCorp = corpsService.selectCorpByMchId(mchId);
 
         WXPayOrder payOrder = new WXPayOrder();
-        payOrder.setAppid(corp.getAuthorizerAppid());
-        payOrder.setMchId(corp.getMchId());
+        payOrder.setAppid(payCorp.getAuthorizerAppid());
+        payOrder.setMchId(payCorp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
-        payOrder.setNotifyUrl(appConfig.getRechargeNotifyUrl() + "?orderId" + orderId);
+        payOrder.setNotifyUrl(appConfig.getRechargeNotifyUrl());
         payOrder.setOpenid(sessionData.getOpenid());
+        payOrder.setAttach("orderId=" + orderId + "&topupId=" + topupId);
         payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
         payOrder.setBody(rechargeRecord.getRemark());
         payOrder.setTotalFee(topup.getRechargeAmount());
 
-        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
+        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, payCorp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
 
-        return unifiedOrderWithPaySign(payOrder, corp);
+        return unifiedOrderWithPaySign(payOrder, payCorp);
 
     }
 
@@ -159,8 +170,10 @@ public class OrderController extends BaseCorpController {
 
         int userId = sessionData.getUserId();
 
+        TCorp corp = corpService.resolveRechargeShop(dinerId);
+
         // 获取充值配置
-        TTopup topup = topupService.selectTopup(dinerId, topupId);
+        TTopup topup = topupService.selectTopup(corp.getId(), topupId);
 
         if (null == topup) {
             throw new RuntimeException("充值配置不匹配。");
@@ -168,35 +181,46 @@ public class OrderController extends BaseCorpController {
 
         // 创建充值记录
         TRechargeRecord rechargeRecord = new TRechargeRecord();
-        rechargeRecord.setCorpId(dinerId);
+        rechargeRecord.setCorpId(corp.getId());
         rechargeRecord.setUserId(userId);
         rechargeRecord.setRechargeCode(genOrderNo());
         rechargeRecord.setChargeType(Constants.CHARGE_TYPE_TOPUP);
-        rechargeRecord.setAmount(topup.getRechargeAmount() + topup.getGiftAmount());
         rechargeRecord.setRemark(topup.getContent());
         rechargeRecord.setStatus(Constants.ZERO);
+
+        switch (topup.getPolicyType()) {
+            case 1:
+                // 充送
+                rechargeRecord.setAmount(topup.getRechargeAmount() + topup.getGiftAmount());
+                break;
+            case 2:
+                // 充送卡券
+                rechargeRecord.setAmount(topup.getRechargeAmount());
+                break;
+        }
 
         rechargeRecordService.createRechargeRecord(rechargeRecord);
 
         String mchId = sessionData.getMchid();
 
         // 查询 个体店 和 平台店 的通用方案
-        TCorp corp = corpsService.selectCorpByMchId(mchId);
+        TCorp payCorp = corpsService.selectCorpByMchId(mchId);
 
         WXPayOrder payOrder = new WXPayOrder();
-        payOrder.setAppid(corp.getAuthorizerAppid());
-        payOrder.setMchId(corp.getMchId());
+        payOrder.setAppid(payCorp.getAuthorizerAppid());
+        payOrder.setMchId(payCorp.getMchId());
         payOrder.setNonceStr(Util.genNonce());
         payOrder.setNotifyUrl(appConfig.getRechargeNotifyUrl());
+        payOrder.setAttach("topupId=" + topupId);
         payOrder.setOpenid(sessionData.getOpenid());
         payOrder.setOutTradeNo(rechargeRecord.getRechargeCode());
         payOrder.setBody(rechargeRecord.getRemark());
         payOrder.setTotalFee(topup.getRechargeAmount());
 
-        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, corp.getPaySecret());
+        WXPayOrderDigest orderDigest = new WXPayOrderDigest(payOrder, payCorp.getPaySecret());
         orderDigest.digest(SignEncryptorImpl.MD5());
 
-        return unifiedOrderWithPaySign(payOrder, corp);
+        return unifiedOrderWithPaySign(payOrder, payCorp);
 
     }
 
@@ -237,7 +261,7 @@ public class OrderController extends BaseCorpController {
         int userId = sessionData.getUserId();
         Order order = orderWrapper.selectOrder(orderId);
         order.setUserId(userId);
-        // 让 订单计算计算新的 优惠券
+        // 让 订单计算新的 优惠券
         order.setCouponId(couponId);
         List<Integer> itemIdList = new ArrayList<>();
         if (order.getItemList() != null && order.getItemList().size() > 0) {
@@ -279,7 +303,7 @@ public class OrderController extends BaseCorpController {
         TCorp corp;
 
         if ( sessionData.getCorpId() != null ) {
-            corp = corpsService.selectCorpByCorpId(sessionData.getCorpId());
+            corp = corpsService.resolveRechargeShop(sessionData.getCorpId());
         } else {
             corp = corpsService.selectCorpByMchId(sessionData.getMchid());
         }
@@ -315,6 +339,7 @@ public class OrderController extends BaseCorpController {
         pushKeyService.insertKey(pushKey);
 
         return paymentSignature.update(prePayId).digest(SignEncryptorImpl.MD5()).toMap();
+
     }
 
     /**
@@ -374,7 +399,9 @@ public class OrderController extends BaseCorpController {
 
         order = orderWrapper.selectOrder(order.getId());
 
-        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, dinerId);
+        TCorp corp = corpService.resolveRechargeShop(dinerId);
+
+        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, corp.getId());
 
         if (null == userBalance) {
             order.setUserBalance(0);
@@ -452,24 +479,6 @@ public class OrderController extends BaseCorpController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "orders/{orderId}/push", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> pushOrder(@PathVariable int dinerId, @PathVariable int orderId) {
-        Order order = orderWrapper.selectOrder(orderId);
-
-        try {
-
-            String content = objectMapper.writeValueAsString(order);
-
-            // JPushUtil.sendPushOrder(content, "1");
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(order, HttpStatus.OK);
-    }
-
     /**
      * 2024 充值卡支付
      * @param dinerId
@@ -481,8 +490,10 @@ public class OrderController extends BaseCorpController {
     public ResponseEntity<?> rechargePay(@PathVariable int dinerId, @PathVariable int orderId, @SessionKey SessionData sessionData) {
         int userId = sessionData.getUserId();
 
+        TCorp corp = corpService.resolveRechargeShop(dinerId);
+
         // 获取用户余额
-        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, dinerId);
+        TUserBalance userBalance = userBalanceService.selectUserBalance(userId, corp.getId());
 
         Order order = orderWrapper.selectOrder(orderId);
 
@@ -490,7 +501,7 @@ public class OrderController extends BaseCorpController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        orderWrapper.rechargePay(userId, dinerId, order);
+        orderWrapper.rechargePay(userId, corp.getId(), order);
 
         return new ResponseEntity<>(order, HttpStatus.OK);
     }

@@ -43,7 +43,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 订单号：{orderNo}
 时间：{createTime}
 ================================<BR>
-<QR>https://mp.weixin.qq.com/a/~~Cs0YJfyPeXI~IXuXRRYnN-A72hMJg3QzoA~~</QR>
+<QR>https://mp.weixin.qq.com/a/~~Cs0YJfyPeXI~IXuXRRYnN-A72hMJg3QzoA~~</QR><BR>
 <C>-----{shopName}-----</C>"""
 
     fun makeOrderTicketContent(order: Order, shop: TCorp, shopConfig: TShopConfig?) : String {

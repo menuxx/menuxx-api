@@ -14,6 +14,9 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="shop_id" jdbcType="INTEGER" property="shopId" />
     <result column="enable" jdbcType="INTEGER" property="enable" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="scope" jdbcType="INTEGER" property="scope" />
+    <result column="page_path" jdbcType="VARCHAR" property="pagePath" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, toup, cutback, discount, permanent, category_id, desc_text, name, expiration_day, 
-    type, shop_id, enable
+    type, shop_id, enable, end_time, scope, page_path
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCouponConfigExample" resultMap="BaseResultMap">
     select
@@ -114,11 +117,13 @@
     insert into t_coupon_config (toup, cutback, discount, 
       permanent, category_id, desc_text, 
       name, expiration_day, type, 
-      shop_id, enable)
+      shop_id, enable, end_time, 
+      scope, page_path)
     values (#{toup,jdbcType=INTEGER}, #{cutback,jdbcType=INTEGER}, #{discount,jdbcType=REAL}, 
       #{permanent,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{descText,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{expirationDay,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{shopId,jdbcType=INTEGER}, #{enable,jdbcType=INTEGER})
+      #{shopId,jdbcType=INTEGER}, #{enable,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{scope,jdbcType=INTEGER}, #{pagePath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCouponConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -159,6 +164,15 @@
       <if test="enable != null">
         enable,
       </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="scope != null">
+        scope,
+      </if>
+      <if test="pagePath != null">
+        page_path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="toup != null">
@@ -193,6 +207,15 @@
       </if>
       <if test="enable != null">
         #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scope != null">
+        #{scope,jdbcType=INTEGER},
+      </if>
+      <if test="pagePath != null">
+        #{pagePath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -241,6 +264,15 @@
       <if test="record.enable != null">
         enable = #{record.enable,jdbcType=INTEGER},
       </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.scope != null">
+        scope = #{record.scope,jdbcType=INTEGER},
+      </if>
+      <if test="record.pagePath != null">
+        page_path = #{record.pagePath,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -259,7 +291,10 @@
       expiration_day = #{record.expirationDay,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
       shop_id = #{record.shopId,jdbcType=INTEGER},
-      enable = #{record.enable,jdbcType=INTEGER}
+      enable = #{record.enable,jdbcType=INTEGER},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      scope = #{record.scope,jdbcType=INTEGER},
+      page_path = #{record.pagePath,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -300,6 +335,15 @@
       <if test="enable != null">
         enable = #{enable,jdbcType=INTEGER},
       </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scope != null">
+        scope = #{scope,jdbcType=INTEGER},
+      </if>
+      <if test="pagePath != null">
+        page_path = #{pagePath,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -315,7 +359,10 @@
       expiration_day = #{expirationDay,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
       shop_id = #{shopId,jdbcType=INTEGER},
-      enable = #{enable,jdbcType=INTEGER}
+      enable = #{enable,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      scope = #{scope,jdbcType=INTEGER},
+      page_path = #{pagePath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -2,7 +2,9 @@ package com.mall.contoller.api;
 
 import com.mall.annotation.SessionData;
 import com.mall.annotation.SessionKey;
+import com.mall.model.TCorp;
 import com.mall.model.TUserBalance;
+import com.mall.service.CorpService;
 import com.mall.service.UserBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class UserBalanceController extends BaseCorpController {
     @Autowired
     UserBalanceService userBalanceService;
 
+    @Autowired
+    CorpService corpService;
+
     /**
      * 2026 获取充值余额
      * @param dinerId
@@ -31,7 +36,10 @@ public class UserBalanceController extends BaseCorpController {
     @RequestMapping(value = "balance", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getUserBalance(@PathVariable int dinerId, @SessionKey SessionData sessionData) {
-        TUserBalance userBalance = userBalanceService.selectUserBalance(sessionData.getUserId(), dinerId);
+
+        TCorp rechargeShop = corpService.resolveRechargeShop(dinerId);
+
+        TUserBalance userBalance = userBalanceService.selectUserBalance(sessionData.getUserId(), rechargeShop.getId());
 
         if (null == userBalance) {
             userBalance = new TUserBalance();

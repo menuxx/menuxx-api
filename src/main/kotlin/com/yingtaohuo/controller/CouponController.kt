@@ -59,13 +59,16 @@ class CouponController(
     }
 
     /**
-     * 获取我的券
+     * 获取我的所有券
      */
     @GetMapping("/coupons")
     fun getMyCoupons(@SessionKey session: SessionData) : ResponseDataWrap {
         return ResponseDataWrap(couponService.getMyCoupons(session.userId), 0, false)
     }
 
+    /**
+     * 获取我的卡券
+     */
     @GetMapping("/coupons/{couponId}")
     fun getCouponById(@SessionKey session: SessionData, @PathVariable("couponId") couponId: Int) : ResponseDataWrap {
         val coupon = Coupon(couponService.getMyCoupon(session.userId, couponId))
@@ -89,3 +92,5 @@ class CouponController(
     }
 
 }
+
+// 消息类型 （1,购买成功通知(普通), 2,购买成功通知(外卖) 3, 优惠券通知 4, 退款消息 5, 订单发货 ）

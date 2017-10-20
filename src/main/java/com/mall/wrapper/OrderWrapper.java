@@ -36,7 +36,7 @@ public interface OrderWrapper {
 
     void pushOrder(Order order, List<String> clientIdList);
 
-    void rechargeCompleted(TChargeApply chargeApply);
+    void rechargeCompleted(TChargeApply chargeApply, String attach);
 
     void rechargePay(int userId, int corpId, Order order);
 

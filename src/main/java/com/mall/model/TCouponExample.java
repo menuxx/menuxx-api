@@ -1204,6 +1204,136 @@ public class TCouponExample {
             addCriterion("category_id not between", value1, value2, "categoryId");
             return (Criteria) this;
         }
+
+        public Criteria andScopeIsNull() {
+            addCriterion("scope is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeIsNotNull() {
+            addCriterion("scope is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeEqualTo(Integer value) {
+            addCriterion("scope =", value, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeNotEqualTo(Integer value) {
+            addCriterion("scope <>", value, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeGreaterThan(Integer value) {
+            addCriterion("scope >", value, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("scope >=", value, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeLessThan(Integer value) {
+            addCriterion("scope <", value, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeLessThanOrEqualTo(Integer value) {
+            addCriterion("scope <=", value, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeIn(List<Integer> values) {
+            addCriterion("scope in", values, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeNotIn(List<Integer> values) {
+            addCriterion("scope not in", values, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeBetween(Integer value1, Integer value2) {
+            addCriterion("scope between", value1, value2, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andScopeNotBetween(Integer value1, Integer value2) {
+            addCriterion("scope not between", value1, value2, "scope");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathIsNull() {
+            addCriterion("page_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathIsNotNull() {
+            addCriterion("page_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathEqualTo(String value) {
+            addCriterion("page_path =", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathNotEqualTo(String value) {
+            addCriterion("page_path <>", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathGreaterThan(String value) {
+            addCriterion("page_path >", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathGreaterThanOrEqualTo(String value) {
+            addCriterion("page_path >=", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathLessThan(String value) {
+            addCriterion("page_path <", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathLessThanOrEqualTo(String value) {
+            addCriterion("page_path <=", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathLike(String value) {
+            addCriterion("page_path like", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathNotLike(String value) {
+            addCriterion("page_path not like", value, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathIn(List<String> values) {
+            addCriterion("page_path in", values, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathNotIn(List<String> values) {
+            addCriterion("page_path not in", values, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathBetween(String value1, String value2) {
+            addCriterion("page_path between", value1, value2, "pagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPagePathNotBetween(String value1, String value2) {
+            addCriterion("page_path not between", value1, value2, "pagePath");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

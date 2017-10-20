@@ -33,6 +33,8 @@ public class TShopConfig {
 
     private Date updateTime;
 
+    private Integer couponPolicy;
+
     public Integer getId() {
         return id;
     }
@@ -151,5 +153,13 @@ public class TShopConfig {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getCouponPolicy() {
+        return couponPolicy;
+    }
+
+    public void setCouponPolicy(Integer couponPolicy) {
+        this.couponPolicy = couponPolicy;
     }
 }

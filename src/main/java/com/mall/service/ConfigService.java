@@ -1,8 +1,11 @@
 package com.mall.service;
 
 import com.mall.mapper.TConfigMapper;
+import com.mall.mapper.TShopConfigMapper;
 import com.mall.model.TConfig;
 import com.mall.model.TConfigExample;
+import com.mall.model.TShopConfig;
+import com.mall.model.TShopConfigExample;
 import com.mall.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,9 @@ public class ConfigService {
 
     @Autowired
     TConfigMapper tConfigMapper;
+
+    @Autowired
+    TShopConfigMapper tShopConfigMapper;
 
     public Integer saveBusinessTimeline(Integer corpId, String timeline) {
         TConfigExample ex = new TConfigExample();
@@ -34,6 +40,12 @@ public class ConfigService {
             newConfig.setCorpId(corpId);
             return tConfigMapper.insertSelective(newConfig);
         }
+    }
+
+    public TShopConfig selectConfig(Integer shopId) {
+        TShopConfigExample ex = new TShopConfigExample();
+        ex.createCriteria().andShopIdEqualTo(shopId);
+        return Util.onlyOne(tShopConfigMapper.selectByExample(ex));
     }
 
     public List<TConfig> selectMyConfigs(Integer corpId) {

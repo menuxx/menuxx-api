@@ -765,6 +765,66 @@ public class TCorpUserExample {
             return (Criteria) this;
         }
 
+        public Criteria andLastLoginTimeIsNull() {
+            addCriterion("last_login_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeIsNotNull() {
+            addCriterion("last_login_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeEqualTo(Date value) {
+            addCriterion("last_login_time =", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeNotEqualTo(Date value) {
+            addCriterion("last_login_time <>", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeGreaterThan(Date value) {
+            addCriterion("last_login_time >", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("last_login_time >=", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeLessThan(Date value) {
+            addCriterion("last_login_time <", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeLessThanOrEqualTo(Date value) {
+            addCriterion("last_login_time <=", value, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeIn(List<Date> values) {
+            addCriterion("last_login_time in", values, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeNotIn(List<Date> values) {
+            addCriterion("last_login_time not in", values, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeBetween(Date value1, Date value2) {
+            addCriterion("last_login_time between", value1, value2, "lastLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastLoginTimeNotBetween(Date value1, Date value2) {
+            addCriterion("last_login_time not between", value1, value2, "lastLoginTime");
+            return (Criteria) this;
+        }
+
         public Criteria andEnabledIsNull() {
             addCriterion("enabled is null");
             return (Criteria) this;
@@ -825,133 +885,63 @@ public class TCorpUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaIsNull() {
-            addCriterion("captcha is null");
+        public Criteria andWxUserIdIsNull() {
+            addCriterion("wx_user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaIsNotNull() {
-            addCriterion("captcha is not null");
+        public Criteria andWxUserIdIsNotNull() {
+            addCriterion("wx_user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaEqualTo(String value) {
-            addCriterion("captcha =", value, "captcha");
+        public Criteria andWxUserIdEqualTo(Integer value) {
+            addCriterion("wx_user_id =", value, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaNotEqualTo(String value) {
-            addCriterion("captcha <>", value, "captcha");
+        public Criteria andWxUserIdNotEqualTo(Integer value) {
+            addCriterion("wx_user_id <>", value, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaGreaterThan(String value) {
-            addCriterion("captcha >", value, "captcha");
+        public Criteria andWxUserIdGreaterThan(Integer value) {
+            addCriterion("wx_user_id >", value, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaGreaterThanOrEqualTo(String value) {
-            addCriterion("captcha >=", value, "captcha");
+        public Criteria andWxUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("wx_user_id >=", value, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaLessThan(String value) {
-            addCriterion("captcha <", value, "captcha");
+        public Criteria andWxUserIdLessThan(Integer value) {
+            addCriterion("wx_user_id <", value, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaLessThanOrEqualTo(String value) {
-            addCriterion("captcha <=", value, "captcha");
+        public Criteria andWxUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("wx_user_id <=", value, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaLike(String value) {
-            addCriterion("captcha like", value, "captcha");
+        public Criteria andWxUserIdIn(List<Integer> values) {
+            addCriterion("wx_user_id in", values, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaNotLike(String value) {
-            addCriterion("captcha not like", value, "captcha");
+        public Criteria andWxUserIdNotIn(List<Integer> values) {
+            addCriterion("wx_user_id not in", values, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaIn(List<String> values) {
-            addCriterion("captcha in", values, "captcha");
+        public Criteria andWxUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("wx_user_id between", value1, value2, "wxUserId");
             return (Criteria) this;
         }
 
-        public Criteria andCaptchaNotIn(List<String> values) {
-            addCriterion("captcha not in", values, "captcha");
-            return (Criteria) this;
-        }
-
-        public Criteria andCaptchaBetween(String value1, String value2) {
-            addCriterion("captcha between", value1, value2, "captcha");
-            return (Criteria) this;
-        }
-
-        public Criteria andCaptchaNotBetween(String value1, String value2) {
-            addCriterion("captcha not between", value1, value2, "captcha");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeIsNull() {
-            addCriterion("last_login_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeIsNotNull() {
-            addCriterion("last_login_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeEqualTo(Date value) {
-            addCriterion("last_login_time =", value, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeNotEqualTo(Date value) {
-            addCriterion("last_login_time <>", value, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeGreaterThan(Date value) {
-            addCriterion("last_login_time >", value, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("last_login_time >=", value, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeLessThan(Date value) {
-            addCriterion("last_login_time <", value, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeLessThanOrEqualTo(Date value) {
-            addCriterion("last_login_time <=", value, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeIn(List<Date> values) {
-            addCriterion("last_login_time in", values, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeNotIn(List<Date> values) {
-            addCriterion("last_login_time not in", values, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeBetween(Date value1, Date value2) {
-            addCriterion("last_login_time between", value1, value2, "lastLoginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andLastLoginTimeNotBetween(Date value1, Date value2) {
-            addCriterion("last_login_time not between", value1, value2, "lastLoginTime");
+        public Criteria andWxUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("wx_user_id not between", value1, value2, "wxUserId");
             return (Criteria) this;
         }
     }

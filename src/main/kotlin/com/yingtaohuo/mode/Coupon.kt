@@ -14,7 +14,7 @@ import java.util.*
 @JvmField val CouponTypeOfNewUser = 1
 @JvmField val CouponTypeOfDiscount = 2
 @JvmField val CouponTypeOfCutback = 3
-@JvmField val CouponTypeOfMoney = 5
+@JvmField val CouponTypeOfMoney = 4
 @JvmField val CouponTypeOfGroup = 5
 
 class Coupon : TCoupon {
@@ -33,8 +33,8 @@ class Coupon : TCoupon {
                 CouponTypeOfNewUser -> "新人券"
                 CouponTypeOfDiscount -> "折扣券"
                 CouponTypeOfCutback -> "满减券"
-                CouponTypeOfGroup -> "套餐券"
-                CouponTypeOfMoney -> "代金券"
+                CouponTypeOfMoney -> "套餐券"
+                CouponTypeOfGroup -> "代金券"
                 else -> ""
             }
         }

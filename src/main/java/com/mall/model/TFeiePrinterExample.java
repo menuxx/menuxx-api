@@ -703,6 +703,66 @@ public class TFeiePrinterExample {
             addCriterion("scope not between", value1, value2, "scope");
             return (Criteria) this;
         }
+
+        public Criteria andTimesIsNull() {
+            addCriterion("times is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesIsNotNull() {
+            addCriterion("times is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesEqualTo(Integer value) {
+            addCriterion("times =", value, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesNotEqualTo(Integer value) {
+            addCriterion("times <>", value, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesGreaterThan(Integer value) {
+            addCriterion("times >", value, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesGreaterThanOrEqualTo(Integer value) {
+            addCriterion("times >=", value, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesLessThan(Integer value) {
+            addCriterion("times <", value, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesLessThanOrEqualTo(Integer value) {
+            addCriterion("times <=", value, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesIn(List<Integer> values) {
+            addCriterion("times in", values, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesNotIn(List<Integer> values) {
+            addCriterion("times not in", values, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesBetween(Integer value1, Integer value2) {
+            addCriterion("times between", value1, value2, "times");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimesNotBetween(Integer value1, Integer value2) {
+            addCriterion("times not between", value1, value2, "times");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

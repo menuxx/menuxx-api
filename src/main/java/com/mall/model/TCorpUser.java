@@ -23,11 +23,11 @@ public class TCorpUser {
 
     private Date createTime;
 
+    private Date lastLoginTime;
+
     private Integer enabled;
 
-    private String captcha;
-
-    private Date lastLoginTime;
+    private Integer wxUserId;
 
     public Integer getId() {
         return id;
@@ -109,6 +109,14 @@ public class TCorpUser {
         this.createTime = createTime;
     }
 
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
     public Integer getEnabled() {
         return enabled;
     }
@@ -117,19 +125,11 @@ public class TCorpUser {
         this.enabled = enabled;
     }
 
-    public String getCaptcha() {
-        return captcha;
+    public Integer getWxUserId() {
+        return wxUserId;
     }
 
-    public void setCaptcha(String captcha) {
-        this.captcha = captcha == null ? null : captcha.trim();
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
+    public void setWxUserId(Integer wxUserId) {
+        this.wxUserId = wxUserId;
     }
 }

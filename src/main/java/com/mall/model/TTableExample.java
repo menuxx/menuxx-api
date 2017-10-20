@@ -414,6 +414,276 @@ public class TTableExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Integer value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Integer value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Integer value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Integer value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Integer> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Integer> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlIsNull() {
+            addCriterion("wx_qrcode_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlIsNotNull() {
+            addCriterion("wx_qrcode_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlEqualTo(String value) {
+            addCriterion("wx_qrcode_url =", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlNotEqualTo(String value) {
+            addCriterion("wx_qrcode_url <>", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlGreaterThan(String value) {
+            addCriterion("wx_qrcode_url >", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_qrcode_url >=", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlLessThan(String value) {
+            addCriterion("wx_qrcode_url <", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlLessThanOrEqualTo(String value) {
+            addCriterion("wx_qrcode_url <=", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlLike(String value) {
+            addCriterion("wx_qrcode_url like", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlNotLike(String value) {
+            addCriterion("wx_qrcode_url not like", value, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlIn(List<String> values) {
+            addCriterion("wx_qrcode_url in", values, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlNotIn(List<String> values) {
+            addCriterion("wx_qrcode_url not in", values, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlBetween(String value1, String value2) {
+            addCriterion("wx_qrcode_url between", value1, value2, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeUrlNotBetween(String value1, String value2) {
+            addCriterion("wx_qrcode_url not between", value1, value2, "wxQrcodeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataIsNull() {
+            addCriterion("wx_qrcode_data is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataIsNotNull() {
+            addCriterion("wx_qrcode_data is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataEqualTo(String value) {
+            addCriterion("wx_qrcode_data =", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataNotEqualTo(String value) {
+            addCriterion("wx_qrcode_data <>", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataGreaterThan(String value) {
+            addCriterion("wx_qrcode_data >", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_qrcode_data >=", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataLessThan(String value) {
+            addCriterion("wx_qrcode_data <", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataLessThanOrEqualTo(String value) {
+            addCriterion("wx_qrcode_data <=", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataLike(String value) {
+            addCriterion("wx_qrcode_data like", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataNotLike(String value) {
+            addCriterion("wx_qrcode_data not like", value, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataIn(List<String> values) {
+            addCriterion("wx_qrcode_data in", values, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataNotIn(List<String> values) {
+            addCriterion("wx_qrcode_data not in", values, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataBetween(String value1, String value2) {
+            addCriterion("wx_qrcode_data between", value1, value2, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodeDataNotBetween(String value1, String value2) {
+            addCriterion("wx_qrcode_data not between", value1, value2, "wxQrcodeData");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathIsNull() {
+            addCriterion("wx_qrcode_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathIsNotNull() {
+            addCriterion("wx_qrcode_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathEqualTo(String value) {
+            addCriterion("wx_qrcode_path =", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathNotEqualTo(String value) {
+            addCriterion("wx_qrcode_path <>", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathGreaterThan(String value) {
+            addCriterion("wx_qrcode_path >", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathGreaterThanOrEqualTo(String value) {
+            addCriterion("wx_qrcode_path >=", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathLessThan(String value) {
+            addCriterion("wx_qrcode_path <", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathLessThanOrEqualTo(String value) {
+            addCriterion("wx_qrcode_path <=", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathLike(String value) {
+            addCriterion("wx_qrcode_path like", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathNotLike(String value) {
+            addCriterion("wx_qrcode_path not like", value, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathIn(List<String> values) {
+            addCriterion("wx_qrcode_path in", values, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathNotIn(List<String> values) {
+            addCriterion("wx_qrcode_path not in", values, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathBetween(String value1, String value2) {
+            addCriterion("wx_qrcode_path between", value1, value2, "wxQrcodePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxQrcodePathNotBetween(String value1, String value2) {
+            addCriterion("wx_qrcode_path not between", value1, value2, "wxQrcodePath");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

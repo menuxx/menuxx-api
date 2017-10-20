@@ -11,6 +11,12 @@ public class TTopup {
 
     private String content;
 
+    private Integer policyType;
+
+    private Integer couponConfigId;
+
+    private Integer couponCount;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +55,29 @@ public class TTopup {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Integer getPolicyType() {
+        return policyType;
+    }
+
+    public void setPolicyType(Integer policyType) {
+        this.policyType = policyType;
+    }
+
+    public Integer getCouponConfigId() {
+        return couponConfigId;
+    }
+
+    public void setCouponConfigId(Integer couponConfigId) {
+        this.couponConfigId = couponConfigId;
+    }
+
+    public Integer getCouponCount() {
+        return couponCount;
+    }
+
+    public void setCouponCount(Integer couponCount) {
+        this.couponCount = couponCount;
     }
 }
