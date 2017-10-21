@@ -14,6 +14,18 @@
     <repositories>
 
         <repository>
+            <id>nexus-daocloud</id>
+            <name>Nexus daocloud</name>
+            <url>http://nexus.daocloud.io/repository/maven-public/</url>
+        </repository>
+
+        <repository>
+            <id>nexus-aliyun</id>
+            <name>Nexus aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+
+        <repository>
             <id>central</id>
             <name>Central Repository</name>
             <url>http://repo.maven.apache.org/maven2</url>
@@ -21,12 +33,6 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-
-        <repository>
-            <id>nexus-daocloud</id>
-            <name>Nexus daocloud</name>
-            <url>http://nexus.daocloud.io/repository/maven-public/</url>
         </repository>
 
         <repository>
