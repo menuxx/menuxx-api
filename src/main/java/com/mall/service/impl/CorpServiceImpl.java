@@ -44,7 +44,7 @@ public class CorpServiceImpl implements CorpService {
 				ex.createCriteria().andShopIdEqualTo(shopId);
 				TShopConfig config =  Util.onlyOne(tShopConfigMapper.selectByExample(ex));
 				// 1. 单店版充值 2。平台充值
-				if ( config.getCouponPolicy() == 2 ) {
+				if ( config != null && config.getCouponPolicy() == 2 ) {
 					return tCorpMapper.selectByPrimaryKey(shop.getPlatformId());
 				}
 			}
@@ -63,7 +63,7 @@ public class CorpServiceImpl implements CorpService {
 				ex.createCriteria().andShopIdEqualTo(shopId);
 				TShopConfig config =  Util.onlyOne(tShopConfigMapper.selectByExample(ex));
 				// 1. 单店版充值 2。平台充值
-				if ( config.getVipRecharge() == 2 ) {
+				if ( config != null && config.getVipRecharge() == 2 ) {
 					return tCorpMapper.selectByPrimaryKey(shop.getPlatformId());
 				}
 			}
