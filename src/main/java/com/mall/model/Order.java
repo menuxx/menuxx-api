@@ -50,7 +50,7 @@ public class Order extends TOrder {
 
     // 卡券支付
     public static final int PAY_TYPE_COUPON = 2;
-    public static final String PAY_TYPE_COUPON_TEXT = "充值卡支付";
+    public static final String PAY_TYPE_COUPON_TEXT = "卡券支付";
 
     // 别名配置
     private Map<Integer, String> tabNameMap;

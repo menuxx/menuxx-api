@@ -125,9 +125,9 @@ public class OrderServiceImpl implements OrderService {
         try {
             // 获取订单对应的 店铺 配置
             // 是否自动发送第三方配送
-            ShopConfig shopConfig = shopConfigService.getShopConfig(order.getId());
-            if ( order.getOrderType() == Order.ORDER_TYPE_DELIVERED && shopConfig.getTransportAuto3rd() == 1 ) {
-                transportService.transportOrderToChannel(order, shopConfig.getTransportChannel());
+            TShopConfig shopConfig = shopConfigService.getShopConfig(order.getCorpId());
+            if ( order.getOrderType() == Order.ORDER_TYPE_DELIVERED && shopConfig.getDeliveryAuto3rd() == 1 ) {
+                transportService.transportOrderToChannel(order, shopConfig.getDeliveryChannel());
             }
         } catch (Exception ex) {
             ex.printStackTrace();

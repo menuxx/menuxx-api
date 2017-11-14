@@ -19,4 +19,5 @@ public interface StatisticsService {
     void doStatistics();
 
     void doStatistics(String statDay);
+
 }

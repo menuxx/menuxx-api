@@ -8,6 +8,8 @@
     <result column="income_total" jdbcType="DOUBLE" property="incomeTotal" />
     <result column="order_total" jdbcType="INTEGER" property="orderTotal" />
     <result column="arerage" jdbcType="DOUBLE" property="arerage" />
+      <result column="recharge_total_amount" javaType="INTEGER" />
+      <result column="wx_total_amount" javaType="INTEGER" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
@@ -17,10 +19,10 @@
     where `status` = 1
     and create_time between STR_TO_DATE(#{fromDay,jdbcType=VARCHAR}, '%Y-%m-%d') and STR_TO_DATE(#{toDay,jdbcType=VARCHAR}, '%Y-%m-%d')
      <if test="corpId != null">
-         and corp_id = #{corpId,jdbcType=VARCHAR}
+         and corp_id = #{corpId,jdbcType=INTEGER}
      </if>
      <if test="payType != null">
-         and pay_type = #{pay_type,jdbcType=VARCHAR}
+         and pay_type = #{payType,jdbcType=INTEGER}
      </if>
     group by corp_id
   </select>

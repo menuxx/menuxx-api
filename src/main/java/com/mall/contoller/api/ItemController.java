@@ -5,6 +5,7 @@ import com.mall.service.*;
 import com.mall.utils.Constants;
 import com.mall.wrapper.CategoryWrapper;
 import com.mall.wrapper.ItemWrapper;
+import com.yingtaohuo.service.ShopConfigService;
 import com.yingtaohuo.util.TimeLineFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,9 @@ public class ItemController extends BaseCorpController {
     ConfigService configService;
 
     @Autowired
+    ShopConfigService shopConfigService;
+
+    @Autowired
     CorpService corpService;
 
     /**
@@ -84,14 +88,31 @@ public class ItemController extends BaseCorpController {
         List<TTopup> topupList = topupService.selectTopups(corp.getId());
         homeMap.put("topupList", topupList);
 
+        // 兼容 t_config 表 和 t_shop_config 表
         Map<String, Object> configMap = configService.selectMyConfigs4Map(dinerId);
 
-        String timeline = (String) configMap.get("business_timeline");
+        TShopConfig config =  shopConfigService.getShopConfig(dinerId);
+
+        String timeline1 = config.getBusinessTimeline();
+
+        String timeline2 = (String) configMap.get("business_timeline");
+
+        String timeline;
+
+        if ( timeline1 != null ) {
+            timeline = timeline1;
+        } else {
+            timeline = timeline2;
+        }
 
         if ( timeline != null ) {
+
             TimeLineFactory tFact = new TimeLineFactory(timeline);
+            // 废弃字段
             configMap.put("in_business_hours", tFact.inRange(new Date()));
             configMap.put("business_hours", tFact.getWorkTime(new Date()));
+
+            configMap.put("inBusinessHours", tFact.inRange(new Date()));
         }
 
         homeMap.putAll(configMap);

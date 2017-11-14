@@ -5,6 +5,7 @@ import com.mall.model.Item;
 import com.mall.model.TItem;
 import com.mall.model.TItemExample;
 import com.mall.service.ItemService;
+import com.mall.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +41,7 @@ public class ItemServiceImpl implements ItemService {
         // 下架商品 交给前端处理
         // criteria.andSoldoutEqualTo(Item.SELLING);
         // 下架商品不显示
-        criteria.andOfflineEqualTo(Item.ONLINE);
-
+        criteria.andOfflineEqualTo(Item.ONLINE).andStatusEqualTo(Constants.STATUS_SELECT);
         example.setOrderByClause("sort_id asc, id asc");
 
         return itemMapper.selectByExample(example);

@@ -17,11 +17,15 @@ public class TCorpTotal {
 
     private Integer status;
 
-    private Integer payTotal;
-
     private Integer rechargeTotal;
 
     private Date createTime;
+
+    private Integer wxTotalAmount;
+
+    private Integer rechargeTotalAmount;
+
+    private Integer couponTotalAmount;
 
     public Integer getId() {
         return id;
@@ -79,14 +83,6 @@ public class TCorpTotal {
         this.status = status;
     }
 
-    public Integer getPayTotal() {
-        return payTotal;
-    }
-
-    public void setPayTotal(Integer payTotal) {
-        this.payTotal = payTotal;
-    }
-
     public Integer getRechargeTotal() {
         return rechargeTotal;
     }
@@ -101,5 +97,29 @@ public class TCorpTotal {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getWxTotalAmount() {
+        return wxTotalAmount;
+    }
+
+    public void setWxTotalAmount(Integer wxTotalAmount) {
+        this.wxTotalAmount = wxTotalAmount;
+    }
+
+    public Integer getRechargeTotalAmount() {
+        return rechargeTotalAmount;
+    }
+
+    public void setRechargeTotalAmount(Integer rechargeTotalAmount) {
+        this.rechargeTotalAmount = rechargeTotalAmount;
+    }
+
+    public Integer getCouponTotalAmount() {
+        return couponTotalAmount;
+    }
+
+    public void setCouponTotalAmount(Integer couponTotalAmount) {
+        this.couponTotalAmount = couponTotalAmount;
     }
 }

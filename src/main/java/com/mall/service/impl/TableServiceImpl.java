@@ -4,6 +4,7 @@ import com.mall.mapper.TTableMapper;
 import com.mall.model.TTable;
 import com.mall.model.TTableExample;
 import com.mall.service.TableService;
+import com.mall.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,23 +25,18 @@ public class TableServiceImpl implements TableService {
     public List<TTable> selectTablesByCorp(int corpId) {
         TTableExample example = new TTableExample();
         TTableExample.Criteria criteria = example.createCriteria();
-
-        criteria.andCorpIdEqualTo(corpId);
+        criteria.andCorpIdEqualTo(corpId).andStatusEqualTo(Constants.STATUS_SELECT);
         example.setOrderByClause("sort_id asc");
-
         return tableMapper.selectByExample(example);
     }
 
     @Override
     public Map<Integer, TTable> selectTablesByCorpForMap(int corpId) {
         List<TTable> list = selectTablesByCorp(corpId);
-
         Map<Integer, TTable> map = new HashMap<>();
-
         for (TTable table : list) {
             map.put(table.getId(), table);
         }
-
         return map;
     }
 

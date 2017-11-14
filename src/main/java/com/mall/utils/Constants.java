@@ -11,6 +11,10 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
  */
 public class Constants {
 
+    public static final Integer STATUS_SELECT = 1;
+
+    public static final Integer STATUS_DELETED = 0;
+
     // 入驻类型商户
     public static final Integer CORP_TYPE_ENTER = 1;
 

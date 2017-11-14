@@ -75,7 +75,7 @@ public class CorpTotalController extends BaseCorpController {
             statisticsService.doStatistics();
         }
 
-        return new ResponseEntity<Object>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -18,7 +18,7 @@ import javax.validation.Valid
 @RequestMapping("/shops/{shopId}/push_keys")
 open class PushKeyController (private val pushKeyService : PushKeyService) {
 
-    @PostMapping("/")
+    @PostMapping
     open fun addPushKey(@PathVariable shopId: Int, @SessionKey session: SessionData, @Valid @RequestBody pushKey: PushKey) : ResponseDataWrap {
         val tPushKey = pushKey.toTPushKey()
         tPushKey.userId = session.userId

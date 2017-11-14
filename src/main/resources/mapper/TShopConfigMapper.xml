@@ -7,12 +7,13 @@
     <result column="vip_recharge" jdbcType="INTEGER" property="vipRecharge" />
     <result column="delivery_min_limit" jdbcType="INTEGER" property="deliveryMinLimit" />
     <result column="delivery_nofee_limit" jdbcType="INTEGER" property="deliveryNofeeLimit" />
+    <result column="banner_images" jdbcType="VARCHAR" property="bannerImages" />
     <result column="pack_fee" jdbcType="INTEGER" property="packFee" />
     <result column="delivery_fee" jdbcType="INTEGER" property="deliveryFee" />
     <result column="alter_order_text" jdbcType="VARCHAR" property="alterOrderText" />
     <result column="delivery_channel" jdbcType="INTEGER" property="deliveryChannel" />
     <result column="business_timeline" jdbcType="VARCHAR" property="businessTimeline" />
-    <result column="transport_auto_3rd" jdbcType="INTEGER" property="transportAuto3rd" />
+    <result column="delivery_auto_3rd" jdbcType="INTEGER" property="deliveryAuto3rd" />
     <result column="activity_notice_text" jdbcType="VARCHAR" property="activityNoticeText" />
     <result column="ticket_style" jdbcType="INTEGER" property="ticketStyle" />
     <result column="ticket_wxlite_qrcode" jdbcType="VARCHAR" property="ticketWxliteQrcode" />
@@ -78,9 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, shop_id, vip_recharge, delivery_min_limit, delivery_nofee_limit, pack_fee, delivery_fee, 
-    alter_order_text, delivery_channel, business_timeline, transport_auto_3rd, activity_notice_text, 
-    ticket_style, ticket_wxlite_qrcode, update_time, coupon_policy
+    id, shop_id, vip_recharge, delivery_min_limit, delivery_nofee_limit, banner_images, 
+    pack_fee, delivery_fee, alter_order_text, delivery_channel, business_timeline, delivery_auto_3rd, 
+    activity_notice_text, ticket_style, ticket_wxlite_qrcode, update_time, coupon_policy
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TShopConfigExample" resultMap="BaseResultMap">
     select
@@ -117,17 +118,17 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_shop_config (shop_id, vip_recharge, delivery_min_limit, 
-      delivery_nofee_limit, pack_fee, delivery_fee, 
-      alter_order_text, delivery_channel, business_timeline, 
-      transport_auto_3rd, activity_notice_text, ticket_style, 
-      ticket_wxlite_qrcode, update_time, coupon_policy
-      )
+      delivery_nofee_limit, banner_images, pack_fee, 
+      delivery_fee, alter_order_text, delivery_channel, 
+      business_timeline, delivery_auto_3rd, activity_notice_text, 
+      ticket_style, ticket_wxlite_qrcode, update_time, 
+      coupon_policy)
     values (#{shopId,jdbcType=INTEGER}, #{vipRecharge,jdbcType=INTEGER}, #{deliveryMinLimit,jdbcType=INTEGER}, 
-      #{deliveryNofeeLimit,jdbcType=INTEGER}, #{packFee,jdbcType=INTEGER}, #{deliveryFee,jdbcType=INTEGER}, 
-      #{alterOrderText,jdbcType=VARCHAR}, #{deliveryChannel,jdbcType=INTEGER}, #{businessTimeline,jdbcType=VARCHAR}, 
-      #{transportAuto3rd,jdbcType=INTEGER}, #{activityNoticeText,jdbcType=VARCHAR}, #{ticketStyle,jdbcType=INTEGER}, 
-      #{ticketWxliteQrcode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{couponPolicy,jdbcType=INTEGER}
-      )
+      #{deliveryNofeeLimit,jdbcType=INTEGER}, #{bannerImages,jdbcType=VARCHAR}, #{packFee,jdbcType=INTEGER}, 
+      #{deliveryFee,jdbcType=INTEGER}, #{alterOrderText,jdbcType=VARCHAR}, #{deliveryChannel,jdbcType=INTEGER}, 
+      #{businessTimeline,jdbcType=VARCHAR}, #{deliveryAuto3rd,jdbcType=INTEGER}, #{activityNoticeText,jdbcType=VARCHAR}, 
+      #{ticketStyle,jdbcType=INTEGER}, #{ticketWxliteQrcode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{couponPolicy,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TShopConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -147,6 +148,9 @@
       <if test="deliveryNofeeLimit != null">
         delivery_nofee_limit,
       </if>
+      <if test="bannerImages != null">
+        banner_images,
+      </if>
       <if test="packFee != null">
         pack_fee,
       </if>
@@ -162,8 +166,8 @@
       <if test="businessTimeline != null">
         business_timeline,
       </if>
-      <if test="transportAuto3rd != null">
-        transport_auto_3rd,
+      <if test="deliveryAuto3rd != null">
+        delivery_auto_3rd,
       </if>
       <if test="activityNoticeText != null">
         activity_notice_text,
@@ -194,6 +198,9 @@
       <if test="deliveryNofeeLimit != null">
         #{deliveryNofeeLimit,jdbcType=INTEGER},
       </if>
+      <if test="bannerImages != null">
+        #{bannerImages,jdbcType=VARCHAR},
+      </if>
       <if test="packFee != null">
         #{packFee,jdbcType=INTEGER},
       </if>
@@ -209,8 +216,8 @@
       <if test="businessTimeline != null">
         #{businessTimeline,jdbcType=VARCHAR},
       </if>
-      <if test="transportAuto3rd != null">
-        #{transportAuto3rd,jdbcType=INTEGER},
+      <if test="deliveryAuto3rd != null">
+        #{deliveryAuto3rd,jdbcType=INTEGER},
       </if>
       <if test="activityNoticeText != null">
         #{activityNoticeText,jdbcType=VARCHAR},
@@ -253,6 +260,9 @@
       <if test="record.deliveryNofeeLimit != null">
         delivery_nofee_limit = #{record.deliveryNofeeLimit,jdbcType=INTEGER},
       </if>
+      <if test="record.bannerImages != null">
+        banner_images = #{record.bannerImages,jdbcType=VARCHAR},
+      </if>
       <if test="record.packFee != null">
         pack_fee = #{record.packFee,jdbcType=INTEGER},
       </if>
@@ -268,8 +278,8 @@
       <if test="record.businessTimeline != null">
         business_timeline = #{record.businessTimeline,jdbcType=VARCHAR},
       </if>
-      <if test="record.transportAuto3rd != null">
-        transport_auto_3rd = #{record.transportAuto3rd,jdbcType=INTEGER},
+      <if test="record.deliveryAuto3rd != null">
+        delivery_auto_3rd = #{record.deliveryAuto3rd,jdbcType=INTEGER},
       </if>
       <if test="record.activityNoticeText != null">
         activity_notice_text = #{record.activityNoticeText,jdbcType=VARCHAR},
@@ -298,12 +308,13 @@
       vip_recharge = #{record.vipRecharge,jdbcType=INTEGER},
       delivery_min_limit = #{record.deliveryMinLimit,jdbcType=INTEGER},
       delivery_nofee_limit = #{record.deliveryNofeeLimit,jdbcType=INTEGER},
+      banner_images = #{record.bannerImages,jdbcType=VARCHAR},
       pack_fee = #{record.packFee,jdbcType=INTEGER},
       delivery_fee = #{record.deliveryFee,jdbcType=INTEGER},
       alter_order_text = #{record.alterOrderText,jdbcType=VARCHAR},
       delivery_channel = #{record.deliveryChannel,jdbcType=INTEGER},
       business_timeline = #{record.businessTimeline,jdbcType=VARCHAR},
-      transport_auto_3rd = #{record.transportAuto3rd,jdbcType=INTEGER},
+      delivery_auto_3rd = #{record.deliveryAuto3rd,jdbcType=INTEGER},
       activity_notice_text = #{record.activityNoticeText,jdbcType=VARCHAR},
       ticket_style = #{record.ticketStyle,jdbcType=INTEGER},
       ticket_wxlite_qrcode = #{record.ticketWxliteQrcode,jdbcType=VARCHAR},
@@ -328,6 +339,9 @@
       <if test="deliveryNofeeLimit != null">
         delivery_nofee_limit = #{deliveryNofeeLimit,jdbcType=INTEGER},
       </if>
+      <if test="bannerImages != null">
+        banner_images = #{bannerImages,jdbcType=VARCHAR},
+      </if>
       <if test="packFee != null">
         pack_fee = #{packFee,jdbcType=INTEGER},
       </if>
@@ -343,8 +357,8 @@
       <if test="businessTimeline != null">
         business_timeline = #{businessTimeline,jdbcType=VARCHAR},
       </if>
-      <if test="transportAuto3rd != null">
-        transport_auto_3rd = #{transportAuto3rd,jdbcType=INTEGER},
+      <if test="deliveryAuto3rd != null">
+        delivery_auto_3rd = #{deliveryAuto3rd,jdbcType=INTEGER},
       </if>
       <if test="activityNoticeText != null">
         activity_notice_text = #{activityNoticeText,jdbcType=VARCHAR},
@@ -370,12 +384,13 @@
       vip_recharge = #{vipRecharge,jdbcType=INTEGER},
       delivery_min_limit = #{deliveryMinLimit,jdbcType=INTEGER},
       delivery_nofee_limit = #{deliveryNofeeLimit,jdbcType=INTEGER},
+      banner_images = #{bannerImages,jdbcType=VARCHAR},
       pack_fee = #{packFee,jdbcType=INTEGER},
       delivery_fee = #{deliveryFee,jdbcType=INTEGER},
       alter_order_text = #{alterOrderText,jdbcType=VARCHAR},
       delivery_channel = #{deliveryChannel,jdbcType=INTEGER},
       business_timeline = #{businessTimeline,jdbcType=VARCHAR},
-      transport_auto_3rd = #{transportAuto3rd,jdbcType=INTEGER},
+      delivery_auto_3rd = #{deliveryAuto3rd,jdbcType=INTEGER},
       activity_notice_text = #{activityNoticeText,jdbcType=VARCHAR},
       ticket_style = #{ticketStyle,jdbcType=INTEGER},
       ticket_wxlite_qrcode = #{ticketWxliteQrcode,jdbcType=VARCHAR},

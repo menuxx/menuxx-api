@@ -1,5 +1,6 @@
 package com.mall.contoller.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.annotation.CurrentDiner;
 import com.mall.annotation.SessionKey;
 import com.mall.annotation.SessionData;
@@ -17,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.DeferredResult;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import javax.validation.Valid;
@@ -36,6 +35,9 @@ import java.util.Map;
 public class WXUserController extends BaseCorpController {
 
 	static final Logger logger = LoggerFactory.getLogger(WXUserController.class);
+
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@Autowired
 	WXMiniService wxMiniService;
@@ -77,6 +79,34 @@ public class WXUserController extends BaseCorpController {
 		}
 	}
 
+	interface NoArgFunction<R> {
+		R apply();
+	}
+
+	private Map<String, Object> wxLitelogin(LoginCode loginCode, TCorp corp, NoArgFunction<Call<WXCodeSession>> jscodeToSession) {
+		try {
+			Response<WXCodeSession> codeSessionResp = jscodeToSession.apply().execute();
+			if (codeSessionResp.isSuccessful()) {
+				// 如果微信正确返回 状态码正确
+				WXCodeSession session = codeSessionResp.body();
+				return wxSessionApply(session, loginCode.getUser(), corp).toMap();
+			} else {
+				// 将微信返回的结果，解析后返回
+				String errorJsonStr = codeSessionResp.errorBody().string();
+				logger.error("wxLiteLogin -> errorJsonStr", errorJsonStr);
+				@SuppressWarnings("unchecked")
+				Map<String, Object> map = (Map<String, Object>) objectMapper.readValue(errorJsonStr, HashMap.class);
+				return map;
+			}
+		} catch (Exception e) {
+			logger.error("wxLiteLogin -> jscodeToSession", e);
+			Map<String, Object> map = new HashMap<>();
+			map.put("error", e.getMessage());
+			return map;
+		}
+
+	}
+
 	/**
 	 * 微信小程序登录
 	 * @param loginCode
@@ -84,58 +114,25 @@ public class WXUserController extends BaseCorpController {
 	 * @return
 	 */
 	@PutMapping("wx/liteLogin")
-	public DeferredResult<Object> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
-		final DeferredResult<Object> deferred = new DeferredResult<>();
-
-		wxMiniService.jscodeToSession(corp.getAuthorizerAppid(), corp.getAppSecret(), loginCode.getCode(), "authorization_code").enqueue(new Callback<WXCodeSession>() {
-			@Override
-			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
-				WXCodeSession session = response.body();
-				wxSessionApply(deferred, session, loginCode.getUser(), corp);
-			}
-			@Override
-			public void onFailure(Call<WXCodeSession> call, Throwable throwable) {
-				logger.error("wxLiteLogin -> jscodeToSession", throwable);
-				deferred.setErrorResult(throwable);
-			}
-		});
-		return deferred;
+	public Map<String, Object> wxLiteLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
+		String grandType = "authorization_code";
+		return wxLitelogin(loginCode, corp, () -> wxMiniService.jscodeToSession(corp.getAuthorizerAppid(), corp.getAppSecret(), loginCode.code, grandType));
 	}
 
 	@PutMapping("wx/liteComponentLogin")
-	public DeferredResult<Object> wxLiteComponentLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
-		final DeferredResult<Object> deferred = new DeferredResult<>();
-		wxComponentApiService.jscodeToSession(
-				corp.getAuthorizerAppid(),
-				loginCode.getCode(),
-				"authorization_code",
-				appConfig.getWxComponent().getAppId(),
-				componentService.getAccessToken()
-				).enqueue(new Callback<WXCodeSession>() {
-			@Override
-			public void onResponse(Call<WXCodeSession> call, Response<WXCodeSession> response) {
-				WXCodeSession session = response.body();
-				wxSessionApply(deferred, session, loginCode.getUser(), corp);
-			}
-			@Override
-			public void onFailure(Call<WXCodeSession> call, Throwable throwable) {
-				logger.error("wxLiteLogin -> jscodeToSession", throwable);
-				deferred.setErrorResult(throwable);
-			}
-		});
-		return deferred;
+	public Map<String, Object> wxLiteComponentLogin(@Valid @RequestBody LoginCode loginCode, @CurrentDiner final TCorp corp) {
+		String grandType = "authorization_code";
+		return wxLitelogin(loginCode, corp, () -> wxComponentApiService.jscodeToSession(corp.getAuthorizerAppid(), loginCode.code, grandType, appConfig.getWxComponent().getAppId(), componentService.getAccessToken()));
 	}
 
-	private void wxSessionApply(DeferredResult<Object> deferred, WXCodeSession session, TUser user, TCorp corp) {
+	private SessionData wxSessionApply(WXCodeSession session, TUser user, TCorp corp) {
 		if ( session.getErrcode() == null ) {
-			// 根据openid和corp 创建或修改用户
+			// 根据 openid 和 corp 创建或修改用户
 			user.setOpenid(session.getOpenid());
 			int userId = userService.saveUser(user, corp);
-
-			SessionData sessionData = new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
-			deferred.setResult(sessionData);
+			return new SessionData(session.getOpenid(), session.getSessionKey(), userId, corp.getMchId(), corp.getId());
 		} else {
-			deferred.setErrorResult(new Exception(session.getErrmsg()));
+			throw new RuntimeException(session.getErrmsg());
 		}
 	}
 

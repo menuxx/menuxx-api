@@ -24,6 +24,7 @@
     <result column="join_act_minus" jdbcType="INTEGER" property="joinActMinus" />
     <result column="offline" jdbcType="INTEGER" property="offline" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -86,7 +87,7 @@
   <sql id="Base_Column_List">
     id, corp_id, item_name, item_desc, category_id, product_price, discount_price, unit, 
     special_price, weekday, soldout, sort_id, format_id, bar_code, item_code, suppliers, 
-    package_flag, thumbnails, cover_images, join_act_minus, offline, create_time
+    package_flag, thumbnails, cover_images, join_act_minus, offline, create_time, status
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TItemExample" resultMap="BaseResultMap">
     select
@@ -128,16 +129,16 @@
       soldout, sort_id, format_id, 
       bar_code, item_code, suppliers, 
       package_flag, thumbnails, cover_images, 
-      join_act_minus, offline, create_time
-      )
+      join_act_minus, offline, create_time, 
+      status)
     values (#{corpId,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, 
       #{categoryId,jdbcType=INTEGER}, #{productPrice,jdbcType=INTEGER}, #{discountPrice,jdbcType=INTEGER}, 
       #{unit,jdbcType=VARCHAR}, #{specialPrice,jdbcType=INTEGER}, #{weekday,jdbcType=INTEGER}, 
       #{soldout,jdbcType=INTEGER}, #{sortId,jdbcType=INTEGER}, #{formatId,jdbcType=INTEGER}, 
       #{barCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, #{suppliers,jdbcType=VARCHAR}, 
       #{packageFlag,jdbcType=INTEGER}, #{thumbnails,jdbcType=VARCHAR}, #{coverImages,jdbcType=VARCHAR}, 
-      #{joinActMinus,jdbcType=INTEGER}, #{offline,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{joinActMinus,jdbcType=INTEGER}, #{offline,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -208,6 +209,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="corpId != null">
@@ -272,6 +276,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -350,6 +357,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -378,7 +388,8 @@
       cover_images = #{record.coverImages,jdbcType=VARCHAR},
       join_act_minus = #{record.joinActMinus,jdbcType=INTEGER},
       offline = #{record.offline,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -449,6 +460,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -474,7 +488,8 @@
       cover_images = #{coverImages,jdbcType=VARCHAR},
       join_act_minus = #{joinActMinus,jdbcType=INTEGER},
       offline = #{offline,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

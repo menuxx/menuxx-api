@@ -13,6 +13,8 @@ public class TShopConfig {
 
     private Integer deliveryNofeeLimit;
 
+    private String bannerImages;
+
     private Integer packFee;
 
     private Integer deliveryFee;
@@ -23,7 +25,7 @@ public class TShopConfig {
 
     private String businessTimeline;
 
-    private Integer transportAuto3rd;
+    private Integer deliveryAuto3rd;
 
     private String activityNoticeText;
 
@@ -75,6 +77,14 @@ public class TShopConfig {
         this.deliveryNofeeLimit = deliveryNofeeLimit;
     }
 
+    public String getBannerImages() {
+        return bannerImages;
+    }
+
+    public void setBannerImages(String bannerImages) {
+        this.bannerImages = bannerImages == null ? null : bannerImages.trim();
+    }
+
     public Integer getPackFee() {
         return packFee;
     }
@@ -115,12 +125,12 @@ public class TShopConfig {
         this.businessTimeline = businessTimeline == null ? null : businessTimeline.trim();
     }
 
-    public Integer getTransportAuto3rd() {
-        return transportAuto3rd;
+    public Integer getDeliveryAuto3rd() {
+        return deliveryAuto3rd;
     }
 
-    public void setTransportAuto3rd(Integer transportAuto3rd) {
-        this.transportAuto3rd = transportAuto3rd;
+    public void setDeliveryAuto3rd(Integer deliveryAuto3rd) {
+        this.deliveryAuto3rd = deliveryAuto3rd;
     }
 
     public String getActivityNoticeText() {

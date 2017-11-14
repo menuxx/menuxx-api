@@ -11,6 +11,8 @@ public class TCategory {
 
     private String categoryIcon;
 
+    private Integer status;
+
     private Integer sortId;
 
     private Date createTime;
@@ -45,6 +47,14 @@ public class TCategory {
 
     public void setCategoryIcon(String categoryIcon) {
         this.categoryIcon = categoryIcon == null ? null : categoryIcon.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Integer getSortId() {

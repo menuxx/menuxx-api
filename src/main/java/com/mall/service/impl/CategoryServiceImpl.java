@@ -4,6 +4,7 @@ import com.mall.mapper.TCategoryMapper;
 import com.mall.model.TCategory;
 import com.mall.model.TCategoryExample;
 import com.mall.service.CategoryService;
+import com.mall.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
     public List<TCategory> selectCategoriesByCorp(int corpId) {
         TCategoryExample example = new TCategoryExample();
         TCategoryExample.Criteria criteria = example.createCriteria();
-
         example.setOrderByClause("sort_id asc");
-        criteria.andCorpIdEqualTo(corpId);
-
+        criteria.andCorpIdEqualTo(corpId).andStatusEqualTo(Constants.STATUS_SELECT);
         return categoryMapper.selectByExample(example);
     }
 

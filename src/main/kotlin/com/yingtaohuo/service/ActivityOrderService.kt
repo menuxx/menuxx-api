@@ -52,7 +52,7 @@ open class ActivityOrderService(
     /**
      * 计算打包价格
      */
-    fun calcPackageFee(order: TOrder, orderItems: List<TOrderItem>, itemMap: Map<Int, TItem>, config: ShopConfig) : Int {
+    fun calcPackageFee(order: TOrder, orderItems: List<TOrderItem>, itemMap: Map<Int, TItem>, config: TShopConfig) : Int {
         // 只有外卖 和 打包才计算打包费
         var packageFee = 0
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED || order.orderType == Order.ORDER_TYPE_CARRY_OUT) {
@@ -66,19 +66,19 @@ open class ActivityOrderService(
     /**
      * 计算配送费价格
      */
-    fun calcDeliveryFee(orderItemsAmount: Int, order: TOrder, config: ShopConfig) : Int {
+    fun calcDeliveryFee(orderItemsAmount: Int, order: TOrder, config: TShopConfig) : Int {
         // 如果选择外卖，计入配送费
         var deliveryFee = 0
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
             // 达到免配送金额，免配送费
-            if (orderItemsAmount < config.deliveryNoFeeLimit) {
+            if (orderItemsAmount < config.deliveryNofeeLimit) {
                 deliveryFee = config.deliveryFee
             } else {
                 deliveryFee = 0
             }
             // 如果没有见面配送费的要求 任何情况都不减免配送费
             // 配送费就等于配置好的配送费
-            if ( config.deliveryNoFeeLimit == 0 ) {
+            if ( config.deliveryNofeeLimit == 0 ) {
                 deliveryFee = config.deliveryFee
             }
         }

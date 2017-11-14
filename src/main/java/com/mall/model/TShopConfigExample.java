@@ -405,6 +405,76 @@ public class TShopConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andBannerImagesIsNull() {
+            addCriterion("banner_images is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesIsNotNull() {
+            addCriterion("banner_images is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesEqualTo(String value) {
+            addCriterion("banner_images =", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesNotEqualTo(String value) {
+            addCriterion("banner_images <>", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesGreaterThan(String value) {
+            addCriterion("banner_images >", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesGreaterThanOrEqualTo(String value) {
+            addCriterion("banner_images >=", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesLessThan(String value) {
+            addCriterion("banner_images <", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesLessThanOrEqualTo(String value) {
+            addCriterion("banner_images <=", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesLike(String value) {
+            addCriterion("banner_images like", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesNotLike(String value) {
+            addCriterion("banner_images not like", value, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesIn(List<String> values) {
+            addCriterion("banner_images in", values, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesNotIn(List<String> values) {
+            addCriterion("banner_images not in", values, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesBetween(String value1, String value2) {
+            addCriterion("banner_images between", value1, value2, "bannerImages");
+            return (Criteria) this;
+        }
+
+        public Criteria andBannerImagesNotBetween(String value1, String value2) {
+            addCriterion("banner_images not between", value1, value2, "bannerImages");
+            return (Criteria) this;
+        }
+
         public Criteria andPackFeeIsNull() {
             addCriterion("pack_fee is null");
             return (Criteria) this;
@@ -725,63 +795,63 @@ public class TShopConfigExample {
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdIsNull() {
-            addCriterion("transport_auto_3rd is null");
+        public Criteria andDeliveryAuto3rdIsNull() {
+            addCriterion("delivery_auto_3rd is null");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdIsNotNull() {
-            addCriterion("transport_auto_3rd is not null");
+        public Criteria andDeliveryAuto3rdIsNotNull() {
+            addCriterion("delivery_auto_3rd is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdEqualTo(Integer value) {
-            addCriterion("transport_auto_3rd =", value, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdEqualTo(Integer value) {
+            addCriterion("delivery_auto_3rd =", value, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdNotEqualTo(Integer value) {
-            addCriterion("transport_auto_3rd <>", value, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdNotEqualTo(Integer value) {
+            addCriterion("delivery_auto_3rd <>", value, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdGreaterThan(Integer value) {
-            addCriterion("transport_auto_3rd >", value, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdGreaterThan(Integer value) {
+            addCriterion("delivery_auto_3rd >", value, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("transport_auto_3rd >=", value, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("delivery_auto_3rd >=", value, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdLessThan(Integer value) {
-            addCriterion("transport_auto_3rd <", value, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdLessThan(Integer value) {
+            addCriterion("delivery_auto_3rd <", value, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdLessThanOrEqualTo(Integer value) {
-            addCriterion("transport_auto_3rd <=", value, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdLessThanOrEqualTo(Integer value) {
+            addCriterion("delivery_auto_3rd <=", value, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdIn(List<Integer> values) {
-            addCriterion("transport_auto_3rd in", values, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdIn(List<Integer> values) {
+            addCriterion("delivery_auto_3rd in", values, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdNotIn(List<Integer> values) {
-            addCriterion("transport_auto_3rd not in", values, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdNotIn(List<Integer> values) {
+            addCriterion("delivery_auto_3rd not in", values, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdBetween(Integer value1, Integer value2) {
-            addCriterion("transport_auto_3rd between", value1, value2, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdBetween(Integer value1, Integer value2) {
+            addCriterion("delivery_auto_3rd between", value1, value2, "deliveryAuto3rd");
             return (Criteria) this;
         }
 
-        public Criteria andTransportAuto3rdNotBetween(Integer value1, Integer value2) {
-            addCriterion("transport_auto_3rd not between", value1, value2, "transportAuto3rd");
+        public Criteria andDeliveryAuto3rdNotBetween(Integer value1, Integer value2) {
+            addCriterion("delivery_auto_3rd not between", value1, value2, "deliveryAuto3rd");
             return (Criteria) this;
         }
 

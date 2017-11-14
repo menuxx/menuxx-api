@@ -43,6 +43,7 @@ public class CorpTotalServiceImpl implements CorpTotalService {
     public void createCorpTotal(TCorpTotal corpTotal) {
         // 判断是否存在
         if (null == selectCorpTotal(corpTotal.getCorpId(), corpTotal.getDay())) {
+            corpTotal.setCreateTime(corpTotal.getDay()); // 特殊处理
             corpTotalMapper.insert(corpTotal);
         }
     }
@@ -52,7 +53,7 @@ public class CorpTotalServiceImpl implements CorpTotalService {
         TCorpTotalExample example = new TCorpTotalExample();
         TCorpTotalExample.Criteria criteria = example.createCriteria();
 
-        example.setOrderByClause(" ID DESC ");
+        example.setOrderByClause("ID DESC");
 
         criteria.andCorpIdEqualTo(corpId);
 

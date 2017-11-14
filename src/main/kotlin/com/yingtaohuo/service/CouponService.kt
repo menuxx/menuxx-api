@@ -108,6 +108,15 @@ class CouponService(
         return tCouponMapper.updateByPrimaryKeySelective(coupon)
     }
 
+    /**
+     * 获取店铺正在发放的卡券
+     */
+    fun getShopCoupons(shopId: Int) : List<TCouponConfig> {
+        val ex = TCouponConfigExample()
+        ex.createCriteria().andShopIdEqualTo(shopId)
+        return tCouponConfigMapper.selectByExample(ex)
+    }
+
     fun getCouponConfig(configId: Int) : TCouponConfig? {
         return tCouponConfigMapper.selectByPrimaryKey(configId)
     }

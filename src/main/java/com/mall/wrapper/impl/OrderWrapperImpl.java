@@ -135,7 +135,7 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 创建订单项
         List<OrderItem> orderItemList = order.getItemList();
 
-        ShopConfig config = shopConfigService.getShopConfig(order.getCorpId());
+        TShopConfig config = shopConfigService.getShopConfig(order.getCorpId());
 
         Integer orderItemsAmount = activityOrderService.calcOrderItemsAmount(order.getId(), orderItemList, itemMap);
 

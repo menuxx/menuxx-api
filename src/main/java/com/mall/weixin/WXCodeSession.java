@@ -1,6 +1,7 @@
 package com.mall.weixin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mall.exception.WXErrorMsg;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -8,6 +9,7 @@ public class WXCodeSession extends WXErrorMsg {
 
         private String openid;
 
+        @JsonProperty("session_key")
         private String sessionKey;
 
         public String getOpenid() {

@@ -2,6 +2,9 @@ package com.mall.annotation;
 
 import com.mall.utils.AESCoder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 作者: yinchangsheng@gmail.com
  * 创建于: 2017/2/22
@@ -30,6 +33,16 @@ public class SessionData {
 		this.mchid = mchid;
 		this.openid = openid;
 		this.corpId = corpId;
+	}
+
+	public Map<String, Object> toMap() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sessionKey", sessionKey);
+		map.put("userId", userId);
+		map.put("mchid", mchid);
+		map.put("openid", openid);
+		map.put("sessionToken", getSessionToken());
+		return map;
 	}
 
 	public static SessionData create(String sessionToken) {

@@ -552,66 +552,6 @@ public class TCorpTotalExample {
             return (Criteria) this;
         }
 
-        public Criteria andPayTotalIsNull() {
-            addCriterion("pay_total is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalIsNotNull() {
-            addCriterion("pay_total is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalEqualTo(Integer value) {
-            addCriterion("pay_total =", value, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalNotEqualTo(Integer value) {
-            addCriterion("pay_total <>", value, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalGreaterThan(Integer value) {
-            addCriterion("pay_total >", value, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pay_total >=", value, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalLessThan(Integer value) {
-            addCriterion("pay_total <", value, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalLessThanOrEqualTo(Integer value) {
-            addCriterion("pay_total <=", value, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalIn(List<Integer> values) {
-            addCriterion("pay_total in", values, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalNotIn(List<Integer> values) {
-            addCriterion("pay_total not in", values, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalBetween(Integer value1, Integer value2) {
-            addCriterion("pay_total between", value1, value2, "payTotal");
-            return (Criteria) this;
-        }
-
-        public Criteria andPayTotalNotBetween(Integer value1, Integer value2) {
-            addCriterion("pay_total not between", value1, value2, "payTotal");
-            return (Criteria) this;
-        }
-
         public Criteria andRechargeTotalIsNull() {
             addCriterion("recharge_total is null");
             return (Criteria) this;
@@ -729,6 +669,186 @@ public class TCorpTotalExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountIsNull() {
+            addCriterion("wx_total_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountIsNotNull() {
+            addCriterion("wx_total_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountEqualTo(Integer value) {
+            addCriterion("wx_total_amount =", value, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountNotEqualTo(Integer value) {
+            addCriterion("wx_total_amount <>", value, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountGreaterThan(Integer value) {
+            addCriterion("wx_total_amount >", value, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("wx_total_amount >=", value, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountLessThan(Integer value) {
+            addCriterion("wx_total_amount <", value, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("wx_total_amount <=", value, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountIn(List<Integer> values) {
+            addCriterion("wx_total_amount in", values, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountNotIn(List<Integer> values) {
+            addCriterion("wx_total_amount not in", values, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountBetween(Integer value1, Integer value2) {
+            addCriterion("wx_total_amount between", value1, value2, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWxTotalAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("wx_total_amount not between", value1, value2, "wxTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountIsNull() {
+            addCriterion("recharge_total_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountIsNotNull() {
+            addCriterion("recharge_total_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountEqualTo(Integer value) {
+            addCriterion("recharge_total_amount =", value, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountNotEqualTo(Integer value) {
+            addCriterion("recharge_total_amount <>", value, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountGreaterThan(Integer value) {
+            addCriterion("recharge_total_amount >", value, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("recharge_total_amount >=", value, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountLessThan(Integer value) {
+            addCriterion("recharge_total_amount <", value, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("recharge_total_amount <=", value, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountIn(List<Integer> values) {
+            addCriterion("recharge_total_amount in", values, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountNotIn(List<Integer> values) {
+            addCriterion("recharge_total_amount not in", values, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountBetween(Integer value1, Integer value2) {
+            addCriterion("recharge_total_amount between", value1, value2, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andRechargeTotalAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("recharge_total_amount not between", value1, value2, "rechargeTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountIsNull() {
+            addCriterion("coupon_total_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountIsNotNull() {
+            addCriterion("coupon_total_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountEqualTo(Integer value) {
+            addCriterion("coupon_total_amount =", value, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountNotEqualTo(Integer value) {
+            addCriterion("coupon_total_amount <>", value, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountGreaterThan(Integer value) {
+            addCriterion("coupon_total_amount >", value, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("coupon_total_amount >=", value, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountLessThan(Integer value) {
+            addCriterion("coupon_total_amount <", value, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("coupon_total_amount <=", value, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountIn(List<Integer> values) {
+            addCriterion("coupon_total_amount in", values, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountNotIn(List<Integer> values) {
+            addCriterion("coupon_total_amount not in", values, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_total_amount between", value1, value2, "couponTotalAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponTotalAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("coupon_total_amount not between", value1, value2, "couponTotalAmount");
             return (Criteria) this;
         }
     }
