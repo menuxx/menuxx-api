@@ -725,6 +725,66 @@ public class TShopConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andDeliveryDistanceIsNull() {
+            addCriterion("delivery_distance is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceIsNotNull() {
+            addCriterion("delivery_distance is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceEqualTo(Integer value) {
+            addCriterion("delivery_distance =", value, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceNotEqualTo(Integer value) {
+            addCriterion("delivery_distance <>", value, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceGreaterThan(Integer value) {
+            addCriterion("delivery_distance >", value, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("delivery_distance >=", value, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceLessThan(Integer value) {
+            addCriterion("delivery_distance <", value, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceLessThanOrEqualTo(Integer value) {
+            addCriterion("delivery_distance <=", value, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceIn(List<Integer> values) {
+            addCriterion("delivery_distance in", values, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceNotIn(List<Integer> values) {
+            addCriterion("delivery_distance not in", values, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceBetween(Integer value1, Integer value2) {
+            addCriterion("delivery_distance between", value1, value2, "deliveryDistance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDistanceNotBetween(Integer value1, Integer value2) {
+            addCriterion("delivery_distance not between", value1, value2, "deliveryDistance");
+            return (Criteria) this;
+        }
+
         public Criteria andBusinessTimelineIsNull() {
             addCriterion("business_timeline is null");
             return (Criteria) this;

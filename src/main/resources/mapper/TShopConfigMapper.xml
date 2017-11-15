@@ -12,6 +12,7 @@
     <result column="delivery_fee" jdbcType="INTEGER" property="deliveryFee" />
     <result column="alter_order_text" jdbcType="VARCHAR" property="alterOrderText" />
     <result column="delivery_channel" jdbcType="INTEGER" property="deliveryChannel" />
+    <result column="delivery_distance" jdbcType="INTEGER" property="deliveryDistance" />
     <result column="business_timeline" jdbcType="VARCHAR" property="businessTimeline" />
     <result column="delivery_auto_3rd" jdbcType="INTEGER" property="deliveryAuto3rd" />
     <result column="activity_notice_text" jdbcType="VARCHAR" property="activityNoticeText" />
@@ -80,8 +81,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, shop_id, vip_recharge, delivery_min_limit, delivery_nofee_limit, banner_images, 
-    pack_fee, delivery_fee, alter_order_text, delivery_channel, business_timeline, delivery_auto_3rd, 
-    activity_notice_text, ticket_style, ticket_wxlite_qrcode, update_time, coupon_policy
+    pack_fee, delivery_fee, alter_order_text, delivery_channel, delivery_distance, business_timeline, 
+    delivery_auto_3rd, activity_notice_text, ticket_style, ticket_wxlite_qrcode, update_time, 
+    coupon_policy
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TShopConfigExample" resultMap="BaseResultMap">
     select
@@ -120,15 +122,15 @@
     insert into t_shop_config (shop_id, vip_recharge, delivery_min_limit, 
       delivery_nofee_limit, banner_images, pack_fee, 
       delivery_fee, alter_order_text, delivery_channel, 
-      business_timeline, delivery_auto_3rd, activity_notice_text, 
-      ticket_style, ticket_wxlite_qrcode, update_time, 
-      coupon_policy)
+      delivery_distance, business_timeline, delivery_auto_3rd, 
+      activity_notice_text, ticket_style, ticket_wxlite_qrcode, 
+      update_time, coupon_policy)
     values (#{shopId,jdbcType=INTEGER}, #{vipRecharge,jdbcType=INTEGER}, #{deliveryMinLimit,jdbcType=INTEGER}, 
       #{deliveryNofeeLimit,jdbcType=INTEGER}, #{bannerImages,jdbcType=VARCHAR}, #{packFee,jdbcType=INTEGER}, 
       #{deliveryFee,jdbcType=INTEGER}, #{alterOrderText,jdbcType=VARCHAR}, #{deliveryChannel,jdbcType=INTEGER}, 
-      #{businessTimeline,jdbcType=VARCHAR}, #{deliveryAuto3rd,jdbcType=INTEGER}, #{activityNoticeText,jdbcType=VARCHAR}, 
-      #{ticketStyle,jdbcType=INTEGER}, #{ticketWxliteQrcode,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{couponPolicy,jdbcType=INTEGER})
+      #{deliveryDistance,jdbcType=INTEGER}, #{businessTimeline,jdbcType=VARCHAR}, #{deliveryAuto3rd,jdbcType=INTEGER}, 
+      #{activityNoticeText,jdbcType=VARCHAR}, #{ticketStyle,jdbcType=INTEGER}, #{ticketWxliteQrcode,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{couponPolicy,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TShopConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -162,6 +164,9 @@
       </if>
       <if test="deliveryChannel != null">
         delivery_channel,
+      </if>
+      <if test="deliveryDistance != null">
+        delivery_distance,
       </if>
       <if test="businessTimeline != null">
         business_timeline,
@@ -212,6 +217,9 @@
       </if>
       <if test="deliveryChannel != null">
         #{deliveryChannel,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryDistance != null">
+        #{deliveryDistance,jdbcType=INTEGER},
       </if>
       <if test="businessTimeline != null">
         #{businessTimeline,jdbcType=VARCHAR},
@@ -275,6 +283,9 @@
       <if test="record.deliveryChannel != null">
         delivery_channel = #{record.deliveryChannel,jdbcType=INTEGER},
       </if>
+      <if test="record.deliveryDistance != null">
+        delivery_distance = #{record.deliveryDistance,jdbcType=INTEGER},
+      </if>
       <if test="record.businessTimeline != null">
         business_timeline = #{record.businessTimeline,jdbcType=VARCHAR},
       </if>
@@ -313,6 +324,7 @@
       delivery_fee = #{record.deliveryFee,jdbcType=INTEGER},
       alter_order_text = #{record.alterOrderText,jdbcType=VARCHAR},
       delivery_channel = #{record.deliveryChannel,jdbcType=INTEGER},
+      delivery_distance = #{record.deliveryDistance,jdbcType=INTEGER},
       business_timeline = #{record.businessTimeline,jdbcType=VARCHAR},
       delivery_auto_3rd = #{record.deliveryAuto3rd,jdbcType=INTEGER},
       activity_notice_text = #{record.activityNoticeText,jdbcType=VARCHAR},
@@ -354,6 +366,9 @@
       <if test="deliveryChannel != null">
         delivery_channel = #{deliveryChannel,jdbcType=INTEGER},
       </if>
+      <if test="deliveryDistance != null">
+        delivery_distance = #{deliveryDistance,jdbcType=INTEGER},
+      </if>
       <if test="businessTimeline != null">
         business_timeline = #{businessTimeline,jdbcType=VARCHAR},
       </if>
@@ -389,6 +404,7 @@
       delivery_fee = #{deliveryFee,jdbcType=INTEGER},
       alter_order_text = #{alterOrderText,jdbcType=VARCHAR},
       delivery_channel = #{deliveryChannel,jdbcType=INTEGER},
+      delivery_distance = #{deliveryDistance,jdbcType=INTEGER},
       business_timeline = #{businessTimeline,jdbcType=VARCHAR},
       delivery_auto_3rd = #{deliveryAuto3rd,jdbcType=INTEGER},
       activity_notice_text = #{activityNoticeText,jdbcType=VARCHAR},

@@ -23,6 +23,8 @@ public class TShopConfig {
 
     private Integer deliveryChannel;
 
+    private Integer deliveryDistance;
+
     private String businessTimeline;
 
     private Integer deliveryAuto3rd;
@@ -115,6 +117,14 @@ public class TShopConfig {
 
     public void setDeliveryChannel(Integer deliveryChannel) {
         this.deliveryChannel = deliveryChannel;
+    }
+
+    public Integer getDeliveryDistance() {
+        return deliveryDistance;
+    }
+
+    public void setDeliveryDistance(Integer deliveryDistance) {
+        this.deliveryDistance = deliveryDistance;
     }
 
     public String getBusinessTimeline() {
