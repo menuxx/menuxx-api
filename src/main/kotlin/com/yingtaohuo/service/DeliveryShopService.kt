@@ -1,8 +1,8 @@
 package com.yingtaohuo.service
 
-import com.mall.mapper.TDeliveryShopMapper
-import com.mall.model.TDeliveryShop
-import com.mall.model.TDeliveryShopExample
+import com.mall.mapper.TDeliveryMerchantMapper
+import com.mall.model.TDeliveryMerchant
+import com.mall.model.TDeliveryMerchantExample
 import com.mall.utils.Util
 import org.springframework.stereotype.Service
 
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service
  * 微信: yin80871901
  */
 @Service
-open class DeliveryShopService(val deliveryShopMapper: TDeliveryShopMapper) {
+open class DeliveryShopService(private val deliveryShopMapper: TDeliveryMerchantMapper) {
 
-    fun getDeliveryShopByShopId(shopId: Int) : TDeliveryShop {
-        val ex = TDeliveryShopExample()
+    fun getDeliveryShopByShopId(shopId: Int) : TDeliveryMerchant {
+        val ex = TDeliveryMerchantExample()
         ex.createCriteria().andShopIdEqualTo(shopId)
         return Util.onlyOne(deliveryShopMapper.selectByExample(ex))
     }

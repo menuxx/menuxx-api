@@ -2,7 +2,8 @@ package com.mall.model;
 
 import java.math.BigDecimal;
 
-public class TDeliveryShop {
+public class TDeliveryMerchant {
+
     private Integer id;
 
     private Integer shopId;

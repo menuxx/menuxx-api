@@ -1,7 +1,6 @@
 package com.yingtaohuo.service
 
 import com.mall.mapper.TDadaMerchantMapper
-import com.mall.model.*
 import org.springframework.stereotype.Service
 
 /**
@@ -12,9 +11,7 @@ import org.springframework.stereotype.Service
 
 @Service
 open class DadaMerchantService(
-        val dadaMerchantMapper: TDadaMerchantMapper
+        private val dadaMerchantMapper: TDadaMerchantMapper
 ) {
-    fun getById(id: Int): TDadaMerchant {
-        return dadaMerchantMapper.selectByPrimaryKey(id)
-    }
+    fun getById(id: Int) = dadaMerchantMapper.selectByPrimaryKey(id)
 }

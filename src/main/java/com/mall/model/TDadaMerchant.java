@@ -1,6 +1,7 @@
 package com.mall.model;
 
 public class TDadaMerchant {
+
     private Integer id;
 
     private String mobile;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mall.mapper.TDeliveryShopMapper">
-  <resultMap id="BaseResultMap" type="com.mall.model.TDeliveryShop">
+<mapper namespace="com.mall.mapper.TDeliveryMerchantMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TDeliveryMerchant">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="shop_id" jdbcType="INTEGER" property="shopId" />
     <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
@@ -83,13 +83,13 @@
     lng, lat, contact_name, contact_phone, shop_no, imdada_username, imdada_password, 
     ele_app_id, dada_merchant_id
   </sql>
-  <select id="selectByExample" parameterType="com.mall.model.TDeliveryShopExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.mall.model.TDeliveryMerchantExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_delivery_shop
+    from t_delivery_merchant
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,24 +100,24 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_delivery_shop
+    from t_delivery_merchant
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_delivery_shop
+    delete from t_delivery_merchant
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mall.model.TDeliveryShopExample">
-    delete from t_delivery_shop
+  <delete id="deleteByExample" parameterType="com.mall.model.TDeliveryMerchantExample">
+    delete from t_delivery_merchant
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mall.model.TDeliveryShop">
+  <insert id="insert" parameterType="com.mall.model.TDeliveryMerchant">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_delivery_shop (shop_id, shop_name, shop_type, 
+    insert into t_delivery_merchant (shop_id, shop_name, shop_type, 
       city_name, dada_city_code, area_name, 
       shop_address, lng, lat, 
       contact_name, contact_phone, shop_no, 
@@ -130,11 +130,11 @@
       #{imdadaUsername,jdbcType=VARCHAR}, #{imdadaPassword,jdbcType=VARCHAR}, #{eleAppId,jdbcType=VARCHAR}, 
       #{dadaMerchantId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.mall.model.TDeliveryShop">
+  <insert id="insertSelective" parameterType="com.mall.model.TDeliveryMerchant">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_delivery_shop
+    insert into t_delivery_merchant
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="shopId != null">
         shop_id,
@@ -236,14 +236,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.mall.model.TDeliveryShopExample" resultType="java.lang.Integer">
-    select count(*) from t_delivery_shop
+  <select id="countByExample" parameterType="com.mall.model.TDeliveryMerchantExample" resultType="java.lang.Integer">
+    select count(*) from t_delivery_merchant
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_delivery_shop
+    update t_delivery_merchant
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -302,7 +302,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_delivery_shop
+    update t_delivery_merchant
     set id = #{record.id,jdbcType=INTEGER},
       shop_id = #{record.shopId,jdbcType=INTEGER},
       shop_name = #{record.shopName,jdbcType=VARCHAR},
@@ -324,8 +324,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TDeliveryShop">
-    update t_delivery_shop
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TDeliveryMerchant">
+    update t_delivery_merchant
     <set>
       <if test="shopId != null">
         shop_id = #{shopId,jdbcType=INTEGER},
@@ -378,8 +378,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mall.model.TDeliveryShop">
-    update t_delivery_shop
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TDeliveryMerchant">
+    update t_delivery_merchant
     set shop_id = #{shopId,jdbcType=INTEGER},
       shop_name = #{shopName,jdbcType=VARCHAR},
       shop_type = #{shopType,jdbcType=INTEGER},

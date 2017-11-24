@@ -3,12 +3,11 @@ package com.mall.service.impl;
 import com.github.pagehelper.PageInfo;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.mall.mapper.TDeliveryShopMapper;
+import com.mall.mapper.TDeliveryMerchantMapper;
 import com.mall.mapper.TOrderMapper;
 import com.mall.model.*;
 import com.mall.service.*;
 import com.yingtaohuo.mode.Coupon;
-import com.yingtaohuo.mode.ShopConfig;
 import com.yingtaohuo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     TOrderMapper orderMapper;
 
     @Autowired
-    TDeliveryShopMapper takeawayShopMapper;
+    TDeliveryMerchantMapper deliveryMerchantMapper;
 
     @Autowired
     ConfigService configService;
@@ -43,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     EventBus eventBus;
 
     @Autowired
-    TransportService transportService;
+    DeliveryService deliveryService;
 
     @Autowired
     OrderItemService orderItemService;
@@ -127,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
             // 是否自动发送第三方配送
             TShopConfig shopConfig = shopConfigService.getShopConfig(order.getCorpId());
             if ( order.getOrderType() == Order.ORDER_TYPE_DELIVERED && shopConfig.getDeliveryAuto3rd() == 1 ) {
-                transportService.transportOrderToChannel(order, shopConfig.getDeliveryChannel());
+                deliveryService.deliveryOrderToChannel(order, shopConfig.getDeliveryChannel());
             }
         } catch (Exception ex) {
             ex.printStackTrace();

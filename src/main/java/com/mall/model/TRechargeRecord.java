@@ -1,6 +1,7 @@
 package com.mall.model;
 
 public class TRechargeRecord {
+
     private Integer id;
 
     private String rechargeCode;

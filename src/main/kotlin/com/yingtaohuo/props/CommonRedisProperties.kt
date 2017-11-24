@@ -3,7 +3,6 @@ package com.yingtaohuo.props
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import org.springframework.context.annotation.Configuration
-import org.springframework.stereotype.Component
 
 /**
  * 作者: yinchangsheng@gmail.com

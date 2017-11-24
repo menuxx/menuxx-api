@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mall.mapper.TDeliveryTransportMapper">
-  <resultMap id="BaseResultMap" type="com.mall.model.TDeliveryTransport">
+<mapper namespace="com.mall.mapper.TDeliveryOrderMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.TDeliveryOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="shop_id" jdbcType="INTEGER" property="shopId" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
-    <result column="transport_channel" jdbcType="INTEGER" property="transportChannel" />
+    <result column="delivery_channel" jdbcType="INTEGER" property="deliveryChannel" />
     <result column="receiver_address" jdbcType="VARCHAR" property="receiverAddress" />
     <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
     <result column="receiver_tel" jdbcType="VARCHAR" property="receiverTel" />
@@ -20,16 +20,16 @@
     <result column="is_invoiced" jdbcType="TINYINT" property="isInvoiced" />
     <result column="invoice" jdbcType="VARCHAR" property="invoice" />
     <result column="require_receive_time" jdbcType="TIMESTAMP" property="requireReceiveTime" />
-    <result column="transport_fee" jdbcType="INTEGER" property="transportFee" />
-    <result column="transport_tips" jdbcType="INTEGER" property="transportTips" />
-    <result column="transport_distance" jdbcType="BIGINT" property="transportDistance" />
+    <result column="delivery_fee" jdbcType="INTEGER" property="deliveryFee" />
+    <result column="delivery_tips" jdbcType="INTEGER" property="deliveryTips" />
+    <result column="delivery_distance" jdbcType="BIGINT" property="deliveryDistance" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="cancel_reason" jdbcType="VARCHAR" property="cancelReason" />
     <result column="error_msg" jdbcType="VARCHAR" property="errorMsg" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="transporter_name" jdbcType="VARCHAR" property="transporterName" />
-    <result column="transporter_tel" jdbcType="VARCHAR" property="transporterTel" />
-    <result column="transporter_no" jdbcType="VARCHAR" property="transporterNo" />
+    <result column="carrier_name" jdbcType="VARCHAR" property="carrierName" />
+    <result column="carrier_tel" jdbcType="VARCHAR" property="carrierTel" />
+    <result column="carrier_no" jdbcType="VARCHAR" property="carrierNo" />
     <result column="accept_time" jdbcType="TIMESTAMP" property="acceptTime" />
     <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
     <result column="fetch_time" jdbcType="TIMESTAMP" property="fetchTime" />
@@ -96,20 +96,20 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, shop_id, order_no, transport_channel, receiver_address, receiver_name, receiver_tel, 
+    id, shop_id, order_no, delivery_channel, receiver_address, receiver_name, receiver_tel, 
     receiver_lat, receiver_lng, status, order_total_amount, order_weight, order_remark, 
-    goods_remark, goods_count, is_invoiced, invoice, require_receive_time, transport_fee, 
-    transport_tips, transport_distance, create_time, cancel_reason, error_msg, update_time, 
-    transporter_name, transporter_tel, transporter_no, accept_time, finish_time, fetch_time, 
-    cancel_time, expire_time, resend_time
+    goods_remark, goods_count, is_invoiced, invoice, require_receive_time, delivery_fee, 
+    delivery_tips, delivery_distance, create_time, cancel_reason, error_msg, update_time, 
+    carrier_name, carrier_tel, carrier_no, accept_time, finish_time, fetch_time, cancel_time, 
+    expire_time, resend_time
   </sql>
-  <select id="selectByExample" parameterType="com.mall.model.TDeliveryTransportExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.mall.model.TDeliveryOrderExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_delivery_transport
+    from t_delivery_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -120,53 +120,53 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_delivery_transport
+    from t_delivery_order
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_delivery_transport
+    delete from t_delivery_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mall.model.TDeliveryTransportExample">
-    delete from t_delivery_transport
+  <delete id="deleteByExample" parameterType="com.mall.model.TDeliveryOrderExample">
+    delete from t_delivery_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mall.model.TDeliveryTransport">
+  <insert id="insert" parameterType="com.mall.model.TDeliveryOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_delivery_transport (shop_id, order_no, transport_channel, 
+    insert into t_delivery_order (shop_id, order_no, delivery_channel, 
       receiver_address, receiver_name, receiver_tel, 
       receiver_lat, receiver_lng, status, 
       order_total_amount, order_weight, order_remark, 
       goods_remark, goods_count, is_invoiced, 
-      invoice, require_receive_time, transport_fee, 
-      transport_tips, transport_distance, create_time, 
+      invoice, require_receive_time, delivery_fee, 
+      delivery_tips, delivery_distance, create_time, 
       cancel_reason, error_msg, update_time, 
-      transporter_name, transporter_tel, transporter_no, 
+      carrier_name, carrier_tel, carrier_no, 
       accept_time, finish_time, fetch_time, 
       cancel_time, expire_time, resend_time
       )
-    values (#{shopId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{transportChannel,jdbcType=INTEGER}, 
+    values (#{shopId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{deliveryChannel,jdbcType=INTEGER}, 
       #{receiverAddress,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{receiverTel,jdbcType=VARCHAR}, 
       #{receiverLat,jdbcType=DECIMAL}, #{receiverLng,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
       #{orderTotalAmount,jdbcType=INTEGER}, #{orderWeight,jdbcType=DOUBLE}, #{orderRemark,jdbcType=VARCHAR}, 
       #{goodsRemark,jdbcType=VARCHAR}, #{goodsCount,jdbcType=INTEGER}, #{isInvoiced,jdbcType=TINYINT}, 
-      #{invoice,jdbcType=VARCHAR}, #{requireReceiveTime,jdbcType=TIMESTAMP}, #{transportFee,jdbcType=INTEGER}, 
-      #{transportTips,jdbcType=INTEGER}, #{transportDistance,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{invoice,jdbcType=VARCHAR}, #{requireReceiveTime,jdbcType=TIMESTAMP}, #{deliveryFee,jdbcType=INTEGER}, 
+      #{deliveryTips,jdbcType=INTEGER}, #{deliveryDistance,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{cancelReason,jdbcType=VARCHAR}, #{errorMsg,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{transporterName,jdbcType=VARCHAR}, #{transporterTel,jdbcType=VARCHAR}, #{transporterNo,jdbcType=VARCHAR}, 
+      #{carrierName,jdbcType=VARCHAR}, #{carrierTel,jdbcType=VARCHAR}, #{carrierNo,jdbcType=VARCHAR}, 
       #{acceptTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{fetchTime,jdbcType=TIMESTAMP}, 
       #{cancelTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP}, #{resendTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.mall.model.TDeliveryTransport">
+  <insert id="insertSelective" parameterType="com.mall.model.TDeliveryOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_delivery_transport
+    insert into t_delivery_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="shopId != null">
         shop_id,
@@ -174,8 +174,8 @@
       <if test="orderNo != null">
         order_no,
       </if>
-      <if test="transportChannel != null">
-        transport_channel,
+      <if test="deliveryChannel != null">
+        delivery_channel,
       </if>
       <if test="receiverAddress != null">
         receiver_address,
@@ -219,14 +219,14 @@
       <if test="requireReceiveTime != null">
         require_receive_time,
       </if>
-      <if test="transportFee != null">
-        transport_fee,
+      <if test="deliveryFee != null">
+        delivery_fee,
       </if>
-      <if test="transportTips != null">
-        transport_tips,
+      <if test="deliveryTips != null">
+        delivery_tips,
       </if>
-      <if test="transportDistance != null">
-        transport_distance,
+      <if test="deliveryDistance != null">
+        delivery_distance,
       </if>
       <if test="createTime != null">
         create_time,
@@ -240,14 +240,14 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="transporterName != null">
-        transporter_name,
+      <if test="carrierName != null">
+        carrier_name,
       </if>
-      <if test="transporterTel != null">
-        transporter_tel,
+      <if test="carrierTel != null">
+        carrier_tel,
       </if>
-      <if test="transporterNo != null">
-        transporter_no,
+      <if test="carrierNo != null">
+        carrier_no,
       </if>
       <if test="acceptTime != null">
         accept_time,
@@ -275,8 +275,8 @@
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="transportChannel != null">
-        #{transportChannel,jdbcType=INTEGER},
+      <if test="deliveryChannel != null">
+        #{deliveryChannel,jdbcType=INTEGER},
       </if>
       <if test="receiverAddress != null">
         #{receiverAddress,jdbcType=VARCHAR},
@@ -320,14 +320,14 @@
       <if test="requireReceiveTime != null">
         #{requireReceiveTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="transportFee != null">
-        #{transportFee,jdbcType=INTEGER},
+      <if test="deliveryFee != null">
+        #{deliveryFee,jdbcType=INTEGER},
       </if>
-      <if test="transportTips != null">
-        #{transportTips,jdbcType=INTEGER},
+      <if test="deliveryTips != null">
+        #{deliveryTips,jdbcType=INTEGER},
       </if>
-      <if test="transportDistance != null">
-        #{transportDistance,jdbcType=BIGINT},
+      <if test="deliveryDistance != null">
+        #{deliveryDistance,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -341,14 +341,14 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="transporterName != null">
-        #{transporterName,jdbcType=VARCHAR},
+      <if test="carrierName != null">
+        #{carrierName,jdbcType=VARCHAR},
       </if>
-      <if test="transporterTel != null">
-        #{transporterTel,jdbcType=VARCHAR},
+      <if test="carrierTel != null">
+        #{carrierTel,jdbcType=VARCHAR},
       </if>
-      <if test="transporterNo != null">
-        #{transporterNo,jdbcType=VARCHAR},
+      <if test="carrierNo != null">
+        #{carrierNo,jdbcType=VARCHAR},
       </if>
       <if test="acceptTime != null">
         #{acceptTime,jdbcType=TIMESTAMP},
@@ -370,14 +370,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.mall.model.TDeliveryTransportExample" resultType="java.lang.Integer">
-    select count(*) from t_delivery_transport
+  <select id="countByExample" parameterType="com.mall.model.TDeliveryOrderExample" resultType="java.lang.Integer">
+    select count(*) from t_delivery_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_delivery_transport
+    update t_delivery_order
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -388,8 +388,8 @@
       <if test="record.orderNo != null">
         order_no = #{record.orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="record.transportChannel != null">
-        transport_channel = #{record.transportChannel,jdbcType=INTEGER},
+      <if test="record.deliveryChannel != null">
+        delivery_channel = #{record.deliveryChannel,jdbcType=INTEGER},
       </if>
       <if test="record.receiverAddress != null">
         receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
@@ -433,14 +433,14 @@
       <if test="record.requireReceiveTime != null">
         require_receive_time = #{record.requireReceiveTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.transportFee != null">
-        transport_fee = #{record.transportFee,jdbcType=INTEGER},
+      <if test="record.deliveryFee != null">
+        delivery_fee = #{record.deliveryFee,jdbcType=INTEGER},
       </if>
-      <if test="record.transportTips != null">
-        transport_tips = #{record.transportTips,jdbcType=INTEGER},
+      <if test="record.deliveryTips != null">
+        delivery_tips = #{record.deliveryTips,jdbcType=INTEGER},
       </if>
-      <if test="record.transportDistance != null">
-        transport_distance = #{record.transportDistance,jdbcType=BIGINT},
+      <if test="record.deliveryDistance != null">
+        delivery_distance = #{record.deliveryDistance,jdbcType=BIGINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -454,14 +454,14 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.transporterName != null">
-        transporter_name = #{record.transporterName,jdbcType=VARCHAR},
+      <if test="record.carrierName != null">
+        carrier_name = #{record.carrierName,jdbcType=VARCHAR},
       </if>
-      <if test="record.transporterTel != null">
-        transporter_tel = #{record.transporterTel,jdbcType=VARCHAR},
+      <if test="record.carrierTel != null">
+        carrier_tel = #{record.carrierTel,jdbcType=VARCHAR},
       </if>
-      <if test="record.transporterNo != null">
-        transporter_no = #{record.transporterNo,jdbcType=VARCHAR},
+      <if test="record.carrierNo != null">
+        carrier_no = #{record.carrierNo,jdbcType=VARCHAR},
       </if>
       <if test="record.acceptTime != null">
         accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
@@ -487,11 +487,11 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_delivery_transport
+    update t_delivery_order
     set id = #{record.id,jdbcType=INTEGER},
       shop_id = #{record.shopId,jdbcType=INTEGER},
       order_no = #{record.orderNo,jdbcType=VARCHAR},
-      transport_channel = #{record.transportChannel,jdbcType=INTEGER},
+      delivery_channel = #{record.deliveryChannel,jdbcType=INTEGER},
       receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
       receiver_name = #{record.receiverName,jdbcType=VARCHAR},
       receiver_tel = #{record.receiverTel,jdbcType=VARCHAR},
@@ -506,16 +506,16 @@
       is_invoiced = #{record.isInvoiced,jdbcType=TINYINT},
       invoice = #{record.invoice,jdbcType=VARCHAR},
       require_receive_time = #{record.requireReceiveTime,jdbcType=TIMESTAMP},
-      transport_fee = #{record.transportFee,jdbcType=INTEGER},
-      transport_tips = #{record.transportTips,jdbcType=INTEGER},
-      transport_distance = #{record.transportDistance,jdbcType=BIGINT},
+      delivery_fee = #{record.deliveryFee,jdbcType=INTEGER},
+      delivery_tips = #{record.deliveryTips,jdbcType=INTEGER},
+      delivery_distance = #{record.deliveryDistance,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       cancel_reason = #{record.cancelReason,jdbcType=VARCHAR},
       error_msg = #{record.errorMsg,jdbcType=VARCHAR},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      transporter_name = #{record.transporterName,jdbcType=VARCHAR},
-      transporter_tel = #{record.transporterTel,jdbcType=VARCHAR},
-      transporter_no = #{record.transporterNo,jdbcType=VARCHAR},
+      carrier_name = #{record.carrierName,jdbcType=VARCHAR},
+      carrier_tel = #{record.carrierTel,jdbcType=VARCHAR},
+      carrier_no = #{record.carrierNo,jdbcType=VARCHAR},
       accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
       finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
       fetch_time = #{record.fetchTime,jdbcType=TIMESTAMP},
@@ -526,8 +526,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TDeliveryTransport">
-    update t_delivery_transport
+  <update id="updateByPrimaryKeySelective" parameterType="com.mall.model.TDeliveryOrder">
+    update t_delivery_order
     <set>
       <if test="shopId != null">
         shop_id = #{shopId,jdbcType=INTEGER},
@@ -535,8 +535,8 @@
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="transportChannel != null">
-        transport_channel = #{transportChannel,jdbcType=INTEGER},
+      <if test="deliveryChannel != null">
+        delivery_channel = #{deliveryChannel,jdbcType=INTEGER},
       </if>
       <if test="receiverAddress != null">
         receiver_address = #{receiverAddress,jdbcType=VARCHAR},
@@ -580,14 +580,14 @@
       <if test="requireReceiveTime != null">
         require_receive_time = #{requireReceiveTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="transportFee != null">
-        transport_fee = #{transportFee,jdbcType=INTEGER},
+      <if test="deliveryFee != null">
+        delivery_fee = #{deliveryFee,jdbcType=INTEGER},
       </if>
-      <if test="transportTips != null">
-        transport_tips = #{transportTips,jdbcType=INTEGER},
+      <if test="deliveryTips != null">
+        delivery_tips = #{deliveryTips,jdbcType=INTEGER},
       </if>
-      <if test="transportDistance != null">
-        transport_distance = #{transportDistance,jdbcType=BIGINT},
+      <if test="deliveryDistance != null">
+        delivery_distance = #{deliveryDistance,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -601,14 +601,14 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="transporterName != null">
-        transporter_name = #{transporterName,jdbcType=VARCHAR},
+      <if test="carrierName != null">
+        carrier_name = #{carrierName,jdbcType=VARCHAR},
       </if>
-      <if test="transporterTel != null">
-        transporter_tel = #{transporterTel,jdbcType=VARCHAR},
+      <if test="carrierTel != null">
+        carrier_tel = #{carrierTel,jdbcType=VARCHAR},
       </if>
-      <if test="transporterNo != null">
-        transporter_no = #{transporterNo,jdbcType=VARCHAR},
+      <if test="carrierNo != null">
+        carrier_no = #{carrierNo,jdbcType=VARCHAR},
       </if>
       <if test="acceptTime != null">
         accept_time = #{acceptTime,jdbcType=TIMESTAMP},
@@ -631,11 +631,11 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mall.model.TDeliveryTransport">
-    update t_delivery_transport
+  <update id="updateByPrimaryKey" parameterType="com.mall.model.TDeliveryOrder">
+    update t_delivery_order
     set shop_id = #{shopId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=VARCHAR},
-      transport_channel = #{transportChannel,jdbcType=INTEGER},
+      delivery_channel = #{deliveryChannel,jdbcType=INTEGER},
       receiver_address = #{receiverAddress,jdbcType=VARCHAR},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_tel = #{receiverTel,jdbcType=VARCHAR},
@@ -650,16 +650,16 @@
       is_invoiced = #{isInvoiced,jdbcType=TINYINT},
       invoice = #{invoice,jdbcType=VARCHAR},
       require_receive_time = #{requireReceiveTime,jdbcType=TIMESTAMP},
-      transport_fee = #{transportFee,jdbcType=INTEGER},
-      transport_tips = #{transportTips,jdbcType=INTEGER},
-      transport_distance = #{transportDistance,jdbcType=BIGINT},
+      delivery_fee = #{deliveryFee,jdbcType=INTEGER},
+      delivery_tips = #{deliveryTips,jdbcType=INTEGER},
+      delivery_distance = #{deliveryDistance,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       cancel_reason = #{cancelReason,jdbcType=VARCHAR},
       error_msg = #{errorMsg,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      transporter_name = #{transporterName,jdbcType=VARCHAR},
-      transporter_tel = #{transporterTel,jdbcType=VARCHAR},
-      transporter_no = #{transporterNo,jdbcType=VARCHAR},
+      carrier_name = #{carrierName,jdbcType=VARCHAR},
+      carrier_tel = #{carrierTel,jdbcType=VARCHAR},
+      carrier_no = #{carrierNo,jdbcType=VARCHAR},
       accept_time = #{acceptTime,jdbcType=TIMESTAMP},
       finish_time = #{finishTime,jdbcType=TIMESTAMP},
       fetch_time = #{fetchTime,jdbcType=TIMESTAMP},

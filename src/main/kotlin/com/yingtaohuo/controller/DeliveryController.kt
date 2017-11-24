@@ -14,8 +14,8 @@ import com.mall.utils.Util
 import com.yingtaohuo.mode.Delivery
 import com.yingtaohuo.mode.DeliveryTransporter
 import com.yingtaohuo.mode.PostResult
+import com.yingtaohuo.service.DeliveryService
 import com.yingtaohuo.service.ShopConfigService
-import com.yingtaohuo.service.TransportService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -32,10 +32,10 @@ import javax.validation.constraints.NotNull
 @RestController
 @RequestMapping("/diners/{dinerId}")
 open class DeliveryController @Autowired constructor (
-        var transportService: TransportService,
-        var configService: ConfigService,
-        var orderService: OrderService,
-        var shopConfigService: ShopConfigService
+        private var deliveryService: DeliveryService,
+        private var configService: ConfigService,
+        private var orderService: OrderService,
+        private var shopConfigService: ShopConfigService
 ) {
 
     private val logger = LoggerFactory.getLogger(DeliveryController::class.java)
@@ -47,8 +47,8 @@ open class DeliveryController @Autowired constructor (
         val corpConfig = Util.getConfigs(configService.selectMyConfigs(diner.id))
         // 如果配送渠道是 dada 1
         if (corpConfig[Constants.TransportChannel]?.equals(1) == true) {
-            val shop = transportService.getDeliveryShopByShopId(diner.id)
-            val totalTips = transportService.dadaAddTipsToTransport(tips.orderNo, shop, tips.tips)
+            val shop = deliveryService.getDeliveryMerchantByShopId(diner.id)
+            val totalTips = deliveryService.dadaAddTipsToTransport(tips.orderNo, shop, tips.tips)
             return PostResult(ret = totalTips, orderNo = tips.orderNo, errorCode = 0, errorMsg = "ok")
         } else {
             return PostResult(ret = "not support", orderNo = tips.orderNo, errorCode = 404, errorMsg = "暂时不支持该通道")
@@ -64,31 +64,31 @@ open class DeliveryController @Autowired constructor (
                            @RequestParam status: ArrayList<Int>,
                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) pageNum : Int,
                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) pageSize: Int
-    ) : PageInfo<Delivery>  = transportService.getShopTransportsFilterByStatus(dinerId, status)
+    ) : PageInfo<Delivery>  = deliveryService.getShopOrdersFilterByStatus(dinerId, status)
 
     /**
      * 发送一个配送请求
      */
     data class PostDelivery(val orderNo: String)
     @PostMapping("/deliveries")
-    open fun resendTransport(@PathVariable dinerId: Int, @Valid @RequestBody delivery: PostDelivery) : PostResult {
+    open fun resendDelivery(@PathVariable dinerId: Int, @Valid @RequestBody delivery: PostDelivery) : PostResult {
         return try {
-            val fee = transportService.dadaOrderResend(delivery.orderNo)
+            val fee = deliveryService.dadaOrderResend(delivery.orderNo)
             PostResult(ret = fee, orderNo = delivery.orderNo, errorCode = 0, errorMsg = "ok")
         } catch (ex: ImDadaException) {
             PostResult(ret = 0, orderNo = delivery.orderNo, errorCode = 1501, errorMsg = ex.message)
         }
     }
 
-    @GetMapping("/deliveries/{did}/transporter")
+    @GetMapping("/deliveries/{did}/transporter", "/deliveries/{did}/carrier")
     open fun getTransporter(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int) : DeliveryTransporter {
-        val corpConfig = Util.getConfigs(configService.selectMyConfigs(dinerId))
+        val corpConfig = configService.selectConfig(dinerId)
         // 如果配送渠道是 dada 1
-        if (corpConfig[Constants.TransportChannel]?.value.equals("1")) {
-            val shop = transportService.getDeliveryShopByShopId(dinerId)
-            val transport = transportService.getDeliveryById(deliveryId)
+        if (corpConfig.deliveryChannel == 1) {
+            val merchant = deliveryService.getDeliveryMerchantByShopId(dinerId)
+            val transport = deliveryService.getDeliveryById(deliveryId)
             if ( transport != null ) {
-                return transportService.dadaTransportQuery(transport.orderNo, shop)
+                return deliveryService.dadaDeliveryQuery(transport.orderNo, merchant)
             } else {
                 throw NotFoundException("不存在 id 为$deliveryId 的配送记录")
             }
@@ -98,19 +98,17 @@ open class DeliveryController @Autowired constructor (
     }
 
     @GetMapping("/deliveries/cancel/reasons")
-    open fun getCancelReasons(@PathVariable dinerId: Int) = transportService.getCancelReasons(dinerId)
+    open fun getCancelReasons(@PathVariable dinerId: Int) = deliveryService.getCancelReasons(dinerId)
 
     data class OrderToChannel(val orderId: Int, val channelType: Int)
     // 配送订单到达大
-    @PostMapping("/deliveries/transport_order")
-    open fun transportToChannel(@PathVariable dinerId: Int, @RequestBody channel: OrderToChannel) : PostResult {
+    @PostMapping("/deliveries/transport_order", "/deliveries/delivery_order")
+    open fun deliveryToChannel(@PathVariable dinerId: Int, @RequestBody channel: OrderToChannel) : PostResult {
         return try {
             val order = orderService.selectOrder(channel.orderId)
-            // 未来判断是否开通该渠道
-            // val config = shopConfigService.getShopConfig(dinerId)
             // 更新订单配送状态
             orderService.updateOrderTransportStatus(channel.orderId, 1)
-            val isOk = transportService.transportOrderToChannel(order, channel.channelType)
+            val isOk = deliveryService.deliveryOrderToChannel(order, channel.channelType)
             return if (isOk > 0) {
                 PostResult(ret = isOk, orderNo = order.orderCode, errorCode = 0, errorMsg = "ok")
             } else {
@@ -123,13 +121,13 @@ open class DeliveryController @Autowired constructor (
     }
 
     @PutMapping("/deliveries/{did}/cancel")
-    open fun cancelTransport(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int, @RequestBody reason: DDCancelReason) : PostResult {
-        val transport = transportService.getDeliveryById(deliveryId)
-        val (_, isOk, message) = transportService.cancelTransport(dinerId, transport!!.orderNo, reason.id, reason.reason)
+    open fun cancelDelivery(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int, @RequestBody reason: DDCancelReason) : PostResult {
+        val delivery = deliveryService.getDeliveryById(deliveryId)
+        val (_, isOk, message) = deliveryService.cancelDelivery(dinerId, delivery!!.orderNo, reason.id, reason.reason)
         return if ( isOk!! ) {
-            PostResult(ret = 0, orderNo = transport.orderNo, errorCode = 0, errorMsg = "ok")
+            PostResult(ret = 0, orderNo = delivery.orderNo, errorCode = 0, errorMsg = "ok")
         } else {
-            PostResult(ret = 0, orderNo = transport.orderNo, errorCode = 1503, errorMsg = message)
+            PostResult(ret = 0, orderNo = delivery.orderNo, errorCode = 1503, errorMsg = message)
         }
     }
 

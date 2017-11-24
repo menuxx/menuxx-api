@@ -20,7 +20,7 @@
                         password="1s$kh8g!1">
         </jdbcConnection>
 
-        <javaTypeResolver >
+        <javaTypeResolver>
             <property name="forceBigDecimals" value="true" />
         </javaTypeResolver>
 
@@ -130,13 +130,13 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table tableName="t_delivery_transport" domainObjectName="TDeliveryTransport">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table tableName="t_delivery_order" domainObjectName="TDeliveryOrder">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
-        <!--<table schema="jiujin" tableName="t_delivery_shop" domainObjectName="TDeliveryShop" >-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_delivery_merchant" domainObjectName="TDeliveryMerchant" >
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
         <!--<table schema="jiujin" tableName="t_dada_merchant" domainObjectName="TDadaMerchant" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -174,9 +174,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_shop_config" domainObjectName="TShopConfig">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_shop_config" domainObjectName="TShopConfig">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
     </context>
 

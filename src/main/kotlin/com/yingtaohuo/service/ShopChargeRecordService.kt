@@ -17,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional
  * 微信: yin80871901
  */
 
-val ShopChargeRecordConsumeType_ImdadaTransport = 1
+val ShopChargeRecordConsumeType_ImdadaDelivery = 1
+val ShopChargeRecordConsumeType_EleDelivery = 1
 
 @Service
 open class ShopChargeRecordService(

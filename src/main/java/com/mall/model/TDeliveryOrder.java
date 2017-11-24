@@ -3,14 +3,14 @@ package com.mall.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TDeliveryTransport {
+public class TDeliveryOrder {
     private Integer id;
 
     private Integer shopId;
 
     private String orderNo;
 
-    private Integer transportChannel;
+    private Integer deliveryChannel;
 
     private String receiverAddress;
 
@@ -40,11 +40,11 @@ public class TDeliveryTransport {
 
     private Date requireReceiveTime;
 
-    private Integer transportFee;
+    private Integer deliveryFee;
 
-    private Integer transportTips;
+    private Integer deliveryTips;
 
-    private Long transportDistance;
+    private Long deliveryDistance;
 
     private Date createTime;
 
@@ -54,11 +54,11 @@ public class TDeliveryTransport {
 
     private Date updateTime;
 
-    private String transporterName;
+    private String carrierName;
 
-    private String transporterTel;
+    private String carrierTel;
 
-    private String transporterNo;
+    private String carrierNo;
 
     private Date acceptTime;
 
@@ -96,12 +96,12 @@ public class TDeliveryTransport {
         this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
-    public Integer getTransportChannel() {
-        return transportChannel;
+    public Integer getDeliveryChannel() {
+        return deliveryChannel;
     }
 
-    public void setTransportChannel(Integer transportChannel) {
-        this.transportChannel = transportChannel;
+    public void setDeliveryChannel(Integer deliveryChannel) {
+        this.deliveryChannel = deliveryChannel;
     }
 
     public String getReceiverAddress() {
@@ -216,28 +216,28 @@ public class TDeliveryTransport {
         this.requireReceiveTime = requireReceiveTime;
     }
 
-    public Integer getTransportFee() {
-        return transportFee;
+    public Integer getDeliveryFee() {
+        return deliveryFee;
     }
 
-    public void setTransportFee(Integer transportFee) {
-        this.transportFee = transportFee;
+    public void setDeliveryFee(Integer deliveryFee) {
+        this.deliveryFee = deliveryFee;
     }
 
-    public Integer getTransportTips() {
-        return transportTips;
+    public Integer getDeliveryTips() {
+        return deliveryTips;
     }
 
-    public void setTransportTips(Integer transportTips) {
-        this.transportTips = transportTips;
+    public void setDeliveryTips(Integer deliveryTips) {
+        this.deliveryTips = deliveryTips;
     }
 
-    public Long getTransportDistance() {
-        return transportDistance;
+    public Long getDeliveryDistance() {
+        return deliveryDistance;
     }
 
-    public void setTransportDistance(Long transportDistance) {
-        this.transportDistance = transportDistance;
+    public void setDeliveryDistance(Long deliveryDistance) {
+        this.deliveryDistance = deliveryDistance;
     }
 
     public Date getCreateTime() {
@@ -272,28 +272,28 @@ public class TDeliveryTransport {
         this.updateTime = updateTime;
     }
 
-    public String getTransporterName() {
-        return transporterName;
+    public String getCarrierName() {
+        return carrierName;
     }
 
-    public void setTransporterName(String transporterName) {
-        this.transporterName = transporterName == null ? null : transporterName.trim();
+    public void setCarrierName(String carrierName) {
+        this.carrierName = carrierName == null ? null : carrierName.trim();
     }
 
-    public String getTransporterTel() {
-        return transporterTel;
+    public String getCarrierTel() {
+        return carrierTel;
     }
 
-    public void setTransporterTel(String transporterTel) {
-        this.transporterTel = transporterTel == null ? null : transporterTel.trim();
+    public void setCarrierTel(String carrierTel) {
+        this.carrierTel = carrierTel == null ? null : carrierTel.trim();
     }
 
-    public String getTransporterNo() {
-        return transporterNo;
+    public String getCarrierNo() {
+        return carrierNo;
     }
 
-    public void setTransporterNo(String transporterNo) {
-        this.transporterNo = transporterNo == null ? null : transporterNo.trim();
+    public void setCarrierNo(String carrierNo) {
+        this.carrierNo = carrierNo == null ? null : carrierNo.trim();
     }
 
     public Date getAcceptTime() {

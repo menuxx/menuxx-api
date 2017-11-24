@@ -2,9 +2,9 @@ package com.yingtaohuo.feieprinter
 
 import com.mall.model.Order
 import com.mall.model.TCorp
+import com.mall.model.TRechargeRecord
 import com.mall.model.TShopConfig
 import com.mall.utils.NumberUtil
-import com.yingtaohuo.mode.ShopConfig
 import com.yingtaohuo.service.FeiePrinterService
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
@@ -21,6 +21,43 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
     val logger = LoggerFactory.getLogger(FeieOrderPrinter::class.java)!!
 
     val DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE)
+
+    val Tpl02 = """<CB># 12 充值 </CB>
+================================
+<L>名称            数量      金额<L>
+<L>充200送10元</L><BR>
+<L>                1份    ￥200.00</L>
+--------------------------------
+================================
+合计：￥200.00(微信支付)
+流水号: 12
+订单号：20171749123747272134
+时间：2017-12-11 21:21:20
+账户余额：￥200.00
+================================
+<QR>https://mp.weixin.qq.com/a/~~Cs0YJfyPeXI~IXuXRRYnN-A72hMJg3QzoA~~</QR>
+<C>-----小露私房小厨-----</C>
+"""
+
+    fun makeRechargeTicketContent(record: TRechargeRecord, shop: TCorp, shopConfig: TShopConfig) : String {
+        var content = "<CB># 12 充值 </CB>\n"
+        content += "================================\n"
+        content += "<L>名称            数量      金额<L>\n"
+        content += "<L>"+ record.remark +"</L><BR>\n"
+        content += "--------------------------------\n"
+        content += "================================\n"
+        content += "合计：￥200.00(微信支付)\n"
+        content += "流水号: 12\n"
+        content += "订单号："  + record.rechargeCode + "\n"
+        content += "时间："+ record +"\n"
+        content += "账户余额：￥200.00\n"
+        content += "================================\n"
+        if ( StringUtils.isBlank(shopConfig.ticketWxliteQrcode) ) {
+            content += "<QR>https://mp.weixin.qq.com/a/~~Cs0YJfyPeXI~IXuXRRYnN-A72hMJg3QzoA~~</QR>\n"
+        }
+        content += "<C>-----"+ shop.shopName +"-----</C>"
+        return content
+    }
 
     val Tpl01 = """<CB># {queueNo} 堂食(追单)</CB><BR>
 <CB>{tableNo}号桌</CB><BR>

@@ -3,7 +3,8 @@ package com.yingtaohuo.configure
 import cn.imdada.ImDadaApi
 import cn.imdada.ImDadaClientBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.yingtaohuo.props.ImDadaProperties
+import com.yingtaohuo.props.DeliveryPlatformProperties
+import me.ele.delivery.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.LoggerFactory
@@ -15,19 +16,23 @@ import java.util.concurrent.TimeUnit
  * 作者: yinchangsheng@gmail.com
  * 创建于: 2017/7/7
  * 微信: yin80871901
+ * min 2000
+ * nofee 5000
+ * pack_fee 100
+ * delivery_fee
  */
 @Configuration
-open class ImDadaConfigure (
-        private val imdadaProps: ImDadaProperties,
+open class DeliveryPlatformConfigure (
+        private val deliveryProps: DeliveryPlatformProperties,
         private val jsonMapper: ObjectMapper
 ) {
 
-    val logger = LoggerFactory.getLogger(ImDadaConfigure::class.java)!!
+    private val logger = LoggerFactory.getLogger(DeliveryPlatformConfigure::class.java)!!
 
     fun getDefaultHttpClient() : OkHttpClient {
 
         val logging = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { msg -> println(msg) })
-        logging.level = HttpLoggingInterceptor.Level.BASIC
+        logging.level = HttpLoggingInterceptor.Level.BODY
 
         return OkHttpClient.Builder()
                 .writeTimeout(3, TimeUnit.SECONDS)
@@ -40,11 +45,20 @@ open class ImDadaConfigure (
     @Bean
     open fun imDadaApi() : ImDadaApi {
         val okHttp = getDefaultHttpClient()
-        return ImDadaClientBuilder(imdadaProps.appKey, imdadaProps.appSecret)
+        return ImDadaClientBuilder(deliveryProps.imdada!!.appKey, deliveryProps.imdada!!.appSecret)
                 .jsonMapper(jsonMapper)
                 .okHttp(okHttp)
                 .enableProd(true)
                 .build()
+    }
+
+    @Bean
+    open fun eleApi() : EleApis {
+        val appId = deliveryProps.ele!!.appId
+        val secretKey = deliveryProps.ele!!.secretKey
+        val okHttp = getDefaultHttpClient()
+        val tokenClient = CachedAccessTokenClient(appId, secretKey, ProductionMode, jsonMapper)
+        return EleApiClient(appId, secretKey, ProductionMode, tokenClient, jsonMapper, okHttp).buildApi()
     }
 
 }
