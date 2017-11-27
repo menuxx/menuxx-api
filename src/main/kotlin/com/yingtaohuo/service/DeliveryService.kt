@@ -129,8 +129,8 @@ open class DeliveryService(
                 requirePaymentPay = null,
                 goodsCount = goodsCount,
                 itemsJson = items,
-                requireReceiveTime = LocalDateTime.now().plusMinutes(5L).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-                serialNumber = "${shop.shopId}${order.orderCode.substring(order.orderCode.length - 4)}"
+                requireReceiveTime = LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                serialNumber = order.orderCode.substring(order.orderCode.length - 6)
         )
     }
 

@@ -70,7 +70,17 @@ open class DeliveryNotifyController(
     @PostMapping("/ele/callback", consumes = arrayOf(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
     fun imEleCallback(@RequestBody jsonTextHasUrlencoded: String) : String {
         // data="body"
-        val jsonText = URLDecoder.decode(jsonTextHasUrlencoded, "UTF-8").substring(5)
+        var str = ""
+        if (jsonTextHasUrlencoded.startsWith("data=")) {
+            str = str.replace("data=", "")
+        }
+        if (jsonTextHasUrlencoded.startsWith("event=")) {
+            str = jsonTextHasUrlencoded.replace("event=ele_push_order", "")
+        }
+        if (str.startsWith("&data=")) {
+            str = str.replace("&data=", "")
+        }
+        val jsonText = URLDecoder.decode(str, "UTF-8")
         val event = objectMapper.readValue<EleOrderEvent>(jsonText, EleOrderEvent::class.java)
         return when(event.orderStatus) {
             // 系统已接单
@@ -81,7 +91,7 @@ open class DeliveryNotifyController(
             }
             // 系统拒单/配送异常
             EleOrderStatusOfFail -> {
-                val ste = deliveryService.orderCancel(orderNo = event.partnerOrderCode, reason = event.cancelReason!!)
+                val ste = deliveryService.orderCancel(orderNo = event.partnerOrderCode, reason = event.errorCode + ", " + event.cancelReason)
                 return if (ste > 0) "success" else "fail"
             }
             // 已送达
