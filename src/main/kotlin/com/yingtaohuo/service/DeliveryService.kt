@@ -183,7 +183,7 @@ open class DeliveryService(
 
         val goodsCount = orderItems.size
 
-        val requireReceiveTime = (System.currentTimeMillis() / 1000) + (35 * 60)  // 希望35分钟内完成
+        val requireReceiveTime = System.currentTimeMillis() / 1000  // 希望35分钟内完成
 
         val goodsWeight = goodsCount * 0.1  // 按每件 0.2 千克计算
 
@@ -206,7 +206,7 @@ open class DeliveryService(
 
         val goodsCount = orderItems.size
 
-        val requireReceiveTime = (System.currentTimeMillis() / 1000) + (35 * 60)  // 希望35分钟内完成
+        val requireReceiveTime = System.currentTimeMillis() / 1000
 
         val goodsWeight = goodsCount * 0.1  // 按每件 0.2 千克计算
 

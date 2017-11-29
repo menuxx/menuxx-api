@@ -16,11 +16,40 @@ import java.util.*
  * 创建于: 2017/8/15
  * 微信: yin80871901
  */
-class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterService: FeiePrinterService) {
+class FeieOrderPrinter(private val printerClient: FeiePrinterClient, private val feiePrinterService: FeiePrinterService) {
 
     val logger = LoggerFactory.getLogger(FeieOrderPrinter::class.java)!!
 
     val DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE)
+
+    // 买单打印
+    val Tpl03 = """<CB># 支付买单 </CB>
+================================
+<L>共支付 :￥200.00</L>
+================================
+微信支付：￥0.0
+余额支付：￥170.00
+优惠：￥30.00 (新人券)
+支付单号：20171749123747272134
+时间：2017-12-11 21:21:20
+================================
+<C>-----小露私房小厨-----</C>
+"""
+    // 支付买单 小票内容
+    fun makePaymentTicketContent(shop: TCorp) : String {
+        var content = "<CB># 支付买单</CB>\n"
+        content += "<L>共支付 :￥" + 1 + "</L>\n"
+        content += "================================\n"
+        // content += "微信支付:￥" + wxPayAmount + "\n"
+        content += "余额支付：￥" + 2 + "\n"
+        content += "优惠：￥30.00 (新人券)\n"
+        content += "支付单号：20171749123747272134\n"
+        content += "时间：2017-12-11 21:21:20\n"
+        content += "================================\n"
+        content += "<C>-----小露私房小厨-----</C>"
+        content += "<C>-----"+ shop.shopName +"-----</C>"
+        return content
+    }
 
     val Tpl02 = """<CB># 12 充值 </CB>
 ================================
@@ -52,7 +81,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
         content += "时间："+ record +"\n"
         content += "账户余额：￥200.00\n"
         content += "================================\n"
-        if ( StringUtils.isBlank(shopConfig.ticketWxliteQrcode) ) {
+        if ( !StringUtils.isBlank(shopConfig.ticketWxliteQrcode) ) {
             content += "<QR>https://mp.weixin.qq.com/a/~~Cs0YJfyPeXI~IXuXRRYnN-A72hMJg3QzoA~~</QR>\n"
         }
         content += "<C>-----"+ shop.shopName +"-----</C>"
@@ -96,7 +125,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
                 stateText = "追单"
             }
 
-            content += "<CB># ${order.queueId} 堂食-$stateText</CB><BR>"
+            content += "<CB># ${order.queueId} 堂食-$stateText</CB>\n"
 
         }
 
@@ -104,22 +133,22 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
 
             var stateText = "结账"
 
-            content += "<CB># ${order.queueId} 堂食-$stateText</CB><BR>"
+            content += "<CB># ${order.queueId} 堂食-$stateText</CB>\n"
 
         }
 
         else if ( order.status == Order.STATUS_PAID ) {
 
-            content += "<CB># ${order.queueId} ${order.orderTypeText}</CB><BR>"
+            content += "<CB># ${order.queueId} ${order.orderTypeText}</CB>\n"
 
         }
 
         if ( order.table != null ) {
-            content += "<CB>(${order.table.tableName}桌)</CB><BR>"
+            content += "<CB>(${order.table.tableName}桌)</CB>\n"
         }
 
-        content += "================================<BR>\n" +
-                "<L>名称            数量       金额<L><BR>"
+        content += "================================\n" +
+                "<L>名称            数量       金额<L>"
 
         for (item in order.itemList) {
             content += if (item.item.barCode != null && item.item.itemCode != null) {
@@ -135,11 +164,11 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
             }
         }
 
-        content += "================================<BR>"
+        content += "================================"
 
         if (!StringUtils.isBlank(order.remark)) {
             content += "<W>备注：${order.remark}</W>\n" +
-                    "================================<BR>"
+                    "================================"
         }
 
         if (order.status == Order.STATUS_CONFIRM) {
@@ -160,15 +189,15 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
         content += """￥${NumberUtil.fenToYuan2(order.payAmount)}($payStatusText)
 流水号：${order.queueId}
 订单号：${order.orderCode}
-时间：${DateFormat.format(order.createTime)}<BR>"""
+时间：${DateFormat.format(order.createTime)}\n"""
 
         // 如果是外卖
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
-            content += "-------------外卖---------------<BR>\n" +
+            content += "-------------外卖---------------\n" +
                     "配送费                  ￥${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
         }
 
-        content += "================================<BR>"
+        content += "================================\n"
 
         // 如果是外卖 就显示外卖信息
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
@@ -179,7 +208,7 @@ class FeieOrderPrinter(val printerClient: FeiePrinterClient, val feiePrinterServ
             content += "<BR><QR>"+ shopConfig.ticketWxliteQrcode +"</QR><BR>"
         }
 
-        content + "<C>-----${shop.corpName}-----</C><BR>"
+        content + "<C>-----${shop.corpName}-----</C>\n"
 
         if (!StringUtils.isBlank(shop.corpPhone)) {
             content += "<C>--联系:${shop.corpPhone}--</C>"
