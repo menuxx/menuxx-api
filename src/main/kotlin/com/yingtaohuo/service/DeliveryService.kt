@@ -129,7 +129,7 @@ open class DeliveryService(
                 requirePaymentPay = null,
                 goodsCount = goodsCount,
                 itemsJson = items,
-                requireReceiveTime = LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                requireReceiveTime = LocalDateTime.now().plusMinutes(5L).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
                 serialNumber = order.orderCode.substring(order.orderCode.length - 6)
         )
     }
@@ -142,7 +142,7 @@ open class DeliveryService(
                 cityCode = shop.dadaCityCode,
                 cargoPrice = (order.totalAmount / 100) * 1.0,                           // 单位分转换成单位元
                 isPrepay = 0,                                                           // 不垫付
-                expectedFetchTime = (System.currentTimeMillis() / 1000) + (5 * 60),     // 5 分钟后接单
+                expectedFetchTime = requireReceiveTime,     // 5 分钟后接单
                 receiverName = receiverAddress.linkman,
                 receiverAddress = receiverAddress.address,
                 receiverPhone = receiverAddress.phone,
@@ -183,7 +183,7 @@ open class DeliveryService(
 
         val goodsCount = orderItems.size
 
-        val requireReceiveTime = System.currentTimeMillis() / 1000  // 希望35分钟内完成
+        val requireReceiveTime = (System.currentTimeMillis() / 1000)  // 希望5分钟内完成
 
         val goodsWeight = goodsCount * 0.1  // 按每件 0.2 千克计算
 
@@ -195,7 +195,7 @@ open class DeliveryService(
     }
 
     // 订单发送到 蜂鸟 的 配送渠道
-    @Throws(ImDadaException::class)
+    @Throws(EleException::class)
     fun sendEleOrderDeliveryChannel(order: TOrder, shop: TDeliveryMerchant) : Int {
 
         val orderItems = orderItemService.selectOrderItemByOrderId(order.id)
@@ -206,7 +206,7 @@ open class DeliveryService(
 
         val goodsCount = orderItems.size
 
-        val requireReceiveTime = System.currentTimeMillis() / 1000
+        val requireReceiveTime = (System.currentTimeMillis() / 1000)  // 希望5分钟内完成
 
         val goodsWeight = goodsCount * 0.1  // 按每件 0.2 千克计算
 

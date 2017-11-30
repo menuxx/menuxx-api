@@ -2,9 +2,15 @@ package com.mall
 
 import com.mall.model.TItem
 import com.mall.model.TOrderItem
+import com.mall.service.CorpService
 import com.mall.service.ItemService
 import com.mall.service.OrderItemService
 import com.mall.service.StatisticsService
+import com.mall.wrapper.OrderWrapper
+import com.yingtaohuo.feieprinter.FeieOrderPrinter
+import com.yingtaohuo.service.CouponService
+import com.yingtaohuo.service.FeiePrinterService
+import com.yingtaohuo.service.ShopConfigService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
@@ -35,9 +41,23 @@ class Runner1(
 
 @Profile("dproduction")
 @Component
-class Runner2(private val statisticsService: StatisticsService) : CommandLineRunner {
+class Runner2(
+        private val couponService: CouponService,
+        private val feieOrderPrinter: FeieOrderPrinter,
+        private val orderWrapper: OrderWrapper,
+        private val corpService: CorpService,
+        private val shopConfigService: ShopConfigService
+) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
+
+//        val order = orderWrapper.selectOrder(20136)
+//
+//        val shop = corpService.selectCorpByCorpId(108)
+//
+//        val config = shopConfigService.getShopConfig(108)
+//
+//        println(feieOrderPrinter.printOrderToShop(order, shop, config))
 
 //        statisticsService.doStatistics("2017-11-09")
 //        statisticsService.doStatistics("2017-11-10")

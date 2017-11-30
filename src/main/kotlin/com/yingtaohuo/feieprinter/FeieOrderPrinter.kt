@@ -148,19 +148,19 @@ class FeieOrderPrinter(private val printerClient: FeiePrinterClient, private val
         }
 
         content += "================================\n" +
-                "<L>名称            数量       金额<L>"
+                "<L>名称            数量       金额<L>\n"
 
         for (item in order.itemList) {
             content += if (item.item.barCode != null && item.item.itemCode != null) {
                 "--------------------------------\n" +
-                        "<L>${item.item.itemName}</L>\n" +
+                        "<L>${item.item.itemName}</L>" +
                         "${item.item.barCode}\n" +
                         "${item.item.itemCode}\n" +
-                        "<L>                 ${item.quantity}${item.item.unit ?: "份"}    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
+                        "<L>                 ${item.quantity}${item.item.unit ?: "份"}    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L>\n"
             } else {
                 "--------------------------------\n" +
-                        "<L>${item.item.itemName}</L>\n" +
-                        "<L>                 ${item.quantity}${item.item.unit ?: "份"}    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L><BR>"
+                        "<L>${item.item.itemName}</L>" +
+                        "<L>                 ${item.quantity}${item.item.unit ?: "份"}    ￥${NumberUtil.fenToYuan2(item.payAmount)}</L>\n"
             }
         }
 
@@ -177,7 +177,6 @@ class FeieOrderPrinter(private val printerClient: FeiePrinterClient, private val
             content += "合计："
         }
 
-
         val payStatusText = when(order.status) {
             Order.STATUS_OFFLINE -> "其他方式结算"
             Order.STATUS_CONFIRM -> "待支付"
@@ -189,23 +188,23 @@ class FeieOrderPrinter(private val printerClient: FeiePrinterClient, private val
         content += """￥${NumberUtil.fenToYuan2(order.payAmount)}($payStatusText)
 流水号：${order.queueId}
 订单号：${order.orderCode}
-时间：${DateFormat.format(order.createTime)}\n"""
+时间：${DateFormat.format(order.createTime)}""" + "\n"
 
         // 如果是外卖
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
             content += "-------------外卖---------------\n" +
-                    "配送费                  ￥${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
+                    "配送费                   ￥${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
         }
 
         content += "================================\n"
 
         // 如果是外卖 就显示外卖信息
         if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
-            content += "<L>配送信息: ${order.address.address} ${order.address.linkman} ${order.address.phone}</L>"
+            content += "<L>配送信息: ${order.address.address} ${order.address.linkman} ${order.address.phone}</L>\n"
         }
 
         if ( shopConfig != null && !StringUtils.isBlank(shopConfig.ticketWxliteQrcode) ) {
-            content += "<BR><QR>"+ shopConfig.ticketWxliteQrcode +"</QR><BR>"
+            content += "<QR>"+ shopConfig.ticketWxliteQrcode +"</QR>\n"
         }
 
         content + "<C>-----${shop.corpName}-----</C>\n"

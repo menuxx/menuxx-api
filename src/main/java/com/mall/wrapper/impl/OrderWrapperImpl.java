@@ -466,7 +466,6 @@ public class OrderWrapperImpl implements OrderWrapper {
 
         }
 
-
         if ( tTopup.getPolicyType() == 2 ) {
             // 给该用户发放卡券
             // 获取该支付的 卡券 配置
@@ -549,6 +548,8 @@ public class OrderWrapperImpl implements OrderWrapper {
 
             // PUSH
             pushOrder(order);
+
+            eventBus.post(order);
 
         }
     }
