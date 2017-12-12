@@ -51,13 +51,13 @@ class Runner2(
 
     override fun run(vararg args: String?) {
 
-//        val order = orderWrapper.selectOrder(20136)
-//
-//        val shop = corpService.selectCorpByCorpId(108)
-//
-//        val config = shopConfigService.getShopConfig(108)
-//
-//        println(feieOrderPrinter.printOrderToShop(order, shop, config))
+        val order = orderWrapper.selectOrder(20729)
+
+        val shop = corpService.selectCorpByCorpId(58)
+
+        val config = shopConfigService.getShopConfig(58)
+
+        feieOrderPrinter.printOrderToShop(order, shop, config)
 
 //        statisticsService.doStatistics("2017-11-09")
 //        statisticsService.doStatistics("2017-11-10")

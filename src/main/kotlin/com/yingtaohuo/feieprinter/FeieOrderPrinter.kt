@@ -221,6 +221,8 @@ class FeieOrderPrinter(private val printerClient: FeiePrinterClient, private val
 
         val content = makeOrderTicketContent(order, shop, shopConfig)
 
+        // val resp = printerClient.print("217502382", content, 0)
+
         val corpPrinters = feiePrinterService.selectShopPrinter(shop.id)
 
         // 成功打印次数

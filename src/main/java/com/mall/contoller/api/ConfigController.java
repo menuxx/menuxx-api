@@ -23,12 +23,6 @@ public class ConfigController extends BaseCorpController {
     @GetMapping("/shop_configs")
     public TShopConfig getShopConfig(@PathVariable("dinerId") Integer shopId) {
         TShopConfig config = shopConfigService.getShopConfig(shopId);
-        String images = config.getBannerImages();
-        if ( images != null ) {
-            config.setBannerImages(images + ":banner_01.png:banner_02.png");
-        } else {
-            config.setBannerImages("banner_01.png:banner_02.png");
-        }
         return config;
     }
 

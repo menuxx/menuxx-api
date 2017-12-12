@@ -1,6 +1,5 @@
 package com.yingtaohuo.service
 
-import com.google.common.eventbus.EventBus
 import com.mall.mapper.TOrderItemMapper
 import com.mall.mapper.TOrderMapper
 import com.mall.model.*
