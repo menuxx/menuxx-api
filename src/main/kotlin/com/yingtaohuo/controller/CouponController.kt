@@ -45,7 +45,7 @@ class CouponController(
             // 从末模板中 复制对应的 数据
             coupon.name = config.name
             coupon.type = config.type
-            coupon.cutback = config.cutback
+            coupon.cutback = config.cutback / config.newUserCouponRelease
             coupon.toup = config.toup
             coupon.descText = config.descText
             coupon.discount = config.discount
@@ -53,7 +53,7 @@ class CouponController(
             // 待激活
             coupon.enable = 0
             // 微信 推送 key
-            return ResponseDataWrap(couponService.insertCouponToUser(coupon), 0, false)
+            return ResponseDataWrap(couponService.insertCouponToUserBatch(coupon, config.newUserCouponRelease), 0, false)
         }
         return ResponseDataWrap(newUserCoupon, 0, false)
     }

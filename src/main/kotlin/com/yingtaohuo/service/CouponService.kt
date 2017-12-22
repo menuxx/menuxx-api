@@ -12,6 +12,7 @@ import com.yingtaohuo.mode.Coupon
 import com.yingtaohuo.mode.CouponTypeOfNewUser
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.*
@@ -27,7 +28,7 @@ val CouponNotUsed = 0
 val CouponUsed = 1
 
 @Service
-class CouponService(
+open class CouponService(
         private val tCouponMapper: TCouponMapper,
         private val tCouponConfigMapper: TCouponConfigMapper,
         private val publisher: Publisher
@@ -129,6 +130,13 @@ class CouponService(
                 // 启用发行
                 .andEnableEqualTo(1)
         return Util.onlyOne(tCouponConfigMapper.selectByExample(ex))
+    }
+
+    @Transactional
+    open fun insertCouponToUserBatch(coupon: TCoupon, times: Int) : List<Int> {
+        return (1..times).map {
+            tCouponMapper.insertSelective(coupon)
+        }
     }
 
     fun insertCouponToUser(coupon: TCoupon) : TCoupon {

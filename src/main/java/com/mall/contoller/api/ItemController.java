@@ -77,8 +77,8 @@ public class ItemController extends BaseCorpController {
         List<TTaste> tasteList = tasteService.selectTasteByCorp(dinerId);
         homeMap.put("tasteList", tasteList);
 
-        List<TFormat> formatList = formatService.selectFormatByCorpId(dinerId);
-        homeMap.put("formatList", formatList);
+         List<TFormat> formatList = formatService.selectFormatByCorpId(dinerId);
+         homeMap.put("formatList", formatList);
 
         List<TScene> tScene = sceneService.getCorpSceneTabsWithEnable(dinerId);
         homeMap.put("sceneTabs", tScene);

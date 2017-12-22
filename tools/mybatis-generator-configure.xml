@@ -130,13 +130,13 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table tableName="t_delivery_order" domainObjectName="TDeliveryOrder">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table tableName="t_delivery_order" domainObjectName="TDeliveryOrder">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
-        <table schema="jiujin" tableName="t_delivery_merchant" domainObjectName="TDeliveryMerchant" >
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_delivery_merchant" domainObjectName="TDeliveryMerchant" >-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
         <!--<table schema="jiujin" tableName="t_dada_merchant" domainObjectName="TDadaMerchant" >-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
@@ -174,7 +174,7 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_shop_config" domainObjectName="TShopConfig">-->
+        <!--<table schema="jiujin" tableName="t_coupon_config" domainObjectName="TCouponConfig">-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 

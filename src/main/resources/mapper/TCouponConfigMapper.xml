@@ -17,6 +17,7 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="scope" jdbcType="INTEGER" property="scope" />
     <result column="page_path" jdbcType="VARCHAR" property="pagePath" />
+    <result column="new_user_coupon_release" jdbcType="INTEGER" property="newUserCouponRelease" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, toup, cutback, discount, permanent, category_id, desc_text, name, expiration_day, 
-    type, shop_id, enable, end_time, scope, page_path
+    type, shop_id, enable, end_time, scope, page_path, new_user_coupon_release
   </sql>
   <select id="selectByExample" parameterType="com.mall.model.TCouponConfigExample" resultMap="BaseResultMap">
     select
@@ -118,12 +119,14 @@
       permanent, category_id, desc_text, 
       name, expiration_day, type, 
       shop_id, enable, end_time, 
-      scope, page_path)
+      scope, page_path, new_user_coupon_release
+      )
     values (#{toup,jdbcType=INTEGER}, #{cutback,jdbcType=INTEGER}, #{discount,jdbcType=REAL}, 
       #{permanent,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{descText,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{expirationDay,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{shopId,jdbcType=INTEGER}, #{enable,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{scope,jdbcType=INTEGER}, #{pagePath,jdbcType=VARCHAR})
+      #{scope,jdbcType=INTEGER}, #{pagePath,jdbcType=VARCHAR}, #{newUserCouponRelease,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.TCouponConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -173,6 +176,9 @@
       <if test="pagePath != null">
         page_path,
       </if>
+      <if test="newUserCouponRelease != null">
+        new_user_coupon_release,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="toup != null">
@@ -216,6 +222,9 @@
       </if>
       <if test="pagePath != null">
         #{pagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="newUserCouponRelease != null">
+        #{newUserCouponRelease,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -273,6 +282,9 @@
       <if test="record.pagePath != null">
         page_path = #{record.pagePath,jdbcType=VARCHAR},
       </if>
+      <if test="record.newUserCouponRelease != null">
+        new_user_coupon_release = #{record.newUserCouponRelease,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -294,7 +306,8 @@
       enable = #{record.enable,jdbcType=INTEGER},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       scope = #{record.scope,jdbcType=INTEGER},
-      page_path = #{record.pagePath,jdbcType=VARCHAR}
+      page_path = #{record.pagePath,jdbcType=VARCHAR},
+      new_user_coupon_release = #{record.newUserCouponRelease,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -344,6 +357,9 @@
       <if test="pagePath != null">
         page_path = #{pagePath,jdbcType=VARCHAR},
       </if>
+      <if test="newUserCouponRelease != null">
+        new_user_coupon_release = #{newUserCouponRelease,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -362,7 +378,8 @@
       enable = #{enable,jdbcType=INTEGER},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       scope = #{scope,jdbcType=INTEGER},
-      page_path = #{pagePath,jdbcType=VARCHAR}
+      page_path = #{pagePath,jdbcType=VARCHAR},
+      new_user_coupon_release = #{newUserCouponRelease,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

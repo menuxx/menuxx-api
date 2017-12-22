@@ -33,6 +33,8 @@ public class TCouponConfig {
 
     private String pagePath;
 
+    private Integer newUserCouponRelease;
+
     public Integer getId() {
         return id;
     }
@@ -151,5 +153,13 @@ public class TCouponConfig {
 
     public void setPagePath(String pagePath) {
         this.pagePath = pagePath == null ? null : pagePath.trim();
+    }
+
+    public Integer getNewUserCouponRelease() {
+        return newUserCouponRelease;
+    }
+
+    public void setNewUserCouponRelease(Integer newUserCouponRelease) {
+        this.newUserCouponRelease = newUserCouponRelease;
     }
 }

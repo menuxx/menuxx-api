@@ -1034,6 +1034,66 @@ public class TCouponConfigExample {
             addCriterion("page_path not between", value1, value2, "pagePath");
             return (Criteria) this;
         }
+
+        public Criteria andNewUserCouponReleaseIsNull() {
+            addCriterion("new_user_coupon_release is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseIsNotNull() {
+            addCriterion("new_user_coupon_release is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseEqualTo(Integer value) {
+            addCriterion("new_user_coupon_release =", value, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseNotEqualTo(Integer value) {
+            addCriterion("new_user_coupon_release <>", value, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseGreaterThan(Integer value) {
+            addCriterion("new_user_coupon_release >", value, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseGreaterThanOrEqualTo(Integer value) {
+            addCriterion("new_user_coupon_release >=", value, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseLessThan(Integer value) {
+            addCriterion("new_user_coupon_release <", value, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseLessThanOrEqualTo(Integer value) {
+            addCriterion("new_user_coupon_release <=", value, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseIn(List<Integer> values) {
+            addCriterion("new_user_coupon_release in", values, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseNotIn(List<Integer> values) {
+            addCriterion("new_user_coupon_release not in", values, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseBetween(Integer value1, Integer value2) {
+            addCriterion("new_user_coupon_release between", value1, value2, "newUserCouponRelease");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewUserCouponReleaseNotBetween(Integer value1, Integer value2) {
+            addCriterion("new_user_coupon_release not between", value1, value2, "newUserCouponRelease");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
