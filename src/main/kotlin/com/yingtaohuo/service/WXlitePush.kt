@@ -77,57 +77,60 @@ class WXMsgPush(private val wxMsgClient: WXMsgClient, private val corpService: C
             else -> TplMessageTypeOfBuyNotify
         }, shop.id)
 
+        if ( tplMsg != null ) {
 
-        val appid = shop.authorizerAppid
+            val appid = shop.authorizerAppid
 
-        val msg = TemplateMsg(
-                target, tplMsg.templateId,
-                page = "pages/orderList/orderList?orderId=${order.id}", formId = pushKey,
-                emphasisKeyword = "keyword1.DATA",
-                data = null
-        )
+            val msg = TemplateMsg(
+                    target, tplMsg.templateId,
+                    page = "pages/orderList/orderList?orderId=${order.id}", formId = pushKey,
+                    emphasisKeyword = "keyword1.DATA",
+                    data = null
+            )
 
-        val data = hashMapOf<String, TemplateMsgDataEntry>()
+            val data = hashMapOf<String, TemplateMsgDataEntry>()
 
-        if (order.orderType == Order.ORDER_TYPE_DELIVERED) {
+            if (order.orderType == Order.ORDER_TYPE_DELIVERED) {
 
-            // 消费金额 {{keyword1.DATA}}
-            data.put("keyword1", TemplateMsgDataEntry(NumberUtil.fenToYuan2(order.payAmount), null))
-            // 备注 {{keyword2.DATA}}
-            data.put("keyword2", TemplateMsgDataEntry(order.remark, null))
-            // 物品名称 {{keyword3.DATA}}
-            data.put("keyword3", TemplateMsgDataEntry(order.orderItemNames, null))
+                // 消费金额 {{keyword1.DATA}}
+                data.put("keyword1", TemplateMsgDataEntry(NumberUtil.fenToYuan2(order.payAmount), null))
+                // 备注 {{keyword2.DATA}}
+                data.put("keyword2", TemplateMsgDataEntry(order.remark, null))
+                // 物品名称 {{keyword3.DATA}}
+                data.put("keyword3", TemplateMsgDataEntry(order.orderItemNames, null))
 
-            val address = order.address
-            if ( address != null ) {
-                // 地址 {{keyword4.DATA}}
-                data.put("keyword4", TemplateMsgDataEntry(address.address, null))
-                // 联系人 {{keyword5.DATA}}
-                data.put("keyword5", TemplateMsgDataEntry(address.linkman, null))
-                // 电话 {{keyword6.DATA}}
-                data.put("keyword6", TemplateMsgDataEntry(address.phone, null))
+                val address = order.address
+                if ( address != null ) {
+                    // 地址 {{keyword4.DATA}}
+                    data.put("keyword4", TemplateMsgDataEntry(address.address, null))
+                    // 联系人 {{keyword5.DATA}}
+                    data.put("keyword5", TemplateMsgDataEntry(address.linkman, null))
+                    // 电话 {{keyword6.DATA}}
+                    data.put("keyword6", TemplateMsgDataEntry(address.phone, null))
+                }
+                // 售后客服 {{keyword7.DATA}}
+                data.put("keyword7", TemplateMsgDataEntry(shop.corpPhone, null))
+
+                // 订单号 {{keyword8.DATA}}
+                data.put("keyword8", TemplateMsgDataEntry(order.orderCode, null))
+
+            } else {
+
+                // 消费金额 {{keyword1.DATA}}
+                data.put("keyword1", TemplateMsgDataEntry(NumberUtil.fenToYuan2(order.payAmount), null))
+                // 备注 {{keyword2.DATA}}
+                data.put("keyword2", TemplateMsgDataEntry(order.remark ?: "无", null))
+                // 物品名称 {{keyword3.DATA}}
+                data.put("keyword3", TemplateMsgDataEntry(order.orderItemNames, null))
+                // 订单号 {{keyword4.DATA}}
+                data.put("keyword4", TemplateMsgDataEntry(order.orderCode, null))
             }
-            // 售后客服 {{keyword7.DATA}}
-            data.put("keyword7", TemplateMsgDataEntry(shop.corpPhone, null))
 
-            // 订单号 {{keyword8.DATA}}
-            data.put("keyword8", TemplateMsgDataEntry(order.orderCode, null))
+            msg.data = data
 
-        } else {
-
-            // 消费金额 {{keyword1.DATA}}
-            data.put("keyword1", TemplateMsgDataEntry(NumberUtil.fenToYuan2(order.payAmount), null))
-            // 备注 {{keyword2.DATA}}
-            data.put("keyword2", TemplateMsgDataEntry(order.remark ?: "无", null))
-            // 物品名称 {{keyword3.DATA}}
-            data.put("keyword3", TemplateMsgDataEntry(order.orderItemNames, null))
-            // 订单号 {{keyword4.DATA}}
-            data.put("keyword4", TemplateMsgDataEntry(order.orderCode, null))
+            wxMsgClient.sendMsg(appid, msg)
         }
 
-        msg.data = data
-
-        wxMsgClient.sendMsg(appid, msg)
     }
 
     /**
@@ -140,36 +143,41 @@ class WXMsgPush(private val wxMsgClient: WXMsgClient, private val corpService: C
     fun pushCouponAlert(pushKey: String, target: String, coupon: Coupon) {
 
         val shop = corpService.selectCorpByCorpId(coupon.shopId)
+
         val tplMsg = shopWXMsgService.getTplMsgTypeByRangeOfShop(TplMessageTypeOfCoupon, coupon.shopId)
-        val appid = shop.authorizerAppid
 
-        val msg = TemplateMsg(
-                target, tplMsg.templateId,
-                page = "pages/couponDetail/couponDetail?couponId=${coupon.id}", formId = pushKey,
-                emphasisKeyword = "keyword1.DATA",
-                data = null
-        )
+        if ( tplMsg != null ) {
+            val appid = shop.authorizerAppid
 
-        val data = hashMapOf<String, TemplateMsgDataEntry>()
+            val msg = TemplateMsg(
+                    target, tplMsg.templateId,
+                    page = "pages/couponDetail/couponDetail?couponId=${coupon.id}", formId = pushKey,
+                    emphasisKeyword = "keyword1.DATA",
+                    data = null
+            )
 
-        data.put("keyword1", TemplateMsgDataEntry(coupon.typeText!!, null))
-        data.put("keyword2", TemplateMsgDataEntry(Util.dateFormat(coupon.expirationTime!!), null))
+            val data = hashMapOf<String, TemplateMsgDataEntry>()
 
-        val day = Duration.between(Instant.now(), coupon.expirationTime.toInstant()).toDays()
+            data.put("keyword1", TemplateMsgDataEntry(coupon.typeText!!, null))
+            data.put("keyword2", TemplateMsgDataEntry(Util.dateFormat(coupon.expirationTime!!), null))
 
-        if ( coupon.cutback > 0 ) {
-            data.put("keyword3", TemplateMsgDataEntry("现在下单立减${(coupon.cutback / 100.0).toFloat()}元，快去下单吧，${day}天后就过期了", null))
+            val day = Duration.between(Instant.now(), coupon.expirationTime.toInstant()).toDays()
+
+            if ( coupon.cutback > 0 ) {
+                data.put("keyword3", TemplateMsgDataEntry("现在下单立减${(coupon.cutback / 100.0).toFloat()}元，快去下单吧，${day}天后就过期了", null))
+            }
+            else if ( coupon.discount > 0 ) {
+                data.put("keyword3", TemplateMsgDataEntry("现在下单立享${coupon.discount * 10}折优惠，快去下单吧，${day}天后就过期了", null))
+            }
+            else {
+                data.put("keyword3", TemplateMsgDataEntry("快去下单吧，${day}天后就过期了", null))
+            }
+
+            msg.data = data
+
+            wxMsgClient.sendMsg(appid, msg)
+
         }
-        else if ( coupon.discount > 0 ) {
-            data.put("keyword3", TemplateMsgDataEntry("现在下单立享${coupon.discount * 10}折优惠，快去下单吧，${day}天后就过期了", null))
-        }
-        else {
-            data.put("keyword3", TemplateMsgDataEntry("快去下单吧，${day}天后就过期了", null))
-        }
-
-        msg.data = data
-
-        wxMsgClient.sendMsg(appid, msg)
     }
 
 }

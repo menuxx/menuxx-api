@@ -24,7 +24,7 @@ val TplMessageTypeOfSendDelivery = 5
 @Service
 class ShopWXMsgService(private val twxMsgMapper: TWXMsgMapper) {
 
-    fun getTplMsgTypeByRangeOfShop(type: Int, shopId: Int) : TWXMsg {
+    fun getTplMsgTypeByRangeOfShop(type: Int, shopId: Int) : TWXMsg? {
         val ex = TWXMsgExample()
         ex.createCriteria().andShopIdEqualTo(shopId).andTypeEqualTo(type)
         return Util.onlyOne(twxMsgMapper.selectByExample(ex))

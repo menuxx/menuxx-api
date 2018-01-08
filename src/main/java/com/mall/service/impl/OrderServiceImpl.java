@@ -74,9 +74,10 @@ public class OrderServiceImpl implements OrderService {
     @Subscribe
     public void onOrderPaid(Order order) {
         // 给该用户推送下单成功通知
+        TUser tUser = userService.selectUser(order.getUserId());
         try {
             TPushKey pushKey =  pushKeyService.getUserAvailableKey(order.getUserId());
-            TUser tUser = userService.selectUser(order.getUserId());
+
             wxMsgPush.pushOrderPaid(pushKey.getPushKey(), tUser.getOpenid(), order);
             pushKeyService.timesIncrementByKeyId(pushKey.getId());
         } catch (Exception ex) {
