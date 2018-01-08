@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component
  * 作者: yinchangsheng@gmail.com
  * 创建于: 2017/9/29
  * 微信: yin80871901
- *
  * 卡券消费提醒消息处理
  */
 
