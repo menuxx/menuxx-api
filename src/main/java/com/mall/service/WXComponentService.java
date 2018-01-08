@@ -2,15 +2,15 @@ package com.mall.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class WXComponentService {
 
     public static final String COMPONENT_ACCESS_TOKEN = "component_access_token";
 
-    public Map<String, String> cache = new ConcurrentHashMap<>();
+    public Map<String, String> cache = new HashMap<>();
 
     public String getAccessToken() {
         return cache.get(COMPONENT_ACCESS_TOKEN);
