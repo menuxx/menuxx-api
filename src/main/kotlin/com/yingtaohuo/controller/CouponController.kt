@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.mall.AllOpen
 import com.mall.annotation.SessionData
 import com.mall.annotation.SessionKey
 import com.mall.model.TCoupon
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit
  * 微信: yin80871901
  */
 
+@AllOpen
 @RestController
 @RequestMapping("/shops/{shopId}")
 class CouponController(

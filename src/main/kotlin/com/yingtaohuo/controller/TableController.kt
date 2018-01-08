@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.mall.AllOpen
 import com.mall.mapper.TTableMapper
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.RestController
  * 创建于: 2017/8/9
  * 微信: yin80871901
  */
+@AllOpen
 @RestController
 @RequestMapping("/diners/{dinerId}")
-open class TableController(internal val tableMapper: TTableMapper) {
+class TableController(internal val tableMapper: TTableMapper) {
 
     @GetMapping("/tables/{tableId}")
     fun getTable(@PathVariable tableId: Int) = tableMapper.selectByPrimaryKey(tableId)!!

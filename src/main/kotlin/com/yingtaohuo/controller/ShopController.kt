@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.mall.AllOpen
 import com.mall.service.ConfigService
 import com.yingtaohuo.mode.ResponseDataWrap
 import org.hibernate.validator.constraints.NotEmpty
@@ -11,6 +12,7 @@ import javax.validation.Valid
  * 创建于: 2017/9/18
  * 微信: yin80871901
  */
+@AllOpen
 @RestController
 @RequestMapping("/shops/{shopId}")
 class ShopController(private val configService: ConfigService) {

@@ -44,6 +44,13 @@
     </repositories>
 
     <pluginRepositories>
+
+        <pluginRepository>
+            <id>nexus-aliyun</id>
+            <name>Nexus aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </pluginRepository>
+
         <pluginRepository>
             <id>central</id>
             <name>Central Repository</name>
@@ -68,7 +75,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 增量编译 -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <kotlin.version>1.1.51</kotlin.version>
+        <kotlin.version>1.2.10</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <java.version>1.8</java.version>
         <start-class>com.mall.RootApplication</start-class>
@@ -438,6 +445,35 @@
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <version>${kotlin.version}</version>
+
+                <configuration>
+                    <compilerPlugins>
+                        <!-- Or "jpa" for JPA support -->
+                        <plugin>no-arg</plugin>
+                        <plugin>all-open</plugin>
+                    </compilerPlugins>
+
+                    <pluginOptions>
+                        <option>all-open:annotation=com.mall.AllOpen</option>
+                        <option>no-arg:annotation=com.mall.NoArg</option>
+                        <!-- Call instance initializers in the synthetic constructor -->
+                        <!-- <option>no-arg:invokeInitializers=true</option> -->
+                    </pluginOptions>
+                </configuration>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-noarg</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
+
                 <executions>
                     <execution>
                         <id>compile</id>

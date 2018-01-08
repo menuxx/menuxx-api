@@ -2,6 +2,7 @@ package com.yingtaohuo.controller
 
 import cn.imdada.*
 import com.github.pagehelper.PageInfo
+import com.mall.AllOpen
 import com.mall.annotation.CurrentDiner
 import com.mall.configure.page.Page
 import com.mall.exception.NotFoundException
@@ -29,6 +30,7 @@ import javax.validation.constraints.NotNull
  * 微信: yin80871901
  */
 
+@AllOpen
 @RestController
 @RequestMapping("/diners/{dinerId}")
 open class DeliveryController @Autowired constructor (

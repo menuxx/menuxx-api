@@ -1,6 +1,7 @@
 package com.yingtaohuo.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.mall.AllOpen
 import com.mall.model.Order
 import com.mall.push.pusher.BaiduMqttPusher
 import com.mall.service.CorpService
@@ -26,8 +27,9 @@ data class WXLiteEventPayLoad(val orderId: Int)
 
 data class WXLiteEvent(val type: Int, val status: Int, val data: Any)
 
+@AllOpen
 @Service
-open class WXLiteMQTTPush(private val wxlitePush: BaiduMqttPusher,
+class WXLiteMQTTPush(private val wxlitePush: BaiduMqttPusher,
                       private val userService: UserService,
                       private val objectMapper: ObjectMapper) {
 
@@ -50,8 +52,9 @@ open class WXLiteMQTTPush(private val wxlitePush: BaiduMqttPusher,
 
 }
 
+@AllOpen
 @Service
-open class WXMsgPush(private val wxMsgClient: WXMsgClient, private val corpService: CorpService, private val shopWXMsgService: ShopWXMsgService, private val userService: UserService) {
+class WXMsgPush(private val wxMsgClient: WXMsgClient, private val corpService: CorpService, private val shopWXMsgService: ShopWXMsgService, private val userService: UserService) {
 
     /**
      * 向用户推送订单支付成功

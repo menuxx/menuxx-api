@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.model.*
 import com.mall.service.ItemService
 import com.mall.service.UserService
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Service
  * 创建于: 2017/8/20
  * 微信: yin80871901
  */
+@AllOpen
 @Service
-open class ActivityOrderService(
+class ActivityOrderService(
         private val userService: UserService,
         private val configService: ShopConfigService,
         private val itemService: ItemService,

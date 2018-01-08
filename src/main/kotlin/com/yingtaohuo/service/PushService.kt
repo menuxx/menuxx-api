@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.model.Order
 import com.mall.push.DinerPushManager
 import com.mall.service.CorpService
@@ -13,8 +14,9 @@ import org.springframework.stereotype.Service
  * 创建于: 2017/8/2
  * 微信: yin80871901
  */
+@AllOpen
 @Service
-open class PushService(
+class PushService(
         val feieOrderPrinter: FeieOrderPrinter,
         val pushManager: DinerPushManager, val orderWrapper: OrderWrapper,
         val corpService: CorpService,

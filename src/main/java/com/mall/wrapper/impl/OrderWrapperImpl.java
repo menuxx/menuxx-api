@@ -160,7 +160,9 @@ public class OrderWrapperImpl implements OrderWrapper {
         // 活动与卡券不能同时进行
         if ( order.getCouponId() == null && calcCoupons ) {
             List<Coupon> userCoupons = couponService.getMyCoupons(order.getUserId());
-            activityOrderService.calcCoupons(order, userCoupons);
+            if ( userCoupons != null ) {
+                activityOrderService.calcCoupons(order, userCoupons);
+            }
             // 计算活动价格
             // 更新活动后的价格，和文案
         } else if ( order.getCouponId() != null)  {

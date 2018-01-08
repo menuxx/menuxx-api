@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.mapper.TOrderItemMapper
 import com.mall.mapper.TOrderMapper
 import com.mall.model.*
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service
  * 创建于: 2017/7/27
  * 微信: yin80871901
  */
+@AllOpen
 @Service
 class XLOrderService(
         private val orderMapper: TOrderMapper,

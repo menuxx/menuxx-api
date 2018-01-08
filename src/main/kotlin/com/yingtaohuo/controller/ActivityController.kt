@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.mall.AllOpen
 import com.yingtaohuo.mode.Activity
 import com.yingtaohuo.service.ActivityService
 import org.springframework.web.bind.annotation.*
@@ -9,9 +10,10 @@ import org.springframework.web.bind.annotation.*
  * 创建于: 2017/8/10
  * 微信: yin80871901
  */
+@AllOpen
 @RestController
 @RequestMapping("/diners/{shopId}")
-open class ActivityController (
+class ActivityController (
         private val activityService: ActivityService
 ) {
 

@@ -1,6 +1,7 @@
 package com.yingtaohuo.controller
 
 import com.google.common.eventbus.EventBus
+import com.mall.AllOpen
 import com.mall.mapper.TOrderMapper
 import com.mall.model.Order
 import com.mall.model.TOrderItem
@@ -19,9 +20,10 @@ import org.springframework.web.bind.annotation.*
  * 中大店订单
  */
 
+@AllOpen
 @RestController
 @RequestMapping("/diners/{dinerId}")
-open class XLOrderController(
+class XLOrderController(
         private val orderService: XLOrderService,
         private val pushService: PushService,
         private val orderWrapper: OrderWrapper,

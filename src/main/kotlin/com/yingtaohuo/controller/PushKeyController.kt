@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.mall.AllOpen
 import com.mall.annotation.SessionData
 import com.mall.annotation.SessionKey
 import com.yingtaohuo.mode.PushKey
@@ -14,12 +15,13 @@ import javax.validation.Valid
  * 微信: yin80871901
  */
 
+@AllOpen
 @RestController
 @RequestMapping("/shops/{shopId}/push_keys")
-open class PushKeyController (private val pushKeyService : PushKeyService) {
+class PushKeyController (private val pushKeyService : PushKeyService) {
 
     @PostMapping
-    open fun addPushKey(@PathVariable shopId: Int, @SessionKey session: SessionData, @Valid @RequestBody pushKey: PushKey) : ResponseDataWrap {
+    fun addPushKey(@PathVariable shopId: Int, @SessionKey session: SessionData, @Valid @RequestBody pushKey: PushKey) : ResponseDataWrap {
         val tPushKey = pushKey.toTPushKey()
         tPushKey.userId = session.userId
         tPushKey.shopId = shopId

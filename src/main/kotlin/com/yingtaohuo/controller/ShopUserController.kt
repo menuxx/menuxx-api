@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.mall.AllOpen
 import com.mall.annotation.SessionData
 import com.mall.service.CorpService
 import com.mall.service.CorpUserService
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*
  * 微信: yin80871901
  */
 
+@AllOpen
 @RestController
 class ShopUserController(
         private val corpUserService: CorpUserService,

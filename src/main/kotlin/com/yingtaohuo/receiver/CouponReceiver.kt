@@ -1,5 +1,6 @@
 package com.yingtaohuo.receiver
 
+import com.mall.AllOpen
 import com.mall.service.UserService
 import com.rabbitmq.client.Channel
 import com.yingtaohuo.mode.Coupon
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component
  */
 
 @Component
+@AllOpen
 @RabbitListener(
         containerFactory = "rabbitListenerContainerFactory",
         bindings = arrayOf(
@@ -37,7 +39,7 @@ import org.springframework.stereotype.Component
                 )
         )
 )
-open class CouponReceiver(
+class CouponReceiver(
         private val wxPush: WXMsgPush,
         private val pushKeyService: PushKeyService,
         private val couponService: CouponService,

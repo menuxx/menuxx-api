@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.mapper.TActivityMapper
 import com.mall.mapper.TActivityMinusMapper
 import com.mall.mapper.TActivityNewUserMapper
@@ -14,8 +15,9 @@ import java.util.*
  * 创建于: 2017/8/10
  * 微信: yin80871901
  */
+@AllOpen
 @Service
-open class ActivityService(
+class ActivityService(
         private val activityMapper: TActivityMapper,
         private val activityMinusMapper: TActivityMinusMapper,
         private val activityNewUserMapper: TActivityNewUserMapper

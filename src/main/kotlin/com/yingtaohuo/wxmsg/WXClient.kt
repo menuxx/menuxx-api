@@ -1,5 +1,6 @@
 package com.yingtaohuo.wxmsg
 
+import com.mall.AllOpen
 import com.qq.weixin.wx3rd.TemplateMsg
 import com.qq.weixin.wx3rd.WXMessageApi
 import org.springframework.beans.factory.annotation.Qualifier
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service
  * 微信: yin80871901
  */
 
+@AllOpen
 @Service
 class WXMsgClient(
         private val wxMsgApi: WXMessageApi,
@@ -25,20 +27,21 @@ class WXMsgClient(
     }
 }
 
+@AllOpen
 @Service
-open class WXTokenCachedClient(
+class WXTokenCachedClient(
         @Qualifier("commonRedisTemplate")
         private val redisTemplate: RedisTemplate<String, Any>
 ) {
 
     @SuppressWarnings("unchecked")
-    open fun getAuthorizerToken(appId: String) : String? {
+    fun getAuthorizerToken(appId: String) : String? {
         val tokens = redisTemplate.opsForValue().get("authorizer_token:$appId") as Map<String, String>
         return tokens["authorizer_access_token"]
     }
 
     @SuppressWarnings("unchecked")
-    open fun getComponentToken(appId: String) : String? {
+    fun getComponentToken(appId: String) : String? {
         val tokens = redisTemplate.opsForValue().get("component_token:$appId") as Map<String, String>
         return tokens["component_access_token"]
     }

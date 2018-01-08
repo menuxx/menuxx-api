@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.mapper.TWXMsgMapper
 import com.mall.model.TWXMsg
 import com.mall.model.TWXMsgExample
@@ -19,6 +20,7 @@ val TplMessageTypeOfCoupon = 3
 val TplMessageTypeOfRefunds = 4
 val TplMessageTypeOfSendDelivery = 5
 
+@AllOpen
 @Service
 class ShopWXMsgService(private val twxMsgMapper: TWXMsgMapper) {
 

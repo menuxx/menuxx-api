@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.mapper.TCouponConfigMapper
 import com.mall.mapper.TCouponMapper
 import com.mall.model.TCoupon
@@ -27,8 +28,9 @@ import java.util.*
 val CouponNotUsed = 0
 val CouponUsed = 1
 
+@AllOpen
 @Service
-open class CouponService(
+class CouponService(
         private val tCouponMapper: TCouponMapper,
         private val tCouponConfigMapper: TCouponConfigMapper,
         private val publisher: Publisher
@@ -73,7 +75,7 @@ open class CouponService(
 
     }
 
-    fun getMyCoupons(userId: Int) : List<Coupon> {
+    fun getMyCoupons(userId: Int) : List<Coupon>? {
         val now = Date()
         val ex = TCouponExample()
         // 已激活的优惠券
@@ -90,7 +92,7 @@ open class CouponService(
                 .andUserIdEqualTo(userId)
                 .andUsedEqualTo(CouponNotUsed)
 
-        return tCouponMapper.selectByExample(ex).map(::Coupon)
+        return tCouponMapper.selectByExample(ex)?.map(::Coupon)
     }
 
     fun usedCoupon(couponId: Int) : Int {
@@ -133,7 +135,7 @@ open class CouponService(
     }
 
     @Transactional
-    open fun insertCouponToUserBatch(coupon: TCoupon, times: Int) : List<Int> {
+    fun insertCouponToUserBatch(coupon: TCoupon, times: Int) : List<Int> {
         return (1..times).map {
             tCouponMapper.insertSelective(coupon)
         }

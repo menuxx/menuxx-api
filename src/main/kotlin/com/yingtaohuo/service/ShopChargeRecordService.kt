@@ -1,6 +1,7 @@
 package com.yingtaohuo.service
 
 import com.github.pagehelper.PageInfo
+import com.mall.AllOpen
 import com.mall.mapper.TShopChargeRecordBalanceMapper
 import com.mall.mapper.TShopChargeRecordMapper
 import com.mall.model.TShopChargeRecord
@@ -20,14 +21,15 @@ import org.springframework.transaction.annotation.Transactional
 val ShopChargeRecordConsumeType_ImdadaDelivery = 1
 val ShopChargeRecordConsumeType_EleDelivery = 1
 
+@AllOpen
 @Service
-open class ShopChargeRecordService(
-        val shopChargeRecordMapper : TShopChargeRecordMapper,
-        val balanceMapper: TShopChargeRecordBalanceMapper
+class ShopChargeRecordService(
+        private val shopChargeRecordMapper : TShopChargeRecordMapper,
+        private val balanceMapper: TShopChargeRecordBalanceMapper
 ) {
 
     @Transactional
-    open fun recordConsume(shopId: Int, shopAccountId: Int, amount: Int, consumeType: Int, remark: String) : TShopChargeRecord {
+    fun recordConsume(shopId: Int, shopAccountId: Int, amount: Int, consumeType: Int, remark: String) : TShopChargeRecord {
         val record = TShopChargeRecord()
         record.amount = amount
         record.consumeType = consumeType
@@ -51,19 +53,19 @@ open class ShopChargeRecordService(
         return record
     }
 
-    open fun selectList(shopId: Int) : PageInfo<TShopChargeRecord> {
+    fun selectList(shopId: Int) : PageInfo<TShopChargeRecord> {
         val ex = TShopChargeRecordExample()
         ex.createCriteria().andShopIdEqualTo(shopId)
         return PageInfo(shopChargeRecordMapper.selectByExample(ex))
     }
 
-    open fun getShopBalance(shopId: Int) : TShopChargeRecordBalance? {
+    fun getShopBalance(shopId: Int) : TShopChargeRecordBalance? {
         val ex = TShopChargeRecordBalanceExample()
         ex.createCriteria().andShopIdEqualTo(shopId)
         return Util.onlyOne(balanceMapper.selectByExample(ex))
     }
 
-    open fun createShopBalance(shopId: Int) : TShopChargeRecordBalance {
+    fun createShopBalance(shopId: Int) : TShopChargeRecordBalance {
         val ex = TShopChargeRecordBalanceExample()
         ex.createCriteria().andShopIdEqualTo(shopId)
 
@@ -76,7 +78,7 @@ open class ShopChargeRecordService(
         return record
     }
 
-    open fun updateShopBalance(shopId: Int, balance: Int) : Int {
+    fun updateShopBalance(shopId: Int, balance: Int) : Int {
 
         val ex = TShopChargeRecordBalanceExample()
         ex.createCriteria().andShopIdEqualTo(shopId)

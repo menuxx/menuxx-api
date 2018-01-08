@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.mapper.PushKeyMapper
 import com.mall.mapper.TPushKeyMapper
 import com.mall.model.TPushKey
@@ -19,8 +20,9 @@ import java.util.*
 @JvmField val PushKeyTypeOfFormID = 1
 @JvmField val PushKeyTypeOfPrepayId = 2
 
+@AllOpen
 @Service
-open class PushKeyService (private val tPushKeyMapper: TPushKeyMapper, private val pushKeyMapper: PushKeyMapper) {
+class PushKeyService (private val tPushKeyMapper: TPushKeyMapper, private val pushKeyMapper: PushKeyMapper) {
 
     // 添加新的 push_key
     fun insertKey(pushKey: TPushKey) : Boolean {

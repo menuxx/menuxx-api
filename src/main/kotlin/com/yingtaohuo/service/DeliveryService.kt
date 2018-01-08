@@ -2,6 +2,7 @@ package com.yingtaohuo.service
 
 import cn.imdada.*
 import com.github.pagehelper.PageInfo
+import com.mall.AllOpen
 import com.mall.exception.NotFoundException
 import com.mall.mapper.TDeliveryMerchantMapper
 import com.mall.mapper.TDeliveryOrderMapper
@@ -31,9 +32,9 @@ import java.util.*
  * 创建于: 2017/7/9
  * 微信: yin80871901
  */
-
+@AllOpen
 @Service
-open class DeliveryService(
+class DeliveryService(
         private val deliveryShopService: DeliveryShopService,
         private val deliveryOrderMapper: TDeliveryOrderMapper,
         private val deliveryMerchantMapper: TDeliveryMerchantMapper,

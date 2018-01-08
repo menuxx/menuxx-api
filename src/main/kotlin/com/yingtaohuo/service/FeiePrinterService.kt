@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.mapper.TFeiePrinterMapper
 import com.mall.model.TFeiePrinter
 import com.mall.model.TFeiePrinterExample
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Service
  * 创建于: 2017/8/15
  * 微信: yin80871901
  */
+@AllOpen
 @Service
-open class FeiePrinterService(val feiePrinterMapper: TFeiePrinterMapper) {
+class FeiePrinterService(val feiePrinterMapper: TFeiePrinterMapper) {
 
     fun selectShopPrinter(shopId: Int) : List<TFeiePrinter> {
         val ex = TFeiePrinterExample()

@@ -1,5 +1,6 @@
 package com.yingtaohuo.receiver
 
+import com.mall.AllOpen
 import com.mall.service.WXComponentService
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.Channel
@@ -23,6 +24,7 @@ import java.io.IOException
  * exchange = @Exchange(value = "${mq.config.exchange}", type = ExchangeTypes.TOPIC),
  * key = "${mq.config.key}"), admin = "rabbitAdmin")
  */
+@AllOpen
 @Component
 @RabbitListener(
         containerFactory = "rabbitListenerContainerFactory",
@@ -39,14 +41,14 @@ import java.io.IOException
                 )
         )
 )
-open class WXTokenReceiver(private val componentService: WXComponentService) {
+class WXTokenReceiver(private val componentService: WXComponentService) {
 
     private val logger = LoggerFactory.getLogger(WXTokenReceiver::class.java)
 
     // 当有 token 被更新的时候 就更新
     @RabbitHandler
     @Throws(InterruptedException::class, IOException::class)
-    open fun receiveWXToken(@Payload token: WXComponentToken, channel: Channel, @Header(AmqpHeaders.DELIVERY_TAG) deliveryTag: Long) {
+    fun receiveWXToken(@Payload token: WXComponentToken, channel: Channel, @Header(AmqpHeaders.DELIVERY_TAG) deliveryTag: Long) {
         logger.debug("=== receiveMessage componentAccessToken : ${token.componentAccessToken}")
         componentService.accessToken = token.componentAccessToken
     }

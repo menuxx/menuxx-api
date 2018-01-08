@@ -1,5 +1,6 @@
 package com.yingtaohuo.controller
 
+import com.mall.AllOpen
 import com.mall.model.Order
 import com.mall.service.CorpService
 import com.mall.wrapper.OrderWrapper
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*
  * 创建于: 2017/8/31
  * 微信: yin80871901
  */
+@AllOpen
 @RestController
 @RequestMapping("/diners/{shopId}")
 class PrintController(

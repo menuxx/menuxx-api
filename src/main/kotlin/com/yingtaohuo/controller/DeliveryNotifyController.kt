@@ -3,6 +3,7 @@ package com.yingtaohuo.controller
 import cn.imdada.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.io.ByteStreams
+import com.mall.AllOpen
 import com.mall.service.OrderService
 import com.yingtaohuo.service.*
 import me.ele.delivery.*
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest
  * 创建于: 2017/8/16
  * 微信: yin80871901
  */
+@AllOpen
 @RestController
 open class DeliveryNotifyController(
         private val objectMapper: ObjectMapper,

@@ -1,5 +1,6 @@
 package com.yingtaohuo.service
 
+import com.mall.AllOpen
 import com.mall.mapper.TShopConfigMapper
 import com.mall.model.TShopConfig
 import com.mall.model.TShopConfigExample
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Service
  * 微信: yin80871901
  */
 
+@AllOpen
 @Service
-open class ShopConfigService(
+class ShopConfigService(
         private val configMapper: TShopConfigMapper
 ) {
 
