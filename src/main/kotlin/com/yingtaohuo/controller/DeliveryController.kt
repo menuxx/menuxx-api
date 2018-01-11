@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull
 @AllOpen
 @RestController
 @RequestMapping("/diners/{dinerId}")
-open class DeliveryController @Autowired constructor (
+class DeliveryController @Autowired constructor (
         private var deliveryService: DeliveryService,
         private var configService: ConfigService,
         private var orderService: OrderService,
@@ -45,7 +45,7 @@ open class DeliveryController @Autowired constructor (
     // 给某个订单追加小费
     data class PostTips(@NotNull val orderNo: String, @NotNull val tips: Int)
     @PutMapping("/deliveries/tip")
-    open fun addTips(@CurrentDiner diner: TCorp, @Valid @RequestBody tips: PostTips) : PostResult {
+    fun addTips(@CurrentDiner diner: TCorp, @Valid @RequestBody tips: PostTips) : PostResult {
         val corpConfig = Util.getConfigs(configService.selectMyConfigs(diner.id))
         // 如果配送渠道是 dada 1
         if (corpConfig[Constants.TransportChannel]?.equals(1) == true) {
@@ -62,7 +62,7 @@ open class DeliveryController @Autowired constructor (
      */
     @Page
     @GetMapping("/deliveries")
-    open fun getTransports(@PathVariable dinerId: Int,
+    fun getTransports(@PathVariable dinerId: Int,
                            @RequestParam status: ArrayList<Int>,
                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGENUM) pageNum : Int,
                            @RequestParam(required = false, defaultValue = Constants.DEFAULT_PAGESIZE) pageSize: Int
@@ -73,7 +73,7 @@ open class DeliveryController @Autowired constructor (
      */
     data class PostDelivery(val orderNo: String)
     @PostMapping("/deliveries")
-    open fun resendDelivery(@PathVariable dinerId: Int, @Valid @RequestBody delivery: PostDelivery) : PostResult {
+    fun resendDelivery(@PathVariable dinerId: Int, @Valid @RequestBody delivery: PostDelivery) : PostResult {
         return try {
             val fee = deliveryService.dadaOrderResend(delivery.orderNo)
             PostResult(ret = fee, orderNo = delivery.orderNo, errorCode = 0, errorMsg = "ok")
@@ -83,7 +83,7 @@ open class DeliveryController @Autowired constructor (
     }
 
     @GetMapping("/deliveries/{did}/transporter", "/deliveries/{did}/carrier")
-    open fun getTransporter(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int) : DeliveryTransporter {
+    fun getTransporter(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int) : DeliveryTransporter {
         val corpConfig = configService.selectConfig(dinerId)
         // 如果配送渠道是 dada 1
         if (corpConfig.deliveryChannel == 1) {
@@ -100,12 +100,12 @@ open class DeliveryController @Autowired constructor (
     }
 
     @GetMapping("/deliveries/cancel/reasons")
-    open fun getCancelReasons(@PathVariable dinerId: Int) = deliveryService.getCancelReasons(dinerId)
+    fun getCancelReasons(@PathVariable dinerId: Int) = deliveryService.getCancelReasons(dinerId)
 
     data class OrderToChannel(val orderId: Int, val channelType: Int)
     // 配送订单到达大
     @PostMapping("/deliveries/transport_order", "/deliveries/delivery_order")
-    open fun deliveryToChannel(@PathVariable dinerId: Int, @RequestBody channel: OrderToChannel) : PostResult {
+    fun deliveryToChannel(@PathVariable dinerId: Int, @RequestBody channel: OrderToChannel) : PostResult {
         return try {
             val order = orderService.selectOrder(channel.orderId)
             // 更新订单配送状态
@@ -123,7 +123,7 @@ open class DeliveryController @Autowired constructor (
     }
 
     @PutMapping("/deliveries/{did}/cancel")
-    open fun cancelDelivery(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int, @RequestBody reason: DDCancelReason) : PostResult {
+    fun cancelDelivery(@PathVariable dinerId: Int, @PathVariable("did") deliveryId: Int, @RequestBody reason: DDCancelReason) : PostResult {
         val delivery = deliveryService.getDeliveryById(deliveryId)
         val (_, isOk, message) = deliveryService.cancelDelivery(dinerId, delivery!!.orderNo, reason.id, reason.reason)
         return if ( isOk!! ) {

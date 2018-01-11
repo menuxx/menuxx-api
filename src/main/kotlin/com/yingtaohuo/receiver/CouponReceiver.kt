@@ -50,7 +50,7 @@ class CouponReceiver(
      * 处理 卡券推送
      */
     @RabbitHandler
-    open fun handleCouponPush(@Payload couponMsg: Coupon, channel: Channel, @Header(AmqpHeaders.DELIVERY_TAG) deliveryTag: Long) {
+    fun handleCouponPush(@Payload couponMsg: Coupon, channel: Channel, @Header(AmqpHeaders.DELIVERY_TAG) deliveryTag: Long) {
         // 从 用户的 池中获取一个可用的 push_key
         val pushKey = pushKeyService.getUserAvailableKey(couponMsg.userId)
         // 如果没有 push key 就丢弃该消息, 防止造成死循环
