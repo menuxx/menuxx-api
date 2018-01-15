@@ -28,6 +28,6 @@ public class FeedbackController extends BaseCorpController {
     public ResponseEntity<?> createFeedback(@PathVariable("dinerId") int dinerId, @RequestBody TCorpFeedback feedback) {
         feedback.setCorpId(dinerId);
         corpFeedbackService.createFeedback(feedback);
-        return new ResponseEntity<Object>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

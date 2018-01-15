@@ -24,22 +24,9 @@ public class ConfigService {
     TShopConfigMapper tShopConfigMapper;
 
     public Integer saveBusinessTimeline(Integer corpId, String timeline) {
-        TConfigExample ex = new TConfigExample();
-        ex.createCriteria().andCorpIdEqualTo(corpId).andNameEqualTo("business_timeline");
-        TConfig _config = Util.onlyOne(tConfigMapper.selectByExample(ex));
-        // update
-        if ( _config != null ) {
-            TConfig _conf = new TConfig();
-            _conf.setName("business_timeline");
-            _conf.setValue(timeline);
-            return tConfigMapper.updateByExampleSelective(_conf, ex);
-        } else {
-            TConfig newConfig = new TConfig();
-            newConfig.setName("business_timeline");
-            newConfig.setValue(timeline);
-            newConfig.setCorpId(corpId);
-            return tConfigMapper.insertSelective(newConfig);
-        }
+        TShopConfig config = tShopConfigMapper.selectByPrimaryKey(corpId);
+        config.setBusinessTimeline(timeline);
+        tShopConfigMapper.updateByPrimaryKey(config);
     }
 
     public TShopConfig selectConfig(Integer shopId) {
