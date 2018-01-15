@@ -26,7 +26,7 @@ public class ConfigService {
     public Integer saveBusinessTimeline(Integer corpId, String timeline) {
         TShopConfig config = tShopConfigMapper.selectByPrimaryKey(corpId);
         config.setBusinessTimeline(timeline);
-        tShopConfigMapper.updateByPrimaryKey(config);
+        return tShopConfigMapper.updateByPrimaryKey(config);
     }
 
     public TShopConfig selectConfig(Integer shopId) {
