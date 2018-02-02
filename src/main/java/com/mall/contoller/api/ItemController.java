@@ -111,8 +111,11 @@ public class ItemController extends BaseCorpController {
             // 废弃字段
             configMap.put("in_business_hours", tFact.inRange(new Date()));
             configMap.put("business_hours", tFact.getWorkTime(new Date()));
+            //tFact.inRange(new Date())
 
-            configMap.put("inBusinessHours", tFact.inRange(new Date()));
+            configMap.put("inBusinessHours", configService.currentTimeInWork(dinerId));
+
+
         }
 
         homeMap.putAll(configMap);

@@ -15,16 +15,21 @@ import javax.validation.Valid
 @AllOpen
 @RestController
 @RequestMapping("/shops/{shopId}")
-class ShopController(private val configService: ConfigService) {
+class ShopController(
+        private val configService: ConfigService
+) {
 
     data class ShopBusinessTimeline(@NotEmpty val timeline: String)
     @PutMapping("/business_timeline")
     fun updateShopTimeline(@PathVariable("shopId") shopId: Int, @Valid @RequestBody timeline: ShopBusinessTimeline) : ResponseDataWrap {
         var tt = timeline.timeline
         if ( tt.startsWith("0;") ) {
+            configService.updTShopBusinessTime(shopId,0)
             if ( timeline.timeline.replaceFirst("0;".toRegex(), "").isEmpty() ) {
                 tt = "0;0-24"
             }
+        } else {
+            configService.updTShopBusinessTime(shopId,1)
         }
         if ( tt.isEmpty() ) {
             tt = "0-24"

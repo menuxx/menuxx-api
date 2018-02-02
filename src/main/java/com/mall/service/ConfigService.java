@@ -1,18 +1,18 @@
 package com.mall.service;
 
 import com.mall.mapper.TConfigMapper;
+import com.mall.mapper.TCorpMapper;
+import com.mall.mapper.TShopBusinessTimeMapper;
 import com.mall.mapper.TShopConfigMapper;
-import com.mall.model.TConfig;
-import com.mall.model.TConfigExample;
-import com.mall.model.TShopConfig;
-import com.mall.model.TShopConfigExample;
+import com.mall.model.*;
 import com.mall.utils.Util;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ConfigService {
@@ -23,8 +23,14 @@ public class ConfigService {
     @Autowired
     TShopConfigMapper tShopConfigMapper;
 
+    @Autowired
+    TCorpMapper tCorpMapper;
+
+    @Autowired
+    TShopBusinessTimeMapper tShopBusinessTimeMapper;
+
     public Integer saveBusinessTimeline(Integer corpId, String timeline) {
-        TShopConfig config = tShopConfigMapper.selectByPrimaryKey(corpId);
+        TShopConfig config = selectConfig(corpId);
         config.setBusinessTimeline(timeline);
         return tShopConfigMapper.updateByPrimaryKey(config);
     }
@@ -52,4 +58,43 @@ public class ConfigService {
 
         return map;
     }
-}
+
+
+    public int updTShopBusinessTime(int shopId , int online) {
+        TShopBusinessTime tShopBusinessTime = new TShopBusinessTime();
+        tShopBusinessTime.setOnline(online);
+        TShopBusinessTimeExample ex = new TShopBusinessTimeExample();
+        ex.createCriteria().andShopIdEqualTo(shopId);
+        return tShopBusinessTimeMapper.updateByExampleSelective(tShopBusinessTime, ex);
+    }
+
+    public List<TShopBusinessTime> selectTShopBusinessTime(int shopId){
+        TShopBusinessTimeExample ex = new TShopBusinessTimeExample();
+        ex.createCriteria().andShopIdEqualTo(shopId);
+        return tShopBusinessTimeMapper.selectByExample(ex);
+
+    }
+
+    public List<TShopBusinessTime> getCurrentTimeInWork(int shopId) {
+        List<TShopBusinessTime> timeNodes = selectTShopBusinessTime(shopId);
+        // new Date(new Date().getTime() + 15 * 60 * 60 * 1000)
+        LocalDateTime now = LocalDateTime.now();
+        int todayWeek = now.getDayOfWeek();
+        return timeNodes.stream()
+                // filter 收集 当天的时间定义
+                .filter(node -> node.getWeekDay() == todayWeek)
+                // 在当天的开始时间之后并且在结束时间之前
+                .filter(node -> {
+                    LocalTime startTime = LocalTime.parse(node.getTimeStartNode());
+                    LocalTime endTime = LocalTime.parse(node.getTimeEndNode());
+                    LocalTime nowTime = now.toLocalTime();
+                    return node.getOnline() == 1 && nowTime.isAfter(startTime) && nowTime.isBefore(endTime);
+                }).collect(Collectors.toList());
+    }
+
+    public boolean currentTimeInWork(int shopId) {
+
+            return getCurrentTimeInWork(shopId).size() > 0;
+        }
+    }
+

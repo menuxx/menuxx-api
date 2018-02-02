@@ -174,9 +174,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <!--<table schema="jiujin" tableName="t_coupon_config" domainObjectName="TCouponConfig">-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-        <!--</table>-->
+        <table schema="jiujin" tableName="t_shop_business_time" domainObjectName="TShopBusinessTime">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
 
     </context>
 
