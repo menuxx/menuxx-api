@@ -76,7 +76,7 @@ public class PushConfiguration {
         channels.put(PushConst.CAHNNEL_ALIPUSH, initAliPush());
         channels.put(PushConst.CAHNNEL_XINGE, initXinGePush());
         channels.put(PushConst.CAHNNEL_GETUI, initGeTuiPush());
-        channels.put(PushConst.CAHNNEL_BAIDUPUSH, initBaiduPusher());
+        // channels.put(PushConst.CAHNNEL_BAIDUPUSH, initBaiduPusher());
         channels.put(PushConst.CAHNNEL_BAIDUMQTT, initBaiduMqttOrderPusher());
 
         for (Map.Entry<String, IPusher> channelPusher : channels.entrySet()) {
