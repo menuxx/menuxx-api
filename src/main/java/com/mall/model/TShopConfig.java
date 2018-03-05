@@ -39,6 +39,8 @@ public class TShopConfig {
 
     private Integer couponPolicy;
 
+    private Integer inWork;
+
     public Integer getId() {
         return id;
     }
@@ -181,5 +183,13 @@ public class TShopConfig {
 
     public void setCouponPolicy(Integer couponPolicy) {
         this.couponPolicy = couponPolicy;
+    }
+
+    public Integer getInWork() {
+        return inWork;
+    }
+
+    public void setInWork(Integer inWork) {
+        this.inWork = inWork;
     }
 }

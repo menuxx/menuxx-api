@@ -60,19 +60,18 @@ public class ConfigService {
     }
 
 
-    public int updTShopBusinessTime(int shopId , int online) {
-        TShopBusinessTime tShopBusinessTime = new TShopBusinessTime();
-        tShopBusinessTime.setOnline(online);
-        TShopBusinessTimeExample ex = new TShopBusinessTimeExample();
+    public void updateShopInWork(int shopId , int inWork) {
+        TShopConfig config = new TShopConfig();
+        config.setInWork(inWork);
+        TShopConfigExample ex = new TShopConfigExample();
         ex.createCriteria().andShopIdEqualTo(shopId);
-        return tShopBusinessTimeMapper.updateByExampleSelective(tShopBusinessTime, ex);
+        tShopConfigMapper.updateByExampleSelective(config, ex);
     }
 
     public List<TShopBusinessTime> selectTShopBusinessTime(int shopId){
         TShopBusinessTimeExample ex = new TShopBusinessTimeExample();
         ex.createCriteria().andShopIdEqualTo(shopId);
         return tShopBusinessTimeMapper.selectByExample(ex);
-
     }
 
     public List<TShopBusinessTime> getCurrentTimeInWork(int shopId) {
@@ -93,8 +92,14 @@ public class ConfigService {
     }
 
     public boolean currentTimeInWork(int shopId) {
-
+        TShopConfigExample ex = new TShopConfigExample();
+        ex.createCriteria().andShopIdEqualTo(shopId);
+        TShopConfig config = Util.onlyOne(tShopConfigMapper.selectByExample(ex));
+        if ( config.getInWork() == 1 ) {
             return getCurrentTimeInWork(shopId).size() > 0;
+        } else {
+            return false;
         }
     }
+}
 

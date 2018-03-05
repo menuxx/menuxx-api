@@ -154,6 +154,10 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
+        <table schema="jiujin" tableName="t_shop_config" domainObjectName="TShopConfig">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
         <!--<table schema="jiujin" tableName="t_shop_charge_record_balance" domainObjectName="TShopChargeRecordBalance">-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
@@ -174,9 +178,9 @@
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
         <!--</table>-->
 
-        <table schema="jiujin" tableName="t_shop_business_time" domainObjectName="TShopBusinessTime">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <!--<table schema="jiujin" tableName="t_shop_business_time" domainObjectName="TShopBusinessTime">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--</table>-->
 
     </context>
 

@@ -22,23 +22,12 @@ class ShopController(
     data class ShopBusinessTimeline(@NotEmpty val timeline: String)
     @PutMapping("/business_timeline")
     fun updateShopTimeline(@PathVariable("shopId") shopId: Int, @Valid @RequestBody timeline: ShopBusinessTimeline) : ResponseDataWrap {
-        var tt = timeline.timeline
-        if ( tt.startsWith("0;") ) {
-            configService.updTShopBusinessTime(shopId,0)
-            if ( timeline.timeline.replaceFirst("0;".toRegex(), "").isEmpty() ) {
-                tt = "0;0-24"
-            }
+        if ( timeline.timeline.startsWith("0;") ) {
+            configService.updateShopInWork(shopId, 2)
         } else {
-            configService.updTShopBusinessTime(shopId,1)
+            configService.updateShopInWork(shopId, 1)
         }
-        if ( tt.isEmpty() ) {
-            tt = "0-24"
-        }
-        return if ( configService.saveBusinessTimeline(shopId, tt) > 0 ) {
-            ResponseDataWrap(tt, 0, true)
-        } else {
-            ResponseDataWrap(tt, -1, false)
-        }
+        return ResponseDataWrap(timeline, 0, true)
     }
 
 }

@@ -191,8 +191,8 @@ class FeieOrderPrinter(private val printerClient: FeiePrinterClient, private val
 时间：${DateFormat.format(order.createTime)}""" + "\n"
 
         // 如果是外卖
-        if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
-            content += "-------------外卖---------------\n" +
+        if ( order.orderType == Order.ORDER_TYPE_DELIVERED || order.orderType == Order.ORDER_TYPE_CARRY_OUT ) {
+            content += "-------------"+ order.orderTypeText +"---------------\n" +
                     "配送费                   ￥${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
         }
 

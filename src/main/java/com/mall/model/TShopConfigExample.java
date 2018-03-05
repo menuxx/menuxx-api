@@ -1234,6 +1234,66 @@ public class TShopConfigExample {
             addCriterion("coupon_policy not between", value1, value2, "couponPolicy");
             return (Criteria) this;
         }
+
+        public Criteria andInWorkIsNull() {
+            addCriterion("in_work is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkIsNotNull() {
+            addCriterion("in_work is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkEqualTo(Integer value) {
+            addCriterion("in_work =", value, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkNotEqualTo(Integer value) {
+            addCriterion("in_work <>", value, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkGreaterThan(Integer value) {
+            addCriterion("in_work >", value, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkGreaterThanOrEqualTo(Integer value) {
+            addCriterion("in_work >=", value, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkLessThan(Integer value) {
+            addCriterion("in_work <", value, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkLessThanOrEqualTo(Integer value) {
+            addCriterion("in_work <=", value, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkIn(List<Integer> values) {
+            addCriterion("in_work in", values, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkNotIn(List<Integer> values) {
+            addCriterion("in_work not in", values, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkBetween(Integer value1, Integer value2) {
+            addCriterion("in_work between", value1, value2, "inWork");
+            return (Criteria) this;
+        }
+
+        public Criteria andInWorkNotBetween(Integer value1, Integer value2) {
+            addCriterion("in_work not between", value1, value2, "inWork");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
