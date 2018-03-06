@@ -188,11 +188,17 @@ class FeieOrderPrinter(private val printerClient: FeiePrinterClient, private val
         content += """￥${NumberUtil.fenToYuan2(order.payAmount)}($payStatusText)
 流水号：${order.queueId}
 订单号：${order.orderCode}
-时间：${DateFormat.format(order.createTime)}""" + "\n"
+时间：${DateFormat.format(order.createTime)}"""
+
+        if ( order.orderType == Order.ORDER_TYPE_CARRY_OUT ) {
+            content += "打包费：￥${NumberUtil.fenToYuan2(order.packageAmount)}"
+        }
+
+        content +=  "\n"
 
         // 如果是外卖
-        if ( order.orderType == Order.ORDER_TYPE_DELIVERED || order.orderType == Order.ORDER_TYPE_CARRY_OUT ) {
-            content += "-------------"+ order.orderTypeText +"---------------\n" +
+        if ( order.orderType == Order.ORDER_TYPE_DELIVERED ) {
+            content += "-------------外卖---------------\n" +
                     "配送费                   ￥${NumberUtil.fenToYuan2(order.deliveryAmount)}\n"
         }
 
